@@ -1,0 +1,328 @@
+# LANGUAGE translation of Drupal (tinymce.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: tinymce.module,v 1.90 2006/04/25 11:23:47 m3avrck
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2006-06-29 19:05+0200\n"
+"PO-Revision-Date: 2006-09-18 20:37+0100\n"
+"Last-Translator: luca <lucaru@tiscali.it>\n"
+"Language-Team: Luca Aru <lucaru@tiscali.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: ITALY\n"
+
+#: tinymce.module:17;432;0
+msgid "tinymce"
+msgstr "tinymce"
+
+#: tinymce.module:30
+msgid "The TinyMCE Javascript HTML WYSIWYG editor."
+msgstr "Tinymce, l'editor HTML WYSIWYG"
+
+#: tinymce.module:116
+msgid "enable rich-text"
+msgstr "attiva rich-text"
+
+#: tinymce.module:117
+msgid "disable rich-text"
+msgstr "disattiva rich-text"
+
+#: tinymce.module:161
+msgid "Your current web browser does not support WYSIWYG editing."
+msgstr "Il browser che stia utilizzando non supporta questo editor WYSIWYG"
+
+#: tinymce.module:238
+msgid "TinyMCE rich-text settings"
+msgstr "Impostazioni di Tinymce per il \"rich-text\""
+
+#: tinymce.module:246;684
+msgid "Default state"
+msgstr "Stato predefinito"
+
+#: tinymce.module:249
+msgid "Should rich-text editing be enabled or disabled by default in textarea fields?"
+msgstr "Vuoi che l'editing rich-text venga abilitato o disabilitato in maniera predefinita nelle textarea?"
+
+#: tinymce.module:431
+msgid "administer"
+msgstr "Amministra"
+
+#: tinymce.module:433
+msgid "Add new TinyMCE profile"
+msgstr "Aggiungi un nuovo profilo tinymce"
+
+#: tinymce.module:439
+msgid "Edit tinymce profile"
+msgstr "Modifica il profilo tinymce"
+
+#: tinymce.module:445
+msgid "Deleted profile"
+msgstr "Profilo cancellato"
+
+#: tinymce.module:449;649
+msgid "Create profile"
+msgstr "Crea un profilo"
+
+#: tinymce.module:450;653
+msgid "Update profile"
+msgstr "Aggiorna un profilo"
+
+#: tinymce.module:453
+msgid "Your TinyMCE profile has been updated."
+msgstr "Il tuo profilo tinymce è stato aggiornato"
+
+#: tinymce.module:453
+msgid "Your TinyMCE profile has been created."
+msgstr "Il tuo profilo tinymce è stato creato"
+
+#: tinymce.module:462
+msgid "TinyMCE settings"
+msgstr "Impostazioni per Tinymce"
+
+#: tinymce.module:466
+msgid "Could not find the TinyMCE engine installed at <strong>%tinymce-directory</strong>. Please <a href=\"http://tinymce.moxiecode.com/\">download TinyMCE</a>, uncompress it and copy the folder into %tinymce-path."
+msgstr "Impossibile trovare il programma Tinymce installato in at <strong>%tinymce-directory</strong>. <a href=\"http://tinymce.moxiecode.com/\">Scarica TinyMCE</a>, decomprimi il file e copia la cartella in %tinymce-path."
+
+#: tinymce.module:641
+msgid "You must <a href=\"%access-control-url\">assign</a> at least one role with the 'access tinymce' permission before creating a profile."
+msgstr "Occorre <a href=\"%access-control-url\">assegnare</a> almeno un ruolo con permesso di accesso a tinymce prima di creare un profilo."
+
+#: tinymce.module:644
+msgid "You will not be allowed to create a new profile since all user roles have already been assigned profiles. Either remove an existing tinymce profile from at least one role or assign another role the 'access tinymce' permission."
+msgstr "Non è possibile creare un nuovo profilo  finchè ad ogni ruolo è già stato assegnato un profilo.  Rimuovi un profilo tinymce da almeno un ruolo o assegna un altro ad un altro ruolo il permesso di accesso a tinymce."
+
+#: tinymce.module:647
+msgid "Not all user roles are shown since they already have tinymce profiles. You must first unassign profiles in order to add them to a new one."
+msgstr "I ruoli a cui sono stati già assegnati dei profili tinymce non vengono mostrati. Per aggiungere un profilo nuovo ad un ruolo utente occorre prima eliminare il profilo precedentemente assegnato. "
+
+#: tinymce.module:658
+msgid "Basic setup"
+msgstr "Impostazioni di base"
+
+#: tinymce.module:665
+msgid "Profile name"
+msgstr "Nome del profilo"
+
+#: tinymce.module:669
+msgid "Enter a name for this profile. This name is only visible within the tinymce administration page."
+msgstr "Inserisci un nome per questo profilo. Il nome scelto sarà visibile all'interno del pannello di amministrazione di tinymce."
+
+#: tinymce.module:675
+msgid "Roles allowed to use this profile"
+msgstr "Ruoli utente a cui è permesso di utilizzare questo profilo"
+
+#: tinymce.module:678
+msgid "Check at least one role. Only roles with 'access tinymce' permission will be shown here."
+msgstr "Seleziona almeno un ruolo utente. Solo i ruoli utenti con permesso di accesso a tinymce verranno mostrati qui."
+
+#: tinymce.module:687
+msgid "Default editor state for users in this profile. Users will be able to override this state if the next option is enabled."
+msgstr "Stato predefinito dell'editor per gli utenti compresi in questo profilo.  Gli utenti potranno sovrascrivere questo stato se la prossima opzione è abilitata."
+
+#: tinymce.module:692
+msgid "Allow users to choose default"
+msgstr "Permetti agli utenti di scegliere lo stato predefinito."
+
+#: tinymce.module:695
+msgid "If allowed, users will be able to choose their own TinyMCE default state by visiting their profile page."
+msgstr "Se abilitato, gli utenti potranno scegliere lo stato predefinito di Tinymce visitando la pagina relativa al loro profilo."
+
+#: tinymce.module:700
+msgid "Show disable/enable rich text editor toggle"
+msgstr "Mostra la voce \"abilita/disabilita editor rich-text"
+
+#: tinymce.module:703
+msgid "Whether or not to show the disable/enable rich text editor toggle below the textarea. If false, editor defaults to the global default or user default (see above)."
+msgstr "Stabilisce se al di sotto della textarea deve essere mostrato oppure no la voce \"abilita/disabilita rich-text\". Se impostato a \"FALSE\", l'editor utilizzerà le impostazioni  generali predefinite, o quelle predefinite per l'utente (vedi sopra)."
+
+#: tinymce.module:716
+msgid "Language"
+msgstr "Lingua"
+
+#: tinymce.module:719
+msgid "The language for the TinyMCE interface. Language codes based on the <a href=\"http://www.loc.gov/standards/iso639-2/englangn.html\">ISO-639-2</a> format."
+msgstr "La lingua per l'intefaccia di Tinymce. Ciascuna traduzione è basata sul formato <a href=\"http://www.loc.gov/standards/iso639-2/englangn.html\">ISO-639-2</a>"
+
+#: tinymce.module:724
+msgid "Safari browser warning"
+msgstr "Avviso per il browser Safari"
+
+#: tinymce.module:727
+msgid "TinyMCE support for the Safari web browser is experimental and a warning message is displayed when that browser is detected. You can disable this message here."
+msgstr "Il supporto di tinymce al browser Safari; viene mostrato un messaggio di avviso quando viene rilevato questo browser. Puoi disabilitare questo messaggio qui."
+
+#: tinymce.module:732
+msgid "Visibility"
+msgstr "Visibilità"
+
+#: tinymce.module:752
+msgid "Show on every page except the listed pages."
+msgstr "Mostra su ogni pagina eccetto quelle elencate"
+
+#: tinymce.module:752
+msgid "Show on only the listed pages."
+msgstr "Mostra solo sulle pagine elencate"
+
+#: tinymce.module:753
+msgid "Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '%blog' for the blog page and %blog-wildcard for every personal blog. %front is the front page."
+msgstr "Inserisci una pagina per linea con il percorso utilizzato su Drupal. Il carattere \"*\" è un carattere jolly. Esempi di percorso sono '%blog' per la pagina del blog e %blog-wildcard per ogni blog personale. "
+
+#: tinymce.module:756
+msgid "Show if the following PHP code returns <code>TRUE</code> (PHP-mode, experts only)."
+msgstr "Mostra se il codice PHP seguente restituisce <code>TRUE</code> (PHP-mode,solo per esperti)."
+
+#: tinymce.module:757
+msgid "If the PHP-mode is chosen, enter PHP code between %php. Note that executing incorrect PHP-code can break your Drupal site."
+msgstr "Se viene scelta la modalità PHP, inserisci il codice PHP tra tag %php. L'esecuzione di codice PHP non corretto potrebbe bloccare il tuo portale Drupal."
+
+#: tinymce.module:761
+msgid "Show tinymce on specific pages"
+msgstr "Mostra tinymce su pagine specifiche"
+
+#: tinymce.module:767
+msgid "Pages"
+msgstr "Pagine"
+
+#: tinymce.module:775
+msgid "Buttons and plugins"
+msgstr "Bottoni ed estensioni"
+
+#: tinymce.module:827
+msgid "Editor appearance"
+msgstr "Aspetto dell'editor"
+
+#: tinymce.module:834
+msgid "Toolbar location"
+msgstr "Posizione della barra di tinymce"
+
+#: tinymce.module:837
+msgid "Show toolbar at the top or bottom of the editor area?"
+msgstr "Mostrare la barra sopra o sotto l'area di immissione del testo?"
+
+#: tinymce.module:842
+msgid "Toolbar alignment"
+msgstr "Allineamento della barra"
+
+#: tinymce.module:845
+msgid "Align tool icons left, center, or right within the toolbar."
+msgstr "Allinea le icone a sinistra, al centro o a destra all'interno della barra."
+
+#: tinymce.module:850
+msgid "Path location"
+msgstr "Localizzazione del percorso"
+
+#: tinymce.module:853
+msgid "Path to html elements (i.e. \"body>table>tr>td\"). Show at top, bottom, or not at all."
+msgstr "Percorso degli elementi HTML. (per esempio, \"body>table>tr>td\"). Può essere visualizzato in alto, in basso oppure essere nascosto."
+
+#: tinymce.module:858
+msgid "Enable resizing button"
+msgstr "Abilita il bottone di ridimensionamento"
+
+#: tinymce.module:861
+msgid " This option gives you the ability to enable/disable the resizing button. If enabled the <strong>Path location toolbar</strong> must be set to \"top\" or \"bottom\" in order to display the resize icon."
+msgstr "Questa opzione ti permette di abilitare/disabilitare il bottone di ridimensionamento. Se abilitato<strong>il percorso di posizionamento della barra</strong> dovrà essere settato a \"top\" or \"bottom\" per poter mostrare l'icona di ridimensionamento."
+
+#: tinymce.module:866
+msgid "Block formats"
+msgstr "Formati del blocco"
+
+#: tinymce.module:870
+msgid "Comma separated list of HTML block formats. You can only remove elements, not add."
+msgstr "Lista dei formati del blocco HTML separati da virgola. Non possono essere aggiunti elementi, ma possono solo essere rimossi."
+
+#: tinymce.module:875
+msgid "Cleanup and output"
+msgstr "Pulizia e Output"
+
+#: tinymce.module:882
+msgid "Verify HTML"
+msgstr "Verifica HTML"
+
+#: tinymce.module:885
+msgid "Should the HTML contents be verified or not? Verifying will strip &lt;head&gt tags, so choose false if you will be editing full page HTML."
+msgstr "I contenuti HTML devono essere verificati o no? In caso affermativo, verranno eliminati i tag &lt;head&gt tags, percioè scegli \"FALSE\"se vuoi editare pagine HTML complete."
+
+#: tinymce.module:890
+msgid "Preformatted"
+msgstr "Preformattato"
+
+#: tinymce.module:893
+msgid "If this option is set to true, the editor will insert TAB characters on tab and preserve other whitespace characters just like a PRE HTML element does."
+msgstr "Se imposti questa opzione a \"TRUE\", l'editor inserirà caratteri TAB in corrispondenza delle tabulazioni e conserverà gli spazi bianchi così come fa l'elemento HTML PRE."
+
+#: tinymce.module:898
+msgid "Convert &lt;font&gt; tags to styles"
+msgstr "Converti il tag &lt;font&gt; tags utlizzando gli stili CSS"
+
+#: tinymce.module:901
+msgid "If you set this option to true, font size, font family, font color and font background color will be replaced by inline styles."
+msgstr "Se imposti questa opzione a \"TRUE\", i tag relativi alla grandezza dei font, alla famiglia dei font, al colore dei font e al colore di sfondo dei font saranno rimpiazzati da stili inline."
+
+#: tinymce.module:906
+msgid "CSS"
+msgstr "CSS"
+
+#: tinymce.module:913
+msgid "Editor CSS"
+msgstr "Editor CSS"
+
+#: tinymce.module:916
+msgid "Defines the CSS to be used in the editor area.<br />use theme css - load style.css from current site theme.<br/>define css - enter path for css file below.<br />tinyMCE default - uses default CSS from editor."
+msgstr "Definisce il CSS usato nell'area dell'editor.<br /> Utilizza il tema css - carica style.css dal tema corrente. <br />definisci css - inserisci il percorso per il css sotto. <br /> predefinito tinymce - usa il css predefinito dell'editor."
+
+#: tinymce.module:921
+msgid "CSS path"
+msgstr "Percorso CSS"
+
+#: tinymce.module:925
+msgid "Enter path to CSS file (example: \"css/editor.css\").<br />Macros: %h (host name: http://www.example.com/), %t (path to theme: theme/yourtheme/)<br />Be sure to select \"define css\" above."
+msgstr "Inserisci il percorso del file CSS (esempio: \"css/editor.css\"). <br />Macro: %h (host name: http://www.example.com/), %t (percorso del tema: theme/yourtheme/)<br />Occorre selezionare \"define css\" sopra."
+
+#: tinymce.module:930
+msgid "CSS classes"
+msgstr "Classi CSS"
+
+#: tinymce.module:934
+msgid "Adds CSS classes to the \"styles\" droplist. Format is: &lt;title&gt;=&lt;class&gt;;<br/> Example: Header 1=header1;Header 2=header2;Header 3=header3 (note: no trailing ';')<br />Leave blank to automatically import list of CSS classes from style sheet."
+msgstr "Aggiungi classi CSS alla droplist \"styles\". Il formato è &lt;title&gt;=&lt;class&gt;;<br/>Esempio: Header 1=header1;Header 2=header2;Header 3=header3 (N.B: non lasciare spazi).<br />Lascia la casella vuota per importare automaticamente la lista di classi CSS dal foglio di stile."
+
+#: tinymce.module:1008
+msgid "Profile"
+msgstr "Profilo"
+
+#: tinymce.module:1008
+msgid "Roles"
+msgstr "Ruoli"
+
+#: tinymce.module:1008
+msgid "Operations"
+msgstr "Operazioni"
+
+#: tinymce.module:1010
+msgid "edit"
+msgstr "Modifica"
+
+#: tinymce.module:1010
+msgid "delete"
+msgstr "Cancella"
+
+#: tinymce.module:1013
+msgid "<p><a href=\"%create-profile-url\">Create new profile</a></p>"
+msgstr "<p><a href=\"%create-profile-url\">Crea un nuovo profilo</a></p>"
+
+#: tinymce.module:1016
+msgid "No profiles found. Click here to <a href=\"%create-profile-url\">create a new profile</a>."
+msgstr "Nessun profilo trovato. Clicca qui per <a href=\"%create-profile-url\">creare un nuovo profilo</a>."
+
+#: tinymce.module:1047
+msgid "You must give a profile name."
+msgstr "Occorre assegnare un nome al profilo"
+
+#: tinymce.module:1051
+msgid "You must select at least one role."
+msgstr "Occorre selezionare almeno un ruolo utente."
+

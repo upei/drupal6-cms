@@ -1,0 +1,13 @@
+; $Id: panels_page.info,v 1.4 2008/07/26 01:49:11 sdboyer Exp $
+name = Panel pages
+description = Create pages that are divided into areas of the page.
+core = 6.x
+package = "Panels"
+dependencies[] = panels
+
+; Information added by drupal.org packaging script on 2008-10-12
+version = "6.x-2.0-alpha2"
+core = "6.x"
+project = "panels"
+datestamp = "1223825423"
+

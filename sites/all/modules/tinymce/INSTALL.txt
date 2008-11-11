@@ -1,0 +1,86 @@
+********************************************************************
+                     D R U P A L    M O D U L E
+********************************************************************
+Name: TinyMCE module
+         
+Dependancies:
+  This module requires the third-party TinyMCE editor and a
+  Javascript-enabled web browser.  Currently it is known to work
+  with Internet Explorer, Mozilla and Firefox and degrade gracefully
+  for Safari and Konqueror users. A browser compatibility chart is here:
+
+  http://tinymce.moxiecode.com/tinymce/docs/compatiblity_chart.html
+
+
+INSTALLATION:
+********************************************************************
+
+NOTE: During this installation process you'll be asked to also 
+      install the official TinyMCE package from 
+      tinymce.moxiecode.com.
+
+
+1. Place the entire tinymce directory into your Drupal modules/
+   directory.
+
+   
+2. Download the latest version of TinyMCE from
+
+     http://tinymce.moxiecode.com/
+
+   Remember to uncompress the file and make sure the folder is named
+   'tinymce'.
+
+   
+3. Place the entire 'tinymce' engine folder inside your modules/tinymce
+   directory. So the TinyMCE engine will live in modules/tinymce/tinymce
+
+   
+4. Enable this module by navigating to:
+
+     administer > modules
+     
+     *note - all database tables will be automatically created during this step
+
+     
+5. Setup role based tinymce profiles via
+
+     administer > settings > tinymce
+
+     
+6. To boost the performance of TinyMCE, download the "TinyMCE compressor" from:
+
+     http://tinymce.moxiecode.com/download.php
+
+   Place the tiny_mce_gzip.js and tiny_mce_gzip.php files in 
+   
+     modules/tinymce/tinymce/jscripts/tiny_mce
+
+      
+7. To use AJAX spell checking, download the spellchecker plugin:
+   (note: this requires TinyMCE 2.0.6+)
+   
+     http://tinymce.moxiecode.com/download.php
+   
+   Extract this file to
+     
+     modules/tinymce/tinymce/jscripts/tiny_mce/plugins/
+   
+   Then edit config.php in plugins/spellchecker/:
+   
+     Uncomment this line and comment out all other require_once's:
+   
+       require_once("classes/TinyGoogleSpell.class.php"); // Google web service
+   
+     Set this to true:	
+	 
+	     $spellCheckerConfig['enabled'] = true;
+	  
+	 Enable spellchecker in TinyMCE settings page, under "buttons and plugins"
+
+
+   
+Create new content as a role that has TinyMCE permissions and see TinyMCE in
+action!
+
+

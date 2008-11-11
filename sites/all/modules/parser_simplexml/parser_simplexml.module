@@ -1,0 +1,175 @@
+<?php
+/**
+ * @file
+ * Parse the incoming URL with SimpleXML then provide a data structure of the feed
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function parser_simplexml_help($section) {
+	switch($section) {
+		case 'admin/modules#description':
+		return t('Provide a simple XML parser for FeedAPI-compatible modules powered by SimpleXML.');
+		case 'feedapi/full_name':
+		return t('Parser SimpleXML');
+	}
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function parser_simplexml_requirements($phase) {
+	$requirements = array();
+	// Ensure translations don't break at install time
+	$t = get_t();
+	switch ($phase) {
+		case 'install' :
+		case 'runtime' :
+		if (!function_exists('simplexml_load_file')) {
+			$requirements['simplexml'] = array(
+				'title' => $t("FeedAPI SimpleXML"),
+				'description' => $t("Please install PHP 5 with SimpleXML extension enabled. Current PHP version is !version",
+				array('!version' => phpversion(),
+						'severity' => $phase == 'install' ? REQUIREMENT_WARNING : REQUIREMENT_ERROR,
+						'value' => $t('SimpleXML extension is missing!'))),
+				);			
+		}
+	}
+	return $requirements;
+}
+
+/**
+ * Delete when feed is deleted
+ */
+function parser_simplexml_nodeapi(&$node, $op) {
+	if (isset($node->feed) || feedapi_enabled_type($node->type)) {
+		switch ($op) {
+		}
+	}
+}
+
+/**
+ * Implementation of hook_feedapi_feed().
+ */
+function parser_simplexml_feedapi_feed($op) {
+
+	$args = func_get_args();
+	// Validate the URL, if it is not basically valid, why send to simplexml object
+	$url_parts = parse_url(is_string($args[1]) ? $args[1] : $args[1]->url);
+	$op = (gethostbyname($url_parts['host']) !== $url_parts['host']) ? $op : FALSE;
+	switch ($op) {
+		case 'type':
+		return array("XML feed");
+		case 'compatible':
+		return "XML feed";
+		case 'parse':
+		$feed = is_object($args[1]) ? $args[1] : FALSE;
+		$result = _parser_simplexml_feedapi_parse($feed);
+		return $result;
+	}
+	return FALSE;
+}
+
+function __psxml_compare_feed_item($a, $b) {
+	return strcmp($a->options->guid, $b->options->guid);
+}
+
+/**
+ * This function is a hack to synchronize the feed with the xml output,
+ * so old items in the feed are removed. A more elegant answer is needed.
+ * This hack requires that every feed item has a unique id. The hack
+ * will fail if items of two different feeds share the same id.
+ */
+function parser_simplexml_feedapi_after_refresh($feed) {
+	// list all guids from new items
+	$new = array();
+	foreach ($feed->items as $item) {
+		$new[] = trim($item->options->guid);
+	}
+	
+	// remove non-existed items
+	// get all items
+	$condition = 'f.guid NOT IN ("' . implode('", "', $new) . '")';
+	$sql = "SELECT f.nid FROM {feedapi_node_item_feed} n, {feedapi_node_item} f WHERE n.feed_nid = $feed->nid AND n.feed_item_nid = f.nid AND $condition";
+	$result = db_query($sql);
+	while ($item = db_fetch_object($result)) {
+		// this is a hack from the drupal original node_delete function, which avoids permission check
+
+		$node = node_load($item->nid);
+		db_query('DELETE FROM {node} WHERE nid = %d', $node->nid);
+		db_query('DELETE FROM {node_revisions} WHERE nid = %d', $node->nid);
+
+		// Call the node-specific callback (if any):
+		node_invoke($node, 'delete');
+		node_invoke_nodeapi($node, 'delete');
+
+		// Clear the cache so an anonymous poster can see the node being deleted.
+		cache_clear_all();
+
+		// Remove this node from the search index if needed.
+		if (function_exists('search_wipe')) {
+		  search_wipe($node->nid, 'node');
+		}
+		drupal_set_message(t('%title has been deleted.', array('%title' => $node->title)));
+		watchdog('content', t('@type: deleted %title.', array('@type' => t($node->type), '%title' => $node->title)));
+
+	}
+	unset($result);
+}
+
+/**
+ * This function simplifies a raw feed item.
+ */
+function parser_simplexml_simplify_raw_item($raw_item) {
+	if ($item = array_shift($raw_item['child'])) {
+		foreach ($item as $k => $v) {
+			if (count($item[$k]) > 1) {
+				foreach ($item[$k] as $j => $u) {
+					$simple_item[$k][] = $item[$k][$j]['data'];
+				}
+			}
+			else {
+				$simple_item[$k] = $item[$k][0]['data'];
+			}
+		}
+		return $simple_item;
+	}
+	return $raw_item;
+}
+
+/**
+ * Parsing the feed
+ *
+ * @param $url
+ * 
+ *  The feed's url
+ * @return
+ *  The structured datas extracted from the feed
+ */
+function _parser_simplexml_feedapi_parse($feed) {
+	$xml = simplexml_load_file($feed->url);
+	if (FALSE === $parser) {
+		return FALSE;
+	}
+	// Construct the standard form of the parsed feed
+	$parsed_source = new stdClass();	
+	$parsed_source->title = html_entity_decode($xml['title']);
+	$parsed_source->description = html_entity_decode($xml['description']);
+	$parsed_source->options = new stdClass();
+	$parsed_source->options->link = html_entity_decode($xml['link']);
+	$parsed_source->items = array();
+	foreach ($xml->xpath("node") as $node) {
+		$curr_item = new stdClass();
+		$curr_item->title = html_entity_decode($node['title']);
+		$curr_item->description = html_entity_decode($node['description']);
+		$curr_item->options = new stdClass();
+		$curr_item->options->guid = trim(strval($node['id']));
+		$curr_item->options->link = html_entity_decode($node['link']);
+		$curr_item->options->timestamp = trim(strtotime($node['last_update']));
+		$curr_item->options->raw = $node->data;
+		$parsed_source->items[] = $curr_item;
+	}
+	
+	return $parsed_source;
+}

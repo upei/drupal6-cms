@@ -1,0 +1,13 @@
+; $Id: panels_simple_cache.info,v 1.2 2008/07/16 00:09:05 merlinofchaos Exp $
+name = "Panels simple cache"
+description = "Adds the simple cache as an option when configuring panel panes."
+package = "Panels"
+dependencies[] = panels
+core = 6.x
+
+; Information added by drupal.org packaging script on 2008-10-12
+version = "6.x-2.0-alpha2"
+core = "6.x"
+project = "panels"
+datestamp = "1223825423"
+

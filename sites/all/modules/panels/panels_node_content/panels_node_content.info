@@ -1,0 +1,13 @@
+; $Id: panels_node_content.info,v 1.1 2008/07/23 22:05:25 merlinofchaos Exp $
+name = Node panes
+description = "Allows embedding specific nodes into panes without using contexts. While it is less powerful than using a node context, it can be simpler to use. Enable this module if you want nodes directly embedded into panel displays."
+package = "Panels"
+dependencies[] = panels
+core = 6.x
+
+; Information added by drupal.org packaging script on 2008-10-12
+version = "6.x-2.0-alpha2"
+core = "6.x"
+project = "panels"
+datestamp = "1223825423"
+

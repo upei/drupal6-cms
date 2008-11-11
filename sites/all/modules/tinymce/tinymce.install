@@ -1,0 +1,80 @@
+<?php
+// $Id: tinymce.install,v 1.6.2.9 2007/05/06 01:07:56 m3avrck Exp $
+
+/**
+ * Implementation of hook_install()
+ *
+ * This will automatically install the database tables for the TinyMCE module for both the MySQL and PostgreSQL databases.
+ *
+ * If you are using another database, you will have to install the tables by hand, using the queries below as a reference.
+ *
+ * Note that the curly braces around table names are a drupal-specific feature to allow for automatic database table prefixing,
+ * and will need to be removed.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function tinymce_install() {
+  // Create tables.
+  drupal_install_schema('tinymce');
+}
+
+function tinymce_update_1() {
+  return _system_update_utf8(array('tinymce_settings', 'tinymce_role'));
+}
+
+/**
+ * Implementation of hook_uninstall()
+ */
+function tinymce_uninstall() {
+  // Remove tables.
+  drupal_uninstall_schema('tinymce');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function tinymce_schema() {
+  $schema['tinymce_settings'] = array(
+    'description' => t('-'),
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => t("-")
+        ),
+      'settings' => array(
+        'type' => 'text',
+        'size' => 'normal',
+        'description' => t('-')
+        ),
+      ),
+    'primary key' => array('name'),
+  );
+  $schema['tinymce_role'] = array(
+    'description' => t('-'),
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => t("-")
+        ),
+      'rid' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('-')
+        ),
+      ),
+    'primary key' => array('name', 'rid'),
+  );
+  
+  return $schema;
+}

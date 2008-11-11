@@ -1,0 +1,101 @@
+# $Id: tr.po,v 1.1.4.2 2008/03/29 00:13:05 hass Exp $
+#
+# LANGUAGE translation of Drupal (tinymce.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  tinymce.module,v 1.90.4.12 2007/01/30 06:58:37 thenicespider
+#  tinymce.info,v 1.0 2006/12/24 17:51:48 Wendy
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal TinyMCE Module\n"
+"POT-Creation-Date: 2007-01-31 21:42+0200\n"
+"PO-Revision-Date: 2007-01-31 21:49+0200\n"
+"Last-Translator: Erdem Köse <erdemkose@erdemkose.com>\n"
+"Language-Team: Drupal Turkish <ceviri@drupaltr.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Turkish\n"
+"X-Poedit-Country: Turkey\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: tinymce.module:7 tinymce.info:0
+msgid "The most popular WYSIWYG editor for advance content."
+msgstr "Gelişmiş içerikler için en gözde görsel düzenleyici."
+
+#: tinymce.module:8
+msgid "<p><ul><li>Editor mode: full, compact and simple.</li></ul></p>"
+msgstr "<p><ul><li>Düzenleyici kipi: Tam, sade ve basit.</li></ul></p>"
+
+#: tinymce.module:11
+msgid "Enable WYSIWYG Editor to your site."
+msgstr "Sitenizde görsel düzenleyiciyi etkinleştirin."
+
+#: tinymce.module:28
+#: tinymce.info:0
+msgid "TinyMCE"
+msgstr "TinyMCE"
+
+#: tinymce.module:29
+msgid "Tinymce settings."
+msgstr "Tinymce ayarları"
+
+#: tinymce.module:45
+msgid "Basic settings"
+msgstr "Temel ayarlar"
+
+#: tinymce.module:52
+msgid "Editor Mode"
+msgstr "Düzenleyici kipi"
+
+#: tinymce.module:54
+msgid "Full"
+msgstr "Tam"
+
+#: tinymce.module:54
+msgid "Compact"
+msgstr "Sade"
+
+#: tinymce.module:54
+msgid "Simple"
+msgstr "Basit"
+
+#: tinymce.module:55
+msgid "FULL: enable all TinyMCE features. COMPACT: enable most used features. SIMPLE: just enable simple editor.<hr>"
+msgstr "TAM: tüm TinyMCE özellekleri etkinleştirilir. SADE: en çok kullanılan özellikler etkinleştirilir. BASİT: sadece temel özellikler etkinleştirilir.<hr>"
+
+#: tinymce.module:60
+msgid "Enable TinyMCE for"
+msgstr "TinyMCE etkin olsun"
+
+#: tinymce.module:62
+msgid "Edit-body only"
+msgstr "Sadece gövde için (Edit-body)"
+
+#: tinymce.module:62
+msgid "Edit-comment only"
+msgstr "Sadece yorum için (Edit-comment)"
+
+#: tinymce.module:62
+msgid "Both"
+msgstr "Her ikisi için"
+
+#: tinymce.module:63
+msgid "If you want TinyMCE available for textarea of edit-body and comment then you should select <b>Both</b> option."
+msgstr "Eğer TinyMCE'nin hem içerik gövdesinde hem de yorumlarda etkin olmasını istiyorsanız <b>Her ikisi için</b> seçeneğini seçin."
+
+#: tinymce.module:68
+msgid "Enable TinyMCE for this node types"
+msgstr "TinyMCE eklentisini bu düğüm çeşitleri için etkinleştir"
+
+#: tinymce.module:70
+msgid "Node type in case-sensitive name, i.e: page,story,data_product,blog"
+msgstr "İçerik türü, küçük büyük harf duyarlı. ör: page, story, data_product, blog"
+
+#: tinymce.module:0
+#: tinymce.info:0
+msgid "tinymce"
+msgstr "tinymce"
+

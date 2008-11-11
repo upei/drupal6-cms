@@ -1,0 +1,360 @@
+# Greek translation of Drupal (tinymce.module)
+# $Id: el.po,v 1.1 2007/05/16 09:34:58 goofyx Exp $
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: tinymce.module,v 1.91 2007/02/22 22:41:06 nedjo
+#
+# Vasileios Lourdas <lourdas_v@yahoo.gr>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: el\n"
+"POT-Creation-Date: 2007-05-16 12:00+0300\n"
+"PO-Revision-Date: 2007-05-16 12:25+0300\n"
+"Last-Translator: Vasileios Lourdas <lourdas_v@yahoo.gr>\n"
+"Language-Team: Ελληνικά <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: tinymce.module:17 tinymce.info:0
+msgid "TinyMCE"
+msgstr "TinyMCE"
+
+#: tinymce.module:19
+msgid "Configure the rich editor."
+msgstr "Παραμετροποίηση του πλήρους συντάκτη κειμένου."
+
+#: tinymce.module:115
+msgid "enable rich-text"
+msgstr "ενεργοποίηση του πλήρους κειμένου"
+
+#: tinymce.module:116
+msgid "disable rich-text"
+msgstr "απενεργοποίηση του πλήρους κειμένου"
+
+#: tinymce.module:160
+msgid "Your current web browser does not support WYSIWYG editing."
+msgstr "Ο φυλλομετρητής σας δεν υποστηρίζει επεξεργασία WYSIWYG."
+
+#: tinymce.module:237
+msgid "TinyMCE rich-text settings"
+msgstr "Ρυθμίσεις πλήρους-κειμένου TinyMCE"
+
+#: tinymce.module:245;686
+msgid "Default state"
+msgstr "Εξ' ορισμού κατάσταση"
+
+#: tinymce.module:248
+msgid "Should rich-text editing be enabled or disabled by default in textarea fields?"
+msgstr "Το πλήρες κείμενο στα πεδία περιοχής κειμένου θα πρέπει να είναι ενεργοποιημένο ή απενεργοποιημένο εξ' ορισμού;"
+
+#: tinymce.module:430
+msgid "administer"
+msgstr "διαχείριση"
+
+#: tinymce.module:431;47;0
+msgid "tinymce"
+msgstr "tinymce"
+
+#: tinymce.module:432
+msgid "Add new TinyMCE profile"
+msgstr "Προσθήκη νέου προφίλ TinyMCE"
+
+#: tinymce.module:438
+msgid "Edit tinymce profile"
+msgstr "Επεξεργασία προφίλ tinymce"
+
+#: tinymce.module:444
+msgid "Deleted profile"
+msgstr "Το προφίλ διαγράφηκε"
+
+#: tinymce.module:448;651
+msgid "Create profile"
+msgstr "Δημιουργία προφίλ"
+
+#: tinymce.module:449;655
+msgid "Update profile"
+msgstr "Ενημέρωση προφίλ"
+
+#: tinymce.module:452
+msgid "Your TinyMCE profile has been updated."
+msgstr "Το TinyMCE προφίλ σας έχει ενημερωθεί"
+
+#: tinymce.module:452
+msgid "Your TinyMCE profile has been created."
+msgstr "Το TinyMCE προφίλ σας έχει δημιουργηθεί."
+
+#: tinymce.module:461
+msgid "TinyMCE settings"
+msgstr "Ρυθμίσεις TinyMCE"
+
+#: tinymce.module:465
+msgid "Could not find the TinyMCE engine installed at <strong>!tinymce-directory</strong>. Please <a href=\"http://tinymce.moxiecode.com/\">download TinyMCE</a>, uncompress it and copy the folder into !tinymce-path."
+msgstr "Δε βρέθηκε εγκατεστημένη η μηχανή TinyMCE στον κατάλογο <strong>!tinymce-directory</strong>. Παρακαλώ <a href=\"http://tinymce.moxiecode.com/\">κατεβάστε το TinyMCE</a>, αποσυμπιέστε το και αντιγράψτε τον κατάλογό του στο !tinymce-path."
+
+#: tinymce.module:643
+msgid "You must <a href=\"!access-control-url\">assign</a> at least one role with the 'access tinymce' permission before creating a profile."
+msgstr "Θα πρέπει να <a href=\"!access-control-url\">αποδώσετε</a> τουλάχιστον ένα ρόλο με το δικαίωμα 'πρόσβαση στο tinymce' προτού δημιουργήσετε προφίλ."
+
+#: tinymce.module:646
+msgid "You will not be allowed to create a new profile since all user roles have already been assigned profiles. Either remove an existing tinymce profile from at least one role or assign another role the 'access tinymce' permission."
+msgstr "Δεν μπορείτε να δημιουργήσετε νέο προφίλ, εφόσον σε όλους τους ρόλους χρηστών έχουν αποδωθεί προφίλ. Αφαιρέστε ένα υπάρχον προφίλ tinymce από ένα τουλάχιστον ρόλο ή αποδώστε το δικαίωμα 'πρόσβαση στο tinymce' σε άλλο ρόλο."
+
+#: tinymce.module:649
+msgid "Not all user roles are shown since they already have tinymce profiles. You must first unassign profiles in order to add them to a new one."
+msgstr "Δεν εμφανίζονται όλοι οι ρόλοι χρηστών εφόσον τους έχει αποδοθεί ήδη προφίλ tinymce. Θα πρέπει πρώτα να αφαιρέσετε προφίλ προκειμένου να τους προσθέσετε ένα ακόμη."
+
+#: tinymce.module:660
+msgid "Basic setup"
+msgstr "Βασική διαμόρφωση"
+
+#: tinymce.module:667
+msgid "Profile name"
+msgstr "Όνομα προφίλ"
+
+#: tinymce.module:671
+msgid "Enter a name for this profile. This name is only visible within the tinymce administration page."
+msgstr "Εισάγετε ένα όνομα για το προφίλ αυτό. Το όνομα αυτό θα εμφανίζεται μόνο στις σελίδες διαχείρισης του tinymce."
+
+#: tinymce.module:677
+msgid "Roles allowed to use this profile"
+msgstr "Ρόλοι που τους επιτρέπεται να χρησιμοποιούν αυτό το προφίλ"
+
+#: tinymce.module:680
+msgid "Check at least one role. Only roles with 'access tinymce' permission will be shown here."
+msgstr "Επιλέξτε τουλάχιστον ένα ρόλο. Εδώ εμφανίζονται μόνο οι ρόλοι με το δικαίωμα 'πρόσβαση στο tinymce'."
+
+#: tinymce.module:689
+msgid "Default editor state for users in this profile. Users will be able to override this state if the next option is enabled."
+msgstr "Εξ' ορισμού κατάσταση του συντάκτη για τους χρήστες σε αυτό το προφίλ. Οι χρήστες θα μπορούν να αλλάξουν την κατάσταση αυτή αν η επόμενη επιλογή είναι ενεργοποιημένη."
+
+#: tinymce.module:694
+msgid "Allow users to choose default"
+msgstr "Να επιτρέπεται στους χρήστες να επιλέγουν το εξ' ορισμού"
+
+#: tinymce.module:697
+msgid "If allowed, users will be able to choose their own TinyMCE default state by visiting their profile page."
+msgstr "Αν επιτρέπεται, οι χρήστες θα μπορούν να επιλέξουν την εξ' ορισμού κατάσταση για το TinyMCE τους επισκεπτόμενοι τη σελίδα του προφίλ τους."
+
+#: tinymce.module:702
+msgid "Show disable/enable rich text editor toggle"
+msgstr "Εμφάνιση του διακόπτη απενεργοποίηση/ενεργοποίηση του συντάκτη πλήρους κειμένου"
+
+#: tinymce.module:705
+msgid "Whether or not to show the disable/enable rich text editor toggle below the textarea. If false, editor defaults to the global default or user default (see above)."
+msgstr "Εμφάνιση ή όχι του διακόπτη για την απενεργοποίηση/ενεργοποίηση του συντάκτη πλήρους κειμένου κάτω από την περιοχή κειμένου. Αν όχι, ο συντάκτης θα είναι με βάση την εξ' ορισμού καθολική ή από το χρήστη κατάσταση (δείτε παραπάνω)"
+
+#: tinymce.module:718
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: tinymce.module:721
+msgid "The language for the TinyMCE interface. Language codes based on the <a href=\"http://www.loc.gov/standards/iso639-2/englangn.html\">ISO-639-2</a> format."
+msgstr "Η γλώσσα για τη διεπαφή του TinyMCE. Οι κωδικοί των γλωσσών βασίζονται στη μορφή <a href=\"http://www.loc.gov/standards/iso639-2/englangn.html\">ISO-639-2</a>."
+
+#: tinymce.module:726
+msgid "Safari browser warning"
+msgstr "Προειδοποίηση για το φυλλομετρητή Safari"
+
+#: tinymce.module:729
+msgid "TinyMCE support for the Safari web browser is experimental and a warning message is displayed when that browser is detected. You can disable this message here."
+msgstr "Η υποστήριξη του φυλλομετρητή Safari από το TinyMCE είναι σε πειραματικό στάδιο και όταν εντοπίζεται ο φυλλομετρητής αυτός θα εμφανίζεται μια προειδοποίηση. Μπορείτε εδώ να απενεργοποιήσετε το μήνυμα αυτό."
+
+#: tinymce.module:734
+msgid "Visibility"
+msgstr "Ορατότητα"
+
+#: tinymce.module:754
+msgid "Show on every page except the listed pages."
+msgstr "Εμφάνιση σε όλες τις σελίδες εκτός από τις παρακάτω."
+
+#: tinymce.module:754
+msgid "Show on only the listed pages."
+msgstr "Εμφάνιση μόνο στις παρακάτω σελίδες."
+
+#: tinymce.module:755
+msgid "Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '!blog' for the blog page and !blog-wildcard for every personal blog. !front is the front page."
+msgstr "Εισάγετε μια σελίδα ανά γραμμή ως διαδρομές του Drupal. Ο χαρακτήρας '*' είναι χαρακτήρας μπαλαντέρ. Παραδείγματα διαδρομών είναι το '!blog' για τις σελίδες ιστολογίου και το !blog-wildcard για κάθε προσωπικό ιστολόγιο. Το !front είναι για την κεντρική σελίδα."
+
+#: tinymce.module:758
+msgid "Show if the following PHP code returns <code>TRUE</code> (PHP-mode, experts only)."
+msgstr "Εμφάνιση ανάλογα με το αν ο παρακάτω κώδικας PHP επιστρέψει <code>TRUE</code> (κατάσταση PHP, για τους ειδικούς μόνο)."
+
+#: tinymce.module:759
+msgid "If the PHP-mode is chosen, enter PHP code between !php. Note that executing incorrect PHP-code can break your Drupal site."
+msgstr "Αν επιλεχθεί η κατάσταση PHP, εισάγετε τον κώδικα PHP ανάμεσα στα !php. Σημειώστε ότι η εκτέλεση λάθους κώδικα μπορεί να προκαλέσει ζημιά στο Drupal ιστοχώρο σας."
+
+#: tinymce.module:763
+msgid "Show tinymce on specific pages"
+msgstr "Εμφάνιση του tinymce σε συγκεκριμένες σελίδες"
+
+#: tinymce.module:769
+msgid "Pages"
+msgstr "Σελίδες"
+
+#: tinymce.module:777
+msgid "Buttons and plugins"
+msgstr "Κουμπιά και επιπλέον αρθρώματα"
+
+#: tinymce.module:829
+msgid "Editor appearance"
+msgstr "Εμφάνιση συντάκτη κειμένου"
+
+#: tinymce.module:836
+msgid "Toolbar location"
+msgstr "Τοποθεσία γραμμής εργαλείων"
+
+#: tinymce.module:839
+msgid "Show toolbar at the top or bottom of the editor area?"
+msgstr "Να εμφανίζεται η γραμμή εργαλείων στο πάνω ή κάτω μέρος της περιοχής του συντάκτη;"
+
+#: tinymce.module:844
+msgid "Toolbar alignment"
+msgstr "Στοίχιση γραμμής εργαλείων"
+
+#: tinymce.module:847
+msgid "Align tool icons left, center, or right within the toolbar."
+msgstr "Στοίχιση των εικονιδίων των εργαλείων αριστερά, στο κέντρο ή δεξιά μέσα στη γραμμή εργαλείων."
+
+#: tinymce.module:852
+msgid "Path location"
+msgstr "Τοποθεσία διαδρομής"
+
+#: tinymce.module:855
+msgid "Path to html elements (i.e. \"body>table>tr>td\"). Show at top, bottom, or not at all."
+msgstr "Η διαδρομή των στοιχείων html (πχ. \"body>table>tr>td\"). Να εμφανίζεται πάνω, κάτω ή καθόλου."
+
+#: tinymce.module:860
+msgid "Enable resizing button"
+msgstr "Ενεργοποίηση πλήκτρου αλλαγής μεγέθους"
+
+#: tinymce.module:863
+msgid " This option gives you the ability to enable/disable the resizing button. If enabled the <strong>Path location toolbar</strong> must be set to \"top\" or \"bottom\" in order to display the resize icon."
+msgstr "Η επιλογή αυτή δίνει τη δυνατότητα να ενεργοποιείτε/απενεργοποιείτε το πλήκτρο αλλαγής μεγέθους. Αν είναι ενεργοποιημένη, η <strong>γραμμή εργαλείων τοποθεσίας διαδρομής</strong> θα πρέπει να είναι \"πάνω\" ή \"κάτω\" για να εμφανίζεται το εικονίδιο αλλαγής μεγέθους."
+
+#: tinymce.module:868
+msgid "Block formats"
+msgstr "Μορφές μπλοκ"
+
+#: tinymce.module:872
+msgid "Comma separated list of HTML block formats. You can only remove elements, not add."
+msgstr "Λίστα μπλοκ μορφών HTML χωρισμένη με το κόμμα. Μπορείτε να αφαιρέσετε μόνο στοιχεία, όχι να προσθέσετε."
+
+#: tinymce.module:877
+msgid "Cleanup and output"
+msgstr "Εκκαθάριση και έξοδος"
+
+#: tinymce.module:884
+msgid "Verify HTML"
+msgstr "Επαλήθευση της HTML"
+
+#: tinymce.module:887
+msgid "Should the HTML contents be verified or not? Verifying will strip &lt;head&gt tags, so choose false if you will be editing full page HTML."
+msgstr "Επαλήθευση ή όχι των στοιχείων της HTML; Η επαλήθευση θα αφαιρέσει τις σημάνσεις &lt;head&gt, οπότε επιλέξτε ψευδές αν θέλετε να επεξεργαστείτε πλήρεις σελίδες HTML."
+
+#: tinymce.module:892
+msgid "Preformatted"
+msgstr "Προμορφοποιημένο"
+
+#: tinymce.module:895
+msgid "If this option is set to true, the editor will insert TAB characters on tab and preserve other whitespace characters just like a PRE HTML element does."
+msgstr "Αν η επιλογή αυτή έχει ως τιμή αληθές, ο συντάκτης κειμένου θα εισάγει χαρακτήρες TAB και θα διατηρεί τους υπόλοιπους λευκούς χαρακτήρες (whitespaces), ακριβώς όπως κάνει και το στοιχείο PRE της HTML."
+
+#: tinymce.module:900
+msgid "Convert &lt;font&gt; tags to styles"
+msgstr "Μετατροπή των σημάνσεων  &lt;font&gt; σε στυλ"
+
+#: tinymce.module:903
+msgid "If you set this option to true, font size, font family, font color and font background color will be replaced by inline styles."
+msgstr "Αν η επιλογή αυτή έχει ως τιμή αληθές, το μέγεθος, η οικογένεια, το χρώμα των γραμματοσειρών και το χρώμα του υπόβαθρου θα αντικαθίστανται από στυλ μέσα στο κείμενο (inline)."
+
+#: tinymce.module:908
+msgid "CSS"
+msgstr "CSS"
+
+#: tinymce.module:915
+msgid "Editor CSS"
+msgstr "Συντάκτης CSS"
+
+#: tinymce.module:918
+msgid "Defines the CSS to be used in the editor area.<br />use theme css - load style.css from current site theme.<br/>define css - enter path for css file below.<br />tinyMCE default - uses default CSS from editor."
+msgstr "Καθορίζει το CSS που θα χρησιμοποιηθεί στην περιοχή κειμένου του συντάκτη. <br />χρησιμοποίηση του θέματος css - χρησιμοποιεί το style.css από το τρέχων θέμα του ιστοχώρου. <br/>ορισμός του css - εισάγετε παρακάτω τη διαδρομή για το αρχείο του css<br />εξ' ορισμού του tinyMCE - χρησιμοποιεί το εξ' ορισμού CSS του συντάκτη κειμένου."
+
+#: tinymce.module:923
+msgid "CSS path"
+msgstr "Διαδρομή CSS"
+
+#: tinymce.module:927
+msgid "Enter path to CSS file (example: \"css/editor.css\").<br />Macros: !h (host name: http://www.example.com/), !t (path to theme: theme/yourtheme/)<br />Be sure to select \"define css\" above."
+msgstr "Εισάγετε τη διαδρομή στο αρχείο CSS (<em>παράδειγμα: \"css/editor.css\"</em>) ή μια λίστα χωρισμένη με το κόμμα από αρχεία css (<em>παράδειγμα: /themes/garland/style.css,http://domain.com/customMCE.css</em>). <br />Μακροεντολές: %h (όνομα υπολογιστή: http://www.example.com/), %t (διαδρομή στο θέμα: theme/yourtheme/)<br />Σιγουρευτείτε να επιλέξετε το \"ορισμός του css\" παραπάνω."
+
+#: tinymce.module:932
+msgid "CSS classes"
+msgstr "Κλάσεις CSS"
+
+#: tinymce.module:936
+msgid "Adds CSS classes to the \"styles\" droplist. Format is: &lt;title&gt;=&lt;class&gt;;<br/> Example: Header 1=header1;Header 2=header2;Header 3=header3 (note: no trailing ';')<br />Leave blank to automatically import list of CSS classes from style sheet."
+msgstr "Προσθέτει κλάσεις css στη λίστα \"στυλ\". Η μορφοποίηση είναι &lt;τίτλος&gt;=&lt;κλάση&gt;;<br/> Παράδειγμα: Επικεφαλίδα 1=header1;Επικεφαλίδα 2=header2;Επικεφαλίδα 3=header3 (σημείωση: χωρίς το ';' στο τέλος)<br />Αφήστε το κενό για να εισαχθεί αυτόματα η λίστα των κλάσεων CSS από το αρχείο των στυλ."
+
+#: tinymce.module:1018
+msgid "Profile"
+msgstr "Προφίλ"
+
+#: tinymce.module:1018
+msgid "Roles"
+msgstr "Ρόλοι"
+
+#: tinymce.module:1018
+msgid "Operations"
+msgstr "Λειτουργίες"
+
+#: tinymce.module:1020
+msgid "edit"
+msgstr "επεξεργασία"
+
+#: tinymce.module:1020
+msgid "delete"
+msgstr "διαγραφή"
+
+#: tinymce.module:1023
+msgid "<p><a href=\"!create-profile-url\">Create new profile</a></p>"
+msgstr "<p><a href=\"!create-profile-url\">Δημιουργία νέου προφίλ</a></p>"
+
+#: tinymce.module:1026
+msgid "No profiles found. Click here to <a href=\"!create-profile-url\">create a new profile</a>."
+msgstr "Δε βρέθηκαν προφίλ. Κάντε κλικ εδώ για να <a href=\"!create-profile-url\">δημιουργήσετε ένα νέο προφίλ</a>."
+
+#: tinymce.module:1057
+msgid "You must give a profile name."
+msgstr "Πρέπει να εισάγετε ένα όνομα προφίλ."
+
+#: tinymce.module:1061
+msgid "You must select at least one role."
+msgstr "Πρέπει να επιλέξετε τουλάχιστον ένα ρόλο."
+
+#: tinymce.module:46
+msgid "administer tinymce"
+msgstr "διαχείριση του tinymce"
+
+#: tinymce.module:46
+msgid "access tinymce"
+msgstr "πρόσβαση στο tinymce"
+
+#: tinymce.module:47
+msgid "module"
+msgstr "άρθρωμα"
+
+#: tinymce.module:49
+msgid "/tinymce/jscripts/tiny_mce/plugins/imagemanager/"
+msgstr "/tinymce/jscripts/tiny_mce/plugins/imagemanager/"
+
+#: tinymce.module:50
+msgid "access tinymce imagemanager"
+msgstr "πρόσβαση στο διαχειριστή εικόνων tinymce"
+
+#: tinymce.info:0
+msgid "The most popular WYSIWYG editor for advanced content editing."
+msgstr "Ο δημοφιλέστερος WYSIWYG συντάκτης κειμένου για προχωρημένη επεξεργασία περιεχομένου."
+

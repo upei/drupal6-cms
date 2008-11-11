@@ -1,0 +1,44 @@
+<?php
+/**
+* Implementaton of hook_install().
+*/
+function parser_simplexml_install() {
+	// create cache directory
+	$path_to_files = file_create_path(file_directory_path() . '/simplexml_cache');
+	if (!file_exists($path_to_files)) {
+		mkdir($path_to_files);
+	}
+	if (!is_writeable($path_to_files)) {
+		return FALSE;
+	}
+	variable_set('parser_simplexml_cache', $path_to_files);
+	// Set the parser of defaultly shipped processors if it's not done previously
+	$default_processors = array('feedapi_node', 'feedapi_aggregator');
+	$set_simplexml = array("parsers" => array("parser_simplexml" => array("enabled" => TRUE, "weight" => 0)));
+	foreach ($default_processors as $processor) {
+		$settings = variable_get('feedapi_settings_'. $processor, FALSE);
+		if (!isset($settings['parsers'])) {
+			$settings = is_array($settings) ? array_merge($settings, $set_simplexml) : $set_simplexml;
+			variable_set('feedapi_settings_'. $processor, $settings);
+		}
+	}
+}
+
+/**
+* Implementaton of hook_uninstall().
+*/
+function parser_simplexml_uninstall() {
+	// Empty cache directory
+	$cache_dir = variable_get('parser_simplexml_cache', FALSE);
+	if (is_dir($cache_dir)) {
+		$dp = opendir($cache_dir);
+		while (($file = readdir($dp)) !== FALSE) {
+			if (is_file($file)) {
+				unlink($cache_dir. '/'. $file);
+			}
+		}
+		closedir($dp);
+		rmdir($cache_dir);
+	}
+	variable_del('parser_simplexml_cache');
+}

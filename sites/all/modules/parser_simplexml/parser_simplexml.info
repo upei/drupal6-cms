@@ -1,0 +1,6 @@
+name = SimpleXML parser
+description = "Provides a more generic XML parser for FeedAPI modules. Uses SimpleXML. Requires PHP 5+."
+package = FeedAPI Add On
+dependencies[] = feedapi
+version = 0.2
+core = 6.x

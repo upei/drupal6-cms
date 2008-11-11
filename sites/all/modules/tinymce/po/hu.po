@@ -1,0 +1,89 @@
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  tinymce.module,v 1.90.4.11 2006/12/31 10:48:37 thenicespider
+#  tinymce.info,v 1.0 2006/12/24 17:51:48 Wendy
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 5.x\n"
+"POT-Creation-Date: 2007-01-19 18:37+0100\n"
+"PO-Revision-Date: 2007-01-19 18:58+0100\n"
+"Last-Translator: Beregszászi Attila <melon@m42.hu>\n"
+"Language-Team: Drupal.hu Fordítói Csapat <forditas [at] drupal.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Country: HUNGARY\n"
+
+#: tinymce.module:7
+#: tinymce.info:0
+msgid "The most popular WYSIWYG editor for advance content."
+msgstr "A legnépszerűbb WYSIWYG szerkesztő bonyolultabb tartalmakhoz."
+
+#: tinymce.module:14
+msgid "Enable WYSIWYG Editor to your site."
+msgstr "WYSIWYG szerkesztő enegedélyezése a honlapon."
+
+#: tinymce.module:31
+#: tinymce.info:0
+msgid "TinyMCE"
+msgstr "TinyMCE"
+
+#: tinymce.module:32
+msgid "Tinymce settings."
+msgstr "Tinymce beállítások."
+
+#: tinymce.module:48
+msgid "Basic settings"
+msgstr "Alapbeállítások"
+
+#: tinymce.module:55
+msgid "Editor Mode"
+msgstr "Szerkesztő mód"
+
+#: tinymce.module:57
+msgid "Full"
+msgstr "Teljes"
+
+#: tinymce.module:57
+msgid "Compact"
+msgstr "Tömörített"
+
+#: tinymce.module:57
+msgid "Simple"
+msgstr "Egyszerű"
+
+#: tinymce.module:58
+msgid "FULL: enable all TinyMCE features. COMPACT: enable most used features. SIMPLE: just enable simple editor.<hr>"
+msgstr "TELJES: az összes TinyMCE funkció engedélyezése. TÖMÖRÍTETT: a leggyakrabban használt funkció engedélyezése. EGYSZERŰ: egyszerű szerkesztő engedélyezése.<hr>"
+
+#: tinymce.module:63
+msgid "Enable TinyMCE for"
+msgstr "TinyMCE engedélyezése"
+
+#: tinymce.module:65
+msgid "Edit-body only"
+msgstr "Csak szövegtörzsnél"
+
+#: tinymce.module:65
+msgid "Edit-comment only"
+msgstr "Csak hozzászólásnál"
+
+#: tinymce.module:65
+msgid "Both"
+msgstr "Mindkettő"
+
+#: tinymce.module:66
+msgid "If you want TinyMCE available for textarea of edit-body and comment then you should select <b>Both</b> option."
+msgstr "A szövegtörzs és hozzászólás mezők TinyMCE-vel szerkesztésének engedélyezéséhez a <b>Mindkettő</b> beállítást kell választani."
+
+#: tinymce.module:0
+#: tinymce.info:0
+msgid "tinymce"
+msgstr "tinymce"
+
+#: tinymce.info:0
+msgid "5.x-1.x-dev"
+msgstr "5.x-1.x-dev"
+

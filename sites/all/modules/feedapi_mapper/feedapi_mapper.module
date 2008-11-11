@@ -1,0 +1,604 @@
+<?php
+// $Id: feedapi_mapper.module,v 1.1.2.7.2.7 2008/10/27 00:07:34 alexb Exp $
+
+/**
+ * Implementation of hook_help().
+ */
+function feedapi_mapper_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#feedapi_mapper':
+      return t('FeedAPI Mapper - maps feed item elements to node fields');
+    case 'feedapi_mapper/full_name':
+      return t('FeedAPI Mapper - maps feed item elements to node fields');
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function feedapi_mapper_menu() {
+  $items = array();
+  $items['node/%node/map'] = array(
+    'title' => 'Map',
+    'page callback' => 'feedapi_mapper_page',
+    'page arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer feedapi'),
+  );
+  foreach (node_get_types() as $type) {
+    $type_url_str = str_replace('_', '-', $type->type);
+    $items['admin/content/node-type/'. $type_url_str .'/map'] = array(
+      'title' => 'Map',
+      'page callback' => 'feedapi_mapper_page',
+      'page arguments' => array(3),
+      'load arguments' => array(3),
+      'type' => MENU_LOCAL_TASK,
+      'access callback' => 'user_access',
+      'access arguments' => array('administer feedapi'),
+      );
+  }
+  return $items;
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function feedapi_mapper_nodeapi(&$node, $op, $teaser, $page) {
+  switch ($op) {
+    case 'prepare':
+      if (isset($node->feedapi) && $node->feedapi->feed_item) {
+        _feedapi_mapper_map($node);
+      }
+      break;
+  }
+}
+
+/**
+ * Map feed item elements to node.
+ */
+function _feedapi_mapper_map(&$node) {
+  // Load mapping stored for this node.
+  $feed_node = node_load($node->feedapi->feed_nid);
+  if (!$mapping = _feedapi_mapper_load_mapping($node->feedapi->feed_nid)) {
+    $mapping = _feedapi_mapper_load_mapping($feed_node->type);
+  }
+  if ($mapping) {
+    // Load available mappers.
+    _feedapi_mapper_load_mappers();
+    // Convert item to array:
+    $feed_item = _feedapi_mapper_obj2array($node->feedapi->feed_item);
+    $feed_item = _feedapi_mapper_simplify_raw($feed_item, $feed_node->feed->parsers);
+    foreach ($mapping as $element_path => $field) {
+      if ($field) { // Double check if field is set - @todo: this step could be skipped.
+        $field = unserialize($field);
+        $element_path = unserialize($element_path);
+        // Get the feed item element on $element_path and pass it into the mapping function.
+        $feed_item_element = _feedapi_mapper_get_feed_item_element($element_path, $feed_item);
+        $node = call_user_func($field[0] .'_feedapi_mapper', 'map', $node, $field[1], $feed_item_element, isset($field[2]) ? $field[2] : NULL);
+      }
+    }
+  }
+}
+
+/**
+ * Returns feed item element on given path.
+ */
+function _feedapi_mapper_get_feed_item_element($path, $item) {
+  $p = array_shift($path);
+  if (count($path) > 0) {
+    return _feedapi_mapper_get_feed_item_element($path, $item[$p]);
+  }
+  else if (isset($item[$p])) {
+    return $item[$p];
+  }
+}
+
+/**
+ * Callback function for hook_menu().
+ */
+function feedapi_mapper_page($node) {
+  if (is_string($node)) {
+    $node_type = $node;
+    $node = new stdClass();
+    $node->type = str_replace('-', '_', $node_type);
+  }
+  if (!feedapi_enabled_type($node->type)) {
+    drupal_set_message(t('This content type is not FeedAPI enabled. Enable it if you would like to use the FeedAPI mapper on it.'));
+    return '';
+  }
+  $names = node_get_types('names');
+  drupal_set_title($node->title ? $node->title : $names[$node->type]);
+  $output = t('Map feed item elements to feed item node fields.');
+  $output .= drupal_get_form('feedapi_mapper_form', $node);
+  return $output;
+}
+
+/**
+ * Mapping form.
+ */
+function feedapi_mapper_form($form_state, $node) {
+  // Get fields of node type with available feed element mappers.
+  if ($node->feed->settings['processors']['feedapi_node']['content_type']) {
+    $settings = $node->feed->settings;
+  }
+  else {
+    $settings = feedapi_get_settings($node->type);
+  }
+  $feed_item_type = $settings['processors']['feedapi_node']['content_type'];
+  $field_mappers = _feedapi_mapper_get_field_mappers($feed_item_type);
+
+  // Get elements of feed items.
+  if ($merged_item = _feedapi_mapper_get_items_merged($node)) {
+    $merged_item = _feedapi_mapper_simplify_raw($merged_item, $node->feed->parsers);
+    $elements = _feedapi_mapper_get_feed_elements($merged_item);
+  }
+  else {
+    $elements = _feedapi_mapper_get_standard_elements();
+  }
+  // Load stored mapping.
+  if (!$mapping = _feedapi_mapper_load_mapping($node->nid )) {
+    $mapping = _feedapi_mapper_load_mapping($node->type);
+  }
+
+  if ($merged_item) {
+    $form['feed_item'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Feed item example'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#description' => t('All feed items of this feed merged into one. Here you can see which feed item elements are available for mapping. As this view is derived from the actual feed items on this feed, there might be more mappable elements than those listed here.'),
+    );
+    $form['feed_item']['item'] = array(
+      '#type' => 'markup',
+      '#value' => '<pre>'. print_r(_feedapi_mapper_truncate_array($merged_item), TRUE) .'</pre>',
+    );
+  }
+  $form['nid'] = array(
+    '#type' => 'value',
+    '#value' => ($node->nid ? $node->nid: $node->type),
+  );
+  // Pass on feed item elements.
+  $form['elements'] = array('#type' => 'value', '#value' => $elements);
+  // Print descriptions if there are any.
+  if ($descriptions = theme('feedapi_mapper_descriptions', _feedapi_mapper_get_field_mappers_descriptions($feed_item_type))) {
+    $form['descriptions'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Description of available mappers'),
+      '#description' => t('This is a list of mappers available for the <em>feed item</em> content type for this feed.'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+      '#tree' => TRUE,
+    );
+    $form['descriptions']['descriptions'] = array(
+      '#type' => 'markup',
+      '#value' => $descriptions,
+    );
+  }
+  // Create mapping form.
+  $form['mapping'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Edit mapping'),
+    '#description' => t('This is a list of feed item elements that are available for mapping. Choose a mapping from the drop down to map a feed item element to a node field.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#tree' => TRUE,
+  );
+  foreach ($elements as $element_name => $path) {
+    $form['mapping'][$element_name] = array(
+      '#type' => 'select',
+      '#title' => $element_name,
+      '#options' => $field_mappers,
+      '#default_value' => isset($mapping[$path]) ? $mapping[$path] : '',
+    );
+  }
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update'),
+  );
+  return $form;
+}
+
+/**
+ * Submit hook.
+ */
+function feedapi_mapper_form_submit($form, &$form_state) {
+  _feedapi_mapper_store_mapping($form_state['values']['nid'], $form_state['values']['mapping'], $form_state['values']['elements']);
+}
+
+/**
+ * Store mapping.
+ * @param $param
+ *   node id or node type.
+ * @param $mapping
+ *   Mapping.
+ * @param $elements
+ *   All elements of feed item.
+ */
+function _feedapi_mapper_store_mapping($param, $mapping, $elements) {
+  // Wrap the mapping array (element_name => node_field)
+  // and the elements array (element_name => element_path)
+  // arrays into one:
+  // We store a mapping as element_path => node_field.
+  // - element_path and node_field are both a serialized array.
+  $stored_mapping = array();
+  foreach ($mapping as $element_name => $field) {
+    if ($field) {
+      $stored_mapping[$elements[$element_name]] = $field;
+    }
+  }
+  if (is_numeric($param)) {
+    if (db_result(db_query('SELECT * FROM {feedapi_mapper} WHERE nid = %d', $param))) {
+      db_query('UPDATE {feedapi_mapper} SET mapping = "%s" WHERE nid = %d', serialize($stored_mapping), $param);
+    }
+    else {
+      db_query('INSERT INTO {feedapi_mapper} (nid, mapping) VALUES (%d, "%s")', $param, serialize($stored_mapping));
+    }
+  }
+  else if (is_string($param)) {
+    variable_set('feedapi_mapper_mapping_'. $param, $stored_mapping);
+  }
+}
+
+/**
+ * Retrieve mapping from db.
+ * @param $param
+ * node id or node type
+ * @return Associative array in the format
+ * array(
+ *   element_path1 => node_field1,
+ *   element_path2 => node_field2,
+ * );
+ * where element_pathx and node_fieldx are both serialized arrays.
+ */
+function _feedapi_mapper_load_mapping($param) {
+  static $mappings;
+  if (is_numeric($param)) {
+    if (isset($mappings[$param])) {
+      return $mappings[$param];
+    }
+    if ($mapping = db_result(db_query('SELECT mapping FROM {feedapi_mapper} WHERE nid = %d', $param))) {
+      $mappings[$param] = unserialize($mapping);
+      return $mappings[$param];
+    }
+  }
+  else if (is_string($param)) {
+    return variable_get('feedapi_mapper_mapping_'. $param, array());
+  }
+}
+
+/**
+ * Load mapper implementations.
+ */
+function _feedapi_mapper_load_mappers() {
+  static $loaded = FALSE;
+  if (!$loaded) {
+    // Load all feedapi mapper implementations from ./mappers
+    $path = drupal_get_path('module', 'feedapi_mapper') .'/mappers';
+    $files = drupal_system_listing('.*\.inc$', $path, 'name', 0);
+    foreach ($files as $file) {
+      require_once("./$file->filename");
+    }
+    // Rebuild cache.
+    module_implements('', FALSE, TRUE);
+  }
+  $loaded = TRUE;
+}
+
+/**
+ * @todo: move this guy to feedapi.
+ */
+function feedapi_parse($feed) {
+  return _feedapi_call_parsers($feed, $feed->parsers, $feed->half_done ? FALSE : TRUE);
+}
+
+/**
+ * Simplifies options->raw item on feed item.
+ */
+function _feedapi_mapper_simplify_raw($item, $parsers) {
+  if (isset($item['options']['raw'])) {
+    if (in_array('parser_simplepie', $parsers)) {
+      $item['options']['raw'] = parser_simplepie_simplify_raw_item($item['options']['raw']);
+    }
+  }
+  return $item;
+}
+
+/**
+ * Returns all feed items on node as one merged item.
+ */
+function _feedapi_mapper_get_items_merged($node) {
+  if ($node->feed) {
+    $feed = feedapi_parse($node->feed);
+    // Convert items to array.
+    $items = _feedapi_mapper_obj2array($feed->items);
+    // Merge items to one item.
+    $merged = NULL;
+    if (is_array($items)) {
+      $i = 0;
+      foreach ($items as $item) {
+        if ($i++ > 10) {
+          break;
+        }
+        $merged = _feedapi_mapper_array_merge_recursive($item, $merged);
+      }
+    }
+    return $merged;
+  }
+}
+
+/**
+ * Sister function of _feedapi_mapper_get_feed_elements().
+ * Returns array in same format. Only difference: does not take
+ * a real feed that it analyzes, but returns some standard elements.
+ * @todo: probably create hook for extending modules.
+ * @return: Array in the format array('pathname' => 'serializedpath')
+ */
+function _feedapi_mapper_get_standard_elements() {
+  $paths[] = array('options', 'original_author', 'name');
+  $paths[] = array('options', 'original_author', 'picture');
+  $paths[] = array('options', 'original_author');
+  $paths[] = array('options', 'tags');
+  foreach ($paths as $path) {
+    $elements[implode('->', $path)] = serialize($path);
+  }
+  return $elements;
+}
+
+/**
+ * Takes a feed item and retrieves paths to all elements.
+ * Use a merged feed item (_feedapi_mapper_get_items_merged()) for best results.
+ * @return: Array in the format array('pathname' => 'serializedpath')
+ */
+function _feedapi_mapper_get_feed_elements($merged_item) {
+  // Retrieve paths to elements in merged item.
+  // Stick them into an array where the key is the serialized path and the value is the element name.
+  $elements = array();
+  while (count($merged_item)) {
+    $path = array();
+    $path = _feedapi_mapper_next_element_path($merged_item, $path);
+    $elements[implode('->', $path)] = serialize($path);
+  }
+  return $elements;
+}
+
+/**
+ * Traverse an associative array and look for path to first leaf.
+ * If found, unset leaf and return path to it.
+ * @return
+ * A path to a leaf element in the format
+ * array(path, to, leaf, element);
+ */
+function _feedapi_mapper_next_element_path(&$items, &$path) {
+  // This recursion is a bit shaky. Put on breaks.
+  static $i;
+  $i++;
+  if ($i > 200) {
+    drupal_set_message(t('Error in recursion _feedapi_mapper_next_element_path()'), 'error');
+    return array();
+  }
+  foreach ($items as $key => $value) {
+    $path[] = $key;
+    // Recurse if value is array and if it contains elements.
+    if (is_array($items[$key]) && count($items[$key])) {
+      // Arrays with keys of 0 are not considered collections of same items - reached a leaf.
+      if (isset($items[$key][0])) {
+        unset($items[$key]);
+        return $path;
+      }
+      else if ($result_path = _feedapi_mapper_next_element_path($items[$key], $path)) {
+        // Leaf was found, pass it up.
+        return $result_path;
+      }
+    }
+    else {
+      // Reached leaf, unset it and return path to it.
+      unset($items[$key]);
+      return $path;
+    }
+  }
+  // No leaves found in this pass.
+  return FALSE;
+}
+
+/**
+ * Converts a multidemensional associative array with interdispersed objects into
+ * an associative array only.
+ */
+function _feedapi_mapper_obj2array($items) {
+  if (is_object($items)) {
+    $items = (array) $items;
+  }
+  if (is_array($items)) {
+    foreach ($items as $key => $value) {
+      $items[$key] = _feedapi_mapper_obj2array($value);
+    }
+  }
+  return $items;
+}
+
+/**
+ * Truncates all strings in cascaded array.
+ */
+function _feedapi_mapper_truncate_array($array) {
+  foreach ($array as $k => $v) {
+    if (is_string($v)) {
+      $array[$k] = strip_tags($v);
+      $array[$k] = truncate_utf8($array[$k], 200, TRUE, TRUE);
+    }
+    else if (is_array($v)) {
+      $array[$k] = _feedapi_mapper_truncate_array($v);
+    }
+  }
+  return $array;
+}
+
+/**
+ * Like array_merge_recursive. Only difference: does NOT merge
+ * two different keys into an array, but merges key on key.
+ * Argument 1 always has to be an array.
+ */
+function _feedapi_mapper_array_merge_recursive($array1, $array2) {
+  foreach ($array1 as $k => $v) {
+    if (is_array($array1[$k])) {
+      $result[$k] = _feedapi_mapper_array_merge_recursive($array1[$k], isset($array2[$k]) ? $array2[$k] : NULL);
+    }
+    else {
+      $result[$k] = $array1[$k];
+    }
+  }
+  if (is_array($array2)) {
+    foreach ($array2 as $k => $v) {
+      if (is_array($array2[$k])) {
+        $result[$k] = _feedapi_mapper_array_merge_recursive($array2[$k], isset($array1[$k]) ? $array1[$k] : NULL);
+      }
+      else {
+        $result[$k] = $array2[$k];
+      }
+    }
+  }
+  return $result;
+}
+
+/**
+ * Get field mappers for a given node type. Returns an array of all
+ * feed mappers that are applicable to this node type.
+ * @param $node_type
+ *   Valid node type.
+ * @return
+ *   Array of fields that are mappable for this content type.
+ */
+function _feedapi_mapper_get_field_mappers($node_type) {
+  $field_names = _feedapi_mapper_get_field_names($node_type);
+  $node->type = $node_type;
+  $field_mappers[0] = t('No mapping');
+
+  // Load all available mappers and create an array of fields available as mapping target.
+  _feedapi_mapper_load_mappers();
+  $modules = module_implements('feedapi_mapper');
+  foreach ($field_names as $field_name) {
+    foreach ($modules as $module) {
+      if ($sub_fields = module_invoke($module, 'feedapi_mapper', 'list', $node, $field_name)) {
+        $field_category = t('Map to @field (@module)', array('@field' => $field_name, '@module' => $module));
+        if (is_array($sub_fields)) {
+          foreach ($sub_fields as $sub_field_id => $sub_field_name) {
+            $field_mappers[$field_category][serialize(array($module, $field_name, $sub_field_id))] = $field_category .': '. $sub_field_name;
+          }
+        }
+        else {
+          $field_mappers[serialize(array($module, $field_name))] = $field_category;
+        }
+      }
+    }
+  }
+  
+  return $field_mappers;
+}
+
+/**
+ * Returns descriptions for all mappable fields of given node type.
+ * @return
+ *   Array in the format
+ *   array('field_name_a' =>
+ *          array('module_name_a' => 'Descriptive text'),
+ *                'module_name_b' => ...),
+ *         'field_name_b' =>  array(...),
+ *         );
+ */
+function _feedapi_mapper_get_field_mappers_descriptions($node_type) {
+  $field_names = _feedapi_mapper_get_field_names($node_type);
+  $node->type = $node_type;
+  // Load all available mappers and create an array of fields available as mapping target.
+  _feedapi_mapper_load_mappers();
+  $modules = module_implements('feedapi_mapper');
+  $descriptions = array();
+  foreach ($field_names as $field_name) {
+    foreach ($modules as $module) {
+      if ($description = module_invoke($module, 'feedapi_mapper', 'describe', $node, $field_name)) {
+        $descriptions[$field_name][$module] = $description;
+      }
+    }
+  }
+  return $descriptions;
+}
+
+function _feedapi_mapper_get_node_form($node_type) {
+  $form_id = $node_type .'_node_form';
+  $node = new stdClass();
+  $node->type = $node_type;
+  $node->name = NULL; // prevent PHP notice from node_form()
+
+  // Borrow this from CCK:
+  // Some modules (userreview...) "hide" their node forms, resulting in no field
+  // being listed. We set a special flag to inform them this form is special.
+  $node->cck_dummy_node_form = TRUE;
+
+  // Include node.pages.inc which contains the node_form definitions.
+  include_once(drupal_get_path('module', 'node') .'/node.pages.inc');
+  $form_state = array('storage' => NULL, 'submitted' => FALSE);
+  $form = drupal_retrieve_form($form_id, $form_state, $node);
+  drupal_prepare_form($form_id, $form, $form_state);
+
+  return $form;
+}
+
+/**
+ * Retrieve all field names on a given node type.
+ *
+ * @todo:
+ * This is still somewhat of a cooking recipe and e. g. does not expose teaser nor body filter,
+ * as they are not present as such neither on the form nor in the node of the initial form.
+ *
+ * If there are suggestions on how to improve this routine, I'd be happy to know them.
+ *
+ * @param string $node_type
+ */
+function _feedapi_mapper_get_field_names($node_type) {
+  static $field_names;
+  if (!is_array($field_names[$node_type])) {
+		$form = _feedapi_mapper_get_node_form($node_type);
+
+    $node = (array)$form['#node'];
+    $node['taxonomy'] = array();
+    $fields = array_merge($form, $node);
+
+    foreach ($fields as $k => $v ) {
+      if (strpos($k, '#') === FALSE) {
+        $field_names[$node_type][] = $k;
+      }
+    }
+    sort($field_names[$node_type]);
+  }
+  return $field_names[$node_type];
+}
+
+/**
+ * Theming function for outputting result of _feedapi_mapper_get_field_mappers_descriptions().
+ * @param $descriptions
+ *   Result of _feedapi_mapper_get_field_mappers_descriptions().
+ * @return
+ *   HTML output.
+ */
+function theme_feedapi_mapper_descriptions($descriptions) {
+  $output = '<dl>';
+  foreach ($descriptions as $field_mapper => $implementations) {
+    foreach ($implementations as $module => $description) {
+      $output .= '<dt><strong>'. $field_mapper .' '. t('(!module_name module)', array('!module_name' => $module)) .'</strong></dt>';
+      $output .= '<dd>'. $description .'</dd>';
+    }
+  }
+  $output .= '</dl>';
+  return $output;
+}
+
+/**
+ * Implementation of hook_theme().
+ *
+ */
+function feedapi_mapper_theme() {
+  return array(
+    'feedapi_mapper_descriptions' => array(
+      'arguments' => array('descriptions'),
+    ),
+  );
+}

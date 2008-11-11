@@ -18,7 +18,7 @@ ErrorDocument 404 /index.php
 
 # Force simple error message for requests for non-existent favicon.ico.
 <Files favicon.ico>
-  ErrorDocument 404 "The requested file favicon.ico was not found.
+  ErrorDocument 404 "The requested file favicon.ico was not found."
 </Files>
 
 # Set the default handler.
@@ -93,7 +93,7 @@ DirectoryIndex index.php
   # VirtualDocumentRoot and the rewrite rules are not working properly.
   # For example if your site is at http://example.com/drupal uncomment and
   # modify the following line:
-  # RewriteBase /drupal
+  RewriteBase /registrar6
   #
   # If your site is running in a VirtualDocumentRoot at http://example.com/,
   # uncomment the following line:

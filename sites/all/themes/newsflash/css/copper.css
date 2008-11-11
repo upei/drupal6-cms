@@ -1,0 +1,67 @@
+body {
+  color: #000;
+  background-color: #8596AA;
+}
+
+#page {
+   background-color: #fff;
+}
+
+tr.odd {
+  background: #F5F5E9;
+}
+
+tr.even {
+  background: #EEDEC4;
+}
+
+#section1 {
+   background: #F5F5E9;
+}
+
+#section2 {
+   background: #B67D30 url(../images/copper/BottomBG.png) 0 0 repeat-x;
+   color: #fff;
+}
+
+#primary a.active,
+#secondary a.active {
+  color: #CDCD8F;
+}
+
+a:link,
+a:visited,
+a:hover,
+.title, .title a,
+.submitted,
+.links,
+.node .taxonomy,
+#aggregator .news-item .categories, #aggregator .source, #aggregator .age,
+#forum td .name,
+div.admin-panel .description {
+  color: #8E6126;
+}
+
+#section2 .title,
+#section2 .title a {
+   color: #fff;
+}
+
+#section2 a:link,
+#section2 a:visited,
+#section2 a.hover {
+   color: #EEC193;
+}
+
+#header {
+  background: #B67D30 url(../images/copper/MastBG.png) 0 0 repeat-x;
+}
+
+#sidebar-left .block, #sidebar-right .block {
+  background-color: #EEDEC4;
+}
+
+#mission,
+div.admin-panel h3 {
+  background-color: #8E6126;
+}

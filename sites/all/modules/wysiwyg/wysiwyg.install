@@ -1,0 +1,103 @@
+<?php
+// $Id: wysiwyg.install,v 1.1 2008/10/14 21:45:07 sun Exp $
+
+/**
+ * Implementation of hook_schema().
+ */
+function wysiwyg_schema() {
+  $schema = array();
+  $schema['wysiwyg_profile'] = array(
+    'description' => t('Stores Wysiwyg Editor profiles.'),
+    'fields' => array(
+      'name' => array('type' => 'varchar', 'length' => 128, 'not null' => TRUE, 'default' => ''),
+      'settings' => array('type' => 'text', 'size' => 'normal'),
+      'plugin_count' => array('type' => 'int', 'size' => 'tiny', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('name'),
+  );
+  $schema['wysiwyg_role'] = array(
+    'description' => t('Stores user role access permissions for Wysiwyg Editor profiles.'),
+    'fields' => array(
+      'name' => array('type' => 'varchar', 'length' => 128, 'not null' => TRUE, 'default' => ''),
+      'rid' => array('type' => 'int', 'size' => 'tiny', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('name', 'rid'),
+  );
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function wysiwyg_install() {
+  drupal_install_schema('wysiwyg');
+  // Import data from old editor modules.
+  wysiwyg_migrate_wysiwyg_editor();
+  wysiwyg_migrate_tinymce();
+}
+
+/**
+ * Implementation of hook_uninstall()
+ */
+function wysiwyg_uninstall() {
+  drupal_uninstall_schema('wysiwyg');
+}
+
+/**
+ * Migrate from Wysiwyg Editor.
+ */
+function wysiwyg_migrate_wysiwyg_editor() {
+  if (db_table_exists('wysiwyg_editor_profile')) {
+    // Import Wysiwyg Editor profiles.
+    db_query('INSERT INTO {wysiwyg_profile} (name, settings, plugin_count) SELECT name, settings, plugin_count FROM {wysiwyg_editor_profile}');
+    // Import Wysiwyg Editor profile role associations.
+    db_query('INSERT INTO {wysiwyg_role} (name, rid) SELECT name, rid FROM {wysiwyg_editor_role}');
+
+    // Disable Wysiwyg Editor module.
+    module_disable(array('wysiwyg_editor'));
+    drupal_set_message(t('Wysiwyg Editor module can be safely uninstalled now.'));
+  }
+}
+
+/**
+ * Migrate from TinyMCE.
+ */
+function wysiwyg_migrate_tinymce() {
+  if (db_table_exists('tinymce_settings')) {
+    $schema = db_result(db_query("SELECT schema_version FROM {system} WHERE name = 'tinymce'"));
+    if ($schema >= 1) {
+      // Import TinyMCE settings.
+      db_query('INSERT INTO {wysiwyg_profile} (name, settings) SELECT name, settings FROM {tinymce_settings}');
+      // Import TinyMCE profile role associations.
+      db_query('INSERT INTO {wysiwyg_role} (name, rid) SELECT name, rid FROM {tinymce_role}');
+
+      // Migrate profile configurations.
+      // Convert buttons/plugins into an associative array and fix plugin count.
+      $profiles = db_query("SELECT name, settings, plugin_count FROM {wysiwyg_profile}");
+      while ($profile = db_fetch_array($profiles)) {
+        $settings = unserialize($profile['settings']);
+        if (isset($settings['form_id'])) {
+          $old_buttons = (isset($settings['buttons']) ? $settings['buttons'] : array());
+          $settings['buttons'] = array();
+          $plugin_count = 0;
+          foreach ($old_buttons as $old_button => $enabled) {
+            list($plugin, $button) = explode('-', $old_button, 2);
+            $settings['buttons'][$plugin][$button] = 1;
+            $plugin_count++;
+          }
+          // We can't use update_sql() here because of curly braces in serialized
+          // array.
+          db_query("UPDATE {wysiwyg_profile} SET settings = '%s', plugin_count = %d WHERE name = '%s'", serialize($settings), $plugin_count, $profile['name']);
+        }
+      }
+
+      // Disable TinyMCE module.
+      module_disable(array('tinymce'));
+      drupal_set_message(t('TinyMCE module can be safely uninstalled now.'));
+    }
+    else {
+      drupal_set_message(t('To migrate your existing TinyMCE settings to Wysiwyg Editor, please update TinyMCE module to the latest official release, and re-install Wysiwyg Editor module.'));
+    }
+  }
+}
+

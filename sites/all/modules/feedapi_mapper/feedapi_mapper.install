@@ -1,0 +1,38 @@
+<?php
+// $Id: feedapi_mapper.install,v 1.1.4.1 2008/09/08 11:41:13 alexb Exp $
+
+/**
+ * Implementation of hook_schema().
+ */
+function feedapi_mapper_schema() {
+  $schema['feedapi_mapper'] = array(
+    'description' => t('Store date for the feedapi mapper'),
+    'fields' => array(
+      'nid' => array(
+        'description' => t('The primary identifier for the feed.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE),
+      'mapping' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => TRUE),
+      ),
+    'primary key' => array('nid'),
+  );
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function feedapi_mapper_install() {
+  drupal_install_schema('feedapi_mapper');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function feedapi_mapper_uninstall() {
+  drupal_uninstall_schema('feedapi_mapper');
+}

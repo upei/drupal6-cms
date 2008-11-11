@@ -1,0 +1,55 @@
+<?php
+// $Id: ldapdata.install,v 1.2.4.6 2008/09/16 16:00:52 miglius Exp $
+
+/**
+ * @file
+ * ldapdata module installation and upgrade code.
+ */
+
+//////////////////////////////////////////////////////////////////////////////
+// Core API hooks
+
+/**
+ * Implementation of hook_install().
+ */
+function ldapdata_install() {
+  // We're adding to an existing table, not creating a new one.
+  $ret = array();
+
+  db_add_field($ret, 'ldapauth', 'ldapdata_binddn', array(
+    'type' => 'varchar',
+    'length' => 255,
+  ));
+  db_add_field($ret, 'ldapauth', 'ldapdata_bindpw', array(
+    'type' => 'varchar',
+    'length' => 255,
+  ));
+  db_add_field($ret, 'ldapauth', 'ldapdata_rwattrs', array(
+    'type' => 'text',
+  ));
+  db_add_field($ret, 'ldapauth', 'ldapdata_roattrs', array(
+    'type' => 'text',
+  ));
+  db_add_field($ret, 'ldapauth', 'ldapdata_mappings', array(
+    'type' => 'text',
+  ));
+
+  return $ret;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function ldapdata_uninstall() {
+  // We're removing fileds from an existing table, not deleting a whole one.
+  $ret = array();
+
+  db_drop_field($ret, 'ldapauth', 'ldapdata_binddn');
+  db_drop_field($ret, 'ldapauth', 'ldapdata_bindpw');
+  db_drop_field($ret, 'ldapauth', 'ldapdata_rwattrs');
+  db_drop_field($ret, 'ldapauth', 'ldapdata_roattrs');
+  db_drop_field($ret, 'ldapauth', 'ldapdata_mappings');
+
+  return $ret;
+}
+

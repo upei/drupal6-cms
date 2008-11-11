@@ -1,0 +1,183 @@
+/* $Id: suckerfish_blue.css,v 1.4 2007/09/11 17:06:35 roopletheme Exp $ */
+/* www.roopletheme.com */
+
+/* another son of suckerfish...
+http://www.htmldog.com/articles/suckerfish/dropdowns/
+http://www.alistapart.com/articles/horizdropdowns
+*/
+
+#suckerfishmenu	.block {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+#suckerfishmenu	.block, #suckerfishmenu	.box {
+  padding: 0;
+}
+
+#suckerfishmenu	.title {
+  display: none;
+}
+
+#suckerfishmenu	 {
+  line-height: 26px;
+  background: #8E6126;
+	border-top: 1px solid #fff;
+}
+
+#suckerfishmenu	 ul.menu { /* top level ul */
+  padding: 0 0 0 0px;
+  list-style: none;
+  z-index: 100;
+  display: inline;
+} 
+
+#suckerfishmenu	 a {
+  background: #8E6126 url(../images/copper/MenuDiv.png) 100% 0 repeat-y;
+  color: #fff;
+  display: block;
+  padding: 0px 14px 0px 14px; /* padding between menu elements */
+  margin: 0;
+  text-decoration: none;
+  font-size: 95%;
+  font-weight: normal;
+}
+
+#suckerfishmenu	 a:active,
+#suckerfishmenu	 a:hover {
+  background: #B67D30;
+  text-decoration: none;
+}
+
+#suckerfishmenu	 li {
+  display: inline;
+  float: left;
+  margin: 0;
+  padding: 0;
+  height: 1%;
+}
+
+
+/* second-level lists */
+
+#suckerfishmenu	 ul.menu ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#suckerfishmenu	 ul.menu li ul {
+  position: absolute;
+  width: 200px;
+  left: -999em; /* to hide menus because display: none isn't read by screen readers */
+}
+
+
+#suckerfishmenu	 ul.menu li li {
+  /* height: auto; */
+  float: left;
+  width: 200px;
+}
+
+
+#suckerfishmenu	 ul.menu li li a:link,
+#suckerfishmenu	 ul.menu li li a:visited {
+  color: #fff;
+  background: #B67D30;
+  width: 170px;
+  border-top: 1px solid #8E6126;
+  border-bottom: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded a {
+	background: #B67D30 url(../images/menu_arrow.png) 100% 50% no-repeat;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded a:active,
+#suckerfishmenu	 ul.menu li li.expanded a:hover {
+	background: #8E6126 url(../images/menu_arrow.png) 100% 50% no-repeat;
+}
+
+#suckerfishmenu	 ul.menu li ul a:active,
+#suckerfishmenu	 ul.menu li ul a:hover {
+  background: #8E6126;
+  text-decoration: none;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu a {
+  background: #B67D30;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu a:active,
+#suckerfishmenu	 ul.menu li li.expanded ul.menu a:hover {
+  background: #8E6126;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a {
+	background: #B67D30 url(../images/menu_arrow.png) 100% 50% no-repeat;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a:active,
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a:hover {
+	background: #8E6126 url(../images/menu_arrow.png) 100% 50% no-repeat;
+}
+
+#suckerfishmenu	 ul.menu li li {
+}
+
+#suckerfishmenu	 ul.menu li ul a {
+  color: #fff;
+  width: 200px;
+  line-height: 26px;
+  font-size: 95%;
+}
+
+#suckerfishmenu	 ul.menu li ul a:active,
+#suckerfishmenu	 ul.menu li ul a:hover {
+  background: #8E6126;
+  text-decoration: none;
+}
+
+/* margin for pullouts */
+#suckerfishmenu	 ul.menu li ul ul {
+  margin: -29px 0 0 200px;
+}
+
+#suckerfishmenu	 ul.menu li:hover ul ul, #suckerfishmenu	 ul.menu li:hover ul ul ul, #suckerfishmenu	 ul.menu li.sfhover ul ul, #suckerfishmenu	 ul.menu li.sfhover ul ul ul {
+  left: -999em;
+}
+
+#suckerfishmenu	 ul.menu li:hover ul, #suckerfishmenu	 ul.menu li li:hover ul, #suckerfishmenu	 ul.menu li li li:hover ul, #suckerfishmenu	 ul.menu li.sfhover ul, #suckerfishmenu	 ul.menu li li.sfhover ul, #suckerfishmenu	 ul.menu li li li.sfhover ul {
+  left: auto;
+}
+#suckerfishmenu	 ul.menu li ul ul ul{
+  margin: -29px 0 0 200px;
+}
+
+#suckerfishmenu	 ul.menu ul li:hover ul ul, #suckerfishmenu	 ul.menu ul li:hover ul ul ul, #suckerfishmenu	 ul.menu ul li.sfhover ul ul, #suckerfishmenu	 ul.menu ul li.sfhover ul ul ul {
+  left: -999em;
+}
+
+#suckerfishmenu	 ul.menu ul li:hover ul, #suckerfishmenu	 ul.menu ul li li:hover ul, #suckerfishmenu	 ul.menu ul li li li:hover ul, #suckerfishmenu	 ul.menu ul li.sfhover ul, #suckerfishmenu	 ul.menu ul li li.sfhover ul, #suckerfishmenu	 ul.menu ul li li li.sfhover ul {
+  left: auto;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded ul.menu li a { background: #B67D30; }
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded ul.menu li a:active, #suckerfishmenu ul.menu li li.expanded ul.menu li.expanded ul.menu li a:hover { 
+	background: #8E6126;}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li ul.menu li.expanded a { 	background: #B67D30 url(../images/menu_arrow.png) 100% 50% no-repeat; }
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li ul.menu li.expanded a:active, #suckerfishmenu ul.menu li li.expanded ul.menu li ul.menu li.expanded a:hover { 
+	background: #8E6126 url(../images/menu_arrow.png) 100% 50% no-repeat;}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li ul.menu a {   background: #B67D30; }
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li ul.menu a:active, #suckerfishmenu ul.menu li li.expanded ul.menu li ul.menu a:hover {   background: #8E6126; }
+
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li ul.menu li.expanded li ul.menu li.expanded a { 	background: #B67D30 url(../images/menu_arrow.png) 100% 50% no-repeat; }
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li ul.menu li.expanded li ul.menu li.expanded a:active, #suckerfishmenu ul.menu li li.expanded ul.menu li ul.menu li.expanded li ul.menu li.expanded a:hover { 
+	background: #8E6126 url(../images/menu_arrow.png) 100% 50% no-repeat;}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li ul.menu li ul.menu a {   background: #B67D30; }
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li ul.menu li ul.menu a:active, #suckerfishmenu ul.menu li li.expanded ul.menu li ul.menu li ul.menu a:hover {   background: #8E6126; }

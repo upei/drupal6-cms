@@ -1,0 +1,114 @@
+<?php
+// $Id: simplepie.module,v 1.11.4.4 2008/09/01 22:54:08 mustafau Exp $
+
+/**
+ * @file
+ * 
+ * @see http://simplepie.org/
+ */
+
+/**
+ * Implementation of hook_help().
+ */ 
+function simplepie_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#simplepie':
+      return '<p>'. t('Ensures that the SimplePie library is installed. Makes SimplePie available to other modules.') .'</p>';
+    case 'admin/settings/simplepie':
+      return '<p>'. t('Specify a cache location.') .'</p>';
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function simplepie_menu() {
+  $items['admin/settings/simplepie'] = array(
+    'title' => 'SimplePie Core settings',
+    'description' => 'Control how SimplePie Core works.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('simplepie_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+  );
+  return $items;
+}
+
+function simplepie_admin_settings() {
+  $form['simplepie_cache_location'] = array(
+    '#type' => 'textfield',
+    '#title' => t('SimplePie Core cache location'),
+    '#description' => t('Relative to files directory.'),
+    '#default_value' => variable_get('simplepie_cache_location', 'cache/simplepie'),
+    '#attributes' => array('class' => file_check_directory(simplepie_get_cache_location()) ? 'ok' : 'error'),
+    '#after_build' => array('system_check_directory'),
+  );
+
+  return system_settings_form($form);
+}
+
+function simplepie_get_library() {
+  return drupal_get_path('module', 'simplepie') .'/lib/simplepie.inc';
+}
+
+/**
+ * Enter description here...
+ *
+ * @param $location
+ */
+function simplepie_set_cache_location($location) {
+  variable_set('simplepie_cache_location', $location);
+}
+
+function simplepie_get_cache_location() {
+  return file_directory_path() .'/'. variable_get('simplepie_cache_location', 'cache/simplepie');
+}
+
+function simplepie_require($once = TRUE) {
+  if (defined('SIMPLEPIE_VERSION')) {
+    return;
+  }
+  
+  $library = simplepie_get_library();
+  
+  if ($once) {
+    require_once './'. $library;
+  }
+  else {
+    require './'. $library;
+  }
+}
+
+/**
+ * Enter description here...
+ *
+ * @param $feed_url
+ * @param $cache_location
+ *   Relative to files directory.
+ * @param $cache_duration
+ * @return
+ *   Instance of SimplePie.
+ */
+function simplepie_get($feed_url, $cache_location = 'cache/simplepie', $cache_duration = 1800) {
+  static $simplepie = NULL;
+  
+  simplepie_require();
+  
+  $simplepie = new SimplePie();
+  
+  if ($cache_location) {
+    $simplepie->set_cache_location(file_directory_path() .'/'. $cache_location);
+  }
+  else {
+    $simplepie->set_cache_location(simplepie_get_cache_location());
+  }
+  
+  if ($cache_duration) {
+    $simplepie->set_cache_duration($cache_duration);
+  }
+  
+  $simplepie->set_stupidly_fast(TRUE);
+  $simplepie->set_feed_url($feed_url);
+  $simplepie->init();
+  
+  return $simplepie;
+}

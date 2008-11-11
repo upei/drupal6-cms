@@ -1,0 +1,13 @@
+; $Id: panels_export.info,v 1.3 2008/08/05 00:25:47 merlinofchaos Exp $
+
+name = Panels exporter
+description = Allows exporting multiple panel pages, mini panels and other types at once.
+package = "Panels"
+dependencies[] = panels
+core = 6.x
+; Information added by drupal.org packaging script on 2008-10-12
+version = "6.x-2.0-alpha2"
+core = "6.x"
+project = "panels"
+datestamp = "1223825423"
+

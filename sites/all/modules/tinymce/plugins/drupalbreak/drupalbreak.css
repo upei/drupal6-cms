@@ -1,0 +1,14 @@
+.mce_plugin_drupalbreak_break{
+border:0px;
+border-top:1px dotted #cccccc;
+margin-top:15px;
+display:block;
+background:#ffffff url(images/drupalbreaktext.gif) no-repeat center top;
+}
+.mce_plugin_drupalbreak_pagebreak{
+border:0px;
+border-top:1px dotted #cccccc;
+margin-top:15px;
+display:block;
+background:#ffffff url(images/drupalpagebreaktext.gif) no-repeat center top;
+}

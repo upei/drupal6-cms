@@ -1,0 +1,345 @@
+# Danish translation of Drupal (tinymce.module)
+# Copyright 2006 netbjarne <netbjarne@gmail.com>
+msgid ""
+msgstr ""
+"Project-Id-Version: Danish translation of Drupal (tinymce.module) $Id: da.po,v 1.2 2006/09/16 13:30:43 wulff Exp $\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-09-16 14:07+0100\n"
+"Last-Translator: Morten Wulff <wulff@psyke.org>\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: tinymce.module:17
+#: ;432;0
+msgid "tinymce"
+msgstr "TinyMCE"
+
+#: tinymce.module:30
+msgid "The TinyMCE Javascript HTML WYSIWYG editor."
+msgstr "TinyMCE Javascript HTML WYSIWYG redigering."
+
+#: tinymce.module:116
+msgid "enable rich-text"
+msgstr "aktiver avanceret redigering"
+
+#: tinymce.module:117
+msgid "disable rich-text"
+msgstr "deaktiver avanceret redigering"
+
+#: tinymce.module:161
+msgid "Your current web browser does not support WYSIWYG editing."
+msgstr "Din browser understøtter ikke WYSIWYG redigering."
+
+#: tinymce.module:238
+msgid "TinyMCE rich-text settings"
+msgstr "TinyMCE "
+
+#: tinymce.module:246
+#: ;684
+msgid "Default state"
+msgstr "Standardtilstand"
+
+#: tinymce.module:249
+msgid "Should rich-text editing be enabled or disabled by default in textarea fields?"
+msgstr "Skal avanceret redigering være aktiveret for tekstfelter?"
+
+#: tinymce.module:431
+msgid "administer"
+msgstr "administrer"
+
+#: tinymce.module:433
+msgid "Add new TinyMCE profile"
+msgstr "Tilføj TinyMCE profil"
+
+#: tinymce.module:439
+msgid "Edit tinymce profile"
+msgstr "Rediger TinyMCE profil"
+
+#: tinymce.module:445
+msgid "Deleted profile"
+msgstr "Profil slettet"
+
+#: tinymce.module:449
+#: ;649
+msgid "Create profile"
+msgstr "Opret Profil"
+
+#: tinymce.module:450
+#: ;653
+msgid "Update profile"
+msgstr "Opdater profil"
+
+#: tinymce.module:453
+msgid "Your TinyMCE profile has been updated."
+msgstr "TinyMCE profil opdateret."
+
+#: tinymce.module:453
+msgid "Your TinyMCE profile has been created."
+msgstr "TinyMCE profil oprettet."
+
+#: tinymce.module:462
+msgid "TinyMCE settings"
+msgstr "TinyMCE indstillinger"
+
+#: tinymce.module:466
+msgid "Could not find the TinyMCE engine installed at <strong>%tinymce-directory</strong>. Please <a href=\"http://tinymce.moxiecode.com/\">download TinyMCE</a>, uncompress it and copy the folder into %tinymce-path."
+msgstr "Kan ikke finde TinyMCE i mappen <strong>%tinymce-directory</strong>. <a href=\"http://tinymce.moxiecode.com/\">Hent TinyMCE</a>, udpak den og kopier mappen til %tinymce-path."
+
+#: tinymce.module:641
+msgid "You must <a href=\"%access-control-url\">assign</a> at least one role with the 'access tinymce' permission before creating a profile."
+msgstr "Du skal <a href=\"%access-control-url\">give</a> mindst én rolle tilladelsen 'brug TinyMCE' før du kan oprette en profil."
+
+#: tinymce.module:644
+msgid "You will not be allowed to create a new profile since all user roles have already been assigned profiles. Either remove an existing tinymce profile from at least one role or assign another role the 'access tinymce' permission."
+msgstr "Du kan ikke oprette en ny profil, da alle roller allerede har fået tildelt profiler. Fjern en eksisterende TinyMCE profil fra en rolle, eller giv endnu en rolle tilladelsen 'brug TinyMCE'."
+
+#: tinymce.module:647
+msgid "Not all user roles are shown since they already have tinymce profiles. You must first unassign profiles in order to add them to a new one."
+msgstr "Ikke alle roller vises, da de allerede er tildelt TinyMCE profiler. Fratag en rolles profil, for at tildele en anden rolle profilen."
+
+#: tinymce.module:658
+msgid "Basic setup"
+msgstr "Grundlæggende indstillinger"
+
+#: tinymce.module:665
+msgid "Profile name"
+msgstr "Profilnavn"
+
+#: tinymce.module:669
+msgid "Enter a name for this profile. This name is only visible within the tinymce administration page."
+msgstr "Indtast et profilnavn. Navnet er kun synligt på TinyMCE administrationssiden."
+
+#: tinymce.module:675
+msgid "Roles allowed to use this profile"
+msgstr "Roller der kan benytte denne profil"
+
+#: tinymce.module:678
+msgid "Check at least one role. Only roles with 'access tinymce' permission will be shown here."
+msgstr "Vælg mindst én rolle. Kun roller med tilladelsen 'brug TinyMCE' vises her."
+
+#: tinymce.module:687
+msgid "Default editor state for users in this profile. Users will be able to override this state if the next option is enabled."
+msgstr "Standard TinyMCE tilstand for brugere med denne profil. Brugere har mulighed for at ændre denne tilstand, hvis næste valgmulighed er slået til."
+
+#: tinymce.module:692
+msgid "Allow users to choose default"
+msgstr "Tillad bruger at vælge standardtilstand"
+
+#: tinymce.module:695
+msgid "If allowed, users will be able to choose their own TinyMCE default state by visiting their profile page."
+msgstr "Hvis tilladt, kan brugere selv vælge TinyMCE's standardtilstand på deres profilside."
+
+#: tinymce.module:700
+msgid "Show disable/enable rich text editor toggle"
+msgstr "Vis omskifter for avanceret redigering"
+
+#: tinymce.module:703
+msgid "Whether or not to show the disable/enable rich text editor toggle below the textarea. If false, editor defaults to the global default or user default (see above)."
+msgstr "Hvorvidt omskifteren for avanceret redigering skal vises under tekstfelter. Hvis slået fra, vil TinyMCE benytte sig af global eller brugervalgt indstilling (se ovenfor)."
+
+#: tinymce.module:716
+msgid "Language"
+msgstr "Sprog"
+
+#: tinymce.module:719
+msgid "The language for the TinyMCE interface. Language codes based on the <a href=\"http://www.loc.gov/standards/iso639-2/englangn.html\">ISO-639-2</a> format."
+msgstr "Sproget der anvendes i TinyMCE's brugerflade. Sprogkoder er baseret på <a href=\"http://www.loc.gov/standards/iso639-2/englangn.html\">ISO-639-2</a> format."
+
+#: tinymce.module:724
+msgid "Safari browser warning"
+msgstr "Safari browser advarsel."
+
+#: tinymce.module:727
+msgid "TinyMCE support for the Safari web browser is experimental and a warning message is displayed when that browser is detected. You can disable this message here."
+msgstr "TinyMCE's understøttelse af Safari browseren er eksperimentel, og der vises en advarsel hvis Safari browseren benyttes. Du kan deaktivere denne advarsel her."
+
+#: tinymce.module:732
+msgid "Visibility"
+msgstr "Synlighed"
+
+#: tinymce.module:752
+msgid "Show on every page except the listed pages."
+msgstr "Vis på alle sider undtaget de angivne."
+
+#: tinymce.module:752
+msgid "Show on only the listed pages."
+msgstr "Vis kun på de angivne sider."
+
+#: tinymce.module:753
+msgid "Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '%blog' for the blog page and %blog-wildcard for every personal blog. %front is the front page."
+msgstr "."
+
+#: tinymce.module:756
+msgid "Show if the following PHP code returns <code>TRUE</code> (PHP-mode, experts only)."
+msgstr "Vis hvis følgende PHP kode returnerer <code>SAND</code> (PHP tilstand, kun for eksperter)."
+
+#: tinymce.module:757
+msgid "If the PHP-mode is chosen, enter PHP code between %php. Note that executing incorrect PHP-code can break your Drupal site."
+msgstr "Hvis PHP tilstanden er valgt, kan du indtaste PHP kode mellem %php. Bemærk at ugyldig PHP kode kan få dit Drupal-netsted til at holde op med at virke."
+
+#: tinymce.module:761
+msgid "Show tinymce on specific pages"
+msgstr "Vis TinyMCE på specifikke sider"
+
+#: tinymce.module:767
+msgid "Pages"
+msgstr "Sider"
+
+#: tinymce.module:775
+msgid "Buttons and plugins"
+msgstr "Knapper og udvidelsesmoduler"
+
+#: tinymce.module:827
+msgid "Editor appearance"
+msgstr "TinyMCE's fremtoning"
+
+#: tinymce.module:834
+msgid "Toolbar location"
+msgstr "Værktøjslinjens placering"
+
+#: tinymce.module:837
+msgid "Show toolbar at the top or bottom of the editor area?"
+msgstr "Vis værktøjslinjen over eller under tekstområdet?"
+
+#: tinymce.module:842
+msgid "Toolbar alignment"
+msgstr "Værktøjslinjens justering"
+
+#: tinymce.module:845
+msgid "Align tool icons left, center, or right within the toolbar."
+msgstr "Placer knapper til venstre, i midten eller til højre i værktøjslinjen."
+
+#: tinymce.module:850
+msgid "Path location"
+msgstr "Placering af sti"
+
+#: tinymce.module:853
+msgid "Path to html elements (i.e. \"body>table>tr>td\"). Show at top, bottom, or not at all."
+msgstr "Sti til HTML elementer (f.eks. \"body>table>tr>td\"). Vis for oven, for neden, eller slet ikke."
+
+#: tinymce.module:858
+msgid "Enable resizing button"
+msgstr "Aktiver knap til ændring af størrelse"
+
+#: tinymce.module:861
+msgid " This option gives you the ability to enable/disable the resizing button. If enabled the <strong>Path location toolbar</strong> must be set to \"top\" or \"bottom\" in order to display the resize icon."
+msgstr "Mulighed for at aktivere knap til ændring af størrelse. Hvis aktiveret, skal <strong>Placering af sti</strong> være  \"for oven\" eller \"for neden\"."
+
+#: tinymce.module:866
+msgid "Block formats"
+msgstr "Blokformater"
+
+#: tinymce.module:870
+msgid "Comma separated list of HTML block formats. You can only remove elements, not add."
+msgstr "Komma separeret liste af HTML blokformater. Du kan kun fjerne elementer, ikke tilføje."
+
+#: tinymce.module:875
+msgid "Cleanup and output"
+msgstr "Oprydning og uddata"
+
+#: tinymce.module:882
+msgid "Verify HTML"
+msgstr "Kontroller HTML"
+
+#: tinymce.module:885
+msgid "Should the HTML contents be verified or not? Verifying will strip &lt;head&gt tags, so choose false if you will be editing full page HTML."
+msgstr "Kontrol af HTML fjerner &lt;head&gt mærker, så deaktiver HTML kontrol, hvis du redigerer hele HTML sider."
+
+#: tinymce.module:890
+msgid "Preformatted"
+msgstr "Preformatteret"
+
+#: tinymce.module:893
+msgid "If this option is set to true, the editor will insert TAB characters on tab and preserve other whitespace characters just like a PRE HTML element does."
+msgstr "Hvis aktiveret, vil TinyMCE indsætte tabulator tegn og bevare andre mellemrum, som PRE HTML element gør det."
+
+#: tinymce.module:898
+msgid "Convert &lt;font&gt; tags to styles"
+msgstr "Konverter &lt;font&gt; mærker til typografier"
+
+#: tinymce.module:901
+msgid "If you set this option to true, font size, font family, font color and font background color will be replaced by inline styles."
+msgstr "Hvis aktiveret, vil font size, font family, font color og font background color blive erstattet med indlejrede typografier."
+
+#: tinymce.module:906
+msgid "CSS"
+msgstr "CSS"
+
+#: tinymce.module:913
+msgid "Editor CSS"
+msgstr "TinyMCE CSS"
+
+#: tinymce.module:916
+msgid "Defines the CSS to be used in the editor area.<br />use theme css - load style.css from current site theme.<br/>define css - enter path for css file below.<br />tinyMCE default - uses default CSS from editor."
+msgstr "Afgør hvilken CSS der benyttes i TinyMCE.<br />Brug tema CSS - hent style.css fra det nuværende tema.<br/>Definer CSS - indtast stien til css filen herunder.<br />TinyMCE standard - bruger standard CSS fra editoren."
+
+#: tinymce.module:921
+msgid "CSS path"
+msgstr "CSS sti"
+
+#: tinymce.module:925
+msgid "Enter path to CSS file (example: \"css/editor.css\").<br />Macros: %h (host name: http://www.example.com/), %t (path to theme: theme/yourtheme/)<br />Be sure to select \"define css\" above."
+msgstr "Indtast stien til CSS filen (f.eks. \"css/editor.css\").<br />Makroer: %h (værtsnavn: http://www.example.com/), %t (sti til tema: theme/yourtheme/)<br />Husk at vælge \"definer css\" herover."
+
+#: tinymce.module:930
+msgid "CSS classes"
+msgstr "CSS klasser"
+
+#: tinymce.module:934
+msgid "Adds CSS classes to the \"styles\" droplist. Format is: &lt;title&gt;=&lt;class&gt;;<br/> Example: Header 1=header1;Header 2=header2;Header 3=header3 (note: no trailing ';')<br />Leave blank to automatically import list of CSS classes from style sheet."
+msgstr "Tilføj CSS klasser til \"typografi\" rullelisten. Formatet er: &lt;navn&gt;=&lt;klasse&gt;;<br/>F.eks. Overskrift 1=overskrift1;Overskrift 2=overskrift2;Overskrift 3=overskrift3 (bemærk: intet afsluttende ';')<br />Lad feltet være tomt for automatisk at importerer CSS klasserne fra stilarket."
+
+#: tinymce.module:1008
+msgid "Profile"
+msgstr "Profil"
+
+#: tinymce.module:1008
+msgid "Roles"
+msgstr "Roller"
+
+#: tinymce.module:1008
+msgid "Operations"
+msgstr "Handlinger"
+
+#: tinymce.module:1010
+msgid "edit"
+msgstr "rediger"
+
+#: tinymce.module:1010
+msgid "delete"
+msgstr "slet"
+
+#: tinymce.module:1013
+msgid "<p><a href=\"%create-profile-url\">Create new profile</a></p>"
+msgstr "<p><a href=\"%create-profile-url\">Opret profil</a></p>"
+
+#: tinymce.module:1016
+msgid "No profiles found. Click here to <a href=\"%create-profile-url\">create a new profile</a>."
+msgstr "Ingen profiler fundet. <a href=\"%create-profile-url\">Opret profil</a>."
+
+#: tinymce.module:1047
+msgid "You must give a profile name."
+msgstr "Du skal angive et profilnavn."
+
+#: tinymce.module:1051
+msgid "You must select at least one role."
+msgstr "Du skal vælge mindst én rolle."
+
+#: /admin/settings/tinymce
+msgid ""
+"<p style=\"font-size:x-small\">$Revision: 1.2 $ $Date: 2006/09/16 13:30:43 $</p><p>TinyMCE adds what-you-see-is-what-you-get (WYSIWYG) html editing to textareas. This editor can be enabled/disabled without reloading the page by clicking a link below each textarea.</p>\n"
+"                <p>Profiles can be defined based on user roles. A TinyMCE profile can define which pages receive this TinyMCE capability, what buttons or themes are enabled for the editor, how the editor is displayed, and a few other editor functions.</p>\n"
+"                <p>Lastly, only users with the <code>access tinymce</code> <a href=\"%url\">permission</a> will be able to use TinyMCE.</p>"
+msgstr "<p>TinyMCE giver mulighed for avanceret \"what-you-see-is-what-you-get\" (WYSIWYG) HTML redigering i tekstområder. TinyMCE kan aktiveres/deaktiveres uden at en side skal hentes igen, ved at klikke på henvisningen \"aktiver avanceret redigering\" under tekstområder.</p><p>Profiler kan knyttes til brugerroller. En TinyMCE profil kan definere hvilke  sider det skal være muligt at benytte TinyMCE på, hvilke knapper der skal være til rådighed og andre indstillinger.</p><p>Kun brugere med <a href=\"%url\">tilladelsen</a> 'brug TinyMCE'  kan bruge TinyMCE.</p>"
+
+#: /admin/access
+msgid "access tinymce"
+msgstr "tilgå TinyMCE"
+
+#: /admin/access
+msgid "administer tinymce"
+msgstr "administrer TinyMCE"
+
