@@ -1,5 +1,5 @@
 <?php
-// $Id: content.install,v 1.85.2.29 2008/10/18 12:44:37 yched Exp $
+// $Id: content.install,v 1.85.2.30 2008/11/07 16:24:58 yched Exp $
 
 function content_requirements($phase) {
   $requirements = array();
@@ -94,6 +94,10 @@ function content_uninstall() {
   // The variable is used during the uninstall process,
   // so we removed it at the very end.
   variable_del('content_schema_version');
+  // Remove extra weights.
+  foreach (node_get_types('names') as $type_name) {
+    variable_del("content_extra_weights_$type_name");
+  }
 }
 
 /**

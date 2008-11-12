@@ -1,5 +1,5 @@
 <?php
-// $Id: content_copy.module,v 1.27.2.18 2008/11/05 19:40:19 yched Exp $
+// $Id: content_copy.module,v 1.27.2.19 2008/11/07 14:37:50 yched Exp $
 
 /**
  *  @file
@@ -75,7 +75,7 @@ function content_copy_export_form(&$form_state) {
   $form_values = isset($form_state['values']) ? $form_state['values'] : array();
   $step = isset($form_state['storage']['step']) ? $form_state['storage']['step'] + 1 : 1;
 
-  $fields = array();
+  $exportable_fields = array();
   $groups = array();
 
   $type_name = isset($form_values['type_name']) ? $form_values['type_name'] : '';
@@ -89,7 +89,7 @@ function content_copy_export_form(&$form_state) {
 
   // If a content type has been selected and there are no fields or groups to select,
   // jump straight to export.
-  if ($step == 2 && !($groups) && !($fields)) {
+  if ($step == 2 && !($groups) && !($exportable_fields)) {
     $step = 3;
   }
 

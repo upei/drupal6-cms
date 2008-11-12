@@ -1,0 +1,8 @@
+; $Id: campus_emergency.info 27 2008-09-24 13:53:09Z yxh $
+;
+
+name = Campus Emergency
+description = "Send emergency messages on multisite system"
+package = "Campus Manager"
+version = 0.5
+core = 6.x

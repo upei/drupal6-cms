@@ -1,5 +1,5 @@
 <?php
-// $Id: content.token.inc,v 1.5.2.6 2008/10/29 19:29:27 yched Exp $
+// $Id: content.token.inc,v 1.5.2.7 2008/11/10 15:56:35 yched Exp $
 
 /**
  * @file
@@ -26,7 +26,8 @@ function content_token_values($type, $object = NULL) {
   if ($type == 'node') {
     $node = $object;
     // Prevent against invalid 'nodes' built by broken 3rd party code.
-    if (isset($node->type) && ($type = content_types($node->type))) {
+    if (isset($node->type)) {
+      $type = content_types($node->type);
       $node->build_mode = 'token';
       $node->content = array();
       content_view($node);

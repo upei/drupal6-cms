@@ -1,5 +1,5 @@
 <?php
-// $Id: content_handler_field.inc,v 1.1.2.9 2008/11/01 23:51:52 yched Exp $
+// $Id: content_handler_field.inc,v 1.1.2.10 2008/11/11 00:26:53 yched Exp $
 
 /**
  * @file
@@ -149,7 +149,7 @@ class content_handler_field extends views_handler_field_node {
     $db_info = content_database_info($field);
 
     // Build a pseudo-node from the retrieved values.
-    $node = $values;
+    $node = drupal_clone($values);
     // TODO : is nid always correct ?
     // content_format and formatters will need a 'type'.
     $node->type = $values->{$this->aliases['type']};

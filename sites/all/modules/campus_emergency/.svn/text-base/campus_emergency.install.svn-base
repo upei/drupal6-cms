@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * $Id$
+ *
+ * CEM installation
+ */
+
+function campus_emergency_install() {
+	switch ($GLOBALS['db_type']) {
+		case 'mysql':
+		case 'mysqli':
+			$sql = "CREATE TABLE IF NOT EXISTS {campus_emergency} (
+				vid INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+				nid INTEGER(10) UNSIGNED  NOT NULL DEFAULT 0,
+				level INTEGER(3) UNSIGNED NOT NULL DEFAULT 2,
+				color CHAR(10)  NOT NULL DEFAULT '#ffffff',
+				backgroundColor CHAR(10) NOT NULL DEFAULT '#ff0000',
+				onCampus INTEGER(1) UNSIGNED NOT NULL DEFAULT 0,
+				PRIMARY KEY (vid, nid),
+				KEY `campus_emergency_nid_index` (nid)
+				)";
+			db_query($sql);
+			drupal_set_message(t('Campus Emergency table has been created.'));
+			break;
+	}
+}
+
+function campus_emergency_uninstall() {
+	db_query('DROP TABLE IF EXISTS {campus_emergency}');
+	drupal_set_message(t('Campus Emergency table has been removed.'));
+}

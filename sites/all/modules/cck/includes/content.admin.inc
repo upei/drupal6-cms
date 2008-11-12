@@ -1,5 +1,5 @@
 <?php
-// $Id: content.admin.inc,v 1.181.2.58 2008/11/01 14:21:34 yched Exp $
+// $Id: content.admin.inc,v 1.181.2.59 2008/11/10 15:07:10 yched Exp $
 
 /**
  * @file
@@ -1256,6 +1256,8 @@ function content_field_edit_form_validate($form, &$form_state) {
       $field['required'] = FALSE;
       $field_function = $field_type['module'] .'_field';
 
+      $errors_before = form_get_errors();
+
       // Widget now does its own validation, should be no need
       // to add anything for widget validation here.
       if (function_exists($field_function)) {
@@ -1263,7 +1265,8 @@ function content_field_edit_form_validate($form, &$form_state) {
       }
       // The field validation routine won't set an error on the right field,
       // so set it here.
-      if (form_get_errors()) {
+      $errors_after = form_get_errors();
+      if (count($errors_after) > count($errors_before)) {
         if (trim($form_values['default_value_php'])) {
           form_set_error('default_value_php', t("The PHP code for 'default value' returned @value, which is invalid.", array(
             '@value' => print_r($default_value, TRUE))));

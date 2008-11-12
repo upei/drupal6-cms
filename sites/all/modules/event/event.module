@@ -1,5 +1,5 @@
 <?php
-// $Id: event.module,v 1.388 2008/11/09 01:06:01 killes Exp $ 
+// $Id: event.module,v 1.389 2008/11/11 12:05:26 killes Exp $ 
 
 define('EVENT_API', '5.2');
 define('EVENT_PATH', drupal_get_path('module', 'event'));
@@ -1311,7 +1311,7 @@ function event_where($type = 'start') {
  * @param $type 'INNER' OR 'LEFT', default 'INNER'
  */
 function event_join($prefix = 'n', $type = 'INNER') {
-  return "INNER JOIN {event} e ON $prefix.nid = e.nid INNER JOIN {event_timezones} tz ON e.timezone = tz.timezone";
+  return "$type JOIN {event} e ON $prefix.nid = e.nid INNER JOIN {event_timezones} tz ON e.timezone = tz.timezone";
 }
 
 /**

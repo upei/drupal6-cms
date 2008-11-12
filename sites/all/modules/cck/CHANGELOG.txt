@@ -1,4 +1,19 @@
-//$Id: CHANGELOG.txt,v 1.1.6.261 2008/11/05 19:40:19 yched Exp $
+//$Id: CHANGELOG.txt,v 1.1.6.269 2008/11/12 00:00:04 yched Exp $
+
+CCK 6.x-2.1
+===========
+
+This release fixes two critical issues:
+- #331293 by Timo.Kissing - Content copy: no fields proposed for export (#320632 followup).
+- #331033 Views integration: Fix fatal error in content_handler_field.inc in some circumstances.
+
+Other fixes:
+- #331179 Userreference: 'reverse link' checkbox stayed unchecked.
+- Uninstall forgot to remove some variables.
+- #331794 Fix false positives for "The default value is invalid" error message.
+- #331995 Fix 'invalid argument for foreach' warning on nodes with inexistent type.
+- #331033 Views integration: Fix fatal error in content_handler_field.inc in some circumstances.
+- Views integration: make sure our own render_link doesn't output empty links (see #332679).
 
 CCK 6.x-2.0
 ===========

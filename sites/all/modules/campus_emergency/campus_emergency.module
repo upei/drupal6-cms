@@ -1,0 +1,607 @@
+<?php
+
+/**
+ * $Id: campus_emergency.module 57 2008-11-07 22:47:27Z yxh $
+ *
+ * Campus Emergency Module
+ *
+ * This module is mainly for UPEI Level-2 and Level-3 emergency
+ * messages.
+ *
+ * Definitions:
+ *
+ * LEVEL 2 - MAJOR EVENT
+ * @ Fire limited to one building
+ * @ Civil disturbance
+ * @ Widespread power outage or communication system failure
+ * @ Serious crimes (such as assaults, arson)
+ *
+ * LEVEL 3 - CRISIS
+ * Examples of a Level 3 emegency include, but not limited to
+ * @ Major weather event
+ * @ Major fire in more than one building
+ * @ Shooting(s) on campus
+ * @ Major public health crisis
+ *
+ * This module provides an emergency information provider and
+ * an emergency information receiver in order to deliver emergency
+ * information. On a multi-site drupal system, CEM needs to be
+ * installed to ONE site as the provider, and installed on all
+ * (other) sites as receivers.
+ *
+ * CEM provides two methods to deliver information. Both methods
+ * need to set the provider endpoint, which is provided by the
+ * CEM provider. (Default location: http://upei.ca/emergency/cem/endpoint)
+ *
+ * i) JavaScript method
+ *
+ * On receiver sites, CEM will install a small portion of JavaScript
+ * and a DIV tag at the end of every page. When a user visits the
+ * receiver site for the first time, a cookie will be recorded
+ * for the CURRENT session, such that the user will not be notified
+ * a second time for a certain amount of time. This behaviour can
+ * also be enabled or disabled due to different levels of emergency.
+ * When the user's browser is closed, the cookie is invalid so next
+ * user on a shared computer can also see the emergency message.
+ *
+ * Since this method is AJAX-based, receivers will NOT be scraped
+ * when an emergency message is sent.
+ *
+ * ii) Non-JavaScript method
+ *
+ * On receiver sites, if not JavaScript-enabled, CEM will display a
+ * static block on the page (which is by default on top of the page,
+ * but can be changed). The content of this block will be fetched
+ * from the endpoint. This information will be displayed immediately
+ * after the page(s) are SCRAPED.
+ *
+ * This block is enabled by default, and encapsulated in a NOSCRIPT
+ * tag thus not to show unless Javascript is disabled in user's
+ * browser.
+ *
+ * This module depends on the latest version of jquery.
+ *
+ */
+
+class CampusEmergencyProvider {
+  
+  static $PROVIDER_PERM = 'Campus Emergency Provider';
+  
+  /** Permissions */
+  function permissions() {
+    $permissions = array(
+        CampusEmergencyProvider::$PROVIDER_PERM,
+      );
+    return $permissions;
+  }
+  
+  function menu($may_cache) {
+    $items = array();
+    
+    if ($may_cache) {
+      $items[] = array(
+        'path' => 'cem/endpoint/json',
+        'title' => t('Campus Emergency JSON Endpoint'),
+        'callback' => '__campus_emergency_provider_json_endpoint', // workaround for Drupal 5
+        'page callback' => array($this, 'endpoint'), // for drupal 6
+        'access' => user_access('access content'),
+        'access arguments' => array('access content'), // for drupal 6
+        'type' => MENU_CALLBACK,
+      );
+      
+      $items[] = array(
+        'path' => 'cem/endpoint/xml',
+        'title' => t('Campus Emergency XML Endpoint'),
+        'callback' => '__campus_emergency_provider_xml_endpoint', // workaround for Drupal 5
+        'page callback' => array($this, 'endpoint'), // for drupal 6
+        'access' => user_access('access content'),
+        'access arguments' => array('access content'), // for drupal 6
+        'type' => MENU_CALLBACK,
+        );
+      
+      $items[] = array(
+        'path' => 'cem/unpublish-all',
+        'title' => t('IMMEDIATELY STOP EMERGENCY'),
+        'access' => user_access(CampusEmergencyProvider::$PROVIDER_PERM),
+        'access arguments' => array(CampusEmergencyProvider::$PROVIDER_PERM), // for drupal 6
+        'type' => MENU_NORMAL_ITEM,
+        'callback' => '__campus_emergency_provider_unpublish_all', // workaround for Drupal 5
+        'page callback' => array($this, 'unpublishAll'),
+        );
+    }
+    
+    return $items;
+  }
+  
+  function block($op, $delta) {
+    $block = array();
+    
+    switch ($op) {
+      case 'list':
+        // Campus Emergency Message block
+        $block[0] = array(
+          'info' => t('Campus Emergency Message'),
+          'enabled' => 1,
+          'region' => 'content_top',
+          'weight' => -9
+          );
+        break;
+      case 'configure':
+        break;
+      case 'view':
+        $block = array();
+        switch ($delta) {
+          case 0:
+            $node_array = CampusEmergencyNode::listRecentMessages();
+            if (count($node_array) > 0) {
+              $node = $node_array[0];
+              $block['subject'] = check_plain($node->title);
+              $block['content'] = format_date($node->changed, 'large') . $node->body;
+            }
+          default:
+            break;
+        }
+        return $block;
+        break;
+      case 'save':
+        break;
+    }
+    
+    return $block;
+  }
+  
+  function jsonEndpoint() {
+    $ret = array(
+      'in-emergency' => false
+      );
+      
+    // we're going to print out JSON information
+    header('Content-Type: text/javascript');
+    header('X-Provider: UPEI Campus Emergency Message');
+    header('Content-Disposition: inline; filename="cem_endpoint.json"');
+    
+    // list messages
+    $messages = array();
+    $node_array = CampusEmergencyNode::listRecentMessages();
+    
+    // remote address
+    $remote_addr = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+    
+    // get the node array
+    foreach ($node_array as $node) {
+      
+      if (!$node->onCampus || ($node->onCampus && preg_match("/^137\.149\./", $remote_addr))) {
+        
+        $msg = new stdclass;
+        $msg->id = 'cem-' . strval($node->nid);
+        $msg->title = check_plain($node->title);
+        $msg->lastUpdate = intval($node->changed);
+        $msg->level = intval($node->level);
+      if (strpos($node->body, '<!--break-->') === false) {
+         $msg->body = $node->body;
+      }
+      else {
+         $msg->body = node_teaser($node->body, $node->format);
+      }
+        $msg->onCampus = $node->onCampus;
+        
+        $messages[] = $msg;
+      }
+    }
+    // change emergency to true if there is any published message
+    if (count($messages)) {
+      $ret['in-emergency'] = true;
+      $ret['messages'] = $messages;
+    }
+    
+    print drupal_to_js($ret);
+  }
+  
+  function xmlEndpoint() {
+      
+    // we're going to print out XML information
+    header('Content-Type: text/xml; charset=UTF-8');
+    header('X-Provider: UPEI Campus Emergency Message');
+    header('Content-Disposition: inline; filename="cem_endpoint.xml"');
+    
+    // list messages
+    $messages = array();
+    $node_array = CampusEmergencyNode::listRecentMessages();
+    
+    // remote address
+    $remote_addr = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+    
+    // get the node array
+    foreach ($node_array as $node) {
+      
+      if (!$node->onCampus || ($node->onCampus && preg_match("/^137\.149\./", $remote_addr))) {
+        
+        $msg = new stdclass();
+        $msg->id = 'cem-' . strval($node->nid);
+        $msg->title = check_plain($node->title);
+        $msg->encoded_title = htmlentities(check_plain($node->title));
+        $msg->level = $node->level;
+      if (strpos($node->body, '<!--break-->') === false) {
+         $msg->body = $node->body;
+      }
+      else {
+         $msg->body = node_teaser($node->body, $node->format);
+      }
+        $msg->onCampus = $node->onCampus;
+        $messages[] = $msg;
+      }
+    }
+    // change emergency to true if there is any published message
+    print <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+
+<feed title="UPEI Campus Emergency Messages" description="UPEI Campus Emergency Feed"
+    xmlns:em="http://upei.ca/xml/emergency">
+  
+EOF;
+    if (count($messages)) {
+      print "<em:in-emergency>true</em:in-emergency>\n";
+      foreach ($messages as $message) {
+        print <<<EOF
+  <node id="{$message->id}" title="{$message->encoded_title}">
+    <data>
+      <id>{$message->id}</id>
+      <title><![CDATA[{$message->title}]]></title>
+      <level>{$message->level}</level>
+      <body><![CDATA[{$message->body}]]></body>
+      <onCampus>{$message->onCampus}</onCampus>
+    </data>
+  </node>
+EOF;
+      }
+    }
+    else {
+      print "<em:in-emergency>false</em:in-emergency>\n";
+    }
+    // end
+    print "</feed>\n";
+    
+  }
+  
+  function unpublishAll() {
+    CampusEmergencyNode::unpublishAllMessages();
+    return '<b>All Emergency Messages have been unpublished.</b>';
+  }
+}
+
+function __campus_emergency_provider_json_endpoint() {
+  $provider = new CampusEmergencyProvider();
+  $provider->jsonEndpoint();
+}
+
+function __campus_emergency_provider_xml_endpoint() {
+  $provider = new CampusEmergencyProvider();
+  $provider->xmlEndpoint();
+}
+
+function __campus_emergency_provider_unpublish_all() {
+  $provider = new CampusEmergencyProvider();
+  return $provider->unpublishAll();
+}
+
+class CampusEmergencyReceiver {
+  
+  static $RECEIVER_PERM = 'Campus Emergency Receiver';
+  
+  /** Permissions */
+  function permissions() {
+    return array(CampusEmergencyReceiver::$RECEIVER_PERM);
+  }
+  
+  function menu() {
+    return array();
+  }
+  
+  function block($op, $delta) {
+    return array();
+  }
+  
+  function attachCSS() {
+    drupal_add_css("sites/all/modules/campus_emergency/campus_emergency.css");
+  }
+  
+  function attachJavascript() {
+    drupal_add_js("misc/jquery-ui.js", 'module', 'footer');
+    drupal_add_js("sites/all/modules/campus_emergency/jquery.domec.js", 'module', 'header', true);
+    drupal_add_js("sites/all/modules/campus_emergency/jquery.timers.js", 'module', 'header', true);
+    drupal_add_js("sites/all/modules/campus_emergency/jquery.cookie.js", 'module', 'header', true);
+    drupal_add_js("sites/all/modules/campus_emergency/campus_emergency_receiver.js", 'module', 'header', true);
+  }
+  
+  function footer() {
+    return <<<EOF
+    <div id="campus_emergency"></div>
+EOF;
+  }
+}
+
+class CampusEmergencyNode {
+  
+  var $node;
+  
+  static $TYPE = 'campus_emergency';
+  
+  function CampusEmergencyNode(&$node) {
+    $this->node =& $node;
+  }
+  
+  /**
+   * List recent messages in a reverse order
+   */
+  static function &listRecentMessages($limit=1) {
+    // select the latest message(s)
+    $sql = "SELECT nid FROM {node} WHERE type='%s' AND status=1 ORDER BY nid DESC";
+    $result = db_query($sql, CampusEmergencyNode::$TYPE);
+    // build the node array
+    $node_array = array();
+    while ($node_id = db_fetch_object($result)) {
+      $node_array[] = node_load($node_id->nid);
+    }
+    // unset the result to save memory
+    unset($result);
+    
+    return $node_array;
+  }
+  
+  // this is the last resort to retract from STUPIDITY
+  static function unpublishAllMessages() {
+    $sql = "UPDATE {node} SET status=0 WHERE type='%s' AND status=1";
+    db_query($sql, CampusEmergencyNode::$TYPE);
+  }
+  
+  function form() {
+
+    $form = array();
+    
+    // we need to figure out the emergency message's title
+    $form['title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#required' => true,
+      '#default_value' => $this->node->title,
+      '#size' => 50,
+      '#weight' => -9
+      );
+    
+    // we need to figure out the content of the emergency message.
+    $form['body_filter']['body'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Message'),
+      '#default_value' => $this->node->body,
+      '#rows' => 12,
+      '#cols' => 30,
+      '#required' => true, // we need to specify the emergency message text.
+                 // it makes no sense to send out an EMERGENCY message without content.
+      '#weight' => 0
+      );
+    
+    $form['body_filter']['filter'] = filter_form($this->node->format);
+
+    // this must go in. so we can set the campus_emergency node type.
+    if ($this->node->type == 'campus_emergency') {
+      $form['level'] = array(
+        '#type' => 'select',
+        '#title' => t('Emergency Level'),
+        '#default_value' => $this->node->level,
+        '#options' => array(
+          2 => t('LEVEL 2 - MAJOR EVENT'),
+          3 => t('LEVEL 3 - CRISIS')
+          ),
+        '#description' => t('For emergency levels, please consult <a href="http://upei.ca/emergency">http://upei.ca/emergency</a>.'),
+        '#weight' => -5
+        );
+      
+      $form['onCampus'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show ONLY on campus'),
+        '#default_value' => $this->node->onCampus,
+        '#description' => t('If enabled, this message will only be delivered to campus users.'),
+        '#weight' => -3,
+        );
+      
+      $form['published'] = array(
+        '#type' => 'select',
+        '#title' => t('PUBLISHED'),
+        '#default_value' => $this->node->status,
+        '#options' => array(
+          0 => t('NOT published'),
+          1 => t('Published'),
+          ),
+        '#description' => t('If set published, the message will be IMMEDIATELY delivered.'),
+        '#weight' => -4,
+        );
+        
+      // $form['color'] = array(
+      //  '#type' => 'select',
+      //  '#title' => t('Foreground Color'),
+      //  '#options' => array(
+      //    '#ffffff' => 'White',
+      //    '#000000' => 'Black',
+      //    '#ff0000' => 'Red',
+      //    ),
+      //  '#description' => t(''),
+      //  '#weight' => -4,
+      //  );
+      // 
+      //  $form['backgroundColor'] = array(
+      //    '#type' => 'select',
+      //    '#title' => t('Background Color'),
+      //    '#options' => array(
+      //      '#ff0000' => 'Red',
+      //      '#ffffff' => 'White',
+      //      '#000000' => 'Black',
+      //      ),
+      //    '#description' => t(''),
+      //    '#weight' => -4,
+      //    );
+    }
+    
+    return $form;
+  }
+  
+  function insert() {
+    switch ($this->node->type) {
+      case CampusEmergencyNode::$TYPE:
+        $this->node->status = $this->node->published;
+        db_query("INSERT INTO {campus_emergency} (vid, nid, level, color, backgroundColor, onCampus) VALUES (%d, %d, %d, '%s', '%s', %d)",
+            $this->node->vid, $this->node->nid, $this->node->level, $this->node->color, $this->node->backgroundColor, $this->node->onCampus);
+        db_query("UPDATE {node} SET status=%d WHERE vid=%d", $this->node->published, $this->node->vid);
+        break;
+    }
+  }
+  
+  function access($op) {
+    if ($op == 'create' || $op == 'update' || $op == 'delete' || $op == 'view') {
+      return user_access(CampusEmergencyProvider::$PROVIDER_PERM);
+    }
+  }
+  
+  function delete() {
+    switch ($this->node->type) {
+      case CampusEmergencyNode::$TYPE:
+        db_query('DELETE FROM {campus_emergency} WHERE nid=%d', $this->node->nid);
+        break;
+    }
+  }
+  
+  function load() {
+    switch ($this->node->type) {
+      case CampusEmergencyNode::$TYPE:
+        $additions = db_fetch_object(
+            db_query('SELECT level, color, backgroundColor, onCampus FROM {campus_emergency} WHERE vid=%d', $this->node->vid)
+          );
+        $additions->published = $this->node->status;
+        break;
+    }
+    return $additions;
+  }
+  
+  function nodeapi($op, $teaser, $page) {
+    switch ($this->node->type) {
+      case CampusEmergencyNode::$TYPE:
+        switch ($op) {
+          case 'delete revision':
+            db_query('DELETE FROM {campus_emergency} WHERE vid=%d', $this->node->vid);
+            break;
+          default:
+            break;
+        }
+        break;
+    }
+  }
+  
+  function update() {
+    switch ($this->node->type) {
+      case CampusEmergencyNode::$TYPE:
+        // add a new revision
+        if ($this->node->revision) {
+          $this->insert();
+        }
+        else {
+          db_query("UPDATE {campus_emergency} SET level=%d, color='%s', backgroundColor='%s', onCampus=%d WHERE vid=%d",
+              $this->node->level, $this->node->color, $this->node->backgroundColor, $this->node->onCampus, $this->node->vid);
+          db_query("UPDATE {node} SET status=%d WHERE vid=%d", $this->node->published, $this->node->vid);
+        }
+        break;
+    }
+  }
+  
+  function &view($teaser, $page) {
+    $this->node =& node_prepare($this->node, $teaser);
+    return $this->node;
+  }
+
+}
+
+/**
+ * Drupal Module Hooks
+ */
+function campus_emergency_perm() {
+  $provider = new CampusEmergencyProvider();
+  $receiver = new CampusEmergencyReceiver();
+  return array_merge($provider->permissions(), $receiver->permissions());
+}
+
+function campus_emergency_menu() {
+  $provider = new CampusEmergencyProvider();
+  $receiver = new CampusEmergencyReceiver();
+  return array_merge($provider->menu($may_cache), $receiver->menu($may_cache));
+}
+
+function campus_emergency_block($op='list', $delta=0) {
+  $provider = new CampusEmergencyProvider();
+  $receiver = new CampusEmergencyReceiver();
+  return array_merge($provider->block($op, $delta), $receiver->block($op, $delta));
+}
+
+/**
+ * Drupal Node hooks
+ */
+function campus_emergency_node_info() {
+  return array(
+    'campus_emergency' => array(
+      'name' => t('Campus Emergency Message'),
+      'module' => 'campus_emergency',
+      'description' => t('Multi-site Campus Emergency Message'),
+      )
+    );
+}
+
+function campus_emergency_form(&$node) {
+  $emergency_node = new CampusEmergencyNode($node);
+  return $emergency_node->form();
+}
+
+function campus_emergency_insert(&$node) {
+  $emergency_node = new CampusEmergencyNode($node);
+  $emergency_node->insert();
+}
+
+function campus_emergency_access($op, &$node) {
+  $emergency_node = new CampusEmergencyNode($node);
+  return $emergency_node->access($op);
+}
+
+function campus_emergency_delete(&$node) {
+  $emergency_node = new CampusEmergencyNode($node);
+  $emergency_node->delete();
+}
+
+function campus_emergency_load(&$node) {
+  $emergency_node = new CampusEmergencyNode($node);
+  return $emergency_node->load();
+}
+
+function campus_emergency_nodeapi(&$node, $op, $teaser, $page) {
+  $emergency_node = new CampusEmergencyNode($node);
+  $emergency_node->nodeapi($op, $teaser, $page);
+}
+
+function campus_emergency_update(&$node) {
+  $emergency_node = new CampusEmergencyNode($node);
+  $emergency_node->update();
+}
+
+function campus_emergency_view(&$node, $teaser = false, $page = false) {
+  $emergency_node = new CampusEmergencyNode($node);
+  return $emergency_node->view($teaser, $page);
+}
+
+function campus_emergency_footer($main = 0) {
+  $emergency_receiver = new CampusEmergencyReceiver();
+  if (user_access(CampusEmergencyReceiver::$RECEIVER_PERM)) {
+    $emergency_receiver->attachCSS();
+    $emergency_receiver->attachJavascript();
+  }
+  return $emergency_receiver->footer();
+}
+
+/** DB hooks */
+// function campus_emergency_db_rewrite_sql($query, $primary_table, $priary_field, $args) {
+//  
+// }

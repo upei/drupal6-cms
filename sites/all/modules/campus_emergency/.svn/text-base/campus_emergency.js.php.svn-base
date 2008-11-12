@@ -1,0 +1,47 @@
+var CampusEmergencyReceiver = function(id) {
+	this.targetElement = $(id);
+	this.emergency = false;
+}
+
+CampusEmergencyReceiver.prototype.fetchAndDisplay = function(url) {
+	// assign the url
+	this.url = url;
+	
+	var obj = this;
+	
+	// get JSON and do the url parsing
+	$.getJSON(url, function(data) {
+		obj.emergency = data['emergency'];
+		if (obj.emergency) {
+			var messages = data['messages'];
+			obj.title = messages[0]['title'];
+			obj.body = messages[0]['body'];
+			messageReceiver.display();
+		}
+	});
+	
+	return true;
+}
+
+CampusEmergencyReceiver.prototype.display = function() {
+	// stop display if there is no emergency
+	if (!this.emergency) {
+		return false;
+	}
+	// replace the content with the name
+	this.targetElement.html(this.body);
+	this.targetElement.dialog( {
+		title: this.title,
+		modal: true,
+		draggable: true,
+		overlay: {
+			opacity: 0.5,
+			background: "black"
+		}
+	});
+	
+	return true;
+}
+
+var messageReceiver = new CampusEmergencyReceiver('#campus_emergency');
+messageReceiver.fetchAndDisplay('/playland1/cem/endpoint/json');

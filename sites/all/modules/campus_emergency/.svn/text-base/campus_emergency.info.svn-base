@@ -1,0 +1,6 @@
+; $Id$
+;
+
+name = Campus Emergency
+description = "Send emergency messages on multisite system"
+package = "Campus Manager"

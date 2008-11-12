@@ -1,0 +1,5 @@
+/* $Id$ */
+.ui-dialog-container {padding: 0; background-color: #edf3e1;}
+.ui-dialog-content { padding: 0; font-size: 12pt; background-color: #edf3e1; }
+.ui-dialog-titlebar { font-size: 12pt; background-color: #761100; color: white; padding: 5px 10px 5px 10px; cursor: move;}
+.ui-dialog-titlebar-close { display: none; }

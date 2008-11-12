@@ -1,0 +1,588 @@
+<?php
+// $Id: fckeditor.install,v 1.2.2.10.2.30 2008/10/16 13:04:27 wwalc Exp $
+/*
+ * FCKeditor - The text editor for Internet - http://www.fckeditor.net
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
+ *
+ * == BEGIN LICENSE ==
+ *
+ * Licensed under the terms of any of the following licenses at your
+ * choice:
+ *
+ *  - GNU General Public License Version 2 or later (the "GPL")
+ *    http://www.gnu.org/licenses/gpl.html
+ *
+ *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
+ *    http://www.gnu.org/licenses/lgpl.html
+ *
+ *  - Mozilla Public License Version 1.1 or later (the "MPL")
+ *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *
+ * == END LICENSE ==
+ *
+ * @file
+ * FCKeditor Module for Drupal 6.x
+ *
+ * This module allows Drupal to replace textarea fields with FCKeditor.
+ *
+ * This HTML text editor brings to the web many of the powerful functionalities
+ * of known desktop editors like Word. It's really  lightweight and doesn't
+ * require any kind of installation on the client computer.
+ */
+
+/*
+ * Implementation of hook_install().
+ *
+ * This will automatically install the database tables for the FCKeditor module for both the MySQL and PostgreSQL databases.
+ *
+ * If you are using another database, you will have to install the tables by hand, using the queries below as a reference.
+ *
+ * Note that the curly braces around table names are a drupal-specific feature to allow for automatic database table prefixing,
+ * and will need to be removed.
+ */
+function fckeditor_install() {
+
+  drupal_install_schema('fckeditor');
+
+  //create two default roles based on previous settings
+  db_query("INSERT INTO {fckeditor_role} (name, rid) VALUES ('%s', %d)",
+  "Default", defined('DRUPAL_ANONYMOUS_RID') ? DRUPAL_ANONYMOUS_RID : 1);
+  db_query("INSERT INTO {fckeditor_role} (name, rid) VALUES ('%s', %d)",
+  "Advanced", defined('DRUPAL_AUTHENTICATED_RID') ? DRUPAL_AUTHENTICATED_RID : 2);
+
+  //insert settings for default role
+  $arr = array();
+  $arr['allow_user_conf'] = "f";
+  $arr['min_rows'] = variable_get('fckeditor_minimum_rows', 1);
+  $arr['excl_mode'] = variable_get('fckeditor_exclude_toggle', 0);
+
+  //appearance
+  $arr['default'] = "t";
+  $arr['show_toggle'] = "t";
+  $arr['popup'] = variable_get('fckeditor_popup', 0) ? "t" : "f";
+  $arr['skin'] = "default";
+  $arr['toolbar'] = variable_get('fckeditor_default_toolbar', 'DrupalBasic');
+  $arr['expand'] = variable_get('fckeditor_toolbar_start_expanded', 1) ? "t" : "f";
+  $arr['width'] = variable_get("fckeditor_width", "100%");
+  $arr['lang'] = "en";
+  $arr['auto_lang'] = "t";
+
+  //output
+  $arr['enter_mode'] = "p";
+  $arr['shift_enter_mode'] = "br";
+  $arr['font_format'] = 'p;div;pre;address;h1;h2;h3;h4;h5;h6';
+  $arr['format_source'] = "t";
+  $arr['format_output'] = "t";
+
+  //css
+  $arr['css_mode'] = "theme";
+  $arr['css_path'] = variable_get("fckeditor_stylesheet", "");
+
+  //upload
+  //get permissions here like in _update_role_permissions
+  $arr['filebrowser'] = "none";
+  $arr['quickupload'] = "f";
+  $arr['user_choose'] = "f";
+  $arr['show_fieldnamehint'] = "t";
+
+  db_query("INSERT INTO {fckeditor_settings} (name, settings) VALUES ('%s', '%s')", "Default", serialize($arr));
+
+  //insert settings for advanced role
+  $arr['toolbar'] = variable_get('fckeditor_advanced_toolbar', 'DrupalFiltered');
+  db_query("INSERT INTO {fckeditor_settings} (name, settings) VALUES ('%s', '%s')", "Advanced", serialize($arr));
+
+  $arr = array();
+
+  //exclude by default some known textareas where HTML is not expected
+  //edit-recipients //contact module
+  //edit-reply //contact module
+  //edit-description //taxonomy module
+  //edit-synonyms //taxonomy module
+  //edit-img-assist-textareas //img assist module
+  $arr['excl_mode'] = 0;
+  $arr['excl'] = variable_get("fckeditor_exclude",
+  "admin/user/settings.edit-user-mail-*\n".
+  "*.edit-pages\n".
+  "*.edit-pathauto-ignore-words\n".
+  "*.edit-recipients\n".
+  "*.edit-reply\n".
+  "*.edit-description\n".
+  "*.edit-synonyms\n".
+  "*.edit-img-assist-textareas\n".
+  "*.edit-img-assist-paths\n".
+  "*.edit-nodewords-description\n".
+  "*.edit-relatedlinks-fieldset-relatedlinks\n".
+  "*.edit-allowed-values-php\n".
+  "*.edit-allowed-values\n".
+  "*.edit-update-notify-emails\n".
+  "*.edit-googleanalytics-*\n".
+  "*.edit-piwik-*\n".
+  "*.edit-feedburner-useragents\n".
+  "*.edit-target\n"
+  );
+
+  //force by default simple toolbar on selected textareas
+  $arr['simple_incl_mode'] = 1;
+  $arr['simple_incl'] =
+  "*.edit-signature\n".
+  "admin/settings/site-information.*\n".
+  "admin/settings/site-maintenance.*\n".
+  "*.edit-page-help\n".
+  "*.edit-user-registration-help\n".
+  "*.edit-user-picture-guidelines\n";
+
+  db_query("INSERT INTO {fckeditor_settings} (name, settings) VALUES ('%s', '%s')", "FCKeditor Global Profile", serialize($arr));
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function fckeditor_schema() {
+  $schema['fckeditor_settings'] = array(
+  'description' => t('Stores FCKeditor profile settings'),
+  'fields' => array(
+  'name'    => array(
+  'type' => 'varchar',
+  'not null' => TRUE,
+  'default' => '',
+  'length' => 128,
+  'description' => t('Name of the FCKeditor profile'),
+    ),
+    'settings'    => array(
+      'type' => 'text',
+      'description' => t('Profile settings'),
+    ),
+  ),
+  'primary key' => array('name'),
+  );
+  $schema['fckeditor_role'] = array(
+    'description' => t('Stores FCKeditor profile assignments'),
+    'fields' => array(
+      'name'    => array(
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'default' => '',
+        'length' => 128,
+        'description' => t('Name of the FCKeditor role'),
+      ),
+      'rid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('Drupal role id'),
+      ),
+    ),
+    'primary key' => array('name', 'rid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_requirements().
+ *
+ * This hook will issue warnings if:
+ * - The FCKeditor source files are not found
+ * - The FCKeditor source files are out of date
+ * - Quick upload and/or the built-in file browser are used and $cookie_domain is not set
+ */
+function fckeditor_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $requirements['fckeditor'] = array(
+    'title' => t('FCKeditor'),
+    'value' => t('Unknown'),
+    );
+
+    $requirements['fckeditor']['severity'] = REQUIREMENT_OK;
+
+    if (!_fckeditor_requirements_isinstalled()) {
+      $sourcepath = fckeditor_path(TRUE);
+
+      $requirements['fckeditor']['description'] = t('FCKeditor was not found at %sourcepath', array('%sourcepath' => $sourcepath));
+      $requirements['fckeditor']['severity'] = REQUIREMENT_ERROR;
+    }
+    //Let's wait with version checking until a formal way of informing about new FCKeditor releases by fckeditor.net site is available
+    /*
+    elseif (($installed_version = _fckeditor_requirements_getinstalledversion()) === NULL) {
+    $requirements['fckeditor']['description'] = t('FCKeditor version could not be determined');
+    $requirements['fckeditor']['severity'] = REQUIREMENT_INFO;
+    }
+    elseif (($available_version = _fckeditor_requirements_getavailableversion($available_version_error)) === NULL) {
+    $requirements['fckeditor']['description'] = t('The latest available FCKeditor version could not be determined, the HTTP error while fetching the version information was: @error', array('@error' => $available_version_error));
+    $requirements['fckeditor']['severity'] = REQUIREMENT_INFO;
+    }
+    elseif (version_compare($installed_version, $available_version, '<')) {
+    $requirements['fckeditor']['severity'] = REQUIREMENT_WARNING;
+    $requirements['fckeditor']['description'] = t('The latest available FCKeditor version is @version. You can download it at !fcklink.', array('@version' => $available_version, '!fcklink' => l('FCKeditor.net', 'http://fckeditor.net')));
+    }
+    */
+    elseif (_fckeditor_requirements_builtin_filebrowser_enabled()) {
+      if (!_fckeditor_requirements_cookiedomainset()) {
+        $requirements['fckeditor']['severity'] = REQUIREMENT_ERROR;
+        $requirements['fckeditor']['description'] = t('You are using a feature that requires $cookie_domain to be set, but it is not set in your settings.php.');
+      }
+      elseif ($error = _fckeditor_requirements_filemanager_config_check()) {
+        $requirements['fckeditor']['severity'] = REQUIREMENT_ERROR;
+        $requirements['fckeditor']['description'] = $error;
+      }
+    }
+
+    /*
+    if (!empty($installed_version)) {
+    $requirements['fckeditor']['value'] = $installed_version;
+    }*/
+  }
+
+  return $requirements;
+}
+
+/**
+ * Determines whether the FCKeditor sources are present
+ *
+ * It checks if fckeditor.js is present.
+ *
+ * This function is used by fckeditor_requirements()
+ *
+ * @return boolean True if FCKeditor is installed
+ */
+function _fckeditor_requirements_isinstalled() {
+  module_load_include('module', 'fckeditor');
+  $editor_path = fckeditor_path(TRUE);
+  $jspath = $editor_path .'/fckeditor.js';
+
+  return file_exists($jspath);
+}
+
+/**
+ * Fetches the version of the installed FCKeditor sources
+ *
+ * It tries to locate the version of the FCKeditor sources in
+ * fckeditor.js
+ *
+ * This function is used by fckeditor_requirements()
+ *
+ * @return string Version number (eg. 2.6.2) of FCKeditor. Null if not found in fckeditor.js
+ */
+function _fckeditor_requirements_getinstalledversion() {
+  module_load_include('module', 'fckeditor');
+  $editor_path = fckeditor_path(TRUE);
+  $jspath = $editor_path .'/fckeditor.js';
+
+  $configcontents = file_get_contents($jspath);
+  $matches = array();
+  if (preg_match('#FCKeditor\.prototype\.Version\s*=\s*\'([\d\.]+)\'\s*;#', $configcontents, $matches)) {
+    return $matches[1];
+  }
+  return NULL;
+}
+
+/**
+ * Executed when built-in file browser is enabled
+ * Returns FALSE if no errors are found in config.php file, otherwise it returns an error message.
+ *
+ * @return string|boolean
+ */
+function _fckeditor_requirements_filemanager_config_check() {
+  module_load_include('module', 'fckeditor');
+  $editor_path = fckeditor_path(TRUE);
+  $config_path = $editor_path .'/editor/filemanager/connectors/php/config.php';
+
+  if (!file_exists($config_path)) {
+    return t('!config not found. Make sure that you have uploaded all files or didn\'t remove that file accidentally.', array('!config' => 'editor/filemanager/connectors/php/config.php'));
+  }
+
+  if (!is_readable($config_path)) {
+    return t('FCKeditor needs read permission to !config.', array('!config' => 'editor/filemanager/connectors/php/config.php'));
+  }
+
+  $config_contents = file($config_path);
+
+  //not a 100% valid check, but well... let's have at least some error checking
+  $require_once_found = FALSE;
+  $require_once_line = 0;
+  $userfiles_absolute_path_line = 0;
+  $force_single_extension_line = 0;
+  
+  if ($config_contents)
+  foreach ($config_contents as $line_num => $line) {
+    //make sure it doesn't start with a comment, unfortunately we're not protected if code is commented with /* */
+    if (!$require_once_found && strpos($line, "filemanager.config.php") !== FALSE && !preg_match(",^(?://|\#|\*|/\*),", trim($line))) {
+      $require_once_found = TRUE;
+      $require_once_line = $line_num;
+    }
+    if (!$userfiles_absolute_path_line && strpos($line, '$Config[\'UserFilesAbsolutePath\']') !== FALSE && !preg_match(",^(?://|\#|\*|/\*),", trim($line))) {
+      $userfiles_absolute_path_line = $line_num;
+    }
+    if (!$force_single_extension_line && strpos($line, '$Config[\'ForceSingleExtension\']') !== FALSE && !preg_match(",^(?://|\#|\*|/\*),", trim($line))) {
+      $force_single_extension_line = $line_num;
+    }
+  }
+  
+  if (!$require_once_found) {
+    return t('You are using a feature that requires manul integration into config.php. Read instructions about enabling built-in file browser and add "require_once ..." statement in editor/filemanager/connectors/php/config.php.');
+  }
+  
+  if ($userfiles_absolute_path_line && $force_single_extension_line && (
+  $require_once_line < $userfiles_absolute_path_line || $require_once_line > $force_single_extension_line)) {
+    return t('You are using a feature that requires manul integration into config.php. You have added "require_once ..." statement in editor/filemanager/connectors/php/config.php, but in the wrong line.');
+  }
+
+  return FALSE;
+}
+
+/**
+ * Fetches the version of the latest version of FCKeditor available
+ *
+ * It tries to locate the latest version of FCKeditor in the source of
+ * http://fckeditor.net/. It might fail when the connection fails.
+ *
+ * This function is used by fckeditor_requirements()
+ *
+ * @param $error string This string will be filled with the error reason or be untouched if no error occured
+ * @return string Version number (eg. 2.6.2) of the latest version of FCKeditor. Null if an error occured
+ */
+function _fckeditor_requirements_getavailableversion(&$error) {
+  $fckpage = drupal_http_request('http://www.fckeditor.net');
+  $matches = array();
+  if (!isset($fckpage->error) && preg_match('#class="release_number">\s*([\d\.]+[ \w]*)<#', $fckpage->data, $matches)) {
+    return $matches[1];
+  }
+  else {
+    $error = $fckpage->error;
+  }
+  return NULL;
+}
+
+/**
+ * Checks if any profile requires an explicit setting of $cookie_domain
+ * in settings.php
+ *
+ * %cookie_domain is required when the internal filebrowser or quick upload is used
+ *
+ * This function is used by fckeditor_requirements()
+ *
+ * @return boolean True iff any profile requires $cookie_domain
+ */
+function _fckeditor_requirements_builtin_filebrowser_enabled() {
+  module_load_include('module', 'fckeditor');
+  $profiles = fckeditor_profile_load();
+
+  foreach ($profiles as $profile) {
+    if ((isset($profile->settings['filebrowser']) && $profile->settings['filebrowser'] == 'builtin') || (isset($profile->settings['quickupload']) && $profile->settings['quickupload'] == 't')) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Checks if $cookie_domain has been set
+ *
+ * It has to include settings.php again because conf_init() sets
+ * $cookie_domain regardless of its presence in settings.php, so
+ * simply checking $GLOBALS['cookie_domain'] is not possible.
+ *
+ * This function is used by fckeditor_requirements()
+ *
+ * @return boolean True iff $cookie_domain was set in settings.php
+ */
+function _fckeditor_requirements_cookiedomainset() {
+  if (file_exists('./'. conf_path() .'/settings.php')) {
+    $settings = file_get_contents('./'. conf_path() .'/settings.php');
+
+    if (preg_match('#^\s*\$cookie_domain#m', $settings)) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Update from 6.x-1.0 to 6.x-1.1
+ *
+ */
+function fckeditor_update_6110() {
+  $ret = array();
+
+  $result = db_query("SELECT * FROM {fckeditor_settings}");
+  $global_profile_found = FALSE;
+  while (($data = db_fetch_object($result))) {
+    if ($data->name == "FCKeditor Global Profile") {
+      $global_profile_found = TRUE;
+    }
+    if ($data->settings) {
+      $settings = unserialize($data->settings);
+    }
+    if (isset($settings['excl_mode'], $settings['excl_list']) && !empty($settings['excl_list'])) {
+      switch ($settings['excl_mode']) {
+        case 0:
+          // normal exclusion based on the id
+          $settings['excl_fields'] = $settings['excl_list'];
+          $settings['excl_mode'] = 0;
+          break;
+
+        case 1:
+          //normal inclusion based on the id
+          $settings['excl_fields'] = $settings['excl_list'];
+          $settings['excl_mode'] = 1;
+          break;
+
+        case 2:
+          //path exclusion
+          $settings['excl_paths'] = $settings['excl_list'];
+          $settings['excl_mode'] = 0;
+          break;
+
+        case 3:
+          //path inclusion
+          $settings['excl_paths'] = $settings['excl_list'];
+          $settings['excl_mode'] = 1;
+          break;
+      }
+      unset($settings['excl_list']);
+    }
+    if (isset($settings['simple_incl_mode'], $settings['simple_incl_list']) && !empty($settings['simple_incl_list'])) {
+      switch ($settings['simple_incl_mode']) {
+        case 1:
+          //normal inclusion based on the id
+          $settings['simple_incl_fields'] = $settings['simple_incl_list'];
+          break;
+
+        case 3:
+          //path inclusion
+          $settings['simple_incl_paths'] = $settings['simple_incl_list'];
+          break;
+      }
+      unset($settings['simple_incl_mode']);
+      unset($settings['simple_incl_list']);
+    }
+
+    db_query("UPDATE {fckeditor_settings} SET settings='%s' WHERE name='%s'", serialize($settings), $data->name);
+  }
+
+  if (!$global_profile_found) {
+    db_query("INSERT INTO {fckeditor_settings} (name, settings) VALUES ('%s', '%s')", "FCKeditor Global Profile", serialize(array()));
+  }
+  return $ret;
+}
+
+/**
+ * Update from 6.x-1.2 to 6.x-1.3
+ *
+ * Change file browser selection method
+ */
+function fckeditor_update_6130() {
+  $ret = array();
+
+  $result = db_query("SELECT * FROM {fckeditor_settings} WHERE name <> 'FCKeditor Global Profile'");
+  $hasimce = module_exists('imce');
+  while (($data = db_fetch_object($result))) {
+    if ($data->settings) {
+      $settings = unserialize($data->settings);
+
+      // Rewrite imce, upload_basic and upload_advanced settings to filebrowser and quickupload
+      $imce = ($hasimce && isset($settings['imce']) && $settings['imce'] == 't');
+      $upload_basic = (isset($settings['upload_basic']) && $settings['upload_basic'] == 't');
+      $upload_advanced = (isset($settings['upload_advanced']) && $settings['upload_advanced'] == 't');
+
+      if ($imce) {
+        $settings['filebrowser'] = 'imce';
+      }
+      elseif ($upload_advanced) {
+        $settings['filebrowser'] = 'builtin';
+      }
+      else {
+        $settings['filebrowser'] = 'none';
+      }
+
+      $settings['quickupload'] = $upload_basic ? 't' : 'f';
+
+      unset($settings['imce'], $settings['upload_basic'], $settings['upload_advanced']);
+
+      // unfortunately, update_sql is not an option, as serialize($settings) will contain curly braces which will
+      // be replaced. update_sql does not support arguments like db_query() does.
+
+      db_query("UPDATE {fckeditor_settings} SET settings='%s' WHERE name='%s'", serialize($settings), $data->name);
+    }
+  }
+
+  return $ret;
+}
+
+/**
+ * Update from 6.x-1.x to 6.x-2.x
+ *
+ * Change storage of exclusion modes
+ */
+function fckeditor_update_6200() {
+  $ret = array();
+
+  $result = db_query("SELECT * FROM {fckeditor_settings}");
+  while (($data = db_fetch_object($result))) {
+    if ($data->settings) {
+      $settings = unserialize($data->settings);
+
+      foreach (array('simple_incl', 'excl') as $var) {
+        $paths = preg_split('/[\s,]+/', $settings[$var .'_paths']);
+        $ids = preg_split('/[\s,]+/', $settings[$var .'_fields']);
+        $final = array();
+
+        foreach ($paths as $path) {
+          $path = trim($path);
+          if (!empty($path)) {
+            $final[] = $path;
+          }
+        }
+
+        foreach ($ids as $id) {
+          $id = trim($id);
+          if (!empty($id)) {
+            $final[] = '*.'. $id;
+          }
+        }
+
+        $settings[$var] = implode("\n", $final);
+        unset($settings[$var .'_paths'], $settings[$var .'_fields']);
+      }
+
+      db_query("UPDATE {fckeditor_settings} SET settings='%s' WHERE name='%s'", serialize($settings), $data->name);
+
+      module_load_include('inc', 'fckeditor', 'fckeditor.admin');
+      fckeditor_rebuild_selectors();
+    }
+  }
+
+  return $ret;
+}
+
+/**
+ * Update from 6.x-1.x to 6.x-2.x
+ *
+ * Add show_fieldnamehint setting, defaults to t ( = true)
+ */
+function fckeditor_update_6201() {
+  $ret = array();
+
+  $result = db_query("SELECT * FROM {fckeditor_settings}");
+  while (($data = db_fetch_object($result))) {
+    if ($data->settings) {
+      $settings = unserialize($data->settings);
+      $settings['show_fieldnamehint'] = 't';
+
+      db_query("UPDATE {fckeditor_settings} SET settings='%s' WHERE name='%s'", serialize($settings), $data->name);
+    }
+  }
+
+  return $ret;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function fckeditor_uninstall() {
+  drupal_uninstall_schema('fckeditor');
+}

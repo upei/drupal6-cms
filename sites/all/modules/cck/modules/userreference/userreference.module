@@ -1,5 +1,5 @@
 <?php
-// $Id: userreference.module,v 1.106.2.28 2008/11/05 19:40:19 yched Exp $
+// $Id: userreference.module,v 1.106.2.29 2008/11/07 15:18:39 yched Exp $
 
 /**
  * @file
@@ -331,7 +331,7 @@ function userreference_widget_settings($op, $widget) {
       $form['reverse_link'] = array(
         '#type' => 'checkbox',
         '#title' => t('Reverse link'),
-        '#default_value' => isset($field['reverse_link']) ? $field['reverse_link'] : 0,
+        '#default_value' => isset($widget['reverse_link']) ? $widget['reverse_link'] : 0,
         '#description' => t('If selected, a reverse link back to the referencing node will displayed on the referenced user record.'),
       );
       return $form;

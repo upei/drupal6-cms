@@ -1,0 +1,935 @@
+# $Id: sv.po,v 1.1.2.1.2.1 2008/07/25 22:28:19 seals Exp $
+#
+# Swedish translation of Drupal (fckeditor)
+# Copyright 2008 Magnus Gunnarsson (seals@passagen.se)
+# Generated from files:
+#  fckeditor.admin.inc,v 1.1.2.6 2008/07/25 13:39:52 wwalc
+#  fckeditor.help.inc,v 1.1.2.2 2008/07/21 13:41:30 jorrit
+#  fckeditor.module,v 1.20.2.34.2.15 2008/07/25 13:39:52 wwalc
+#  fckeditor.user.inc,v 1.1.2.2 2008/07/18 09:36:25 jorrit
+#  fckeditor.install,v 1.2.2.10.2.11 2008/07/25 10:10:28 wwalc
+#  fckeditor.info,v 1.2.2.2 2008/03/18 13:50:45 wwalc
+#  fckeditor.utils.js,v 1.2.2.8 2008/06/23 08:29:18 wwalc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: FCKeditor 6.x\n"
+"POT-Creation-Date: 2008-07-25 22:05+0200\n"
+"PO-Revision-Date: 2008-07-26 00:06+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: fckeditor.admin.inc:41
+msgid "checking for %filename"
+msgstr "söker efter %filename"
+
+#: fckeditor.admin.inc:43
+msgid "The FCKeditor component is not installed correctly. Please go to the !fckeditorlink to download the latest version. After that you must extract the files to %fckeditorpath and make sure that the directory %fckeditorsubdir and the file %fckeditorfile exist. Refer to the !readme for more information."
+msgstr "Komponenten FCKeditor är inte korrekt installerad. Gå till !fckeditorlink för att ladda ner den senaste versionen. Därefter måste du packa upp filerna till %fckeditorpath och kontrollera att katalogen %fckeditorsubdir och filen %fckeditorfile existerar. Kolla i !readme för mer information."
+
+#: fckeditor.admin.inc:45
+#: fckeditor.help.inc:52;60;65
+msgid "FCKeditor homepage"
+msgstr "Hemsida för FCKeditor"
+
+#: fckeditor.admin.inc:53
+msgid "If you have FCKeditor already installed please edit !editg and update FCKeditor path."
+msgstr "Redigera !editg och uppdatera sökvägen till FCKeditor om du redan har installerat FCKeditor."
+
+#: fckeditor.admin.inc:55;145
+msgid "FCKeditor Global Profile"
+msgstr "Global profil för FCKeditor"
+
+#: fckeditor.admin.inc:63
+msgid "There is currently no role with the <strong>!access</strong> permission. Visit !acl administration section."
+msgstr "Det finns för närvarande ingen roll med rättigheten <strong>!access</strong>. Besök administrationsdelen !acl."
+
+#: fckeditor.admin.inc:64;93;208;284;797
+#: fckeditor.help.inc:55
+#: fckeditor.module:80
+msgid "access fckeditor"
+msgstr "åtkomst till FCKeditor"
+
+#: fckeditor.admin.inc:64
+msgid "Permissions"
+msgstr "Rättigheter"
+
+#: fckeditor.admin.inc:82
+msgid "No FCKeditor profiles found. At this moment, nobody is able to use FCKeditor. Create new profile below."
+msgstr "Inga profiler i FCKeditor hittades. Just nu är det ingen som kan använda FCKeditor. Skapa en ny profil nedan."
+
+#: fckeditor.admin.inc:93
+msgid "Not all roles with <strong>!access</strong> permission are associated with FCKeditor profiles. As a result, users having the following roles may be unable to use FCKeditor: !list Create new or edit FCKeditor profiles below and in the <strong>Basic setup</strong> section, check &quot;Roles allowed to use this profile&quot;."
+msgstr "Inte alla roller med rättigheterna <strong>!access</strong> är associerade med profiler i FCKeditor. Som följd av detta kan användare med följande roller vara oförmögna att använda FCKeditor: !list Skapa nya eller redigera en profil nedan och i delen <strong>Grundläggande inställning</strong> markerar du &quot;Roller tillåtna att använda denna profil&quot;."
+
+#: fckeditor.admin.inc:110;148
+msgid "Profile"
+msgstr "Profil"
+
+#: fckeditor.admin.inc:110
+msgid "Roles"
+msgstr "Roller"
+
+#: fckeditor.admin.inc:110;148
+msgid "Operations"
+msgstr "Funktioner"
+
+#: fckeditor.admin.inc:123;146
+msgid "edit"
+msgstr "redigera"
+
+#: fckeditor.admin.inc:124
+msgid "clone"
+msgstr "kopiera"
+
+#: fckeditor.admin.inc:125;146
+msgid "delete"
+msgstr "radera"
+
+#: fckeditor.admin.inc:130
+msgid "Profiles"
+msgstr "Profiler"
+
+#: fckeditor.admin.inc:132
+msgid "Create new profile"
+msgstr "Skapa en ny profil"
+
+#: fckeditor.admin.inc:135
+msgid "No profiles found. Click here to !create."
+msgstr "Inga profiler funna. Klicka här för att !create."
+
+#: fckeditor.admin.inc:135
+msgid "create a new profile"
+msgstr "skapa en ny profil"
+
+#: fckeditor.admin.inc:140
+msgid "Global Profile not found. Click here to !create."
+msgstr "Global profil hittades inte. Klicka här för att !create."
+
+#: fckeditor.admin.inc:140
+msgid "create the global profile"
+msgstr "skapa den globala profilen"
+
+#: fckeditor.admin.inc:143
+msgid "Global Settings"
+msgstr "Globala inställningar"
+
+#: fckeditor.admin.inc:166;731
+msgid "Your FCKeditor profile has been created."
+msgstr "Din profil i FCKeditor har skapats."
+
+#: fckeditor.admin.inc:206
+msgid "You haven't assigned <code>!access1</code> !permissions yet.<br/>It is recommended to assign the <code>!access1</code> !permissions before updating FCKeditor profiles."
+msgstr "Du har inte tilldelat !permissions <code>!access1</code> ännu.<br />Det rekommenderas att du gör detta innan du uppdaterar profilerna för FCKeditor."
+
+#: fckeditor.admin.inc:209;797
+msgid "permissions"
+msgstr "rättigheter"
+
+#: fckeditor.admin.inc:220
+msgid "Not all user roles are shown since they already have fckeditor profiles. You must first unassign profiles in order to add them to a new one."
+msgstr "Inte alla roller visas eftersom de redan har profiler för FCKeditor. Du måste först ta bort profiler från tilldelningen för att kunna lägga till dem till en ny."
+
+#: fckeditor.admin.inc:222;225
+msgid "Create profile"
+msgstr "Skapa profil"
+
+#: fckeditor.admin.inc:228
+msgid "Update profile"
+msgstr "Uppdatera profil"
+
+#: fckeditor.admin.inc:233
+msgid "Basic setup"
+msgstr "Grundläggande inställning"
+
+#: fckeditor.admin.inc:271
+msgid "Profile name"
+msgstr "Namn på profilen"
+
+#: fckeditor.admin.inc:275
+msgid "Enter a name for this profile. This name is only visible within the fckeditor administration page."
+msgstr "Ange ett namn för den här profilen. Det här namnet syns bara inom administrationssidorna för FCKeditor."
+
+#: fckeditor.admin.inc:281
+msgid "Roles allowed to use this profile"
+msgstr "Roller tillåtna att använda denna profil"
+
+#: fckeditor.admin.inc:284
+msgid "Only roles with '!access1' permission will be shown here. If no role is available, make sure that you have assigned the '!access1' !permission."
+msgstr "Enbart roller med rättigheten \"!access1\" kommer att visas här. Se till att du har tilldelat rättigheten \"!access1\" om ingen roll finns tillgänglig."
+
+#: fckeditor.admin.inc:284
+#: fckeditor.help.inc:55
+msgid "permission"
+msgstr "rättighet"
+
+#: fckeditor.admin.inc:290
+msgid "Allow users to customize FCKeditor appearance"
+msgstr "Tillåt användarna att anpassa utseendet av FCKeditor"
+
+#: fckeditor.admin.inc:292;362;370;378;427;485;572
+#: fckeditor.user.inc:64;73;81;130
+msgid "false"
+msgstr "falskt"
+
+#: fckeditor.admin.inc:292;362;370;378;427;477;485;572
+#: fckeditor.user.inc:64;73;81;130
+msgid "true"
+msgstr "sant"
+
+#: fckeditor.admin.inc:293
+msgid "If allowed, users will be able to override <code>Editor appearance</code> by visiting their profile page."
+msgstr "Om tillåten kommer användarna att kunna åsidosätta <code>Redigerarens utseende</code> genom att gå till sina profilsidor."
+
+#: fckeditor.admin.inc:298;802
+msgid "Visibility settings"
+msgstr "Inställning för synlighet"
+
+#: fckeditor.admin.inc:305
+msgid "Minimum rows"
+msgstr "Minsta antal rader"
+
+#: fckeditor.admin.inc:307
+msgid "FCKeditor will be triggered if the textarea has more rows than entered here. Enter '1' if you do not want to use this feature."
+msgstr "FCKeditor kommer att sättas igång om textområdet har fler rader än angivna här. Ange \"1\" om du inte vill använda dig av denna funktion."
+
+#: fckeditor.admin.inc:312;809
+#: fckeditor.help.inc:78
+msgid "Use inclusion or exclusion mode"
+msgstr "Använd läget inkludera eller exkludera"
+
+#: fckeditor.admin.inc:314;811
+msgid "exclude"
+msgstr "exkludera"
+
+#: fckeditor.admin.inc:314;811
+msgid "include"
+msgstr "inkludera"
+
+#: fckeditor.admin.inc:315;812
+msgid "Choose the way of disabling/enabling FCKeditor on selected fields/paths (see below). Use exclude to disable FCKeditor on selected fields/paths. Use include if you want to load FCKeditor only on selected paths/fields."
+msgstr "Välj alternativet för aktivering/avaktivering av FCKeditor på valda fält/sökvägar (se neda). Använd exkludera för att avaktivera FCKeditor på valda fält/sökvägar. Använd include om du vill ladda FCKeditor på endast de sökvägarna/fälten."
+
+#: fckeditor.admin.inc:325;821
+msgid "Fields to exclude/include"
+msgstr "Fält att inkkludera/exkludera"
+
+#: fckeditor.admin.inc:331;827
+msgid "Enter the paths to the textarea fields on which you want to enable or disable FCKeditor."
+msgstr "Ange sökvägarna till textfälten där du vill aktivera eller inaktivera FCKeditor."
+
+#: fckeditor.admin.inc:331;340;827;836
+msgid "Paths are formed by appending the field name to the path of the page, separated by a dot. Please see the !helppagelink for more information about defining field names."
+msgstr "Sökvägar skapas genom att bifoga fältnamnet till sökvägen för sidan separerade av en punkt. Se !helppagelink  för mer information om hur man definierar fältnamn."
+
+#: fckeditor.admin.inc:331;340;827;836
+msgid "help page"
+msgstr "hjälpsida"
+
+#: fckeditor.admin.inc:336;832
+msgid "Force simplified toolbar on the following fields"
+msgstr "Påtvinga förenklad verktygsmeny på följande fält"
+
+#: fckeditor.admin.inc:340;836
+msgid "Enter the paths to the textarea fields on which you want to force the simplified toolbar."
+msgstr "Ange sökvägarna till textfälten där du vill tvinga fram det förenklade verktygsfältet."
+
+#: fckeditor.admin.inc:345
+msgid "Editor appearance"
+msgstr "Redigerarens utseende"
+
+#: fckeditor.admin.inc:352
+#: fckeditor.user.inc:54
+msgid "Default state"
+msgstr "Förvalt läge"
+
+#: fckeditor.admin.inc:354;402
+#: fckeditor.user.inc:56;105
+msgid "enabled"
+msgstr "aktiverad"
+
+#: fckeditor.admin.inc:354;402
+#: fckeditor.user.inc:56;105
+msgid "disabled"
+msgstr "avaktiverad"
+
+#: fckeditor.admin.inc:355
+msgid "Default editor state. If disabled, rich text editor may still be enabled using toggle or popup window."
+msgstr "Förvalt redigeringsläge. Om avaktiverad kan fortfarande redigeraren av typen Rich Text aktiveras genom knapp eller poppuppfönster."
+
+#: fckeditor.admin.inc:360
+#: fckeditor.user.inc:62
+msgid "Show disable/enable rich text editor toggle"
+msgstr "Visa knappen aktivera/avaktivera redigeraren Rich Text"
+
+#: fckeditor.admin.inc:363
+msgid "Whether or not to show the disable/enable rich text editor toggle below the textarea. Works only if FCKeditor is not running in a popup window (see below)."
+msgstr "Huruvida visning av knappen aktivera/avaktivera Rich Text skall visas nedanför textområdet. Fungerar enbart om FCKeditor inte körs i ett poppuppfönster (se nedan)."
+
+#: fckeditor.admin.inc:368
+#: fckeditor.user.inc:71
+msgid "Show field name hint below each rich text editor"
+msgstr "Visa hänvisning för fältnamnen nedanför varje redigerare av typen rich text."
+
+#: fckeditor.admin.inc:371
+msgid "This only applies for users with %permission permissions"
+msgstr "Detta gäller enbart för användare med rättigheten %permission"
+
+#: fckeditor.admin.inc:376
+#: fckeditor.user.inc:79
+msgid "Use FCKeditor in a popup window"
+msgstr "Använd FCKeditor i ett poppuppfönster"
+
+#: fckeditor.admin.inc:379
+#: fckeditor.user.inc:82
+msgid "If this option is enabled a link to a popup window will be used instead of a textarea replace."
+msgstr "Om det här alternativet är aktiverat kommer en länk till ett poppuppfönster att användas istället för att textområdet byts ut."
+
+#: fckeditor.admin.inc:384
+#: fckeditor.user.inc:87
+msgid "Skin"
+msgstr "Skal"
+
+#: fckeditor.admin.inc:387
+msgid "Choose a default skin."
+msgstr "Välj förvalt skal."
+
+#: fckeditor.admin.inc:392
+#: fckeditor.user.inc:95
+msgid "Toolbar"
+msgstr "Verktygsmeny"
+
+#: fckeditor.admin.inc:395
+msgid "Choose a default toolbar set. To define new toolbar, edit <code>fckeditor.config.js</code> located in !module_path."
+msgstr "Välj förvald verktygsmeny. Redigera <code>fckeditor.config.js</code> lokaliserad i !module_path för att definiera en ny verktygsmeny"
+
+#: fckeditor.admin.inc:400
+#: fckeditor.user.inc:103
+msgid "Start the toolbar expanded"
+msgstr "Starta verktygsmenyn utfälld"
+
+#: fckeditor.admin.inc:403
+#: fckeditor.user.inc:106
+msgid "The toolbar start expanded or collapsed."
+msgstr "Verktygsmenyn startar utfälld eller hopfälld."
+
+#: fckeditor.admin.inc:408
+#: fckeditor.user.inc:111
+msgid "Width"
+msgstr "Bredd"
+
+#: fckeditor.admin.inc:410
+#: fckeditor.user.inc:113
+msgid "Width in pixels or percent. Ex: 400 or 100%"
+msgstr "Bredd i pixlar eller procent. Till exempel: 400 eller 100%"
+
+#: fckeditor.admin.inc:417
+#: fckeditor.user.inc:120
+msgid "Language"
+msgstr "Språk"
+
+#: fckeditor.admin.inc:420
+#: fckeditor.user.inc:123
+msgid "The language for the FCKeditor interface."
+msgstr "Språket på FCKeditors gränssnitt."
+
+#: fckeditor.admin.inc:425
+#: fckeditor.user.inc:128
+msgid "Auto-detect language"
+msgstr "Automatisk upptäckt av språk"
+
+#: fckeditor.admin.inc:428
+#: fckeditor.user.inc:131
+msgid "Use auto detect user language feature."
+msgstr "Använd funktionen för automatisk upptäckt av användarens språk."
+
+#: fckeditor.admin.inc:443
+msgid "Cleanup and output"
+msgstr "Rensa upp och skicka"
+
+#: fckeditor.admin.inc:450
+msgid "Enter mode"
+msgstr "Alternativ för Enter"
+
+#: fckeditor.admin.inc:453
+msgid "Set which tag FCKeditor should use when [Enter] key is pressed."
+msgstr "Ange vilken tagg FCKeditor skall använda när [Enter] trycks ned."
+
+#: fckeditor.admin.inc:458
+msgid "Shift + Enter mode"
+msgstr "Alternativ för Skift + Enter"
+
+#: fckeditor.admin.inc:461
+msgid "Set which tag FCKeditor should use when [Shift] + [Enter] is pressed."
+msgstr "Ange vilken tagg FCKeditor skall använda när [Skift] + [Enter] trycks ned."
+
+#: fckeditor.admin.inc:466
+msgid "Font formats"
+msgstr "Fontformat"
+
+#: fckeditor.admin.inc:470
+msgid "Semicolon separated list of HTML font formats. Allowed values are: p;div;pre;address;h1;h2;h3;h4;h5;h6"
+msgstr "Semikolonseparerad lista över fontformat i HTML. Tillåtna värden är: p;div;pre;address;h1;h2;h3;h4;h5;h6"
+
+#: fckeditor.admin.inc:475
+msgid "Apply source formatting"
+msgstr "Applicera källkodsformatering"
+
+#: fckeditor.admin.inc:478
+msgid "When set to \"true\" the editor will format the XHTML when switching from WYSIWYG view to Source view, by inserting line breaks on some tags endings and indenting paragraphs, tables and lists."
+msgstr "Om satt till \"sant\" kommer redigeraren att formatera XHTML genom att sätta in radbrytningar på några avslutningstaggar och indragsstycken, tabeller och listor, när byte sker från läget WYSIWYG till visning av källkod,"
+
+#: fckeditor.admin.inc:483
+msgid "Format output"
+msgstr "Formatera utmatning"
+
+#: fckeditor.admin.inc:486
+msgid "When set to \"true\" the editor will format the XHTML output by inserting line breaks on some tags endings and indenting paragraphs, tables and lists."
+msgstr "Om satt till \"sant\" kommer redigeraren formatera utmatning av typen XHTML genom att sätta in radbrytningar på några avslutningstaggar och indrag, tabeller och listor."
+
+#: fckeditor.admin.inc:501
+msgid "CSS"
+msgstr "CSS"
+
+#: fckeditor.admin.inc:508
+msgid "Editor CSS"
+msgstr "Redigerarens CSS"
+
+#: fckeditor.admin.inc:510
+msgid "use theme css"
+msgstr "använd temats CSS"
+
+#: fckeditor.admin.inc:510
+msgid "define css"
+msgstr "definiera CSS"
+
+#: fckeditor.admin.inc:510;527
+msgid "FCKeditor default"
+msgstr "förvald för FCKeditor"
+
+#: fckeditor.admin.inc:511
+msgid "Defines the CSS to be used in the editor area.<br />use theme css - load style.css from current site theme.<br/>define css - enter path for css file below.<br />FCKeditor default - uses default CSS from editor."
+msgstr "Definierar vilken CSS som skall användas i redigerarens avdelning.<br />använd temats CSS - ladda style.css från nuvarande webbplats tema.<br />definiera CSS - ange sökväg för CSS-filen nedan.<br />förvald för FCKeditor - använder förvald CSS från redigeraren."
+
+#: fckeditor.admin.inc:516
+msgid "CSS path"
+msgstr "Sökväg till CSS"
+
+#: fckeditor.admin.inc:520
+msgid "Enter path to CSS file (<em>example: css/editor.css</em>) or a list of css files seperated by a comma (<em>example: /themes/garland/style.css,http://example.com/style.css</em>).<br />Macros: %h (host name: !host), %t (path to theme: !theme)<br />Be sure to select \"define css\" above."
+msgstr "Ange sökväg till CSS-filen (<em>exempel: css/editor.css</em>) eller en lista av css-filer separerade av komma  (<em>exempel: /themes/garland/style.css,http://example.com/style.css</em>).<br />Makron: %h (värddatornamn: !host), %t (sökväg till tema: !theme)<br />Kom ihåg att välja \"definiera CSS\" ovan."
+
+#: fckeditor.admin.inc:525
+msgid "Predefined styles"
+msgstr "Förvalda stilar"
+
+#: fckeditor.admin.inc:527
+msgid "use theme fckstyles.xml"
+msgstr "använd temabaserad fckstyles.xml"
+
+#: fckeditor.admin.inc:527
+msgid "define path to fckstyles.xml"
+msgstr "definiera sökväg till fckstyles.xml"
+
+#: fckeditor.admin.inc:528
+msgid "Define the location of <code>fckstyles.xml</code> file. It is used by the &quot;Style&quot; dropdown list available in the Default toolbar.<br />Copy !fckstyles.xml inside your theme directory (<code>!theme</code>) and adjust it to your needs."
+msgstr "Definiera platsen för filen <code>fckstyles.xml</code>. Den används av rullgardinslistan &quot;Style&quot; som återfinns i den förvalda verktygsmenyn.<br />Kopiera !fckstyles.xml till katalogen för ditt tema  (<code>!theme</code>) och anpassa den till dina behov."
+
+#: fckeditor.admin.inc:533
+msgid "Predefined styles path"
+msgstr "Sökväg till förvalda stilar"
+
+#: fckeditor.admin.inc:537
+msgid "Enter path to XML file with predefined styles (<em>example: /fckstyles.xml</em>).<br />Macros: %h (host name: !host), %t (path to theme: !theme), %m (path to FCKeditor module: !module)<br />Be sure to select \"define path to fckstyles.xml\" above."
+msgstr "Ange sökväg till XML-fil med fördefinierade stilar (<em>exempel: /fckstyles.xml</em>).<br />Makron: %h (värddatornamn: !host), %t (sökväg till tema: !theme), %m (sökväg till modulen FCKeditor: !module)<br />Kom ihåg att välja \"definiera sökväg till fckstyles.xml\" ovan."
+
+#: fckeditor.admin.inc:542
+#: fckeditor.help.inc:113
+msgid "File browser settings"
+msgstr "Filhanterarens inställningar"
+
+#: fckeditor.admin.inc:545
+msgid "Set file browser settings. A file browser will allow you to explore the files contained on the server and embed them as links, images or flash movies. Besides the built-in FCKeditor file browser, you can also use a contributed module like !imce. The quick upload setting controls whether images, flash movies and files can be uploaded using the Upload tab of the respective dialogs. Please note that these options require manual configuration, check !readme for more information.<br />"
+msgstr "Ange filhanterarens inställningar. En filhanterare låter dig utforska filerna som finns på servern och bädda in dem i länkar, bilder eller flashfilmer. Du kan också använda en bidragen modul såsom !imce förutom den inbyggda filhanteraren i FCKeditor. Inställningen för snabbuppladdning kontrollerar huruvida bilder, flashfilmer och filer kan laddas upp eller inte genom att använda fliken Ladda upp för respektive dialog. Observera att dessa alternativ kräver manuell konfiguration. Se !readme för mer information.<br />"
+
+#: fckeditor.admin.inc:547;559
+#: fckeditor.help.inc:99
+msgid "IMCE"
+msgstr "IMCE"
+
+#: fckeditor.admin.inc:554
+msgid "None"
+msgstr "Ingen"
+
+#: fckeditor.admin.inc:555
+msgid "Built-in filebrowser"
+msgstr "Inbyggd filhanterare"
+
+#: fckeditor.admin.inc:565
+msgid "File browser type"
+msgstr "Typ av filhanterare"
+
+#: fckeditor.admin.inc:567
+msgid "Select the file browser that you would like to use to upload files, images and flash movies."
+msgstr "Välj den filhanterare som du vill använda för att ladda upp filer, bilder och flashfilmer."
+
+#: fckeditor.admin.inc:573
+msgid "Allow quick uploads"
+msgstr "Tillåt snabbuppladdning"
+
+#: fckeditor.admin.inc:575
+msgid "The quick upload functionality can be disabled and enabled independently of the file browser. It will always use the settings below."
+msgstr "Funktionaliteten för snabbuppladning kan slås på och stängas av oberoende av filhanteraren. Inställningen nedan kommer alltid att användas."
+
+#: fckeditor.admin.inc:583
+msgid "Path to uploaded files"
+msgstr "Sökväg till uppladdade filer"
+
+#: fckeditor.admin.inc:587
+msgid "Path to uploaded files relative to the document root.<br />Available wildcard characters:<br/><strong>%b</strong> - base URL path of the Drupal installation (!base).<br/><strong>%f</strong> - Drupal file system path where the files are stored (!files).<br /><strong>%u</strong> - User ID.<br /><strong>%n</strong> - User name.<br />Current path: !path"
+msgstr "Sökväg till uppladdade filer relativt till rotdokumenten.<br />Tillgängliga jokertecken:<br /><strong>%b</strong> - webbadressens bassökväg för installationen av Drupal (!base).<br /><strong>%f</strong> - sökväg till Drupals filsystem där filer lagras (!files).<br /><strong>%u</strong> - ID för användaren.<br /><strong>%n</strong> - Användarnamn.<br />Nuvarande sökväg: !path"
+
+#: fckeditor.admin.inc:592
+msgid "Absolute path to uploaded files"
+msgstr "Fullständig sökväg till uppladdade filer"
+
+#: fckeditor.admin.inc:596
+msgid "The path to the local directory (in the server) which points to the path defined above. If empty, FCKeditor will try to discover the right path.<br />Available wildcard characters:<br/><strong>%d</strong> - server path to document root (!root).<br /><strong>%b</strong> - base URL path of the Drupal installation (!base).<br/><strong>%f</strong> - Drupal file system path where the files are stored (!files).<br /><strong>%u</strong> - User ID.<br /><strong>%n</strong> - User name.<br />Current path: !path"
+msgstr "Sökvägen till den lokala katalogen (på servern) som pekar mot sökvägen definierad ovan. Om tom kommer FCKeditor att försöka hitta den rätta sökvägen.<br />Tillgängliga jokertecken:<br /><strong>%d</strong> - serverns rotsökväg till dokument (!root).<br /><strong>%b</strong> - webbadressens bassökväg för installationen av Drupal (!base).<br /><strong>%f</strong> - sökväg till Drupals filsystem där filer lagras (!files).<br /><strong>%u</strong> - ID för användaren.<br /><strong>%n</strong> - Användarnamn.<br />Nuvarande sökväg: !path"
+
+#: fckeditor.admin.inc:600
+msgid "Setting relative path to uploaded files has been disabled because private downloads are enabled and this path is calculated automatically."
+msgstr "Att ange relativ sökväg till uppladdade filer har avaktiverats eftersom privata nedladdningar har aktiverats och denna sökväg ändras automatiskt."
+
+#: fckeditor.admin.inc:602
+msgid "Setting path to uploaded files has been disabled because private downloads are enabled and this path is calculated automatically."
+msgstr "Att ange sökväg till uppladdade filer har avaktiverats eftersom privata nedladdningar har aktiverats och denna sökväg ändras automatiskt."
+
+#: fckeditor.admin.inc:608
+msgid "Advanced options"
+msgstr "Avancerade alternativ"
+
+#: fckeditor.admin.inc:614
+msgid "Custom javascript configuration"
+msgstr "Anpassad inställning av JavaScript"
+
+#: fckeditor.admin.inc:618
+msgid "Warning: to change FCKeditor configuration globally, you should modify the config file: <code>!fckeditor_config</code>.<br/>Sometimes it is required to change the FCKeditor configuration for selected profile. Use this box to define settings that are uniqe for this profile.<br/>Available options are listed in the !docs.<br/>Warning: if you make something wrong here, FCKeditor may fail to load.<br/>For example to disable some advanced tabs in dialog windows in FCKeditor, add the following: !example"
+msgstr "Varning: för att ändra inställningarna för FCKeditor globalt skall du modifiera inställningsfilen: <code>!fckeditor_config</code>.<br/>Ibland krävs det att man ändrar inställningen för FCKeditor för vald profil. Använd denna ruta för att definiera inställningar som är unika för den här profilen.<br/>Tillgängliga alternativ finns att läsa på !docs.<br/>Varning: om du gör något fel här kan FCKeditor sluta fungera.<br/>Till exempel för att avaktivera några utökade flikar i dialogfönstret i FCKeditor, lägg till följande: !example"
+
+#: fckeditor.admin.inc:621
+msgid "FCKeditor documentation"
+msgstr "dokumentationen för FCKeditor"
+
+#: fckeditor.admin.inc:645;897
+msgid "Include mode selected, but no paths given. Enter at least one path where FCKeditor should appear."
+msgstr "Läge för inkludering vald, men inget fält/sökväg givet. Ange åtminstoe en sökväg eller fält där FCKeditor skall förekomma."
+
+#: fckeditor.admin.inc:654
+msgid "Minimum rows must be a valid number"
+msgstr "Minsta antal rader måste vara ett giltigt nummer."
+
+#: fckeditor.admin.inc:658
+msgid "If FCKeditor is enabled by default, popup window must be disabled."
+msgstr "Om FCKeditor är aktiverat som förvalt måste poppuppfönstret vara avaktiverat."
+
+#: fckeditor.admin.inc:662
+msgid "If toggle is enabled, popup window must be disabled."
+msgstr "Om knappen är aktiverad måste poppuppfönstret avaktiveras."
+
+#: fckeditor.admin.inc:666
+msgid "You must give a profile name."
+msgstr "Du måste ange ett profilnamn."
+
+#: fckeditor.admin.inc:669
+msgid "This profile name is reserved. Please choose a different name."
+msgstr "Detta proflnamn är reserverat. Välj ett annat namn."
+
+#: fckeditor.admin.inc:674
+msgid "The profile name must be unique. A profile with this name already exists"
+msgstr "Profilnamnet måste vara unikt. En profil med detta namn finns redan."
+
+#: fckeditor.admin.inc:679
+msgid "Enter valid width. Ex: 400 or 100%"
+msgstr "Ange en giltig bredd. Exempelvis: 400 eller 100%"
+
+#: fckeditor.admin.inc:684
+msgid "CSS path is not empty. Please set the \"Editor CSS\" option to \"define css\" mode."
+msgstr "Sökvägen för CSS är inte tom. Var vänlig ange alternativet \"Redigerarens CSS\" till \"definiera CSS\"."
+
+#: fckeditor.admin.inc:687
+msgid "Double quotes are not allowed in CSS path."
+msgstr "Dubbla citeringstecken är inte tillåtet i sökvägen för CSS."
+
+#: fckeditor.admin.inc:691;703
+msgid "Enter valid path, do not surround it with quotes."
+msgstr "Ange en giltig sökväg, omgärda den inte med citeringstecken."
+
+#: fckeditor.admin.inc:697
+msgid "Path to predefined styles is not empty. Please set the \"Predefined styles\" option to \"define path to fckstyles.xml\" mode."
+msgstr "Sökväg till fördefinierade stilar är inte tomt. Var vänlig ange alternativet läget \"Fördefinierad stilar\" till \"definiera sökväg till fckstyles.xml\"."
+
+#: fckeditor.admin.inc:700
+msgid "Double quotes are not allowed in path."
+msgstr "Dubbla citattecken är inte tillåtna i sökvägen."
+
+#: fckeditor.admin.inc:709
+msgid "Enter valid, semicolon separated, list of HTML font formats (no semicolon at the end of list expected)."
+msgstr "Ange giltig, semikolonseparerad lista över fontformat i HTML (inget semikolon förväntas i slutet av listan)."
+
+#: fckeditor.admin.inc:715
+msgid "Path to uploaded files is required."
+msgstr "Sökväg till uppladdade filer är nödvändigt."
+
+#: fckeditor.admin.inc:718
+msgid "Absolute path to uploaded files is required."
+msgstr "Fullständig sökväg till uppladdade filer är nödvändigt."
+
+#: fckeditor.admin.inc:729
+msgid "Your FCKeditor profile has been updated."
+msgstr "Din profil i FCKeditor har uppdaterats."
+
+#: fckeditor.admin.inc:765
+msgid "Global profile already exist. Only one global profile is allowed."
+msgstr "Global profil existerar redan. Enbart en global profil är tillåten."
+
+#: fckeditor.admin.inc:769
+msgid "Create global profile"
+msgstr "Skapa global profil"
+
+#: fckeditor.admin.inc:772
+msgid "Update global profile"
+msgstr "Uppdatera global profil"
+
+#: fckeditor.admin.inc:777
+msgid "Main setup"
+msgstr "Grundläggande inställning"
+
+#: fckeditor.admin.inc:789
+msgid "Role precedence"
+msgstr "Rollprioritet"
+
+#: fckeditor.admin.inc:791
+msgid "A user having <strong>multiple roles</strong> gets the permissions of the highest one. Sort role IDs according to their <strong>precedence from higher to lower</strong> by putting > in between.<br />"
+msgstr "En användare som har <strong>flera roller</strong> får rättigheten för den högsta. Sortera rollernas ID i enlighet med deras <strong>prioritet från högsta till lägsta</strong> genom att sätta > därimellan.<br />"
+
+#: fckeditor.admin.inc:794
+msgid "Here is the id-name pairs of roles having access to FCKeditor:"
+msgstr "Här är rollernas ID för namnen som har behörighet till FCKeditor:"
+
+#: fckeditor.admin.inc:797
+msgid "You haven't assigned the <code>!access1</code> !permissions yet."
+msgstr "Du har inte tilldelat !permissions <code>!access1</code> ännu."
+
+#: fckeditor.admin.inc:841
+msgid "Advanced settings"
+msgstr "Avancerade inställningar"
+
+#: fckeditor.admin.inc:850
+msgid "Path to FCKeditor"
+msgstr "Sökväg till FCKeditor"
+
+#: fckeditor.admin.inc:854
+msgid ""
+"Path to FCKeditor (the HTML editor, downloaded from !fckeditornet) relative to the document root.\r\n"
+"    <br />Available wildcard characters:\r\n"
+"    <br/><strong>%b</strong> - base URL path of the Drupal installation (!base).\r\n"
+"    <br/><strong>%m</strong> - base URL path where FCKeditor module is stored (!files).\r\n"
+"    <br />Current path: !path"
+msgstr "Sökväg till FCKeditor (HTML-redigeraren nedladdad från !fckeditornet) relativt till rotdokumenten.<br />Tillgängliga jokertecken :<br /><strong>%b</strong> - webbadressens bassökväg för installationen av Drupal (!base).<br /><strong>%m</strong> - bassökväg där modulen FCKeditor är lagrad (!files).<br />Nuvarande sökväg: !path"
+
+#: fckeditor.admin.inc:871
+msgid "Local path to FCKeditor"
+msgstr "Lokal sökväg till FCKeditor"
+
+#: fckeditor.admin.inc:875
+msgid ""
+"The path to the local directory (on the server) which points to the path defined above. Enter either an absolute server path or path relative to index.php.<br />If empty, FCKeditor module will try to find the right path.\r\n"
+"    <br />Current path: !path"
+msgstr "Sökvägen till den lokala katalogen (på servern) som pekar till sökvägen definierad ovan. Ange antingen en absolut sökväg till servern eller sökväg relativ till index.php<br />Om tom kommer modulen FCKeditor att försöka hitta den rätta sökvägen.<br />Nuvarande sökväg: !path"
+
+#: fckeditor.admin.inc:939
+msgid "FCKeditor global profile has been saved."
+msgstr "Global profil för FCKeditor har lagrats."
+
+#: fckeditor.admin.inc:960
+msgid "Rule %rule is ambiguous: please append .* if %rule is a path or prepend *. if %rule is a field"
+msgstr "Regeln %rule är tvetydig: lägg till .* om %rule är en sökväg eller *. om %rule är ett fält"
+
+#: fckeditor.admin.inc:979
+msgid "You're about to delete the FCKeditor profile, read the question below carefully."
+msgstr "Du är på väg att radera profilen för FCKeditor, läs frågan nedan noggrannt."
+
+#: fckeditor.admin.inc:984
+msgid "Are you sure that you want to delete profile %profile?"
+msgstr "Är du säker på att du vill radera profilen !profile?"
+
+#: fckeditor.admin.inc:990
+msgid "Yes, delete!"
+msgstr "Ja, radera!"
+
+#: fckeditor.admin.inc:996
+msgid "Cancel"
+msgstr "Ångra"
+
+#: fckeditor.admin.inc:1007
+msgid "Deleted profile"
+msgstr "Raderade profil"
+
+#: fckeditor.help.inc:36
+msgid "Enables the usage of FCKeditor (WYSIWYG editor) instead of plain text fields."
+msgstr "Aktiverar användningen av FCKeditor (redigerare av typen WYSIWYG) istället för rena textfält."
+
+#: fckeditor.help.inc:40
+msgid "<p>The Global Profile allows you to define settings that are common for all profiles. Values defined in other profiles will be appended to the global configuration. This way you can avoid repeating some of the settings that are usually the same in each profile.</p>"
+msgstr "<p>Den globala profilen låter dig definiera inställningar som är gemensamma för alla profiler. Värden som är definierade i andra profiler kommer att bifogas till den globala konfigurationen. Genom detta sätt kan du undvika att behöva repetera några av inställningarna som ofta är samma för varje profil.</p>"
+
+#: fckeditor.help.inc:44
+msgid "<p>Note: FCKeditor is highly configurable. The most commonly used features are listed below. If you want to take a look at all available settings, open <code>!fckconfig</code> and then customize <code>!fckeditor_config</code> to your needs. This is also the only way to define new toolbar sets. It is advised to not edit <code>fckconfig.js</code> because you may overwrite it accidentally when you update the editor.</p>"
+msgstr "<p>Observera: FCKedit är väldigt anpassningsbart. De vanligaste funktionerna visas här nedanför. Om du vill se alla tillgängliga inställningar, öppna <code>!fckconfig</code> och anpassa sen <code>!fckeditor_config</code> för att passa dina behov. Det här är också enda sättet att definiera nya verktyg på menyn. Det rekommenderas att inte redigera <code>fckconfig.js</code> eftersom du kan råka skriva över den när du uppdaterar redigeraren.</p>"
+
+#: fckeditor.help.inc:50
+msgid "<p>The FCKeditor module allows Drupal to replace textarea fields with a rich text or <acronym title=\"What You See Is What You Get\">WYSIWYG</acronym> editor. This editor brings many of the powerful functionalities of known desktop editors like Word to the web. It's relatively lightweight and doesn't require any kind of installation on the client computer.</p><p>More information about the editor is located at the !fckeditorlink. A small user guide is located at !userguidelink.</p>"
+msgstr "<p>Modulen FCKeditor låter Drupal ersätta textfält med en redigerare av typen Rich Text eller <acronym title=\"What You See Is What You Get (vad du ser är vad du får)\">WYSIWYG</acronym>. Den här redigeraren erbjuder webben många av de kraftfulla funktionerna som kända skrivbordsprogram såsom Microsoft Word tillhandahåller. Den tar inte så mycket resurser och kräver ingen installation på klientdatorn.</p><p>Mer information om redigeraren finns på !fckeditorlink. En liten användarguide finns på !userguidelink.</p>"
+
+#: fckeditor.help.inc:53;61
+msgid "FCKeditor userguide"
+msgstr "Användarguide för FCKeditor"
+
+#: fckeditor.help.inc:55
+msgid "<p>Profiles can be defined based on user roles. A FCKeditor profile can define which pages receive this FCKeditor capability, what buttons or themes are enabled for the editor, how the editor is displayed, and a few other editor functions. It is possible also to define the Global Profile that will hold values that will be appended to all other profiles.</p><p>Lastly, only users with the <code>!access1</code> !permission will be able to use FCKeditor. </p>"
+msgstr "<p>Profiler kan definieras baserat på användarroller. En profil i FCKeditor kan definiera vilka sidor som skall använda sig av redigeraren, vilka knappar eller teman som är aktiverade, hur den visas och en del andra funktioner. Det är också möjligt att definiera en global profil som innehåller värden som läggs till i alla profiler.</p><p>Till sist, enbart användare med !permission <code>!access1</code> kommer att kunna använda FCKeditor.</p>"
+
+#: fckeditor.help.inc:58
+msgid "<p>The FCKeditor module allows Drupal to replace textarea fields with a rich text or <acronym title=\"What You See Is What You Get\">WYSIWYG</acronym> editor. This editor brings many of the powerful functionalities of known desktop editors like Word to the web. It's relatively lightweight and doesn't require any kind of installation on the client computer.</p><p>More information is located at the !fckeditorlink. A small user guide is located at !userguidelink.</p>"
+msgstr "<p>Modulen FCKeditor låter Drupal ersätta textfält med en redigerare av typen Rich Text eller <acronym title=\"What You See Is What You Get (vad du ser är vad du får)\">WYSIWYG</acronym>. Den här redigeraren erbjuder webben många av de kraftfulla funktionerna som kända skrivbordsprogram såsom Microsoft Word tillhandahåller. Den tar inte så mycket resurser och kräver ingen installation på klientdatorn.</p><p>Mer information om redigeraren finns på !fckeditorlink. En liten användarguide finns på !userguidelink.</p>"
+
+#: fckeditor.help.inc:63
+msgid "<h3>Configuration</h3><ol><li>Go to the !fckeditorlink and download the latest version of FCKeditor. Then uncompress the contents of the \"fckeditor\" directory of the downloaded file to %fckeditordir.</li><li>Enable the module as usual from Drupal's admin pages.</li><li>Grant permissions for use of FCKeditor in <code>!path2</code><br/>Note: to enable the file browser, read also the <i>How to enable the file browser</i> section.</li><li>Under <code>!path1</code>, adjust the fckeditor profiles. In each profile you can choose which textareas will be replaced by FCKeditor, select default toolbar and configure some more advanced settings.</li><li>For the Rich Text Editing to work you also need to configure your !filterlink for the users that may access Rich Text Editing. Either grant those users Full HTML access or use the following: <br/><code>!filter</code>. </li><li>To have a better control over line breaks, you may disable <code>Line break converter</code> in the chosen filter (recommended).</li><li>Modify the fckeditor.config.js file to custom your needs (optional).<br />You may copy the needed configuration lines from the default FCKeditor configuration settings (!fckconfig), the lines in fckeditor.config.js will override most settings.</li></ol>"
+msgstr "<h3>Inställningar</h3><ol><li>Gå till !fckeditorlink och ladda ned senaste versionven av FCKeditor. Packa sen upp innehållet ur katalogen \"fckeditor\" från den nedladdade filen till %fckeditordir.</li><li>Aktivera modulen som vanligt på Drupals administrationssidor.</li><li>Ge tillåtelse för användning av FCKeditor på <code>!path2</code><br/>Observera: för att aktivera filhanteraren, läs också delen <i>Hur du aktiverar filhanteraren</i></li><li>Ändra profilerna för FCKeditor på <code>!path1</code>. För varje profil kan du välja vilka textfält som skall ersättas av FCKeditor, ange förvald verktygsrad och även konfigurera fler utökade inställningar.</li><li>För att redigeraren av typen Rich Text skall fungera måste du också konfigurera !filterlink för användarna som skall ha tillgång till denna typ av redigering. Antinge ger du dessa användare behörigheten Fullständig HTML eller använd följande: <br/><code>!filter</code>.</li><li>För att ha bättre kontroll över radbrytningar kan du avaktivera <code>konverteraren för radbrytning</code> i det valda filtret (rekommenderas).</li><li>Ändra filen fckeditor.config.js för att passa dina behov (valfritt).<br />Du kan kopiera de nödvändiga konfigurationsraderna från de förvalda inställningarna för FCKeditor (!fckconfig), raderna i fckeditor.config.js kommer att åsidosätta de flesta inställningarna.</li></ol>"
+
+#: fckeditor.help.inc:67
+msgid "Administer > Site configuration > FCKeditor"
+msgstr "Administrera > Inställningar > FCKeditor"
+
+#: fckeditor.help.inc:68
+msgid "Administer > User Management > Permissions"
+msgstr "Administrera > Användare > Rättigheter"
+
+#: fckeditor.help.inc:75
+msgid "filters"
+msgstr "filter"
+
+#: fckeditor.help.inc:78
+msgid "<h3>Defining field inclusion/exclusions</h3><p>In order to specifically display FCKeditor on those text areas on which you need it, the FCKeditor module provides a powerfull method to define fields that should be enhanced with FCKeditor. The first choice you have to make is whether you want to display FCKeditor on all textareas and define a list of exceptions, or if you don't want to display FCKeditor unless it is specifically enabled. This choice is made in the @inclexclsetting setting.</p><p>Next, the list of exceptions has to be defined. This list follows a specific syntax: the path to a field is defined by appending the field name to the path, separated by a dot. The field <em>edit-log</em> on page <em>node/add/page</em> would thus be addressed as <em>node/add/page.edit-log</em>. You can use wildcards * and ? anywhere in this line. If you have a dot in your field name and it causes problems, you can escape it with a slash (\\).</p><p>Some examples:<br/><em>node/add/page</em>: matches all fields on <em>node/add/page</em>.<br/><em>*.edit-log</em>: matches all fields called edit-log on any page.<br/><em>node/add/*</em>: matches all fields on pages such as <em>node/add/page</em>, <em>node/add/story</em>, etc.<br/><em>node/add/*.edit-log</em>: matches all edit-log fields on pages such as <em>node/add/page</em>, <em>node/add/story</em>, etc.<br/><em>node/add/*.edit-user-*</em>: matches fields starting with <em>edit-user-</em> on pages starting with <em>node/add/</em></p>"
+msgstr "<h3>Definierande av fält- inbegripande/uteslutande</h3><p>För att specifikt kunna visa FCKeditor på de textfält där du behöver dem tillhandahåller modulen FCKeditor en kraftfull metod att definiera fält som skall stödjas av FCKeditor. Det första valet du behöver göra är huruvida du vill visa FCKeditor på alla textfält eller inte och definiera en lista på undantag, eller om du inte vill visa FCKeditor så till vida det inte specifikt är aktiverat. Detta val görs i inställningen <em>@inclexclsetting</em>.</p><p>Därefter måste undantagen definieras. Denna lista följer en specifik syntax: sökvägen till ett fält definieras genom att lägga till fältnamnet till en sökväg separerat av en punkt. Fältet <em>edit-log</em> på sidan <em>node/add/page</em> skulle därför anges som <em>node/add/page.edit-log</em>. Du kan ange jokertecknen * och ? varsomhelst på denna rad. Om du har en punkt i ditt fältnamn och det skapar problem kan du undkomma det genom ett snedstreck. (\\).</p><p>Några exempel:<br /><em>node/add/page</em>: passar alla fält på <em>node/add/page</em>.<br /><em>*.edit-log</em>: passar alla fält av typen edit-log på sidor såsom <em>node/add/page</em>, <em>node/add/story</em>, och så vidare.<br /><em>node/add/*.edit-user-*</em>: passar fält som börjar med <em>edit-user-</em> på sidor som börjar med <em>node/add/</em></p>"
+
+#: fckeditor.help.inc:79
+msgid "<h3>Installation troubleshooting</h3><p>If your FCKeditor does not show you must check if all files are extracted correctly. The directory %fckeditordir should have the following files: <code>fckeditor.js, fckconfig.js, fckstyles.xml, fcktemplates.xml</code> and a directory named <code>editor</code>.</p>"
+msgstr "<h3>Felsökning vid installation</h3><p>Om din FCKeditor inte syns måste du kontrollera att alla filer packades upp korrekt. Katalogen %fckeditordir skall innehålla följande filer: <code>fckeditor.js, fckconfig.js, fckstyles.xml, fcktemplates.xml</code> och en katalog som heter <code>editor</code>.</p>"
+
+#: fckeditor.help.inc:83
+msgid "The correct directory structure is as follows: <blockquote><pre>!structure</pre></blockquote>"
+msgstr "Den korrekta katalogstrukturen är följande: <blockquote><pre>!structure</pre></blockquote>"
+
+#: fckeditor.help.inc:86
+msgid "<h3>Plugins: Teaser break and Pagebreak</h3><p>By default, FCKeditor module comes with two plugins that can handle teaser break (&lt;!--break--&gt;) and pagebreak (&lt;!--pagebreak--&gt;). You can enable any (or even both) of them.<ol><li>Open <code>!fckeditor.config.js</code> and uncomment these three lines: <pre>!code</pre></li><li>The second step is to add buttons to the toolbar (in the same file). The button names are: <code>DrupalBreak, DrupalPageBreak</code>. For example if you have a toolbar with an array of buttons defined as follows: <pre>!buttons1</pre> simply add those two buttons at the end of array: <pre>!buttons2</pre> (remember about single quotes).</li></ol></p>"
+msgstr "<h3>Insticksprogram: Ingresser och Sidrytning</h3><p>Som förvalt kommer modulen FCKeditor med två insticksprogram som kan handa ingresser (&lt;!--break--&gt;) och sidbrytning (&lt;!--pagebreak--&gt;). Du kan aktivera antingen ena, eller båda.<ol><li>Öppna <code>!fckeditor.config.js</code> och avkommentera dessa tre rader: <pre>!code</pre></li><li>Den andra åtgärden är att lägga till knappar till verktygsmenyn (i samma fil). Namnen på knapparna är: <code>DrupalBreak, DrupalPageBreak</code>. Till exempel om du har en verktygsmeny med en serie knappar definerade enligt följande: <pre>!buttons1</pre> behöver du bara lägga till dessa två knappar i slutet av serien: <pre>!buttons2</pre> (glöm ej att använda enkla citattecken).</li></ol></p>"
+
+#: fckeditor.help.inc:97
+msgid "<h3>Uploading images and files</h3><p>There are three ways of uploading files: By using the built-in file browser, by using a module like !imce or using the core upload module.</p>"
+msgstr "<h3>Uppladdning av bilder och filer</h3><p>Det finns tre sätt att ladda upp filer: Genom att använda den inbyggda filhanteraren, att använda en modul såsom !imce eller använda kärnans uppladdningsmodul.</p>"
+
+#: fckeditor.help.inc:103
+msgid "<h3>How to enable the file browser</h3><p>The editor gives the end user the flexibility to create a custom file browser that can be integrated on it. The included file browser allows users to view the content of a specific directory on the server and add new content to that directory (create folders and upload files).</p><p><ol><li>To enable file browsing you need to edit the connector configuration file in your fckeditor module directory, the file should be in:<blockquote><code>!config</code></blockquote></p><p>In this file you will need to enable the file browser by adding one line that includes file with the special authentication function for Drupal (<code>filemanager.config.php</code>). Add this code: <blockquote><code>!code1</code></blockquote> straight below this line: <blockquote><code>!code2</code></blockquote> The config.php file also holds some other important settings, please take a look at it and adjust it to your needs (optional).</p></li>"
+msgstr "<h3>Hur du aktiverar filhantering</h3><p>Redigeraren ger användaren flexibiliteten att skapa en anpassad filhanterare som kan integreras i redigeraren. Den inbyggda filhanteraren låter användarna visa innehåll från en specifik katalog på servern och att lägga till nytt innehåll till denna katalog (skapa kataloger och ladda upp filer).</p><p><ol><li>För att aktivera filhantering behöver du redigera anslutningens konfigurationsfil i din katalog för modulen FCKeditor. Filen skall finnas i:<blockquote><code>!config</code></blockquote></p><p>I denna fil (filerna) måste du aktivera filhantering genom att lägga till en rad som inkluderar filer med den speciella verifieringsfunktionen för Drupal (<code>filemanager.config.php</code>). Lägg till denna kod: <blockquote><code>!code1</code></blockquote> precis nedanför denna rad: <blockquote><code>!code2</code></blockquote> Filen config.php file innehåller också andra viktiga inställningar så var vänlig att titta igenom den och anpassa den till dina behov (valfritt).</p></li>"
+
+#: fckeditor.help.inc:111
+msgid "<li>Locate file named <code>settings.php</code> inside your drupal directory (usually <code>sites/default/settings.php</code>) and set <strong><code>&#36;cookie_domain</code></strong> variable to the appropiate domain (remember to uncomment that line). If you not do this, FCKeditor will claim that file browser is disabled</li>"
+msgstr "<li>Lokalisera filen som heter <code>settings.php</code> inuti din drupalkatalog (vanligtvis <code>sites/default/settings.php</code>) och ange variabeln <strong><code>&#36;cookie_domain</code></strong> till den anvisade domänen (glöm inte att avkommentera den raden). Om du inte gör detta kommer FCKeditor att hävda att filhantering är avaktiverat</li>"
+
+#: fckeditor.help.inc:112
+msgid "<li>Enabling file uploads is <strong>a security risk</strong>. That's why you have to grant a !link to enable the file browser to certain groups (assign the &quot;!allowupload&quot; permissions).</li>"
+msgstr "<li>Aktivera filuppladdning är <strong>en stor säkerhetsrisk</strong>. Det är därför du måste ange en !link för att aktivera filhantering till vissa grupper (tilldela rättigheterna &quot;!allowupload&quot;).</li>"
+
+#: fckeditor.help.inc:112
+msgid "separate permission"
+msgstr "separat rättighet"
+
+#: fckeditor.help.inc:112
+#: fckeditor.module:80
+msgid "allow fckeditor file uploads"
+msgstr "tillåt filuppladdning i FCKeditor"
+
+#: fckeditor.help.inc:113
+msgid "<li>Lastly, adjust the !fb for each !profile.</li></ol>"
+msgstr "<li>Till sist, ändra !fb> för varje !profile.</li></ol>"
+
+#: fckeditor.help.inc:113
+msgid "profile"
+msgstr "profile"
+
+#: fckeditor.help.inc:114
+msgid "<h3>Modules: Image Assist</h3><p>Image Assist can be integrated with FCKeditor. To do this, simply copy the <code>!iaf1</code> file to <code>!iaf2</code>.</p>"
+msgstr "<h3>Moduler: Image Assist</h3><p>Image Assist kan integreras i FCKeditor. För att göra detta kopierar du helt enkelt filen <code>!iaf1</code> till <code>!iaf2</code>.</p>"
+
+#: fckeditor.user.inc:46
+msgid "Rich Text Editor settings"
+msgstr "Inställningar för redigeraren av typen Rich Text"
+
+#: fckeditor.user.inc:57
+msgid "Should rich-text editing be enabled or disabled by default in textarea fields? If disabled, rich text editor may still be enabled using toggle or popup window."
+msgstr "Skall redigering av typen Rich Text vara aktiverad eller ej som förvalt i textfältens område? Om avaktiverad kan fortfarande redigeraren av typen Rich Text aktiveras genom knapp eller poppuppfönster."
+
+#: fckeditor.user.inc:65
+msgid "Whether or not to show the disable/enable rich text editor toggle below the textarea. Works only if FCKeditor is not running a popup window (see below)."
+msgstr "Huruvida visning av knappen aktivera/avaktivera Rich Text skall visas nedanför textområdet. Fungerar enbart om FCKeditor inte körs i ett poppuppfönster (se nedan)."
+
+#: fckeditor.user.inc:90
+msgid "Choose a FCKeditor skin."
+msgstr "Välj ett skal för FCKeditor."
+
+#: fckeditor.user.inc:98
+msgid "Choose a FCKeditor toolbar set."
+msgstr "Välj en verktygsmeny för FCKeditor."
+
+#: fckeditor.module:69
+msgid "The FCKeditor component is not installed correctly. You should run the  !fupdatelink immediately."
+msgstr "Komponenten för FCKeditor är inte korrekt installerad. Du måste köra !fupdatelink omedelbart."
+
+#: fckeditor.module:71
+msgid "database update script"
+msgstr "uppdateringsskript för databasen"
+
+#: fckeditor.module:346;347
+msgid "Switch to plain text editor"
+msgstr "Byt till redigerare av typen ren text"
+
+#: fckeditor.module:346;347
+msgid "Switch to rich text editor"
+msgstr "Byt till redigerare av typen Rich Text"
+
+#: fckeditor.module:555
+msgid "Open rich editor"
+msgstr "Öppna redigerare av typen Rich Text"
+
+#: fckeditor.module:574
+msgid "<div class=\"textarea-identifier description\">The ID for !excluding this element is %fieldname</div>"
+msgstr "<div class=\"textarea-identifier description\">ID för att !excluding det här elementet är %fieldname</div>"
+
+#: fckeditor.module:575
+msgid "excluding or including"
+msgstr "exkluderar eller inkluderare"
+
+#: fckeditor.module:80
+msgid "administer fckeditor"
+msgstr "administrera FCKeditor"
+
+#: fckeditor.module:125
+msgid "FCKeditor settings"
+msgstr "FCKeditor"
+
+#: fckeditor.module:126;135;145;155;165;175;185
+msgid "Configure the rich editor."
+msgstr "Konfigurera redigeraren av typen Rich Text."
+
+#: fckeditor.module:134
+msgid "Add new FCKeditor profile"
+msgstr "Lägg till ny profil i FCKeditor"
+
+#: fckeditor.module:144
+msgid "Clone FCKeditor profile"
+msgstr "Kopiera global profil för FCKeditor"
+
+#: fckeditor.module:154
+msgid "Edit FCKeditor profile"
+msgstr "Redigera profilen för FCKeditor"
+
+#: fckeditor.module:164
+msgid "Delete FCKeditor profile"
+msgstr "Radera global profil för FCKeditor"
+
+#: fckeditor.module:174
+msgid "Add FCKeditor Global profile"
+msgstr "Lägg till global profil för FCKeditor"
+
+#: fckeditor.module:184
+msgid "Edit FCKeditor Global profile"
+msgstr "Redigera global profil för FCKeditor"
+
+#: fckeditor.module:0
+msgid "fckeditor"
+msgstr "fckeditor"
+
+#: fckeditor.install:126
+msgid "Stores FCKeditor profile settings"
+msgstr "Lagrar profilinställningar för FCKeditor"
+
+#: fckeditor.install:133
+msgid "Name of the FCKeditor profile"
+msgstr "Namn på profilen för FCKeditor"
+
+#: fckeditor.install:137
+msgid "Profile settings"
+msgstr "Inställningar för profilen"
+
+#: fckeditor.install:143
+msgid "Stores FCKeditor profile assignments"
+msgstr "Lagrar profiltilldeningar för FCKeditor"
+
+#: fckeditor.install:150
+msgid "Name of the FCKeditor role"
+msgstr "Namn på rollen för FCKeditor"
+
+#: fckeditor.install:156
+msgid "Drupal role id"
+msgstr "Drupals ID för rollen"
+
+#: fckeditor.install:178
+#: fckeditor.info:0
+msgid "FCKeditor"
+msgstr "FCKeditor"
+
+#: fckeditor.install:179
+msgid "Unknown"
+msgstr "Okänd"
+
+#: fckeditor.install:188
+msgid "FCKeditor was not found at %sourcepath"
+msgstr "FCKeditor kunde inte hittas på %sourcepath"
+
+#: fckeditor.install:192
+msgid "FCKeditor version could not be determined"
+msgstr "Versionen av FCKeditor kunde inte fastställas."
+
+#: fckeditor.install:196
+msgid "The latest available FCKeditor version could not be determined, the HTTP error while fetching the version information was: @error"
+msgstr "Den senaste versionen av FCKeditor kunde inte fastställas. Felmeddelandet som gavs vid inhämtningen av versionsinformationen var: @error"
+
+#: fckeditor.install:201
+msgid "The latest available FCKeditor version is @version. You can download it at !fcklink."
+msgstr "Den senaste versionen av FCKeditor är @version. Du kan ladda ned den på !fcklink."
+
+#: fckeditor.install:205
+msgid "You are using a feature that requires $cookie_domain to be set, but it is not set in your settings.php."
+msgstr "Du använder en egenskap som kräver att $cookie_domain är angett, men den är inte angiven i din settings.php."
+
+#: fckeditor.info:0
+msgid "Enables the usage of FCKeditor (WYSIWYG) instead of plain text fields."
+msgstr "Aktiverar användningen av FCKeditor (WYSIWYG) istället för vanliga textfält."
+
+#: fckeditor.utils.js:0;0;0;0;0
+msgid "Join summary"
+msgstr "Lägg ihop sammanfattning"
+
+#: fckeditor.utils.js:0;0
+msgid "Split summary at cursor"
+msgstr "Avdela sammanfattning vid markören"
+

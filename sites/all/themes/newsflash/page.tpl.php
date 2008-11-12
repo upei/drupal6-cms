@@ -92,8 +92,12 @@
   <?php }  ?>
 <!--[if IE]>
 <style type="text/css" media="all">@import "<?php print base_path() . path_to_theme() ?>/css/ie.css";</style>
+
 <![endif]-->
-  <?php if ($suckerfish) { ?>
+<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_override.css";</style>
+<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/override_style.css";</style>
+
+<?php if ($suckerfish) { ?>
     <?php if (theme_get_setting('newsflash_suckerfish')) { ?>
 <!--[if lte IE 6]>
 <script type="text/javascript" src="<?php print $GLOBALS['base_url']."/"; print $directory; ?>/js/suckerfish.js"></script>

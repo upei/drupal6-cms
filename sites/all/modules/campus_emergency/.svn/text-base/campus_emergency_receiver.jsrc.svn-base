@@ -1,0 +1,111 @@
+/* $Id$ */
+$(document).ready(function() {
+  
+var emergencyCloseButtonTimer = 10;
+var emergencyCookieBrowserSession = 'campus_emergency_browser_session';
+var emergencyCookieBrowserTimer = 'campus_emergency_browser_timeout';
+var emergencyJSONURL = '/emergency/cem/endpoint/json?' + Math.random();
+var EMERGENCY_TIMEOUT = 20 * 60 * 1000; // 20 minutes
+  
+var CampusEmergencyReceiver = function(id) {
+  this.targetElement = $(id);
+  this.emergency = false;
+}
+
+CampusEmergencyReceiver.prototype.fetchAndDisplay = function(url) {
+  // assign the url
+  this.url = url;
+  
+  var obj = this;
+  
+  // get JSON and do the url parsing
+  $.getJSON(url, function(data) {
+    obj.emergency = data['in-emergency'];
+    if (obj.emergency) {
+      var messages = data['messages'];
+      obj.title = messages[0]['title'];
+      obj.body = messages[0]['body'];
+      messageReceiver.display();
+      // set the browser session cookie
+      var date = new Date();
+      date.setTime(date.getTime() + EMERGENCY_TIMEOUT); // 20 minutes
+      $.cookie(emergencyCookieBrowserSession, true, { path: '/' });
+      $.cookie(emergencyCookieBrowserTimer, true, { path: '/', expires: date});
+    }
+  });
+  
+  return true;
+}
+
+CampusEmergencyReceiver.prototype.display = function() {
+  // replace the content with the name
+  this.targetElement.append($.create('div', {style: 'margin: 10px 10px;'}, [this.body]));
+
+  // append the close button
+  var button = $.create('button', { id : 'campus_emergency_close_button', disabled: 'disabled'}, ['Close']);
+  this.targetElement.append($.create('div', { align: 'center', style:'margin: 10px 10px;'}, [button]));
+  // var button = $('#campus_emergency_close_button');
+  // set the timer
+  button.attr('timer', emergencyCloseButtonTimer);
+  button.attr('textLabel', 'Close');
+  button.everyTime(1000, function() {
+    var remaining = button.attr('timer');
+    if (remaining > 0) {
+      remaining = remaining - 1;
+      button.text(
+        button.attr('textLabel') + ' (' + remaining + ')'
+        );
+      button.attr('timer', remaining);
+    }
+    else {
+      button.text(
+        button.attr('textLabel')
+        );
+      button.removeAttr('disabled');
+      button.stopTime();
+      // listen for key
+      $(document).bind('keydown.campus_emergency_close_button', function(e) {
+        if (e.keyCode && (e.keyCode == $.keyCode.ESCAPE ||
+            e.keyCode == $.keyCode.ENTER ||
+            e.keyCode == $.keyCode.SPACE)) {
+          button.click();
+        }
+      });
+    }
+  });
+
+  // connect the close button to the close event.
+  var receiver = this;
+  button.click(function() {
+    receiver.targetElement.dialog("destroy");
+  });
+  button.everyTime()
+
+  // show the dialog
+  this.targetElement.dialog($.extend(this.dialogOptions||{}, {
+    title: this.title,
+    modal: true,
+    draggable: true,
+    resizable: 'se',
+    closeOnEscape: false,
+    height: 200,
+    width: 400,
+    overlay: {
+      opacity: 0.5,
+      background: "black"
+    }
+  }));
+  
+  return true;
+}
+
+var messageReceiver = new CampusEmergencyReceiver('#campus_emergency');
+// check browser session cookie
+var browserSession = $.cookie(emergencyCookieBrowserSession);
+var inSessionNotExpired = $.cookie(emergencyCookieBrowserTimer);
+
+if (null == browserSession || (browserSession && null == inSessionNotExpired)) {
+  messageReceiver.fetchAndDisplay(emergencyJSONURL); // to prevent browser caching
+}
+
+});

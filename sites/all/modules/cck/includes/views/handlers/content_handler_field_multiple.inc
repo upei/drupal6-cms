@@ -1,5 +1,5 @@
 <?php
-// $Id: content_handler_field_multiple.inc,v 1.1.2.10 2008/11/02 01:20:26 yched Exp $
+// $Id: content_handler_field_multiple.inc,v 1.1.2.13 2008/11/11 00:34:46 yched Exp $
 
 /**
  * @file
@@ -167,7 +167,7 @@ class content_handler_field_multiple extends content_handler_field {
 
   function render($values) {
     // If this is not a grouped field, use content_handler_field::render().
-    if (!$this->defer_query || empty($this->field_values)) {
+    if (!$this->defer_query) {
       return parent::render($values);
     }
 
@@ -237,11 +237,11 @@ class content_handler_field_multiple extends content_handler_field {
   }
 
   function render_link($data, $values) {
-    if (!$this->defer_query || empty($this->field_values)) {
+    if (!$this->defer_query) {
       return parent::render_link($data, $values);
     }
 
-    if (!empty($this->options['link_to_node'])) {
+    if (!empty($this->options['link_to_node']) && $data !== NULL && $data !== '') {
       return l($data, "node/" . $values->nid, array('html' => TRUE));
     }
     else {

@@ -1,0 +1,192 @@
+$Id: CHANGELOG.txt,v 1.2.2.27.2.51 2008/10/16 13:04:27 wwalc Exp $
+
+-- 2008-10-15 version 6.x-2.x-dev
+* EMailProtection has been set to "none" by default
+* #313524 Fixed: "notice: Undefined index" messages in hook_user
+Corrected user profile validation
+* #318540 Fixed: formatting output doesn't format properly
+
+-- 2008-10-09 version 6.x-2.x-dev
+* #310988 Extended default exclusion list, added hack for module developers allowing to disable fckeditor on specific textareas (via #wysiwyg attribute)
+* #316029 File_download adds text/plain content type to a pdf
+* Fixed "undefined fckInstances" error in IE
+
+-- 2008-10-08 version 6.x-2.x-dev
+* #318342 Fixed SQL syntax errors
+* Added upgrading instructions
+* Changed all TRUE/FALSE select boxes into check boxes (usability enhancement)
+* Added configuration checks when built-in file browser is enabled.
+* Added automatic RTL support
+
+-- 2008-09-22 version 6.x-2.x-dev
+* #311181 translatable strings overhaul
+* Improved source code according to Coder module instructions
+* Improved Image Assist 6.x-1.x support
+
+-- 2008-09-16 version 6.x-2.x-dev
+* #308360 added field IDs from google_analytics and piwik modules to the default exclusion list
+
+-- 2008-09-12 version 6.x-2.x-dev
+* #307130 edit-update-notify-emails field added to default exclusion list
+
+-- 2008-09-11 version 6.x-2.x-dev
+* Added <param> tag to the list of suggested allowed tags in Filtered HTML input format.
+
+-- 2008-09-04 version 6.x-2.x-dev
+* #299404 Improved protection against browsers caching fckeditor.config.js
+* #301051 Fixed: incomatibility with l10n_client (added edit-target to the default exclude list)
+
+-- 2008-08-27 version 6.x-2.x-dev
+* #268070 Assign editor-profiles to content types - improved detection of built-in types
+* #270430 Fixed: Compatibility with themes that put all javascript at the bottom
+
+-- 2008-08-26 version 6.x-2.x-dev
+* #268070 Assign editor-profiles to content types
+
+-- 2008-08-18 version 6.x-2.x-dev
+* #295306 Added edit-relatedlinks-fieldset-relatedlinks to the exclusion list. (Conflict with Related Links Module).
+
+-- 2008-08-14 version 6.x-2.x-dev
+* Updated help sections
+* Fixed: FCKeditor user profile validation makes adding a new user impossible
+* Changed the way how profiles are loaded. It is now possible to assign more than one profile to a single role and use multiple toolbars for different textareas.
+
+-- 2008-08-11 version 6.x-2.x-dev
+* Improved loading mechanism, thereby fixing
+* #273752: FCKeditor malfunctions when multiple fields are present and one of them has a teaser
+* #210065: FKCeditor removes the resizable class on textareas
+* #212054: Plain text editor shows unformatted text
+* Fixed paths in _fckeditor_requirements
+
+-- 2008-08-01 version 6.x-2.x-dev
+* #277634 FCK not always appearing for Safari - needs refresh
+
+-- 2008-07-31 version 6.x-2.x-dev
+* #287166 PostgreSQL compatibility fix in update 6130
+
+-- 2008-07-25 version 6.x-2.x-dev
+* #243555 Configurable path to FCKeditor
+* #252830 Fixed 'use theme css' and color.module integration
+* #274190 added %n wildcard to match $user->name
+
+-- 2008-07-21 version 6.x-2.x-dev
+* Drop support for FCKeditor 2.4 and lower and remove notices about Drupal 5.1 and lower
+* Fixed issues with ignoring selected checkboxes with user roles when saving profile
+* Added support for cloning profiles
+
+-- 2008-07-18 version 6.x-2.x-dev
+* #278411 Allow field name hint below each editor to be hidden in profiles and user profiles
+* Fixed: the toggle button setting could not be overridden by users
+* Added hook_requirements() that checks if the latest version of FCKeditor is installed and $cookie_domain is set
+
+-- 2008-07-15 version 6.x-2.x-dev
+* #278428 Split module file in separate includes to reduce memory usage
+
+-- 2008-07-11 version 6.x-2.x-dev and 6.x-1.x-dev
+* #267538 added support for private file system
+* #269478 including fckeditor.php twice is causing errors
+
+-- 2008-07-10 version 6.x-2.x-dev
+* #240932 Unify path/id exclusions
+
+-- 2008-07-10 version 6.x-2.x-dev and 6.x-1.x-dev
+* #275158 (IMG Assist broken after update) readded code to maintain
+  backwards compatibility with the old img_assist_fckeditor.js
+
+-- 2008-07-10 version 6.x-1.x-dev
+* #246137 Improved and extensible file browser integration
+
+-- 2008-07-05 version 6.x-2.x-dev
+* #246137 Improved and extensible file browser integration
+
+-- 2008-06-30 version 6.x-2.x-dev
+* started development in 6--2 branch
+
+-- 2008-06-26 version 6.x-1.x-dev
+* #262193 Incorrect Format for {fckeditor_role}.{rid} Default Value
+
+-- 2008-06-23 version 6.x-1.x-dev
+* #241271 fixed creation of extra <p> tags (removed dirt hacks for IE, experimental)
+* CCK: FCKeditor will now appear on fields of Text type if "Minimum rows" in FCKeditor profile is set to 1 (default).
+* Fixed #263491: "Not translatable strings"
+
+-- 2008-06-20 version 6.x-1.x-dev
+* #269653 added warning page before deleting a profile
+* #272834 fixed Image Assist integration problems
+* improved method of adding automatically showblock buttons to the tooblar to prevent errors such like #213950
+* Reverted #261483
+
+-- 2008-06-19 version 6.x-1.x-dev
+* #207845 fixed issues with unknown toolbar item "DrupalPageBreak" and "PageBreak"
+* added Swedish translation
+* #271153 fixed  IMCE + default state of editor "disabled" issues
+
+-- 2008-05-23 version 6.x-1.x-dev
+* added German translation
+* #261483 changed the way how FCKeditor is loaded (should solve some strange problems
+  with dissapearing content/FCKeditor)
+* #261477 file browser should work in symlinked installations
+* #261487 %t variable now points to the right place
+* #261710 fixed "undefined variable: rid"
+
+-- 2008-04-24 version 6.x-1.x-dev
+* Added missing img_assist_fckeditor.js that should hav been included two days ago
+* Updated README information
+
+-- 2008-04-22 version 6.x-1.x-dev
+* FCKeditor is now compatible with Image Assist module (http://drupal.org/project/img_assist)
+
+-- 2008-04-21 version 6.x-1.x-dev
+* Usability improvements: FCKeditor will now inform you in the administration section about
+  possible misconfiguration
+
+-- 2008-04-04 version drupal-6-x-1-2.1
+* fixed #240608: removed javascript errors on fields without teaser break
+* fixed issue with default list of fields where simplified toolbar should appear (Global Profile)
+
+-- 2008-04-02 version drupal-6-x-1-2
+
+* fixed #240230 (teaser was stripped when FCKeditor has been enabled and toogle was disabled)
+* minor improvements in documentation, extended default ignore list
+* fixed #238944 (body was stripped in preview mode when break tag was used)
+* fixed E_NOTICE errors
+* fixed problems with excl_mode / excl_list in global profile
+* fixed issues with default inclusion or exclusion mode set to "include" when creating new profile
+
+-- 2008-03-18 version drupal-6-x-1-1
+* fixed issues with switching from text to fckeditor in the toogle,
+  all previous content within the body was lost
+* FCKeditor now appears for super user even if "access fckeditor" permissions are not yet assigned.
+  (the Advanced profile for authenticated users is assigned)
+* corrected readme file
+* fixed issues with Internet Explorer
+  (Object required error when "rich text editor toggle" was set to false)
+* fixed issues with invalid validation of excluded fields
+  (numbers are also allowed in IDs)
+* extended the global list of fields where FCKeditor shouldn't appear
+* added possibility to define custom javascript configuration
+* instant IMCE integration
+* improved handling resizable fields when FCKeditor is disabled
+
+-- 2008-02-12 version drupal-6-x-1-1-beta
+* fixed issues with handling multiple user profiles, it is now possible
+ to define role precedence
+* introduced the global profile, it is possible to enable/disable FCKeditor globally
+ for all profiles in one place
+* it is possible to use paths and fields to exclude/include FCKeditor to have better control
+ over where FCKeditor should appear
+* UserFilesPath and UserFilesAbsolutePath are now configurable in administration panel
+* path to fckstyles.xml is configurable in administration panel
+* textarea remains resizeable when FCKeditor works in popup mode
+* improved profile validation
+* translated strings are now properly escaped
+* fixed issue with break tag appearing at the beginning of a node
+* separate config file included - makes configuration of built-in file browser much easier
+* fixed issue with justifying
+* added possibility to define custom javascript configuration for selected profiles
+* added possibility to create profile even if there is no role with 'access fckeditor' permission
+* FCKeditor module now passes the Code review test
+
+-- 2007-11-15 version drupal-6-x-1-0-dev
+* ported 5.x-2.x module
+* improved teaser plugin integration (break button is enabled by default)
