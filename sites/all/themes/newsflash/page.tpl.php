@@ -4,6 +4,11 @@
   <title><?php print $head_title ?></title>
   <?php print $head ?>
   <?php print $styles ?>
+<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_style.css";</style>
+<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/override_style.css";</style>
+<?php /* includes the sub-banner code */ include 'mods/subbanners.php'; ?>
+<style type="text/css"><?php echo $headerstyle; ?></style>
+  
   <?php print $scripts ?>
   <script type="text/javascript"><?php /* Needed to avoid Flash of Unstyle Content in IE */ ?> </script>
   <?php if (theme_get_setting('newsflash_width')) { ?>
@@ -94,8 +99,6 @@
 <style type="text/css" media="all">@import "<?php print base_path() . path_to_theme() ?>/css/ie.css";</style>
 
 <![endif]-->
-<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_override.css";</style>
-<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/override_style.css";</style>
 
 <?php if ($suckerfish) { ?>
     <?php if (theme_get_setting('newsflash_suckerfish')) { ?>
@@ -135,7 +138,20 @@
       <?php if (isset($primary_links) || isset($secondary_links)) { ?>
         <div id="primarymenu">
         <?php if (isset($primary_links)) : ?>
-          <?php print theme('links', $primary_links, array('class' => 'links primary-links')) ?>
+          <?php //print theme('links', $primary_links, array('class' => 'links primary-links')) ?>
+		  
+		  <ul class="links-menu links" id="navlist">
+
+<li class=" first"><a href="http://www.upei.ca">UPEI Home</a></li>
+<li class=""><a href="http://www.upei.ca/futurestudents">Future Students</a></li>
+<li class=""><a href="http://www.upei.ca/currentstudents">Current Students</a></li>
+<li class=""><a href="http://www.upei.ca/alumni">Alumni &amp; Friends</a></li>
+<li class=""><a href="http://www.upei.ca/futurestudents/parentsandfamily">Parents &amp; Family</a></li>
+<li class=""><a href="http://www.upei.ca/staff_faculty">Staff &amp; Faculty</a></li>
+<li class=" last"><a href="http://www.upei.ca/home/contactpage">Contact UPEI</a></li>
+</ul>     
+		  
+		  
         <?php endif; ?>
         <?php if (isset($secondary_links)) : ?>
           <?php print theme('links', $secondary_links, array('class' => 'links secondary-links')) ?> 

@@ -1,0 +1,344 @@
+<?php
+/**
+ * This is the manager for Scraping
+ */
+
+class ScrapeManager {
+  
+  static $PERM_SITE = 'scrape website';
+  static $PERM_SECTION = 'scrape section';
+  static $PERM_PAGE = 'scrape one page';
+  static $_instance;
+  
+  /** the singleton of ScrapeManager */
+  static function &getInstance() {
+    
+    if (!isset(ScrapeManager::$_instance)) {
+      ScrapeManager::$_instance = new ScrapeManager();
+    }
+    
+    return ScrapeManager::$_instance;
+  }
+  
+  /**
+   * Permissions for Scrape Manager
+   */
+  function perm() {
+    return array(ScrapeManager::$PERM_SITE, ScrapeManager::$PERM_SECTION, ScrapeManager::$PERM_PAGE);
+  }
+  
+  /**
+   * Menu items for Scrape Manager
+   */
+  function menu() {
+    $items = array();
+    
+    $items[] = array(
+        'path' => 'scrape/site',
+        'title' => t('Update Your Live Website'),
+        'callback' => '__scrapemanager_scrape_site', // for Drupal 5.x
+        'page callback' => array($this, 'scrapeSite'), // for Drupal 6.x
+        'access' => user_access(ScrapeManager::$PERM_SITE), // for Drupal 5.x
+        'access content' => user_access(ScrapeManager::$PERM_SITE), // for Drupal 6.x
+        'type' => MENU_CALLBACK,
+      );
+    
+    $items[] = array(
+        'path' => 'scrape/page',
+        'title' => t('Update ONLY this Page to Your Live Website'),
+        'page callback' => array($this, 'scrapePage'),  // for Drupal 6.x
+        'access content' => user_access(ScrapeManager::$PERM_PAGE), // for Drupal 6.x
+        'type' => MENU_CALLBACK,
+      );
+    
+    $items[] = array(
+        'path' => 'scrape/section',
+        'title' => t('Update ONLY this Section to Your Live Website'),
+        'page callback' => array($this, 'scrapeSection'),
+        'access content' => user_access(ScrapeManager::$PERM_SECTION),
+        'type' => MENU_CALLBACK,
+      );
+    
+    return $items;
+  }
+  
+  /** quick dirty run scrape command */
+  function scrape() {
+    // we are going to get the parameter from _GET
+    
+    $arg1 = isset($_GET['arg1']) ? trim($_GET['arg1']) : false;
+    $arg2 = isset($_GET['arg2']) ? trim($_GET['arg2']) : '';
+    
+    if (!$arg1) {
+      print 'Invalid parameter!';
+      return;
+    }
+    
+    $start_time = time();
+    
+    if($arg1 == 'news') {
+      $command = 'sudo -u drupal /home/drupal/bin/cms_mirror_news_to_welcome';
+    } else {
+      $command = "sudo -u drupal /home/drupal/bin/cms_mirror_bucket -f $arg1 $arg2";
+    }
+    
+    $pipe_ = popen($command, 'r');
+    if (!$pipe_) {
+      $page_content .= 'cannot execute command: ' . $command;
+    }else{
+      $page_content .= "<code>\n";
+      while ($line_ = fgets($pipe_)) {
+        $page_content .= $line_ . "<br />\n";
+      }
+      pclose($pipe_);
+      $page_content .= "</code>\n";
+    }
+
+    // printing additional info
+    $page_content .= '</pre><hr />last line of the output: <hr />';
+    if(time_since($start_time) == "0 minutes") {
+      $seconds = time() - $start_time;
+      $message2 = "The last scrape took " . $seconds . " seconds.<br />";
+    } else {
+      $message2 = "The last scrape took ". time_since($start_time) . ".<br />";
+    }
+
+    watchdog('site mirror', $message2, null, watchdog_warning);
+
+    $subject = t("site update message: $arg1/$arg2 has been updated");
+    $body = t($message2 . "\n\nhttp://cms.upei.ca/$arg1/$arg2");
+    $from = variable_get('site_mail','webmaster@upei.ca');
+    drupal_mail('site-mirror', 'davcormier@upei.ca', $subject, $body, $from);
+
+    print $page_content;
+    return;
+  }
+  
+  function scrapeSite() {
+    $site = trim($_REQUEST['uri']);
+    $site = explode('/', $site);
+    
+    $url = url('scrape/site', array(
+      'query' => array(
+        'arg1' => $site[1],
+        ),
+      )
+    );
+  }
+  
+  function scrapeSection() {
+    $site = trim($_REQUEST['uri']);
+    
+    $url = url('scrape/section', array(
+      'query' => array(
+        'arg1' => substr($site, 1),
+        ),
+      )
+    );
+    
+  }
+  
+  function scrapePage() {
+    $site = trim($_REQUEST['uri']);
+    $site = explode('/', $site);
+    
+    $url = url('scrape/page', array(
+      'query' => array(
+        'arg1' => $site[1],
+        'arg2' => implode('/', array_slice($site, 2)),
+        ),
+      )
+    );
+    
+  }
+  
+  /**
+   * Blocks
+   */
+  function block($op, $delta) {
+    $block = new ScrapeBlock();
+    switch ($op) {
+      case 'list':
+        return array(
+          $block->definition
+          );
+      case 'view':
+        return $block->view();
+    }
+  }
+}
+
+abstract class DrupalBlockBase {
+  
+  var $info;
+  var $status;
+  var $region;
+  var $weight;
+  
+  function __construct($info, $status, $region, $weight) {
+    $this->info = $info;
+    $this->status = $status;
+    $this->region = $region;
+    $this->weight = $weight;
+  }
+  
+  abstract function view(); // this method is required
+  
+  function definition() {
+    return array(
+      'info' => $this->info,
+      'status' => $this->status,
+      'region' => $this->region,
+      'weight' => $this->weight,
+      );
+  }
+
+  // this method is optional
+  function configure() {}
+  
+  static $blocks;
+  static $blockCounter = 0;
+  
+  static function isRegistered($className) {
+    $have = false;
+    
+    foreach (DrupalBlockBase::$blocks as $block) {
+      if (get_class($block) == $className) {
+        $have = true;
+        break;
+      }
+    }
+    
+    return $have;
+  }
+  
+  static function register(&$blockInstance) {
+    if ($blockInstance instanceof DrupalBlockBase &&
+       !DrupalBlockBase::isRegistered(get_class($blockInstance))) {
+      DrupalBlockBase::$blocks[$blockCounter] =& $blockInstance;
+    }
+  }
+  
+  static function unregister($className) {
+    $have = false;
+    
+    foreach (DrupalBlockBase::$blocks as $key => $block) {
+      if (get_class($block) == $className) {
+        $have = true;
+        unset(DrupalBlockBase::$blocks[$key]);
+        break;
+      }
+    }
+    
+    return $have;
+  }
+}
+
+/** The Scrape Block */
+final class ScrapeBlock extends DrupalBlockBase {
+  
+  function __construct() {
+    parent::__construct(
+      t('Scrape Manager Block'),
+      "1",
+      "sidebar_left",
+      -7
+      );
+  }
+  
+  function view() {
+    
+    $site = explode("/", request_uri()); //Get the Bucket Name
+    $path = drupal_get_path('module', 'campus_management'); //get the modules path
+    
+    $block_content = '';
+    
+    // get the last access date
+    if (user_access(ScrapeManager::$PERM_SITE) ||
+        user_access(ScrapeManager::$PERM_SECTION) ||
+        user_access(ScrapeManager::$PERM_PAGE)) {
+          $sql = "SELECT w.timestamp, w.uid, w.message, u.name FROM {watchdog} w INNER JOIN {users} u ON w.uid = u.uid WHERE w.type = 'site mirror' ORDER BY w.timestamp DESC LIMIT 1";
+          $result = db_query($sql);
+          $row = db_fetch_array($result);
+          $last_access_time = time_since($row['timestamp']);
+    }
+    
+    // scrape site
+    if (user_access(ScrapeManager::$PERM_SITE)) {
+      $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/allgolive.jpg\" alt=\"Scrape Website\"/>";
+      $block_content .= l($image, 'scrape/site',
+        array(
+          'html' => true,
+          )
+      );
+    }
+    
+    // scrape section
+    if (user_access(ScrapeManager::$PERM_SECTION)) {
+      $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/sectiongolive.jpg\" alt=\"Scrape Section\"/>";
+      $block_content .= l($image, 'scrape/section',
+        array(
+          'query' => array(
+            'url' => request_uri(),
+            ),
+          'html' => true,
+          )
+      );
+    }
+    
+    // scrape page
+    if (user_access(ScrapeManager::$PERM_PAGE)) {
+      $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/onegolive.jpg\" alt=\"Scrape Page\"/>";
+      $page_scrape_content = l($image, 'scrape/page',
+        array(
+          'query' => array(
+            'url' => request_uri(),
+            ),
+          'html' => true,
+          )
+      );
+      // get the node number
+      $node_number = get_node_number();
+      if ($node_number) {
+        $node_object = node_load($node_number);
+        $node_access = node_access('update', $node_object);
+        // if the current user has this node's update access permission
+        if ($node_access) {
+          $block_content .= $page_scrape_content;
+        }
+      }
+      else {
+        $alias = str_replace("/{$site[1]}/", '', request_uri());
+        // if this is a view and the current user has permission to administer this view
+        $isView = CheckView($alias);
+        if ($isView) {
+          if (user_access('administer views')) {
+            $block_content .= $page_scrape_content;
+          }
+        }
+      }
+    }
+    
+    // set up the block if we have block content
+    if (!empty($block_content)) {
+      $block['subject'] = 'Update Live Version';
+      $block['content'] = $block_content;
+      return $block;
+    }
+    else {
+      return;
+    }
+  }
+  
+}
+
+function scrape_manager_menu() {
+  $sm =& ScrapeManager::getInstance();
+  
+  return $sm->menu();
+}
+
+function scrape_manager_block($op, $delta) {
+  $sm =& ScrapeManager::getInstance();
+  return $sm->block($op, $delta);
+}

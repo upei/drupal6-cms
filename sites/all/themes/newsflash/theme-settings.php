@@ -30,13 +30,12 @@ function phptemplate_settings($saved_settings) {
     '#title' => t('Style'),
     '#default_value' => $settings['newsflash_style'],
     '#options' => array(
-	  'copper' => t('Copper'),
+	  
 	  'green' => t('Green'),
       'blue' => t('Blue'),
-	  'black' => t('Black'),
-	  'red' => t('Red'),
-	  'violet' => t('Violet'),
-	  'aqua' => t('Aqua'),
+	  'market' => t('Market (Red)'),
+	  'faculty' => t('Faculty (Green)'),
+	  
     ),
   );
 

@@ -117,3 +117,39 @@ function phptemplate_menu_links($links, $attributes = array()) {
   $output .= '</ul>';
   return $output;
 }
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// following 2 functions are used in conjunction with the page.tpl.php file
+// This allows the use of sub-banners on sub sections of websites.
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                        function ChopPath($mypath){
+	                                //Get rid of any white space on the right of the URL
+	                                //Get the string Length of the path
+	                                //If the URL has a ? at the end of it, code will display 2 // replace it with 1 /
+	                                $mypath = rtrim($mypath);
+	                                $url_len = strlen($mypath);
+		                        $LastChars = substr($mypath, $url_len - 2, $url_len);
+		                          if ($LastChars == "//"){$mypath = str_replace("//", "/", $mypath);}
+	                              return $mypath;
+                        }
+                        function GetBanner($var, $mypath, $bucket){
+                        // Get the proper banner
+                       // if $var = 0 get the default banner
+                       // if $var = 1 get a sub banner based on its path
+                       switch ($var){
+                                 case 0:
+                                          $aPath = base_path() . path_to_theme() . "/images/";
+                                 break;
+
+																																																																									                                        case 1:
+																																																																														                                                //Since absolute path is used to see if the directory exists
+																																																																																				                                                //Switch to the Drupal system path
+                   // $mypath = str_replace("/var/www/drupal/cms/current/sites/upei.ca." . $bucket . "/themes/newsflash", base_path() . path_to_theme() , $mypath);
+		 $mypath = "/var/www/drupal/cms/current/sites/upei.ca." . $bucket . "/themes/newsflash";
+		 $aPath = $mypath;
+																																																																																																						                                        break;
+																																																																																																											                                }
+																																																																																																															                                $finalstyle = "#header {background: #ffffff url(" . $aPath . "graphic.jpg) 0 0 no-repeat;height: 110px;}";
+																																																																																																																			                                return $finalstyle;
+																																																																																																																							                        }
+																																																																																																																										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+

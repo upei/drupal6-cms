@@ -1,0 +1,7 @@
+/* $Id: campus_campus.css, Shawn Arsenault August 11 2008 Exp $ */
+#notice-container{}
+#notice-item{margin-bottom:15px;}
+.notice_title{font-size:14px;padding:3px;background-color:#ffffff;font-weight:bold;border:1px solid #999999;}
+.notice_body{padding:3px;}
+
+
