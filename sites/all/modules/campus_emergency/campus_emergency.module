@@ -75,40 +75,30 @@ class CampusEmergencyProvider {
     return $permissions;
   }
   
-  function menu($may_cache) {
+  function menu() {
     $items = array();
     
-    if ($may_cache) {
-      $items[] = array(
-        'path' => 'cem/endpoint/json',
+      $items['cem/endpoint/json'] = array(
         'title' => t('Campus Emergency JSON Endpoint'),
-        'callback' => '__campus_emergency_provider_json_endpoint', // workaround for Drupal 5
         'page callback' => array($this, 'endpoint'), // for drupal 6
-        'access' => user_access('access content'),
         'access arguments' => array('access content'), // for drupal 6
         'type' => MENU_CALLBACK,
       );
       
-      $items[] = array(
+      $items['cem/endpoint/xml'] = array(
         'path' => 'cem/endpoint/xml',
         'title' => t('Campus Emergency XML Endpoint'),
-        'callback' => '__campus_emergency_provider_xml_endpoint', // workaround for Drupal 5
         'page callback' => array($this, 'endpoint'), // for drupal 6
-        'access' => user_access('access content'),
         'access arguments' => array('access content'), // for drupal 6
         'type' => MENU_CALLBACK,
         );
       
-      $items[] = array(
-        'path' => 'cem/unpublish-all',
+      $items['cem/unpublish-all'] = array(
         'title' => t('IMMEDIATELY STOP EMERGENCY'),
-        'access' => user_access(CampusEmergencyProvider::$PROVIDER_PERM),
         'access arguments' => array(CampusEmergencyProvider::$PROVIDER_PERM), // for drupal 6
         'type' => MENU_NORMAL_ITEM,
-        'callback' => '__campus_emergency_provider_unpublish_all', // workaround for Drupal 5
         'page callback' => array($this, 'unpublishAll'),
         );
-    }
     
     return $items;
   }
@@ -530,7 +520,7 @@ function campus_emergency_perm() {
 function campus_emergency_menu() {
   $provider = new CampusEmergencyProvider();
   $receiver = new CampusEmergencyReceiver();
-  return array_merge($provider->menu($may_cache), $receiver->menu($may_cache));
+  return array_merge($provider->menu(), $receiver->menu());
 }
 
 function campus_emergency_block($op='list', $delta=0) {
