@@ -1,7 +1,6 @@
-; $Id$
-
-name = Scrape Manager
+name = Scrape manager
 description = Scrape your site to static HTML files.
 package = Campus Manager
+dependencies[] = management_support
 core = 6.x
 version = $Revision$
