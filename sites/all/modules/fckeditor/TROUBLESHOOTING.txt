@@ -1,4 +1,4 @@
-$Id: TROUBLESHOOTING.txt,v 1.1.2.2 2008/10/08 14:24:51 wwalc Exp $
+$Id: TROUBLESHOOTING.txt,v 1.1.2.3 2008/11/19 09:48:27 wwalc Exp $
 
 Note: the HTML version of this file (always up-to-date) is available online: http://drupal.fckeditor.net/troubleshooting
 
@@ -6,6 +6,7 @@ CONTENTS OF THIS FILE
 ---------------------
 
  * FCKeditor doesn't work in xxx theme
+ * Known module incompatibilities
  * Images aren't shown when submitted
  * I followed the instruction, but FCKeditor doesn't show up (+ debugging instructions)
  * The FCKeditor component is not installed correctly
@@ -32,6 +33,14 @@ The other possibility may be that:
 
 is missing in your theme (solution similar as above, add that line of code to your theme at the end).
 You can also use a different theme.
+
+Known module incompatibilities
+------------------------------
+
+At this moment, FCKeditor will not show up, when the following modules are enabled:
+
+    * Theme developer (http://drupal.org/node/318941)
+    * Theme Builder (http://drupal.org/node/271032)
 
 Images aren't shown when submitted (175339)
 -------------------------------------------

@@ -1,5 +1,0 @@
-name = Management support
-description = Management Support Classes
-package = Campus Manager
-core = 6.x
-version = 0.52

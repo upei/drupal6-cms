@@ -1,4 +1,4 @@
-// $Id: fckeditor.config.js,v 1.5.2.5.2.7 2008/10/15 14:49:12 wwalc Exp $
+// $Id: fckeditor.config.js,v 1.5.2.5.2.9 2008/11/19 12:06:55 wwalc Exp $
 
 /*
  WARNING: clear browser's cache after you modify this file.
@@ -14,9 +14,9 @@
 
 //uncomment these three lines to enable teaser break and page break plugins
 //remember to add 'DrupalBreak' and 'DrupalPageBreak' buttons to the toolbar
-FCKConfig.Plugins.Add( 'drupalbreak' ) ;
+FCKConfig.Plugins.Add( 'drupalbreak', 'en,pl' ) ;
 FCKConfig.Plugins.Add( 'imgassist' ) ;
-//FCKConfig.Plugins.Add( 'drupalpagebreak' ) ;
+//FCKConfig.Plugins.Add( 'drupalpagebreak', 'en,pl' ) ;
 
 /*
  This toolbar is dedicated to users with "Full HTML" access

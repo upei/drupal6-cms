@@ -2,6 +2,8 @@
 /**
  * This is the manager for Scraping
  */
+ 
+require_once (dirname(__FILE__) . '/management_support.inc');
 
 class ScrapeManager {
   
@@ -145,7 +147,8 @@ class ScrapeManager {
         );
       }
       else {
-        $('#scrape_confirm_box_label').attr('style', 'color: red');
+        $('#scrape_confirm_box_label').css('color', 'red');
+        $('#scrape_confirm_box_label').css('font-weight', 'bold');
       }
     });
   });
@@ -205,6 +208,7 @@ EOF;
    */
   function block($op, $delta) {
     $block = new ScrapeBlock();
+
     switch ($op) {
       case 'list':
         return array(
@@ -221,7 +225,7 @@ final class ScrapeBlock extends DrupalBlockBase {
   
   function __construct() {
     parent::__construct(
-      t('Scrape Manager Block'),
+      t('Scrape controls'),
       "1",
       "sidebar_left",
       -7

@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.16.2.5.2.9 2008/10/08 14:24:51 wwalc Exp $
+$Id: README.txt,v 1.16.2.5.2.10 2008/11/14 16:40:14 wwalc Exp $
 
 CONTENTS OF THIS FILE
 ---------------------
@@ -140,8 +140,8 @@ You can enable any (or even both) of them.
 Uploading images and files
 --------------------------
 
-There are three ways of uploading files: By using the built-in file browser,
-by using a module like IMCE or using the core upload module.
+There are three ways of uploading files: By using the built-in file browser, 
+by using modules like IMCE, Image Browser or by using the core upload module.
 
 How to enable the built-in file browser
 ------------------------------

@@ -1,0 +1,57 @@
+<?php
+
+require_once( dirname(__FILE__) . '/management_support.inc');
+
+final class CentralMessagingBlock extends DrupalBlockBase {
+  function __construct() {
+    parent::__construct(
+      t("Central messaging block"),
+      "1",
+      "sidebar_left",
+      -5
+    );
+  }
+  
+  function view() {
+    $endpoint = variable_get('central_messaging_endpoint', '');
+    $block_content = <<<EOF
+<div id="central_messaging_block"></div>
+<script type="text/javascript">
+  $(function () {
+    $('central_messaging_block').load('$endpoint?' + Math.random());
+  });
+</script>
+EOF;
+
+    $block['subject'] = '';
+    $block['content'] = $block_content;
+    
+    return $block;
+  }
+  
+  function configure() {
+    $form['central_messaging_endpoint'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Central messaging endpoint'),
+      '#default_value' => variable_get('central_messaging_endpoint', ''),
+      '#size' => 60,
+      '#maxlength' => 255,
+      '#description' => t('The endpoint of central messaging provider'),
+      );
+    return $form;
+  }
+}
+
+function central_messaging_block($op, $delta = 0, $edit = array()) {
+  $block = new CentralMessagingBlock();
+  
+  switch ($op) {
+    case 'list':
+      return array($block->definition());
+    case 'configure':
+      return $block->configure();
+    case 'view':
+      return $block->view();
+  }
+  
+}

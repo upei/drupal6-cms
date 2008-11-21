@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.module,v 1.1.2.18.2.19 2008/11/10 10:46:54 aronnovak Exp $
+// $Id: feedapi_node.module,v 1.1.2.18.2.17 2008/10/10 12:54:35 aronnovak Exp $
 
 /**
  * @file
@@ -81,14 +81,12 @@ function feedapi_node_nodeapi(&$node, $op, $teaser) {
 function feedapi_node_link($type, $node = NULL) {
   $links = array();
   if ($type == 'node') {
-    if (isset($node->feed)) {
-      if (count($node->feed->processors) > 0 && module_exists('views')) {
-        if (in_array('feedapi_node', $node->feed->processors)) {
-          $links['view_items'] = array(
-            'title' => t('Feed items'),
-            'href' => 'feed-item/'. $node->nid
-          );
-        }
+    if (count($node->feed->processors) > 0 && module_exists('views')) {
+      if (in_array('feedapi_node', $node->feed->processors)) {
+        $links['view_items'] = array(
+          'title' => t('Feed items'),
+          'href' => 'feed-item/'. $node->nid
+        );
       }
     }
     if (isset($node->feedapi_node)) {
@@ -274,7 +272,6 @@ function _feedapi_node_save($feed_item, $feed_nid, $settings = array()) {
   $node = new stdClass();
   if (isset($feed_item->nid)) {
     $node->nid = $feed_item->nid;
-    $node->vid = db_result(db_query("SELECT vid FROM {node_revisions} WHERE nid = %d", $node->nid));
   }
   // Determines the node type.
   if (empty($settings['content_type'])) {

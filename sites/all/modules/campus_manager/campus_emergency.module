@@ -80,24 +80,30 @@ class CampusEmergencyProvider {
     
       $items['cem/endpoint/json'] = array(
         'title' => t('Campus Emergency JSON Endpoint'),
-        'page callback' => array($this, 'endpoint'), // for drupal 6
+        'page callback' => '__campus_emergency_provider_json_endpoint', // for drupal 6
         'access arguments' => array('access content'), // for drupal 6
         'type' => MENU_CALLBACK,
       );
       
       $items['cem/endpoint/xml'] = array(
-        'path' => 'cem/endpoint/xml',
         'title' => t('Campus Emergency XML Endpoint'),
-        'page callback' => array($this, 'endpoint'), // for drupal 6
+        'page callback' => '__campus_emergency_provider_xml_endpoint', // for drupal 6
+        'access arguments' => array('access content'), // for drupal 6
+        'type' => MENU_CALLBACK,
+        );
+
+      $items['cem/endpoint/html'] = array(
+        'title' => t('Campus Emergency HTML Endpoint'),
+        'page callback' => '__campus_emergency_provider_html_endpoint', // for drupal 6
         'access arguments' => array('access content'), // for drupal 6
         'type' => MENU_CALLBACK,
         );
       
       $items['cem/unpublish-all'] = array(
         'title' => t('IMMEDIATELY STOP EMERGENCY'),
+        'page callback' => '__campus_emergency_provider_unpublish_all',
         'access arguments' => array(CampusEmergencyProvider::$PROVIDER_PERM), // for drupal 6
         'type' => MENU_NORMAL_ITEM,
-        'page callback' => array($this, 'unpublishAll'),
         );
     
     return $items;
@@ -209,10 +215,11 @@ class CampusEmergencyProvider {
         $msg = new stdclass();
         $msg->id = 'cem-' . strval($node->nid);
         $msg->title = check_plain($node->title);
-        $msg->encoded_title = htmlentities(check_plain($node->title));
+        $msg->encoded_title = htmlentities($node->title, ENT_QUOTES, 'UTF-8');
         $msg->level = $node->level;
       if (strpos($node->body, '<!--break-->') === false) {
          $msg->body = $node->body;
+         $msg->encoded_body = htmlentities($msg->body, ENT_QUOTES, 'UTF-8');
       }
       else {
          $msg->body = node_teaser($node->body, $node->format);
@@ -252,6 +259,51 @@ EOF;
     print "</feed>\n";
     
   }
+
+  function htmlEndpoint() {
+    header('Content-type: text/html; charset=utf-8');
+    header('X-Provider: UPEI Campus Emergency Message');
+
+    // list messages
+    $messages = array();
+    $node_array = CampusEmergencyNode::listRecentMessages();
+
+    // remote address
+    $remote_addr = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+
+    // get the node array
+    foreach ($node_array as $node) {
+
+      if (!$node->onCampus || ($node->onCampus && preg_match("/^137\.149\./", $remote_addr))) {
+
+        $msg = new stdclass();
+        $msg->id = 'cem-' . strval($node->nid);
+        $msg->title = check_plain($node->title);
+        $msg->encoded_title = htmlentities($msg->title, ENT_QUOTES, 'UTF-8');
+        $msg->level = $node->level;
+      if (strpos($node->body, '<!--break-->') === false) {
+         $msg->body = $node->body;
+      }
+      else {
+         $msg->body = node_teaser($node->body, $node->format);
+         $msg->encoded_body = htmlentities($msg->body, ENT_QUOTES, 'UTF-8');
+      }
+        $msg->onCampus = $node->onCampus;
+        $messages[] = $msg;
+      }
+    }
+
+    // print the message only when we have emergency
+    if (count($messages)) {
+      foreach ($messages as $message) {
+        print <<<EOF
+        <h2>$msg->encoded_title</h2>
+        <div>$message->encoded_body</div>
+EOF;
+      }
+    }
+  }
+
   
   function unpublishAll() {
     CampusEmergencyNode::unpublishAllMessages();
@@ -267,6 +319,11 @@ function __campus_emergency_provider_json_endpoint() {
 function __campus_emergency_provider_xml_endpoint() {
   $provider = new CampusEmergencyProvider();
   $provider->xmlEndpoint();
+}
+
+function __campus_emergency_provider_html_endpoint() {
+  $provider = new CampusEmergencyProvider();
+  $provider->htmlEndpoint();
 }
 
 function __campus_emergency_provider_unpublish_all() {
@@ -292,15 +349,15 @@ class CampusEmergencyReceiver {
   }
   
   function attachCSS() {
-    drupal_add_css("sites/all/modules/campus_emergency/campus_emergency.css");
+    drupal_add_css(drupal_get_path('module', 'campus_emergency') . "/campus_emergency.css");
   }
   
   function attachJavascript() {
     drupal_add_js("misc/jquery-ui.js", 'module', 'footer');
-    drupal_add_js("sites/all/modules/campus_emergency/jquery.domec.js", 'module', 'header', true);
-    drupal_add_js("sites/all/modules/campus_emergency/jquery.timers.js", 'module', 'header', true);
-    drupal_add_js("sites/all/modules/campus_emergency/jquery.cookie.js", 'module', 'header', true);
-    drupal_add_js("sites/all/modules/campus_emergency/campus_emergency_receiver.js", 'module', 'header', true);
+    drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/jquery.domec.js", 'module', 'header', true);
+    drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/jquery.timers.js", 'module', 'header', true);
+    drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/jquery.cookie.js", 'module', 'header', true);
+    drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/campus_emergency_receiver.js", 'module', 'header', true);
   }
   
   function footer() {
@@ -325,7 +382,7 @@ class CampusEmergencyNode {
    */
   static function &listRecentMessages($limit=1) {
     // select the latest message(s)
-    $sql = "SELECT nid FROM {node} WHERE type='%s' AND status=1 ORDER BY nid DESC";
+   $sql = "SELECT nid FROM {node} WHERE type='%s' AND status=1 ORDER BY changed DESC LIMIT $limit";
     $result = db_query($sql, CampusEmergencyNode::$TYPE);
     // build the node array
     $node_array = array();
@@ -363,8 +420,8 @@ class CampusEmergencyNode {
       '#type' => 'textarea',
       '#title' => t('Message'),
       '#default_value' => $this->node->body,
-      '#rows' => 12,
-      '#cols' => 30,
+      '#rows' => 30,
+      '#cols' => 80,
       '#required' => true, // we need to specify the emergency message text.
                  // it makes no sense to send out an EMERGENCY message without content.
       '#weight' => 0
@@ -402,7 +459,7 @@ class CampusEmergencyNode {
           0 => t('NOT published'),
           1 => t('Published'),
           ),
-        '#description' => t('If set published, the message will be IMMEDIATELY delivered.'),
+        '#description' => t('If set published, the message will be IMMEDIATELY delivered after you hit the SUBMIT button.'),
         '#weight' => -4,
         );
         

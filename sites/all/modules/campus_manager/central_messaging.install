@@ -1,0 +1,9 @@
+<?php
+
+function central_messaging_install() {
+  variable_set('central_messaging_endpoint', '/integratedcommunications/central_messaging/endpoint');
+}
+
+function central_messaging_uninstall() {
+  variable_del('central_messaging_endpoint');
+}

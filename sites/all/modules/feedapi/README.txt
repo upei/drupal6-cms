@@ -1,4 +1,4 @@
-; $Id: README.txt,v 1.1.2.6.2.7 2008/11/10 10:46:54 aronnovak Exp $
+; $Id: README.txt,v 1.1.2.6.2.6 2008/10/10 15:42:31 aronnovak Exp $
 
 FeedAPI
 -------
@@ -28,7 +28,8 @@ you won't get the functionality that you expect from an aggregator module.
 
 If you don't want to bother about the fine print here, a good standard configuration
 is FeedAPI, FeedAPI Node and SimplePie parser (don't forget to download the SimplePie
-package from http://www.simplepie.org).
+package from http://www.simplepie.org). If you use views module, also turn on FeedAPI 
+Node Views. 
 
 Here is the purpose of each sub-module:
 

@@ -79,6 +79,21 @@ function Cancel()
   window.close() ;
 }
 
+function FCKeditor_OnComplete( editorInstance )
+{
+  oEditor = editorInstance;
+  var textarea = window.opener.document.getElementById( FCKURLParams[ 'el' ] );
+  if ($(textarea).attr('class').indexOf("filterxss2") != -1) {
+    $.post(window.opener['Drupal'].settings.basePath + 'fckeditor/xss', {
+      text: oFCKeditor.Value,
+      'filters[]': window.opener['Drupal'].settings.fckeditor_filters[FCKURLParams[ 'var' ]]
+      }, 
+      function(text) {
+        oEditor.SetData(text);
+      }
+    );
+  }
+}
   </script>
 </head>
 <body>
@@ -98,7 +113,12 @@ if(IaObj){
 // oFCKeditor.CreateHtml() function.
 
 var textarea = window.opener.document.getElementById( FCKURLParams[ 'el' ] );
-var initialHTML = oFCKeditor.Value;
+if ($(textarea).attr('class').indexOf("filterxss2") != -1) {
+  var initialHTML = '';
+}
+else {
+  var initialHTML = oFCKeditor.Value;
+}
 
 document.write( '<input type="hidden" id="' + oFCKeditor.InstanceName + '" name="' + oFCKeditor.InstanceName + '" value="' + oFCKeditor._HTMLEncode( initialHTML ) + '" style="display:none" />' ) ;
 document.write( oFCKeditor._GetConfigHtml() ) ;

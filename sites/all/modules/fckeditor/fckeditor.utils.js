@@ -1,4 +1,4 @@
-// $Id: fckeditor.utils.js,v 1.2.2.8.2.13 2008/10/16 15:05:02 wwalc Exp $
+// $Id: fckeditor.utils.js,v 1.2.2.8.2.14 2008/10/23 06:22:55 wwalc Exp $
 // map of instancename -> FCKeditor object
 var fckInstances = {};
 // this object will store teaser information
@@ -16,9 +16,24 @@ Drupal.behaviors.fckeditor = function(context) {
       var editorInstance = fckInstances[taid];
 
       if (editorInstance.defaultState == 1) {
-        editorInstance.ReplaceTextarea();
-        $('#img_assist-link-' + taid).hide();
-        $(".img_assist-button").hide();
+        if (textarea.attr('class').indexOf("filterxss1") != -1 || textarea.attr('class').indexOf("filterxss2") != -1) {
+          $.post(Drupal.settings.basePath + 'fckeditor/xss', {
+            text: $('#' + taid).val(),
+            'filters[]': Drupal.settings.fckeditor_filters[fckInstances[taid].DrupalId]
+            }, 
+            function(text) {
+              textarea.val(text);
+              $('#img_assist-link-' + taid).hide();
+              $(".img_assist-button").hide();
+              editorInstance.ReplaceTextarea();
+            }
+          );
+        }
+        else {
+          editorInstance.ReplaceTextarea();
+          $('#img_assist-link-' + taid).hide();
+          $(".img_assist-button").hide();
+        }        
       }
     }
   });
@@ -28,14 +43,27 @@ Drupal.behaviors.fckeditor = function(context) {
  * This method takes care of replacing a textarea with an FCKeditor
  * and vice versa.
  */
-function Toggle(textareaID, TextTextarea, TextRTE)
+function Toggle(textareaID, TextTextarea, TextRTE, xss_check)
 {
   var swtch = $('#switch_'+textareaID);
 
   // check if this FCKeditor was initially disabled
   if (fckInstances[textareaID].defaultState == 0) {
     fckInstances[textareaID].defaultState = 2;
-    fckInstances[textareaID].ReplaceTextarea();
+    if ($('#' + textareaID).attr('class').indexOf("filterxss2") != -1) {
+      $.post(Drupal.settings.basePath + 'fckeditor/xss', {
+        text: $('#' + textareaID).val(),
+        'filters[]': Drupal.settings.fckeditor_filters[fckInstances[textareaID].DrupalId]
+        }, 
+        function(text) {
+          $('#' + textareaID).val(text);
+          fckInstances[textareaID].ReplaceTextarea();
+        }
+      );
+    }
+    else {
+      fckInstances[textareaID].ReplaceTextarea();
+    }
     swtch.text(TextTextarea);
     $(".img_assist-button").hide();
     // simply return: ReplaceTextarea will take the contents of the textarea for us

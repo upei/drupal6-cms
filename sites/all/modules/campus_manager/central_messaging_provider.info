@@ -1,0 +1,6 @@
+name = Central messaging provider
+description = Provider of central messaging
+package = Campus manager
+core = 6.x
+version = 0.1
+php = 5.1

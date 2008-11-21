@@ -1,5 +1,5 @@
 <?php
-// $Id: parser_common_syndication.module,v 1.6.2.23.2.26 2008/11/10 10:46:55 aronnovak Exp $
+// $Id: parser_common_syndication.module,v 1.6.2.23.2.23 2008/10/10 12:54:35 aronnovak Exp $
 
 /**
  * @file
@@ -46,7 +46,7 @@ function parser_common_syndication_feedapi_feed($op) {
         // The parser is compatible. Then has to parse the feed and cache it. Because in the download
         // part, the feed etag data be already saved perhaps (depends on the webserver).
         $parsed_feed = _parser_common_syndication_feedapi_parse($xml);
-        if (is_object($parsed_feed) && !empty($parsed_feed->from_cache)) {
+        if (is_object($parsed_feed) && $parsed_feed->from_cache !== TRUE) {
           _parser_common_syndication_cache_set($url, $parsed_feed);
         }
         // We don't have to choose between the types, because this module is only able to parse one.
@@ -56,7 +56,7 @@ function parser_common_syndication_feedapi_feed($op) {
     case 'parse':
       $feed = is_object($args[1]) ? $args[1] : FALSE;
       $parsed_feed = _parser_common_syndication_feedapi_parse($feed);
-      if (is_object($parsed_feed) && !empty($parsed_feed->from_cache)) {
+      if (is_object($parsed_feed) && $parsed_feed->from_cache !== TRUE) {
         _parser_common_syndication_cache_set($feed->url, $parsed_feed);
       }
       return $parsed_feed;
@@ -189,7 +189,6 @@ function _parser_common_syndication_feedapi_get($url, $username = NULL, $passwor
     $header_lines = preg_split("/\r\n|\n|\r/", $header);
     
     $result->headers = array();
-    array_shift($header_lines); // skip HTTP response status
     while ($line = trim(array_shift($header_lines))) {
       list($header, $value) = explode(':', $line, 2);
       if (isset($result->headers[$header]) && $header == 'Set-Cookie') {
@@ -466,121 +465,124 @@ function _parser_common_syndication_atom10_parse($feed_XML) {
 }
 
 /**
- * Parse RDF Site Summary (RSS) 1.0 feeds in RDF/XML format.
- *
- * @see http://web.resource.org/rss/1.0/
+ * Parse RSS1.0/RDF feeds.
  */
 function _parser_common_syndication_RDF10_parse($feed_XML) {
-  // Declare some canonical standard prefixes for well-known namespaces:
-  static $canonical_namespaces = array(
-    'rdf'      => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-    'rdfs'     => 'http://www.w3.org/2000/01/rdf-schema#',
-    'xsi'      => 'http://www.w3.org/2001/XMLSchema-instance#',
-    'xsd'      => 'http://www.w3.org/2001/XMLSchema#',
-    'owl'      => 'http://www.w3.org/2002/07/owl#',
-    'dc'       => 'http://purl.org/dc/elements/1.1/',
-    'dcterms'  => 'http://purl.org/dc/terms/',
-    'dcmitype' => 'http://purl.org/dc/dcmitype/',
-    'foaf'     => 'http://xmlns.com/foaf/0.1/',
-    'rss'      => 'http://purl.org/rss/1.0/',
-  );
+  $parsed_source = new stdClass();
+  // Detect the title.
+  $parsed_source->title = isset($feed_XML->channel->title) ? _parser_common_syndication_title("{$feed_XML->channel->title}") : "";
+  // Detect the description.
+  $parsed_source->description = isset($feed_XML->channel->description) ? "{$feed_XML->channel->description}" : "";
+  $parsed_source->options = new stdClass();
+  // Detect the link.
+  $parsed_source->options->link = isset($feed_XML->channel->link) ? "{$feed_XML->channel->link}" : "";
+  $parsed_source->items = array();
 
-  // Get all namespaces declared in the feed element, with special handling
-  // for PHP versions prior to 5.1.2 as they don't handle namespaces.
-  $namespaces = version_compare(phpversion(), '5.1.2', '<') ? array() : $feed_XML->getNamespaces(TRUE);
+  // Set category splitter (space is for del.icio.us feed).
+  $category_splitter = ' ';
 
-  // Process the <rss:channel> resource containing feed metadata:
-  foreach ($feed_XML->children($canonical_namespaces['rss'])->channel as $rss_channel) {
-    $parsed_source = (object)array(
-      'title'       => _parser_common_syndication_title((string)$rss_channel->title),
-      'description' => (string)$rss_channel->description,
-      'options'     => (object)array('link' => (string)$rss_channel->link),
-      'items'       => array(),
-    );
-    break;
+  // Get the default original author.
+  if ($feed_XML->channel->title) {
+    $oa = "{$feed_XML->channel->title}";
   }
 
-  // Process each <rss:item> resource contained in the feed:
-  foreach ($feed_XML->children($canonical_namespaces['rss'])->item as $rss_item) {
+  // Get all namespaces.
+  if (version_compare(phpversion(), '5.1.2', '<')) {
+    // Versions prior 5.1.2 don't allow namespaces.
+    $namespaces['default'] = NULL;
+  }
+  else {
+    $namespaces = $feed_XML->getNamespaces(TRUE);
+  }
 
-    // Extract all available RDF statements from the feed item's RDF/XML
-    // tags, allowing for both the item's attributes and child elements to
-    // contain RDF properties:
-    $rdf_data = array();
-    foreach ($namespaces as $ns => $ns_uri) {
-      // Note that we attempt to normalize the found property name
-      // namespaces to well-known 'standard' prefixes where possible, as the
-      // feed may in principle use any arbitrary prefixes and we should
-      // still be able to correctly handle it.
-      foreach ($rss_item->attributes($ns_uri) as $attr_name => $attr_value) {
-        $ns_prefix = ($ns_prefix = array_search($ns_uri, $canonical_namespaces)) ? $ns_prefix : $ns;
-        $rdf_data[$ns_prefix .':'. $attr_name][] = (string)$attr_value;
+  foreach ($feed_XML->item as $news) {
+    // Initialization.
+    $guid = $original_url = NULL;
+    $title = $body = '';
+    $additional_taxonomies = array();
+    $original_author = $oa;
+
+    foreach ($namespaces as $ns_link) {
+      // Get about attribute as guid.
+      foreach ($news->attributes($ns_link) as $name => $value) {
+        if ($name == 'about') {
+          $guid = "{$value}";
+        }
       }
-      foreach ($rss_item->children($ns_uri) as $rss_property) {
-        $ns_prefix = ($ns_prefix = array_search($ns_uri, $canonical_namespaces)) ? $ns_prefix : $ns;
-        $rdf_data[$ns_prefix .':'. $rss_property->getName()][] = (string)$rss_property;
+
+      // Get children for current namespace.
+      if (version_compare(phpversion(), '5.1.2', '<')) {
+        $ns = (array) $news;
+      }
+      else {
+        $ns = (array) $news->children($ns_link);
+      }
+
+      // Title
+      if (!empty($ns['title'])) {
+        $title = "{$ns['title']}";
+      }
+
+      // Description or dc:description
+      if (!empty($ns['description']) && $body == '') {
+        $body = "{$ns['description']}";
+      }
+
+      // Link
+      if (!empty($ns['link'])) {
+        $original_url = "{$ns['link']}";
+      }
+
+      // dc:creator
+      if (!empty($ns['creator'])) {
+        $original_author = "{$ns['creator']}";
+      }
+
+      // content:encoded
+      if (!empty($ns['encoded'])) {
+        $body = "{$ns['encoded']}";
+      }
+
+      // dc:subject
+      if (!empty($ns['subject'])) {
+        // there can be multiple category tags
+        if (is_array($ns['subject'])) {
+          foreach ($ns['subject'] as $cat) {
+            if (is_object($cat)) {
+              $additional_taxonomies['RDF Categories'][] = trim(strip_tags($cat->asXML()));
+            }
+            else {
+              $additional_taxonomies['RDF Categories'][] = $cat;
+            }
+          }
+        }
+        else { //or single tag
+          $additional_taxonomies['RDF Categories'] = explode($category_splitter, "{$ns['subject']}");
+        }
       }
     }
 
-    // Declaratively define mappings that determine how to construct the
-    // object that gets passed back to FeedAPI:
-    $item = _parser_common_syndication_RDF10_item($rdf_data, (object)array(
-      'title'       => array('rss:title', 'dc:title'),
-      'description' => array('rss:description', 'dc:description', 'content:encoded'),
-      'options'     => (object)array(
-        'guid'            => 'rdf:about',
-        'timestamp'       => 'dc:date',
-        'original_author' => array('dc:creator', 'dc:publisher'),
-        'original_url'    => array('rss:link', 'rdf:about'),
-        'tags'            => 'dc:subject',
-      ),
-    ));
-
-    // Special handling for the title:
-    $item->title = _parser_common_syndication_title($item->title, $item->description);
-
-    // Parse any date/time values into Unix timestamps:
-    $item->options->timestamp = _parser_common_syndication_parse_date($item->options->timestamp);
-
-    // If no author name found, use the feed title:
-    if (empty($item->options->original_author)) {
-      $item->options->original_author = $parsed_source->title;
+    // The description is not mandatory so use title if description not present.
+    if (empty($body)) {
+      $body = $title;
     }
 
-    // Add every found RDF property to the FeedAPI item in order for Feed
-    // Element Mapper to be able to map these properties:
-    $item->rdf = (object)array();
-    foreach ($rdf_data as $rdf_property => $rdf_value) {
-      $rdf_property = str_replace(':', '_', $rdf_property); // looks nicer in the mapper UI
-      $item->rdf->$rdf_property = $rdf_value;
+    // If there are no link tag but rdf:about is provided.
+    if (empty($original_url) && !empty($guid)) {
+      $original_url = $guid;
     }
-
+    $item = new stdClass();
+    $item->title = _parser_common_syndication_title($title, $body);
+    $item->description = $body;
+    $item->options = new stdClass();
+    $item->options->original_author = $original_author;
+    $item->options->timestamp = _parser_common_syndication_parse_date(empty($ns['pubDate']) ? "{$ns['date']}" : "{$ns['pubDate']}");
+    $item->options->original_url = $original_url;
+    $item->options->guid = $guid;
+    $item->options->tags = $additional_taxonomies['RDF Categories'];
     $parsed_source->items[] = $item;
   }
-
   return $parsed_source;
-}
-
-function _parser_common_syndication_RDF10_property($rdf_data, $rdf_properties = array()) {
-  $rdf_properties = is_array($rdf_properties) ? $rdf_properties : array_slice(func_get_args(), 1);
-  foreach ($rdf_properties as $rdf_property) {
-    if ($rdf_property && !empty($rdf_data[$rdf_property])) {
-      return array_filter($rdf_data[$rdf_property], 'strlen'); // remove empty strings
-    }
-  }
-}
-
-function _parser_common_syndication_RDF10_item($rdf_data, $mappings) {
-  foreach (get_object_vars($mappings) as $k => $v) {
-    if (is_object($v)) {
-      $mappings->$k = _parser_common_syndication_RDF10_item($rdf_data, $v);
-    }
-    else {
-      $values = _parser_common_syndication_RDF10_property($rdf_data, $v);
-      $mappings->$k = !is_array($values) || count($values) > 1 ? $values : reset($values);
-    }
-  }
-  return (object)$mappings;
 }
 
 /**
@@ -782,5 +784,5 @@ function _parser_common_syndication_title($title, $body = FALSE) {
     $words = preg_split("/[\s,]+/", $body);
     $title = $words[0] .' '. $words[1] .' '. $words[2];
   }
-  return $title;
+  return html_entity_decode(strip_tags($title), ENT_QUOTES, 'UTF-8');
 }

@@ -1,5 +1,5 @@
 <?php
-// $Id: parser_simplepie.module,v 1.6.2.20.2.11 2008/11/10 10:46:55 aronnovak Exp $
+// $Id: parser_simplepie.module,v 1.6.2.20.2.10 2008/10/10 14:09:32 aronnovak Exp $
 
 /**
  * @file
@@ -117,24 +117,6 @@ function _parser_simplepie_feedapi_parse($feed) {
     $curr_item->options->timestamp = $simplepie_item->get_date("U");
     $curr_item->options->guid = $simplepie_item->get_id();
     $curr_item->options->original_author = $simplepie_item->get_author();
-    // Enclosures 
-    $enclosures = $simplepie_item->get_enclosures();
-    if (is_array($enclosures)) {
-      foreach ($enclosures as $enclosure) {
-        $mime = $enclosure->get_real_type();
-        if ($mime != '') {
-          list($type, $subtype) = split('/', $mime);
-          $curr_item->options->enclosures[$type][$subtype][] = $enclosure;
-        }
-      }
-    }
-    // Location 
-    $latitude = $simplepie_item->get_latitude();
-    $longitude = $simplepie_item->get_longitude();
-    if (!is_null($latitude) && !is_null($longitude)) {
-      $curr_item->options->location->latitude[] = $latitude;
-      $curr_item->options->location->longitude[] = $longitude;
-    }
     // Extract tags related to the item
     $simplepie_tags = $simplepie_item->get_categories();
     $tags = array();
@@ -207,5 +189,10 @@ function _parser_simplepie_title($title, $body = FALSE) {
     $words = preg_split("/[\s,]+/", $body);
     $title = $words[0] .' '. $words[1] .' '. $words[2];
   }
-  return $title;
+  if (version_compare(PHP_VERSION, '5.0.0', '<')) {
+    return html_entity_decode(strip_tags($title), ENT_QUOTES);
+  }
+  else {
+    return html_entity_decode(strip_tags($title), ENT_QUOTES, 'UTF-8');
+  }
 }

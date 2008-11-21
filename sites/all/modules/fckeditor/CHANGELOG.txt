@@ -1,4 +1,17 @@
-$Id: CHANGELOG.txt,v 1.2.2.27.2.51 2008/10/16 13:04:27 wwalc Exp $
+$Id: CHANGELOG.txt,v 1.2.2.27.2.58 2008/11/19 12:12:54 wwalc Exp $
+
+-- 2008-11-19 version 6.x-2.x-dev
+* #323170 Fixed: unclear notifications on the status page (You are using a feature...)
+* #334947 Added LoginToboggan administration pages to the default exclusion list
+* #322939 Fixed: Distinguish between Teaser and page break
+* Added missing file (imgassist_small.gif)
+
+-- 2008-11-14 version 6.x-2.x-dev
+* #332727 Fixed: Fatal error in PHP4 
+* #327615 Added Image Browser (http://drupal.org/project/imagebrowser) to the list of supported file browsers
+
+-- 2008-10-21 version 6.x-2.x-dev
+* #314319 Added protection against XSS attacks when editing
 
 -- 2008-10-15 version 6.x-2.x-dev
 * EMailProtection has been set to "none" by default

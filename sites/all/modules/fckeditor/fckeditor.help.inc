@@ -1,5 +1,5 @@
 <?php
-// $Id: fckeditor.help.inc,v 1.1.2.9 2008/10/09 08:57:52 wwalc Exp $
+// $Id: fckeditor.help.inc,v 1.1.2.10 2008/11/14 16:40:14 wwalc Exp $
 /**
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
@@ -99,7 +99,7 @@ function fckeditor_help_delegate($path, $arg) {
       $output .= '<p>'. t('There are three ways for uploading files:') .'</p>';
       $output .= '<ol>';
       $output .= '<li>'. t('By using the built-in file browser.') .'</li>';
-      $output .= '<li>'. t('By using a module like <a href="!imce">IMCE</a>.', array('!imce' => 'http://drupal.org/project/imce')) .'</li>';
+      $output .= '<li>'. t('By using a module like <a href="!imce">IMCE</a> or <a href="!ib">Image Browser</a>.', array('!imce' => 'http://drupal.org/project/imce', '!ib' => 'http://drupal.org/project/imagebrowser')) .'</li>';
       $output .= '<li>'. t('By using the core upload module.') .'</li>';
       $output .= '</ol>';
 

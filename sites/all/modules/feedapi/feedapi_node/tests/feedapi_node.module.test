@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.module.test,v 1.1.4.12 2008/10/27 09:58:47 aronnovak Exp $
+// $Id: feedapi_node.module.test,v 1.1.4.11 2008/09/16 14:10:27 aronnovak Exp $
 
 /**
  * Class for testing feedapi_node.
@@ -333,8 +333,7 @@ EOT;
    */
   function testContentType_Setting_Page() {
     $this->feedapi_user(TRUE);
-    $parsers_ok = $this->get_parsers();
-    $this->create_type(array_shift($parsers_ok));
+    $this->create_type($parser);
     $this->drupalGet('admin/content/node-type/'. $this->info->type);
     $this->assertText(t('FeedAPI'), 'The FeedAPI group appears at content-type edit page.');
     $this->assertText(t('Created date of item nodes'), 'FeedAPI Node settings at content-type edit page.');
