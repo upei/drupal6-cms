@@ -47,7 +47,7 @@ function central_messaging_block($op, $delta = 0, $edit = array()) {
   
   switch ($op) {
     case 'list':
-      return array($block->definition());
+      return array($block->info());
     case 'configure':
       return $block->configure();
     case 'view':

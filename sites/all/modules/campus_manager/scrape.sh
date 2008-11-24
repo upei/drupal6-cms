@@ -93,7 +93,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 
 	# Scrape the bucket
 	if [ x$2 == x ]; then
-		httrack http://cms.upei.ca/$1/ \
+		httrack http://cms.upei.ca/$1 \
 			$HTTRACK_OPTIONS
 	elif [ x$2 == xtimetable ]; then
 		httrack http://cms.upei.ca/$1/$2 \

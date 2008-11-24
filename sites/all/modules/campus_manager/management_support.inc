@@ -17,13 +17,21 @@ abstract class DrupalBlockBase {
   
   abstract function view(); // this method is required
   
-  function definition() {
+  function info() {
     return array(
       'info' => $this->info,
       'status' => $this->status,
       'region' => $this->region,
       'weight' => $this->weight,
       );
+  }
+  
+  static function listBlocks($blocks) {
+      $list = array();
+      foreach ($blocks as $key => $value) {
+          $list[$key] = $value->info();
+      }
+      return $list;
   }
 
   // this method is optional

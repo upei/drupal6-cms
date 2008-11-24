@@ -10,7 +10,6 @@ class ScrapeManager {
   static $PERM_SITE = 'scrape website';
   static $PERM_SECTION = 'scrape section';
   static $PERM_PAGE = 'scrape one page';
-  static $_instance;
   
   /**
    * Permissions for Scrape Manager
@@ -60,7 +59,7 @@ class ScrapeManager {
   function scrapeEndpoint() {
     
     
-    // we are going to get the parameter from _GET
+    // we are going to get the parameter from _REQUEST
     
     $arg1 = isset($_REQUEST['arg1']) ? trim($_REQUEST['arg1']) : false;
     $arg2 = isset($_REQUEST['arg2']) ? trim($_REQUEST['arg2']) : '';
@@ -94,7 +93,7 @@ class ScrapeManager {
 
     $start_time = time();
     
-    $scrape_script = dirname(__FILE__) . '/scrape.sh';
+    $scrape_script = drupal_get_path('module', 'scrape_manager') . '/scrape.sh';
     
     if($arg1 == 'news') {
       $command = "sudo -u drupal $scrape_script";
@@ -212,7 +211,7 @@ EOF;
     switch ($op) {
       case 'list':
         return array(
-          $block->definition()
+          $block->info()
           );
       case 'view':
         return $block->view();
