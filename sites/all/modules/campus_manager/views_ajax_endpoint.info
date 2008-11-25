@@ -1,0 +1,7 @@
+core = 6.x
+php = 5.1
+name = Views AJAX endpoint
+description = AJAX endpoint for views. The endpoint is accessible from drupal block with JQuery AJAX support or PHP code such as file_get_contents.
+package = Views
+version = 0.1
+dependencies[] = views

@@ -1,0 +1,23 @@
+<?php
+/*
+ * This is a Views endpoint module for AJAX use.
+ * This module is inspired by Communications module and Campus Management module
+ * made and partially made by Shawn Arsenault. I feel sure that we should use a
+ * general view for AJAX endpoint instead of building modules for each type we
+ * need in the future.
+ *
+ * We just need to use JQuery to load the content or PHP code file_get_contents
+ * to get the endpoint in the future.
+ *
+ * This module is released under GPL v3. Please refer to GPL's website for
+ * licensing information. <http://www.gnu.org/copyleft/gpl.html>
+ *
+ * Yuxing Huang, TFDC <yxh@twofathomsdeep.com> and
+ *   University of Prince Edward Island
+ *
+ */
+
+function views_ajax_endpoint_views_api() {
+  return array('api' => 2);
+}
+
