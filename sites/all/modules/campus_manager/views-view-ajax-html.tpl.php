@@ -11,6 +11,3 @@
     <?php endforeach; ?>
   </ul>
 </div>
-<?php
-exit;
-?>

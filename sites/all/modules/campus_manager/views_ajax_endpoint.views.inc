@@ -20,6 +20,7 @@ function views_ajax_endpoint_views_plugins() {
         'handler' => 'views_plugin_style_ajax_html',
         'uses row plugin' => true,
         'uses fields' => true,
+		'uses options' => true,
         'type' => 'normal',
       ),
     ),
