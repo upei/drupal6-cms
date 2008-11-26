@@ -28,11 +28,9 @@ function views_ajax_endpoint_views_plugins() {
       'serialized' => array(
         'title' => t('Serialized'),
         'handler' => 'views_plugin_row_serialized',
-        'theme' => 'views_view_row_serialized',
         'uses fields' => true,
         'type' => 'normal',
       ),
     ),
   );
 }
-

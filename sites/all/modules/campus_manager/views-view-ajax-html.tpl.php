@@ -1,10 +1,9 @@
-<div class="item-list viewscarousel clear-block">
+<div class="item-list clear-block">
   <ul>
     <?php foreach ($rows as $row): ?>
       <li>
         <ul>
-        <?php $row = unserialize($row);
-        foreach ($row as $label => $value): ?>
+        <?php foreach ($row as $label => $value): ?>
         <li><?= $label ?>: <?= $value ?></li>
         <?php endforeach; ?>
         </ul>
