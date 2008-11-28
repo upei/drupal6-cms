@@ -1,7 +1,7 @@
 ; $Id$
 
 name = Campus Management
-description = "Allows multi-site management on campus."
+description = "Miscellaneous campus management functions."
 package = "Campus manager"
 core = 6.x
-version = $Revision$
+version = 0.50

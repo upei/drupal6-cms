@@ -1,0 +1,11 @@
+<?php
+// $Id: 
+
+/**
+ * Update to clear the cache so the filter cache feels changes. 
+ */
+function insert_view_update_5100() {
+  $ret = array();
+  cache_clear_all(); 
+  return $ret;
+}

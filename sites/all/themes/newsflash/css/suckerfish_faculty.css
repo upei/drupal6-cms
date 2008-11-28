@@ -1,0 +1,161 @@
+/* $Id: suckerfish_blue.css,v 1.4 2007/09/11 17:06:35 roopletheme Exp $ */
+/* www.roopletheme.com */
+
+/* another son of suckerfish...
+http://www.htmldog.com/articles/suckerfish/dropdowns/
+http://www.alistapart.com/articles/horizdropdowns
+*/
+
+#suckerfishmenu	.block {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+#suckerfishmenu	.block, #suckerfishmenu	.box {
+  padding: 0;
+}
+
+#suckerfishmenu	.title {
+  display: none;
+}
+
+#suckerfishmenu	 {
+  line-height: 20px;
+  background: #43590E;
+	border-top: 1px solid #fff;
+}
+
+#suckerfishmenu	 ul.menu { /* top level ul */
+  padding: 0 0 0 0px;
+  list-style: none;
+  z-index: 100;
+  display: inline;
+	position:relative; /*added by DH to move the nav items to the right instead of the left */
+  float:right;/*added by DH to move the nav items to the right instead of the left */
+} 
+
+#suckerfishmenu	 a {
+  background: #43590E;
+	/*url(../images/upei-news/MenuDiv.png) 100% 0 repeat-y;*/
+  color: #FFF;
+  display: block;
+  padding: 0px 17px 0px 17px; /* padding between menu elements */
+  margin: 0;
+  text-decoration: none;
+  font-size: 95%;
+  font-weight: bold;
+}
+
+#suckerfishmenu	 a:active,
+#suckerfishmenu	 a:hover {
+  background: #577218;
+  text-decoration: none;
+}
+
+#suckerfishmenu	 li {
+  display: inline;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* second-level lists */
+
+#suckerfishmenu	 ul.menu ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#suckerfishmenu	 ul.menu li ul {
+  position: absolute;
+  width: 200px;
+  left: -999em; /* to hide menus because display: none isn't read by screen readers */
+}
+
+
+#suckerfishmenu	 ul.menu li li {
+  /* height: auto; */
+  float: left;
+  width: 200px;
+}
+
+
+/* Affects the initial appearance of the drop down navigation */
+#suckerfishmenu	 ul.menu li li a:link,
+#suckerfishmenu	 ul.menu li li a:visited {
+  color: #ffffff;
+	font-weight: normal;
+	font-style: italic;
+	background: #6B8827;
+  width: 170px;
+  border-top: 1px solid #43590e;
+  border-bottom: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded a {
+	background: #43590E url(../images/menu_arrow.png) 100% 50% no-repeat;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded a:active,
+#suckerfishmenu	 ul.menu li li.expanded a:hover {
+	background: #43590E url(../images/menu_arrow.png) 100% 50% no-repeat;
+}
+
+#suckerfishmenu	 ul.menu li ul a:active,
+#suckerfishmenu	 ul.menu li ul a:hover {
+  background: #43590E;
+  text-decoration: none;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu a {
+  background: #577218;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu a:active,
+#suckerfishmenu	 ul.menu li li.expanded ul.menu a:hover {
+  background: #43590E;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a {
+	background: #577218 url(../images/menu_arrow.png) 100% 50% no-repeat;
+}
+
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a:active,
+#suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a:hover {
+	background: #43590E url(../images/menu_arrow.png) 100% 50% no-repeat;
+}
+
+#suckerfishmenu	 ul.menu li li {
+}
+
+#suckerfishmenu	 ul.menu li ul a {
+  color: #fff;
+  width: 200px;
+  line-height: 30px;
+  font-size: 95%;
+}
+
+/* Affects the rollover appearance of the drop down navigation */
+#suckerfishmenu	 ul.menu li ul a:active,
+#suckerfishmenu	 ul.menu li ul a:hover {
+  background: #43590E;
+	color: #ffffff;
+	font-style: italic;
+  text-decoration: none;
+}
+
+/* margin for pullouts */
+#suckerfishmenu	 ul.menu li ul ul {
+  margin: -33px 0 0 200px;
+}
+
+#suckerfishmenu	 ul.menu li:hover ul ul, #suckerfishmenu	 ul.menu li:hover ul ul ul, #suckerfishmenu	 ul.menu li.sfhover ul ul, #suckerfishmenu	 ul.menu li.sfhover ul ul ul {
+  left: -999em;
+}
+
+#suckerfishmenu	 ul.menu li:hover ul, #suckerfishmenu	 ul.menu li li:hover ul, #suckerfishmenu	 ul.menu li li li:hover ul, #suckerfishmenu	 ul.menu li.sfhover ul, #suckerfishmenu	 ul.menu li li.sfhover ul, #suckerfishmenu	 ul.menu li li li.sfhover ul {
+  left: auto;
+}

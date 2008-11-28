@@ -3,151 +3,38 @@
  * $Id: campus_management.module Shawn Arsenault Exp $
  */
 
-
-
-
-
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@		 First list all the hooks used in this module		@@@@@@@@@@@@@
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-//*******************************
-//Implementation of hook_perm().*
-//*******************************
-function campus_management_perm() {
-  $scrapeManager = ScrapeManager::getInstance();
-	return array_merge(array('administer messaging', 'set notice properties'), $scrapeManager->perm());
-}
-// END Hook_PERM()***************
-
-
-//********************************
-//Implementation of hook_block().*
-//********************************
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // listing of blocks
 // These are an initiations and not an override. 
 // The blocks will be created ready to go, but once
 // changed in drupal, will not hold their values.
 function campus_management_block($op='list', $delta=0) {
-//Prepare variables to use throughout the block function
-$site = explode("/", request_uri()); //Get the Bucket Name
-$path = drupal_get_path('module', 'campus_management'); //get the modules path
+  //Prepare variables to use throughout the block function
+  $site = explode("/", request_uri()); //Get the Bucket Name
+  $path = drupal_get_path('module', 'campus_management'); //get the modules path
 
   if ($op == "list") {
 	
-		$block[2]["info"] = t("Content Manager Messaging System");
-  	$block[2]["status"] = "1";
-  	$block[2]["region"] = "sidebar_left";
-  	$block[2]["weight"] = "-10";
-	
-	$block[3]["info"] = t("Emergency Information");
-	$block[3]["status"] = "1";
-	$block[3]["region"] = "content_top";
-	$block[3]["weight"] = "-10";
-	
-	$block[4]["info"] = t('List of recent notices');
-	$block[4]["status"] = "1";
-	$block[4]["region"] = "sidebar_right";
-	$block[4]["weight"] = "-9";
-
-	$block[5]["info"] = t('Website Maintenance');
-	
+    $block[0]["info"] = t('Website Maintenance');
+    
     return $block;
+    
   } else if ($op == 'view') {
-  
-	switch ($delta) {
 
-		// Case 2 is to display a global system Message to all content managers and Super Admins
-		// Switch database to the Integrated Communications site
-		// Get the messaging_text Variable
-		// The data has been serialized so it has to be removed
-		// Switch back to the current bucket database
-		case 2:
-			global $user;
-			db_set_active('integratedcommunications');
-				//Get the message variable
-				$sSQL = "SELECT * FROM integratedcommunications_variable WHERE name = 'messaging_text'";
-				$result = db_query($sSQL);
-				$variable = db_fetch_object($result);
-				$message = unserialize($variable->value);
-			db_set_active('default');
-			
-			//We need to only display the message for roles: "content manager" and "super admin"
-			$role_array = $user->roles;
-			if(in_array("content manager", $role_array) || in_array("super admin", $role_array)){
-				$flag = true;
-			}
-			
-			// If there is a message, and a flag has been issued, make the block_content
-			if($message && $flag){
-				$block_content = "<div class=\"cmms\">";
-				$block_content .= "<div style=\"font-weight:bold;font-size:14px;\" align=\"center\">To: Content Managers</div><br />";
-				$block_content .= $message;
-				$block_content .= "</div>";
-			}
-			
-			$block['subject'] = "";
-       		$block['content'] = $block_content;
-		break;
-		
-		// Case 3 is to display an Emergency Message block
-		// Switch database to the Emergency site
-		// Get the emergency_text Variable
-		// The data has been serialized so it has to be removed
-		// Switch back to the current bucket database
-		case 3:
-			db_set_active('emergency');
-				$sSQL = "SELECT * FROM emergency_variable WHERE name = 'emergency_text'";
-				$result = db_query($sSQL);
-				$variable = db_fetch_object($result);
-				$message = unserialize($variable->value);
-				
-				$sSQL = "SELECT * FROM emergency_variable WHERE name = 'emergency_level'";
-				$result = db_query($sSQL);
-				$variable = db_fetch_object($result);
-				$level = unserialize($variable->value);
-				
-				//$message = "This is just a test!! This is just a test!! The University of Prince Edward Island will be closed for the day due to bad weather Conditions.";
-			
-			db_set_active('default');
-				// If there is a message, make the block content.
-				if($message){
-					switch ($level){
-						case "1":
-						case "2":
-						case "3":
-							$lclass = "emms" . $level;
-						break;
-						default:
-							$lclass = "emms";
-						break;
-					}
-					$block_content = "<div id=\"emms\" class=\"" . $lclass . "\">";
-					$block_content .= $message;
-					$block_content .= "</div>";
-					}
-			$block['subject'] = "";
-       		$block['content'] = $block_content;
-		break;
-		
-		// Case 4 - This block will created a list of the most recent 
-		// notices. This will be replaced once the communications module
-		// is completed and the campus connector content type is 
-		// implemented.
-		
-  		case 4:
-    		$block['subject'] = variable_get('notice_title', 'Recent Notices');
-    		$block['content'] = get_recent_notices();
+    switch ($delta) {
+
+      case 0:
+        $block['subject'] = "WEBSITE MAINTENANCE";
+        $block['content'] = "<div style=\"padding:10px;background-color:#6C1C00;color:#ffffff;\">We are currently doing maintenance on your website. Sorry for any Inconvenience</div>";
     	break;
-		case 5:
-    		$block['subject'] = "WEBSITE MAINTENANCE";
-    		$block['content'] = "<div style=\"padding:10px;background-color:#6C1C00;color:#ffffff;\">We are currently doing maintenance on your website. Sorry for any Inconvenience</div>";
-    	break;
-}
-return $block;
-drupal_load('module', 'block');
+    }
+    return $block;
+    drupal_load('module', 'block');
   }
+  
 }
 // End Hook_BLOCK()**********************************************************
 
@@ -155,58 +42,19 @@ drupal_load('module', 'block');
 // Implement hook_menu	*
 //***********************
 function campus_management_menu() {
-$items = array();
+  $items = array();
 
-$items[] = array(
-    'path' => 'content/update',
-    'title' => t('Content'),
-    'callback' => 'UpdatableContent',
-    'access' => user_access('access content'),
-    'type' => MENU_NORMAL_ITEM
-);
-
-$items[] = array(
-    'path' => "admin/settings/notice_set",
-    'title' => t('UPEI Notice Setting'),
-    'description' => t('Set the properties of the notices in the right hand side bar'),
-    'callback' => 'drupal_get_form',
-    'callback arguments' => 'notice_number_value',
-    'access' => user_access('set notice properties'),
-    'type' => MENU_NORMAL_ITEM
-   );
-
-$site = explode("/", request_uri());
-	if($site[1]== "emergency"){
-	$items[] = array(
-    'path' => "admin/settings/emergency",
-    'title' => t('UPEI Emergency Message'),
-    'description' => t('Able to send out an emergency message on all websites'),
-    'callback' => 'drupal_get_form',
-    'callback arguments' => 'upei_emergency_text',
-    'access' => user_access('administer messaging'),
-    'type' => MENU_NORMAL_ITEM
-   	);
-  	}
-
-	if($site[1]== "integratedcommunications"){
-	$items[] = array(
-    'path' => "admin/settings/messages",
-    'title' => t('UPEI Message Admin'),
-    'description' => t('Able to send out messages'),
-    'callback' => 'drupal_get_form',
-    'callback arguments' => 'upei_messaging_text',
-    'access' => user_access('administer messaging'),
-    'type' => MENU_NORMAL_ITEM
-   	);
- }
-
-if($may_cache){
- }else{
-		$path = drupal_get_path('module', 'campus_management');
-      	drupal_add_css($path .'/campus_management.css');
- }
- 
- return array_merge($items);
+  $items['content/update'] = array(
+      'title' => t('Content'),
+      'page callback' => '_campus_management_updateable_content',
+      'access argument' => array('access content'),
+      'type' => MENU_NORMAL_ITEM
+  );
+  
+  $path = drupal_get_path('module', 'campus_management');
+  drupal_add_css($path .'/campus_management.css');
+  
+  return array_merge($items);
 }
 
 //End Hook_MENU()*********************************************************
@@ -216,142 +64,39 @@ if($may_cache){
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@		 		Create Functions needed in this module 		@@@@@@@@@@@@@
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-//*******************************************************************************************
-// Will make the forms needed to add the emergency text, messaging system and notice value 	*
-//*******************************************************************************************
-function upei_emergency_text() {
- $form['emergency_text'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Emergency Text Notice to go across the UPEI Websites'),
-    '#default_value' => variable_get('emergency_text', ''),
-    '#size' => 60,
-	'#rows'=> 5,
-    '#maxlength' => 100,
-    '#description' => t("The Emergency Message on all the UPEI Websites.")
-  );
-   $elevel = array('1' => '-- 1 --','2' => '-- 2 --','3' => '-- 3 --');
-   $form['emergency_level'] = array(
-	'#type' => 'select',
-    '#title' => t('Level of Emergency 1 2 or 3'),
-    '#default_value' => variable_get('emergency_level', ''),
-    '#options' => $elevel,
-    '#description' => t("This will change the color of the notices background<br />1. Red<br />2. Orange<br />3. Black")
-  );
-  return system_settings_form($form);
-}
-//For changing the number of nodes in the right sidebar
-function upei_messaging_text() {
- $form['messaging_text'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Notify all Content Managers'),
-    '#default_value' => variable_get('messaging_text', ''),
-    '#size' => 60,
-    '#rows' => 10,
-    '#cols' => 40,
-	'#description' => t("A text message for all content managers roles.")
-  );
-  return system_settings_form($form);
-}
-
-//For changing the number of nodes in the right sidebar
-function notice_number_value() {
- $form['notice_maxdisp'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Notice Display'),
-    '#default_value' => variable_get('notice_maxdisp', 3),
-    '#size' => 2,
-    '#maxlength' => 2,
-    '#description' => t("The number of Nodes to appear in the right sidebar.")
-	);
- $form['notice_title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Notice Display'),
-    '#default_value' => variable_get('notice_title', 'Recent Notices'),
-    '#size' => 20,
-    '#maxlength' => 50,
-    '#description' => t("The text to appear in the notices title bar.")
- );
-   $display = array(true => 'Yes', false => 'No');
-   $form['notice_rss_display'] = array(
-    '#type' => 'select',
-    '#title' => t('Display RSS'),
-    '#default_value' => variable_get('notice_rss_display', true),
-    '#options' => $display,
-    '#description' => t("Display the RSS feed underneath the notices in the right block.")
-  );
-  return system_settings_form($form);
-}
-//END FORM Creation*****************************************************************************************
-
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 //*******************************************************
 //Generate a page with only the content a user can edit	*
 //*******************************************************
-function UpdatableContent() {
-	$site = explode("/", request_uri());
-	$bucket = $site[1];
-	$page_content = "<table>\n";
-	$page_content .= "<tr><th>Title</th><th width=\"75\">Type</th><th  width=\"75\" style=\"text-align:center;\">Published?</th><th width=\"75\" >Edit</th></tr>\n";
-	$sSQL = "SELECT * FROM {node} ORDER BY changed DESC";
-	$result =  db_query($sSQL);
-  	while ($node = db_fetch_object($result)) {
-		$node_object = node_load($node->nid);
+function _campus_management_updateable_content() {
+  $site = explode("/", request_uri());
+  $bucket = $site[1];
+  $page_content = "<table>\n";
+  $page_content .= "<tr><th>Title</th><th width=\"75\">Type</th><th  width=\"75\" style=\"text-align:center;\">Published?</th><th width=\"75\" >Edit</th></tr>\n";
+  $sSQL = "SELECT * FROM {node} ORDER BY changed DESC";
+  $result =  db_query($sSQL);
+    while ($node = db_fetch_object($result)) {
+    $node_object = node_load($node->nid);
         $node_access = node_access("update", $node_object);
-		if($node_access){
-			if($node->status){$status = "yes";}else{$status = "no";}
-			if($bgcolor=="ffffff"){$bgcolor="eef2e3";}else{$bgcolor="ffffff";}
-			$page_content .= "<tr style=\"background-color:#" . $bgcolor ."\"><td>" .l($node->title, 'node/'.$node->nid). "</td><td>". $node->type ."</td><td style=\"text-align:center;\">". $status ."</td><td>". l("edit", "node/" . $node->nid . "/edit") ."</td>" . "</tr>";
-  		}
-  	}
-	$page_content .= "</table>";
-	return $page_content;
+    if($node_access){
+      if($node->status){$status = "yes";}else{$status = "no";}
+      if($bgcolor=="ffffff"){$bgcolor="eef2e3";}else{$bgcolor="ffffff";}
+      $page_content .= "<tr style=\"background-color:#" . $bgcolor ."\"><td>" .l($node->title, 'node/'.$node->nid). "</td><td>". $node->type ."</td><td style=\"text-align:center;\">". $status ."</td><td>". l("edit", "node/" . $node->nid . "/edit") ."</td>" . "</tr>";
+      }
+    }
+  $page_content .= "</table>";
+  return $page_content;
 }
 // END UpdatableContent()*************************
 
-//***********************************************************************************************************	
+//******************************************************************************
 // The original SQL by Ryan found the current Node, Revisions, and Content Type information and merged		*
 // them using the SQL JOIN operator. I removed all this and found just the node ID							*
 // and used the node_load($nid) function																	*
 // Added the code to get the variable to change the number of posts to list									*
-//***********************************************************************************************************	
-function get_recent_notices() {
-$site = explode("/", request_uri());
-$path = drupal_get_path('module', 'campus_management'); //get the modules path
-// Maximum number of posts to list - Entered on the administration pages
-$list_no = variable_get('notice_maxdisp', 3); 
-$sql = "SELECT n.nid FROM {node} n INNER JOIN {content_type_notice} ctn ON ctn.vid = n.vid WHERE n.type = 'notice' AND ctn.field_promote_value = 'promoted' ORDER BY sticky DESC, created DESC LIMIT $list_no";
-$result =  db_query($sql);
-//$result = db_query_range(db_rewrite_sql($sql), 0, $list_no);
-$notices = "";
-
-
-	while ($anode = db_fetch_object($result)) {
-		$node_object = node_load($anode->nid);
-		$teaser_text = check_markup($node_object->teaser, $node_object->format, FALSE);
-		$notices .= "<div id=\"notice-item\">";
-  		$notices .= "<div class=\"notice_title\"><a href=\"/". $site[1] ."/node/". $node_object->nid . "\">". $node_object->title ."</a></div>";
-		$notices .= "<div class=\"notice_body\">". $teaser_text . "";
-		$notices .= "</div>";
-		//print_r($node_object);
-	}
-	if(!empty($notices)) {
-		$output .= '<div id="notice-container">';
-		$output .= $notices;
-		$output .= "</div>";
-		$output .= '&raquo; '. l("more notices", "notice");
-		$site = explode("/", request_uri());
-		$image = "<img src=\"/". $site[1] ."/". $path ."/images/rss12.png\" alt=\"Syndicate content\" title=\"Syndicate content\" width=\"16\" height=\"16\" />";
-		if(variable_get('notice_rss_display', true)){
-			$output .= l($image, 'notice/all/feed', array(), Null, Null, False, True); 
-		}
-	}
-
-	return $output;
-}
-// END get_recent_notices()***********************************************************************************
+//******************************************************************************
 
 

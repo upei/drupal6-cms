@@ -11,6 +11,7 @@ class views_plugin_style_ajax_html extends views_plugin_style_ajax {
 		$form['template'] = array(
 			'#type' => 'textarea',
 			'#title' => t('PHP Code Template'),
+			'#description' => t('Use <tt>$rows</tt> to get a list of rows. Each row contains a list of key/value pairs. <tt>$title</tt> is current group\'s title. <tt>$view</tt> and <tt>$options</tt> are also available. Please leave this textarea empty if no template is provided.'),
 			'#rows' => 20,
 			'#cols' => 80,
 			'#default_value' => $this->options['template'],

@@ -1,0 +1,116 @@
+<?php
+// $Id: insert_view.module,v 1.16 2008/06/26 16:35:33 mlsamuelson Exp $
+
+function insert_view_filter($op, $delta = 0, $format = -1, $text = '') {
+  // The "list" operation provides the module an opportunity to declare both how
+  // many filters it defines and a human-readable name for each filter. Note that
+  // the returned name should be passed through t() for translation.
+  if ($op == 'list') {
+    return array(
+      0 => t('insert view filter'));
+  }
+
+  // All operations besides "list" provide a $delta argument so we know which
+  // filter they refer to. We'll switch on that argument now so that we can
+  // discuss each filter in turn.
+  switch ($op) {
+    case 'description':
+      return t('Inserts content lists into nodes using [view:myview] tags.');
+    case 'prepare':
+      return $text;
+    case 'process':
+      return _insert_view_substitute_tags($text);
+    case 'no cache':
+      return TRUE;
+  }
+}
+
+function insert_view_filter_tips($delta, $format, $long = false) {
+  if ($long) {
+    return t('
+    <p>The Views module allows administrators to create dynamic lists of content
+    for display in pages or blocks. It is possible to insert those lists into
+    existing node bodies and blocks, but such inclusion requires that PHP
+    filtering be turned on. The Insert View module allows any user to insert
+    view listings using tag syntax, without the need for PHP execution
+    permissions. The Insert View tag syntax for embedding a view is relatively
+    simple:</p>
+    
+    <pre>[view:my_view]</pre>
+    
+    <p>is replaced by the content listing corresponding to the named view. In
+    this case it is my_view.</p>
+    
+    <pre>[view:my_view=my_display]</pre>
+    
+    <p>invokes the my_view view using the my_display view display ID. If the
+    display slot is left empty, the view\'s "default" display is used.</p>
+    
+    <pre>[view:my_view=my_display=1,2,3]</pre>
+    
+    <p>uses the my_display view display, and passes a comma delimited list of
+    arguments (in this case 1, 2, and 3) to the view.</p>
+    
+    <p>Here\'s an example you could use with the default view named "tracker"
+    which uses the page display and takes a user ID as an argument:</p>
+    
+    <pre>[view:tracker=page=1]</pre>
+    
+    <p>In short this tag says, "Insert the view named tracker, use the "page"
+    display, and supply the argument 1."</p>
+    
+    <p>Sometimes you want to pass an argument without specifying a display ID.
+    You can do that by leaving the display ID slot empty, like so:</p>
+    
+    <pre>[view:my_view==1]</pre>
+    
+    <p>How to find a display ID: On the edit page for the view
+    in question, you\'ll find a list of displays at the left side of the control
+    area. "Defaults" will be at the top of that list. Hover your mouse
+    pointer over the name of the display you want to use. A URL will appear in
+    the status bar of your browser.  This is usually at the bottom of the
+    window, in the chrome. Everything after #views-tab- is the display ID. For
+    example in http://localhost/admin/build/views/edit/tracker?destination=node%2F51#views-tab-page
+    the display ID would be "page".</p>
+    
+    ');
+  }
+  else {
+    return t('You may use <a href="@insert_view_help">[view:viewname] tags</a> to display listings of nodes.', array("@insert_view_help" => url("filter/tips/$format", array('fragment' => 'filter-insert_view'))));
+  }
+}
+
+function _insert_view_substitute_tags($text) {
+  if (preg_match_all("/\[view(_pager)?:([^=\]]+)=?([^=\]]+)?=?([^\]]*)?\]/i", $text, $match)) {
+    foreach ($match[3] as $key => $value) {
+      // view_pager syntax is deprecated in the D6 version, but leaving in for
+      // now so we don't break people's legacy tags
+      $match[1][$key] == '_pager' ? $pager = TRUE : $pager = FALSE; // not used
+      
+      $viewname = $match[2][$key];
+      $display = ($match[3][$key] && !is_numeric($match[3][$key])) ? $match[3][$key] : 'default';
+      $view_args = $match[4][$key];
+
+      $view = views_get_view($viewname);
+      $replace = "";
+
+      if ($view_args != NULL) {
+        $view_args = explode(',', $view_args);
+      }
+      else {
+        $view_args = array();
+      }
+
+      if ($view) {
+        // render our previously gotten view, providing it with our matched 
+        // display (or default) and matched arguments
+        $replace = $view->preview($display, $view_args);
+
+        $mtch[] = $match[0][$key];
+        $repl[] = $replace;
+      }
+    }
+    return str_replace($mtch, $repl, $text);
+  }
+  return $text;
+}
