@@ -1,0 +1,1 @@
+<?php include 'sites/all/themes/newsflash/template.php'; ?>
