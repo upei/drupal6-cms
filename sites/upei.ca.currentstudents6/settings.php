@@ -1,1 +1,0 @@
-<?php include 'sites/all/settings-systemwide.php'; ?>
