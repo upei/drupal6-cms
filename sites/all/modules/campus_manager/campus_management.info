@@ -1,7 +1,8 @@
-; $Id$
+; by Shawn Arsenault
+; modified by Yuxing Huang <yxh@twofathomsdeep.com>
 
 name = Campus Management
 description = "Miscellaneous campus management functions."
 package = "Campus manager"
 core = 6.x
-version = 0.50
+version = 0.52

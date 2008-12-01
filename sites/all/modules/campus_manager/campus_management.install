@@ -3,157 +3,110 @@
  * Implementation of hook_install()
  */
 function campus_management_install() {
-  switch ($GLOBALS['db_type']) {
-  
-    case 'mysql':
-    case 'mysqli':
-	// Make the Navigation Menu and Other Web Content Menus
-	//Get the Bucket Name
-	$site = explode("/", request_uri());
-	
-	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	// Create New Main Navigation
-	// Must get the menu sequence in the sequences table and add 1 to make sure
-	// we can add the menu record to the database
-	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	if ($site[1] == "co-op"){$site[1] = "coop";}
-	$result = db_query("SELECT id FROM {sequences} WHERE name = '". $site[1] ."_menu_mid'");
-	$menu_sequence = db_fetch_object($result);
-	
-	$next_menu_sequence =  $menu_sequence->id + 1;
-	db_query("UPDATE {sequences} SET id = ". $next_menu_sequence ." WHERE name = '". $site[1] . "_menu_mid'");
-	//**********************************
-	// Variables to enter into Database
-	//**********************************
-	
-	//menu table
-	//$next_menu_sequence is the menu id (mid)
-	$menu_path = "main";
-	$menu_title = "Main Navigation";
-	$menu_desc = "The main navigation";
-	$menu_weight = "0";
-	$menu_type = "115";
-	
-	//blocks table
-	//delta field is the $menu->mid field
-	$block_module = "menu";
-	$block_theme = "newsflash";
-	$block_status = "1";
-	$block_weight = "-3";
-	$block_region = "sidebar_left";
-	$block_visibility = "0";
-	$block_pages = "";
-	
-	db_query("INSERT INTO {menu}(mid, path, title, description, weight, type)VALUES(%d, '%s', '%s', '%s', '%s', '%s')", $next_menu_sequence, $menu_path, $menu_title, $menu_desc, $weight, $menu_type);
-	$result = db_query("SELECT mid FROM {menu} WHERE path = '". $menu_path ."'");
-	$menu = db_fetch_object($result);
-	db_query("INSERT INTO {blocks} (module, delta, theme, status, weight, region, pages, title) VALUES ('%s', '%s', '%s', %d, %d, '%s', '%s', '%s')", $block_module, $menu->mid, $block_theme, $block_status, $block_weight, $block_region, $block_pages, $menu_title);
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+   // Create Super Admin and Content Manager Rolls if they do not exists
+   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	// Create Content Holders Menu
-	// Must get the menu sequence in the sequences table and add 1 to make sure
-	// we can add the menu record to the database
-	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	$result = db_query("SELECT id FROM {sequences} WHERE name = '". $site[1] ."_menu_mid'");
-	$menu_sequence = db_fetch_object($result);
-	
-	$next_menu_sequence =  $menu_sequence->id + 1;
-	db_query("UPDATE {sequences} SET id = ". $next_menu_sequence ." WHERE name = '". $site[1] . "_menu_mid'");
-	//**********************************
-	// Variables to enter into Database
-	//**********************************
-	//menu table
-	//$next_menu_sequence is the menu id (mid)
-	$menu_path = "show";
-	$menu_title = "Other Web Content";
-	$menu_desc = "A menu display for other optional Content ";
-	$weight = "0";
-	$menu_type = "115";
-	
-	//blocks table
-	//delta field is the $menu->mid field
-	$menu_module = "menu";
-	$menu_theme = "newsflash";
-	$menu_status = "1";
-	$menu_weight = "-2";
-	$menu_region = "sidebar_left";
-	$menu_visibility = "0";
-	$menu_pages = "<front>";
-	
-	db_query("INSERT INTO {menu}(mid, path, title, description, weight, type)VALUES(%d, '%s', '%s', '%s', '%s', '%s')", $next_menu_sequence, $menu_path, $menu_title, $menu_desc, $weight, $menu_type);
-	$result = db_query("SELECT mid FROM {menu} WHERE path = '". $menu_path ."'");
-	$menu = db_fetch_object($result);
-	db_query("INSERT INTO {blocks} (module, delta, theme, status, weight, region, pages, title) VALUES ('%s', '%s', '%s', %d, %d, '%s', '%s', '%s')", $block_module, $menu->mid, $block_theme, $block_status, $block_weight, $block_region, $block_pages, $menu_title);
-	
-	//Make the Other Content Block only visible to Content Managers and Super Admins
-	$res1 = db_query("SELECT * FROM {role} WHERE name = 'super admin' OR name = 'content manager'");
-	while($roles = db_fetch_object($res1)){
-		db_query("INSERT INTO {blocks_roles} (module, delta, rid)VALUES('%s', '%s', %d)", $block_module, $menu->mid, $roles->rid);
-	}
-	break;
+   //**********************************
+   // Get the current roles
+   // Make an array $role_name
+   // If super admin or content manager
+   // are not in the array
+   // add the role 
+   //**********************************
+
+   $current_roles = array_values(user_roles());
+
+   if (!in_array("super admin", $current_roles)) {
+     db_query("INSERT INTO {role} (name)VALUES('super admin')");
+     drupal_set_message(t('Role "super admin" was created.'));
+   } 
+
+   if (!in_array("content manager", $current_roles)){
+     db_query("INSERT INTO {role} (name)VALUES('content manager')");
+     drupal_set_message(t('Role "content manager" was created.'));
+   }
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // Create New Main Navigation
+  // Must get the menu sequence in the sequences table and add 1 to make sure
+  // we can add the menu record to the database
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  
+  if (!db_result(db_query("SELECT menu_name FROM {menu_custom} WHERE menu_name='menu-main-navigation'"))) {
+    // menu_custom parameters
+    $path = 'admin/build/menu-customize/';
+    $menu = array();
+    $menu['title'] = t('Main Navigation');
+    $menu['description'] = t('The main navigation');
+    $menu['menu_name'] = 'menu-main-navigation';
+    // insert into menu
+    db_query("INSERT INTO {menu_custom} (menu_name, title, description) VALUES ('%s', '%s', '%s')", $menu['menu_name'], $menu['title'], $menu['description']);
+    
+    drupal_set_message(t('Main Navigation menu was created.'));
+  }
+  
+  
+   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // Create Content Holders Menu
+  // Must get the menu sequence in the sequences table and add 1 to make sure
+  // we can add the menu record to the database
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+  // 
+  if (!db_result(db_query("SELECT menu_name FROM {menu_custom} WHERE menu_name='menu-other-web-content'"))) {
+    // menu_custom parameters
+    $path = 'admin/build/menu-customize/';
+    $menu = array();
+    $menu['title'] = t('Other Web Content');
+    $menu['description'] = t('A menu display for other optional Content');
+    $menu['menu_name'] = 'menu-other-web-content';
+    // insert into menu
+    db_query("INSERT INTO {menu_custom} (menu_name, title, description) VALUES ('%s', '%s', '%s')", $menu['menu_name'], $menu['title'], $menu['description']);
+    
+    drupal_set_message(t('Other Web Content menu was created.'));
+    
+    // Make the Other Content Block only visible to Content Managers and Super Admins
+    $res1 = db_query("SELECT * FROM {role} WHERE name = 'super admin' OR name = 'content manager'");
+    while($role = db_fetch_object($res1)){
+      db_query("INSERT INTO {blocks_roles} (module, delta, rid)VALUES('%s', '%s', %d)", 'menu', $menu['mlid'], $role->rid);
+    }
+    
+    drupal_set_message('Other Web Content menu was set visible to super admin and content manager only.');
     
   }
-  drupal_set_message(t('Main Navigation Menu and Block have been created'));
   
-  	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	// Create Super Admin and Content Manager Rolls if they do not exists
-	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // Making the Default Navigation (which is now the administration navigation) 
+  // only visible by authenticated users 
+  db_query("INSERT IGNORE INTO {blocks_roles} (module, delta, rid) VALUES('user', 1, " . DRUPAL_AUTHENTICATED_RID . ")");
+  drupal_set_message(t('Navigation is now Administration Navigation'));
 
-	//**********************************
-	// Get the current roles
-	// Make an array $role_name
-	// If super admin or content manager
-	// are not in the array
-	// add the role 
-	//**********************************
-	$result = db_query("SELECT * FROM {role} ORDER BY rid");
-	$role_name = array();
-	$i=0;
-	while($roles = db_fetch_object($result)){
-		$role_name[$i] = $roles->name;
-		$i++;
-	}
-	
-	if (!in_array("super admin", $role_name)) {
-		db_query("INSERT INTO {role} (name)VALUES('super admin')");
-		drupal_set_message(t('Created Super Admin Role'));
-	} 
-	
-	if (!in_array("content manager", $role_name)){
-		db_query("INSERT INTO {role} (name)VALUES('content manager')");
-		drupal_set_message(t('Created Content Manager Role'));
-	}
-
-	// Making the Default Navigation (which is now the administration navigation) 
-	// only visible by authenticated users 
-	$result = db_query("SELECT * FROM {role} WHERE name = 'authenticated user'");
-	$roles = db_fetch_object($result); 
-	db_query("INSERT INTO {blocks_roles} (module, delta, rid)VALUES('user', 1, " . $roles->rid . ")");
-	drupal_set_message(t('Navigation is now Administration Navigation'));
-	drupal_set_message(t('Administration can only be seen by -super admin- and -content manager- roles'));
-	drupal_load('module', 'block');
+  
+  // reset the main navigation block and other web content block
+  $block = array();
+  $block['module'] = 'menu';
+  $block['theme'] = 'newsflash';
+  $block['status'] = "1";
+  $block['weight'] = '-2';
+  $block['region'] = 'sidebar_left';
+  $block['visibility'] = '0';
+  $block['pages'] = '<front>';
+  
+  // delete the old block
+  db_query("DELETE FROM {blocks} WHERE delta='%s' or delta='%s'", 'menu-other-web-content', 'menu-main-navigation');
+  // add block
+  db_query("INSERT INTO {blocks} (module, delta, theme, status, weight, region, visibility, pages) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", $block['module'], 'menu-main-navigation', $block['theme'], $block['status'], $block['weight'], $block['region'], $block['visibility'], $block['pages']);
+  db_query("INSERT INTO {blocks} (module, delta, theme, status, weight, region, visibility, pages) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", $block['module'], 'menu-other-web-content', $block['theme'], $block['status'], $block['weight'], $block['region'], $block['visibility'], $block['pages']);
+  
+  drupal_load('module', 'block');
+  
+  drupal_set_message('Main Navigation Block and Other Web Content block were reset.');
 }
 
 /**
  * Implementation of hook_uninstall().
  */
 function campus_management_uninstall() {
-
-	//Get the Menu ID of the main Navigation and Other Web Content
-	//To delete them from the Menu and Blocks Table
-	$result = db_query("SELECT mid FROM {menu} WHERE path = 'main'");
-	$menu = db_fetch_object($result);
-	db_query("DELETE FROM {blocks} WHERE delta = " . $menu->mid);
-	db_query("DELETE FROM {menu} WHERE mid = " . $menu->mid);
-	
-	$result = db_query("SELECT mid FROM {menu} WHERE path = 'show'");
-	$menu = db_fetch_object($result);
-  	db_query("DELETE FROM {blocks} WHERE delta = " . $menu->mid);
-	db_query("DELETE FROM {menu} WHERE mid = " . $menu->mid);
-	db_query("TRUNCATE TABLE {cache_menu}");
-	
-	db_query("DELETE FROM {blocks_roles} WHERE delta = 1 AND module = 'user'");
-	
 }
 
 

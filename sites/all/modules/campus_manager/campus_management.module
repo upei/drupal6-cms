@@ -45,16 +45,16 @@ function campus_management_menu() {
   $items = array();
 
   $items['content/update'] = array(
-      'title' => t('Content'),
-      'page callback' => '_campus_management_updateable_content',
-      'access argument' => array('access content'),
-      'type' => MENU_NORMAL_ITEM
+    'title' => t('Content'),
+    'page callback' => '_campus_management_updateable_content',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
   );
   
   $path = drupal_get_path('module', 'campus_management');
   drupal_add_css($path .'/campus_management.css');
   
-  return array_merge($items);
+  return $items;
 }
 
 //End Hook_MENU()*********************************************************
