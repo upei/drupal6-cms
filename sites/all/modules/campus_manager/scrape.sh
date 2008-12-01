@@ -153,7 +153,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	find ${cache_directory}/$bucket/cms.upei.ca/$1/ -name "*html" \
 		-exec sed -r -i \
 			-e "/(href|src)=/ {
-				s/href=\"([^?]+)\?page=([[:digit:]]+)\"/href=\"\1-\2\"/g
+				s/href=\"([^?]+)\?page=([[:digit:]]+)[^\"]*\"/href=\"\1-\2\"/g
 			}" {} \;
 
 # 2007-08-25 -- Don't think these next two sections are required now that symlinks are being created -- BV
