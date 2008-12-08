@@ -297,8 +297,8 @@ EOF;
     if (count($messages)) {
       foreach ($messages as $message) {
         print <<<EOF
-        <h2>$msg->encoded_title</h2>
-        <div>$message->encoded_body</div>
+        <h2>$msg->title</h2>
+        <div>$message->body</div>
 EOF;
       }
     }

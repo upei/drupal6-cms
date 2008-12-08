@@ -7,7 +7,9 @@
 <style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_style.css";</style>
 <style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/override_style.css";</style>
 <?php /* includes the sub-banner code */ include 'mods/subbanners.php'; ?>
-<style type="text/css"><?php echo $headerstyle; ?></style>
+<style type="text/css">
+#header {background: #ffffff url(<?php echo __banner(); ?>) 0 0 no-repeat;height: 110px;}
+</style>
   
   <?php print $scripts ?>
   <script type="text/javascript"><?php /* Needed to avoid Flash of Unstyle Content in IE */ ?> </script>

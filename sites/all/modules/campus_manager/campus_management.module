@@ -77,7 +77,7 @@ function _campus_management_updateable_content() {
   $page_content = "<table>\n";
   $page_content .= "<tr><th>Title</th><th width=\"75\">Type</th><th  width=\"75\" style=\"text-align:center;\">Published?</th><th width=\"75\" >Edit</th></tr>\n";
   $sSQL = "SELECT * FROM {node} ORDER BY changed DESC";
-  $result =  pager_query($sSQL, 100);
+  $result =  pager_query($sSQL, 100, 0);
     while ($node = db_fetch_object($result)) {
     $node_object = node_load($node->nid);
         $node_access = node_access("update", $node_object);
@@ -88,7 +88,7 @@ function _campus_management_updateable_content() {
       }
     }
   $page_content .= "</table>";
-  $page_content .= theme('pager');
+  $page_content .= theme('pager', NULL, 100, 0);
   return $page_content;
 }
 // END UpdatableContent()*************************

@@ -63,9 +63,16 @@ tr.even {
 		}
 
 #sidebar-left, #sidebar-right {
-		  background-color: #e9ecd9;
+		  /*background-color: #e9ecd9;*/
 		  /* margin-left:100px; */
 		  }
+#sidebar-left .block, #sidebar-right .block {
+	/*background-color: #e9ecd9;*/
+	border-top: 0px;
+	border-right: 0px solid #ccc;
+	border-bottom: 0px solid #ccc;
+	border-left: 0px;
+}
 
 #mission,
 		  div.admin-panel h3 {
@@ -255,3 +262,18 @@ tr.even{background-color:#feeacb;}
 tr.even td, tr.odd td{border: 2px solid #ffffff;}
 tr.even a, tr.odd a{color:#6C1C00}
 
+#sidebar-left h2.title {
+background-image: none;
+border: 0px;
+}
+
+#sidebar-left li {
+border-bottom: 1px dotted #ccc;
+}
+
+#inner-content h1.title {
+background-color: white;
+color: #333;
+font-size: 24px;
+border-bottom: 1px solid #ccc;
+}

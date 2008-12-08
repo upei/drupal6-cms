@@ -1,7 +1,0 @@
-/* $Id: wysiwyg.css,v 1.1 2008/10/14 21:45:07 sun Exp $ */
-
-/* TinyMCE 2.x */
-.mceToolbarTop a, .mceToolbarBottom a { float: left; }
-.mceSeparatorLine { float: left; margin-top: 3px; }
-.mceSelectList { float: left; margin-bottom: 1px; }
-#mce_editor_0_table, #mce_editor_1_table { clear: left; }

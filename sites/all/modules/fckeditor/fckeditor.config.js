@@ -41,7 +41,8 @@ FCKConfig.ToolbarSets['DrupalFull'] = [
 ] ;
 
 FCKConfig.ToolbarSets['DrupalBasic'] = [
-['FontFormat','-','Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink', 'Image']
+['FontFormat','-','Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','Anchor', 'DrupalBreak', 'PasteWord','Undo','Redo','-','Find','Replace','-', 'SpecialChar','FontSize' ],
+['JustifyLeft','JustifyCenter','JustifyRight'],
 ] ;
 
 //This toolbar should work fine with "Filtered HTML" filter
@@ -88,3 +89,4 @@ FCKConfig.IndentClasses = ['rteindent1','rteindent2','rteindent3','rteindent4'] 
 FCKConfig.JustifyClasses = ['rteleft','rtecenter','rteright','rtejustify'] ;
 //Set to 'encode' if you want to obfuscate emails with javascript
 FCKConfig.EMailProtection = 'none' ;
+
