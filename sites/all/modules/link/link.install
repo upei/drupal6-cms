@@ -1,0 +1,41 @@
+<?php
+// $Id: link.install,v 1.5.2.3 2008/09/22 05:23:16 quicksketch Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function link_install() {
+  drupal_load('module', 'content');
+  content_notify('install', 'link');
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function link_uninstall() {
+  drupal_load('module', 'content');
+  content_notify('uninstall', 'link');
+}
+
+/**
+* Implementation of hook_enable().
+*/
+function link_enable() {
+  drupal_load('module', 'content');
+  content_notify('enable', 'link');
+}
+
+/**
+* Implementation of hook_disable().
+*/
+function link_disable() {
+  drupal_load('module', 'content');
+  content_notify('disable', 'link');
+}
+
+/**
+ * Implementation of hook_update_last_removed().
+ */
+function link_update_last_removed() {
+  return 1;
+}

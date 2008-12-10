@@ -13,12 +13,13 @@ function __banner() {
 	$url_part = explode("/", request_uri());
 	$mypath = "/var/www-d6/docroot";
 	$url_part = array_filter(array_slice($url_part, 1), create_function('$a', 'return !empty($a);'));
-	$file_name = '/banner/' . join('_', $url_part) . '.jpg';
-	if (is_file($mypath . $file_name)) {
-		return $file_name;
+	for($len = count($url_part); $len >= 1; $len--) {
+		$url = array_slice($url_part, 0, $len);
+		$file_name = '/banner/' . join('_', $url) . '.jpg';
+		if (is_file($mypath . $file_name)) {
+			return $file_name;
+		}
 	}
-	else {
-		return "/banner/default.jpg";
-	}
+	return "/banner/default.jpg";
 }
 	?>

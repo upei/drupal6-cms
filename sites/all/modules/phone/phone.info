@@ -1,0 +1,14 @@
+; $Id: phone.info,v 1.23 2008/12/08 01:26:54 thierrygd Exp $
+name = Phone - CCK 
+description = "The phone module allows administrators to define a CCK field type for phone numbers. Note: Requires content.module"
+package = CCK
+dependencies[] = content
+core = 6.x
+
+
+; Information added by drupal.org packaging script on 2008-12-08
+version = "6.x-2.7"
+core = "6.x"
+project = "phone"
+datestamp = "1228700176"
+

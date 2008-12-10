@@ -1,0 +1,45 @@
+? imagefield-d6-upgrade-296195-13.patch
+Index: imagefield.install
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/imagefield/imagefield.install,v
+retrieving revision 1.13
+diff -u -F^f -r1.13 imagefield.install
+--- imagefield.install	27 Aug 2008 14:53:56 -0000	1.13
++++ imagefield.install	30 Oct 2008 04:43:31 -0000
+@@ -101,6 +101,20 @@ function imagefield_update_6001() {
+   module_load_include('inc', 'content', 'includes/content.admin');
+   module_load_include('inc', 'content', 'includes/content.crud');
+ 
++  // When enabled on a just-upgraded system, the widget_type for all
++  // imagefields in the database is 'image' but our hook_widget_info()
++  // returns 'imagefield_widget'.  imagefield_enable() gets called which
++  // calls content_notify('enable', 'imagefield') but that only
++  // enables field instances whose widget is 'imagefield_widget', not
++  // 'image', which all of ours still are.  With all of our instances
++  // disabled, the call to content_fields() just below will not return
++  // any of them, so no updating takes place and the instances remain
++  // inactive.
++  //
++  // To solve this, force update the widget type of our instances now,
++  // and re-notify content.module so it marks our instances as active.
++  db_query("UPDATE {". content_instance_tablename() ."} SET widget_type = 'imagefield_widget' WHERE widget_type = 'image'");
++  content_notify('enable', 'imagefield');
+ 
+   foreach (content_fields() as $field) {
+     // skip non imagefields.
+@@ -116,7 +130,14 @@ function imagefield_update_6001() {
+       else {
+         $field['multiple'] == $field['widget']['max_number_images'];
+       }
+-      $field = array_merge($field, $field['widget']);
++
++      // I do not know what this next line is supposed to be for, but
++      // it sets $field['type'] to 'imagefield_widget' because that is
++      // $field['widget']['type'].  This line probably indicates
++      // someone was confused about the difference between a field and
++      // an instance/widget.  Everything seems to work without it.
++      //
++      // $field = array_merge($field, $field['widget']);
+     }
+ 
+     // update widget names.

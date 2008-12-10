@@ -27,8 +27,9 @@ function campus_management_block($op='list', $delta=0) {
     switch ($delta) {
 
       case 0:
-        $block['subject'] = "WEBSITE MAINTENANCE";
-        $block['content'] = "<div style=\"padding:10px;background-color:#6C1C00;color:#ffffff;\">We are currently doing maintenance on your website. Sorry for any Inconvenience</div>";
+        // $block['subject'] = "WEBSITE MAINTENANCE";
+        // $block['content'] = "<div style=\"padding:10px;background-color:#6C1C00;color:#ffffff;\">We are currently doing maintenance on your website. Sorry for any Inconvenience</div>";
+
     	break;
     }
     return $block;
@@ -99,5 +100,4 @@ function _campus_management_updateable_content() {
 // and used the node_load($nid) function																	*
 // Added the code to get the variable to change the number of posts to list									*
 //******************************************************************************
-
 

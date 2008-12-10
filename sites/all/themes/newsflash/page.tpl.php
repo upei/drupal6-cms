@@ -7,6 +7,9 @@
 <style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_style.css";</style>
 <style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/override_style.css";</style>
 <?php /* includes the sub-banner code */ include 'mods/subbanners.php'; ?>
+<script type="text/javascript" src="/misc/swfobject.js"></script>
+
+
 <style type="text/css">
 #header {background: #ffffff url(<?php echo __banner(); ?>) 0 0 no-repeat;height: 110px;}
 </style>
@@ -160,11 +163,13 @@
         <?php endif; ?>
         </div>
       <?php } ?>
-      <?php if ($suckerfish): ?>
+      <?php //Suckerfish statement was here...moved out of header December 2008?>
+    </div><!-- /header -->
+	 <?php //Suckerfish statement moved to here Dec 2008?>
+	<?php if ($suckerfish): ?>
         <div style="clear:both"></div>
         <div id="suckerfishmenu" class="clear-block"> <?php print $suckerfish; ?> </div>
       <?php endif; ?>
-    </div><!-- /header -->
     <?php
       $section1count = 0;
       if ($user1)  { $section1count++; }
@@ -189,7 +194,9 @@
       </div><!-- /section1 -->
     <?php endif; ?>
     <div id="middlecontainer">
-      <?php if ($sidebar_left) { ?>
+<!-- dave did this and he's very sorry--> 
+<h1 class="title"><?php print $title ?></h1>  
+<?php if ($sidebar_left) { ?>
         <div id="sidebar-left"><?php print $sidebar_left ?> </div>
       <?php } ?>
       <div id="main">
@@ -207,7 +214,7 @@
              <?php if ($content_top):?>
                 <div id="content-top"><?php print $content_top; ?></div>
               <?php endif; ?>
-              <h1 class="title"><?php print $title ?></h1>
+         <!--dave is sorry     <h1 class="title"><?php print $title ?></h1>-->
               <div class="tabs"><?php print $tabs ?></div>
               <?php print $help ?>
               <?php if ($show_messages) { print $messages; } ?>

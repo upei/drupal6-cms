@@ -115,12 +115,12 @@ class CampusEmergencyProvider {
     switch ($op) {
       case 'list':
         // Campus Emergency Message block
-        $block[0] = array(
-          'info' => t('Campus Emergency Message'),
-          'enabled' => 1,
-          'region' => 'content_top',
-          'weight' => -9
-          );
+        // $block[0] = array(
+        //   'info' => t('Campus Emergency Message'),
+        //   'enabled' => 1,
+        //   'region' => 'content_top',
+        //   'weight' => -9
+        //   );
         break;
       case 'configure':
         break;

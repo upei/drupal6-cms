@@ -16,7 +16,7 @@ body {
 }
 
 body {
-  background-color: #eff2e3;
+  background-color: white;/*dave did this too #eff2e3;*/
   }
 
 tr.even {
@@ -262,18 +262,48 @@ tr.even{background-color:#feeacb;}
 tr.even td, tr.odd td{border: 2px solid #ffffff;}
 tr.even a, tr.odd a{color:#6C1C00}
 
-#sidebar-left h2.title {
+#sidebar-left h2.title, #sidebar-right h2.title {
 background-image: none;
 border: 0px;
 }
 
-#sidebar-left li {
+#sidebar-left li a {
+text-decoration: none;
+color: black ;
+font-size: 88%;
+font-family: verdana; 
+font-weight: normal;
+}
+
+#sidebar-left div.content > ul > li {
 border-bottom: 1px dotted #ccc;
 }
 
-#inner-content h1.title {
+#sidebar-left div.content > ul li.active-trail > a {
+color: blue;
+}
+
+#sidebar-left li li a {
+color: red;
+}
+
+
+h1.title {
 background-color: white;
 color: #333;
-font-size: 24px;
+font-size: 18px;
+padding: 10px;
+border-top: 1px solid #ccc;
 border-bottom: 1px solid #ccc;
 }
+
+
+/**********************************/
+/* New styles for layout things   */
+/* Shawn Arsenault - Dec 2008     */
+/**********************************/
+#primarymenu{padding-top:0px;}
+
+.view-faculty .views-field-title, .view-staff .views-field-title{padding:3px;font-size:16px;border:1px solid #aaa;}
+.view-faculty .views-field-teaser, .view-staff .views-field-teaser{width:400px;}
+.imagefield-field_faculty_photo{clear:both;}

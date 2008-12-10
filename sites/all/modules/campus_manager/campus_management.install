@@ -90,7 +90,7 @@ function campus_management_install() {
   $block['weight'] = '-2';
   $block['region'] = 'sidebar_left';
   $block['visibility'] = '0';
-  $block['pages'] = '<front>';
+  $block['pages'] = '';
   
   // delete the old block
   db_query("DELETE FROM {blocks} WHERE delta='%s' or delta='%s'", 'menu-other-web-content', 'menu-main-navigation');
@@ -110,4 +110,73 @@ function campus_management_uninstall() {
 }
 
 
+function campus_management_update_2() {
+  $ret = array('#finished' => 0);
+  
+  $menus = array('main' => 'menu-main-navigation', 'show' => 'menu-other-web-content');
+  
+  campus_management_install();
+  
+  # query the old menus
+  foreach ($menus as $path => $menu_name) {
+    // get the menu object from the old table
+    $result = db_query("SELECT * FROM {menu} WHERE path='%s'", $path);
+    $root = db_fetch_object($result);
+    // deal with menus with this root menu
+    $ret = array_merge($ret, campus_management_menu_d5_to_d6($root->mid, 0, $menu_name));
+  }
+  menu_rebuild();
+  // $ret[] = update_sql("DROP TABLE {menu}");
+  $ret['#finished'] = 1;
+  return $ret;
+}
+
+function campus_management_menu_d5_to_d6($mid, $plid, $menu_name) {
+  // query the old menus
+  global $db_prefix;
+  $ret = array();
+  $sql = "SELECT * FROM ${db_prefix}menu WHERE pid=$mid";
+  $result = db_query($sql);
+  $ret[] = array(
+    'success' => $result != false,
+    'query' => $sql,
+    );
+  // update has children
+  // if ($row) {
+  //   $ret[] = update_sql("UPDATE {menu_links} SET has_children=1 WHERE mlid=$plid");
+  // }
+  while ($row = db_fetch_object($result)) {
+    $menu = array(
+      'link_path' => drupal_get_normal_path($row->path),
+      'link_title' => $row->title,
+      'menu_name' => $menu_name,
+      'plid' => $plid,
+      'weight' => $row->weight,
+      'hidden' => !($row->type & MENU_VISIBLE_IN_TREE),
+      // 'has_children' => 0,
+      // 'expanded' => 0,
+      // 'options' => array(),
+      // 'module' => 'menu',
+      // 'customized' => 0,
+      // 'updated' => 0,
+      // 'external' => 0,
+      );
+      // $ret[] = update_sql("INSERT INTO {menu_links} (
+      //    menu_name, plid, link_path,
+      //   hidden, external, has_children,
+      //   expanded, weight,
+      //   module, link_title, options,
+      //   customized, updated) VALUES (
+      //   '{$menu['menu_name']}', {$menu['plid']}, '{$menu['link_path']}',
+      //   0, 0, 0,
+      //   0, {$menu['weight']},
+      //   '{$menu['module']}', '{$menu['module']}', '{$menu['options']}', 0, 0)");
+      // $mlid = db_last_insert_id('menu_links', 'mlid');
+      $mlid = menu_link_save($menu);
+      // try to get the mlid
+      $ret = array_merge($ret, campus_management_menu_d5_to_d6($row->mid, $mlid, $menu_name));
+      
+  }
+  return $ret;
+}
 

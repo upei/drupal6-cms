@@ -195,7 +195,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	echo "Copying content to public server."
 
 	# Copy files to proxy server
-	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$1/cms.upei.ca/$1/ --delete drupal@prinny.cs.upei.ca:${static_directory}/$1/
+#	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$1/cms.upei.ca/$1/ --delete drupal@prinny.cs.upei.ca:${static_directory}/$1/
 
         echo `date` $1 rsync finished >> ${log_filename}
 	
