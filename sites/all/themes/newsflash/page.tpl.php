@@ -5,13 +5,12 @@
   <?php print $head ?>
   <?php print $styles ?>
 <style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_style.css";</style>
-<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/override_style.css";</style>
 <?php /* includes the sub-banner code */ include 'mods/subbanners.php'; ?>
+<style type="text/css"><?php  print _import_override_css_files(); ?></style>
 <script type="text/javascript" src="/misc/swfobject.js"></script>
 
-
 <style type="text/css">
-#header {background: #ffffff url(<?php echo __banner(); ?>) 0 0 no-repeat;height: 110px;}
+#header {background: #ffffff url(<?php echo _get_banner(); ?>) 0 0 no-repeat;height: 110px;}
 </style>
   
   <?php print $scripts ?>
