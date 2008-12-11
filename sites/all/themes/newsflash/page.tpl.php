@@ -170,29 +170,6 @@
         <div style="clear:both"></div>
         <div id="suckerfishmenu" class="clear-block"> <?php print $suckerfish; ?> </div>
       <?php endif; ?>
-    <?php
-      $section1count = 0;
-      if ($user1)  { $section1count++; }
-      if ($user2)  { $section1count++; }
-      if ($user3)  { $section1count++; }
-    ?>
-    <?php if ($section1count): ?>
-      <?php $section1width = 'width' . floor(99 / $section1count); ?>
-      <div class="clear-block clr" id="section1">
-        <div class="sections">
-          <?php if ($user1): ?>
-            <div class="section <?php echo $section1width ?>"><?php print $user1; ?></div>
-          <?php endif; ?>
-          <?php if ($user2): ?>
-            <div class="section <?php echo $section1width ?>"><?php print $user2; ?></div>
-          <?php endif; ?>
-          <?php if ($user3): ?>
-            <div class="section <?php echo $section1width ?>"><?php print $user3; ?></div>
-          <?php endif; ?>
-        </div>
-        <div style="clear:both"></div>
-      </div><!-- /section1 -->
-    <?php endif; ?>
     <div id="middlecontainer">
 <!-- dave did this and he's very sorry--> 
 <h1 class="title"><?php print $title ?></h1>  
@@ -218,7 +195,30 @@
               <div class="tabs"><?php print $tabs ?></div>
               <?php print $help ?>
               <?php if ($show_messages) { print $messages; } ?>
-              <?php print $content; ?> 
+    <?php
+      $section1count = 0;
+      if ($user1)  { $section1count++; }
+      if ($user2)  { $section1count++; }
+      if ($user3)  { $section1count++; }
+    ?>
+    <?php if ($section1count): ?>
+      <?php $section1width = 'width' . floor(99 / $section1count); ?>
+      <div class="clear-block clr" id="section1">
+        <div class="sections">
+          <?php if ($user1): ?>
+            <div class="section <?php echo $section1width ?>"><?php print $user1; ?></div>
+          <?php endif; ?>
+          <?php if ($user2): ?>
+            <div class="section <?php echo $section1width ?>"><?php print $user2; ?></div>
+          <?php endif; ?>
+          <?php if ($user3): ?>
+            <div class="section <?php echo $section1width ?>"><?php print $user3; ?></div>
+          <?php endif; ?>
+        </div>
+        <div style="clear:both"></div>
+      </div><!-- /section1 -->
+<?php endif; ?>
+		   <?php print $content; ?> 
               <?php print $feed_icons; ?>
               <?php if ($content_bottom): ?>
                 <div id="content-bottom"><?php print $content_bottom; ?></div>

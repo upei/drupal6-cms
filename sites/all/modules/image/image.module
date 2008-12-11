@@ -1,5 +1,5 @@
 <?php
-// $Id: image.module,v 1.276 2008/08/17 08:35:36 drewish Exp $
+// $Id: image.module,v 1.278 2008/12/02 00:31:38 drewish Exp $
 
 define('IMAGE_ORIGINAL', '_original');
 define('IMAGE_PREVIEW', 'preview');
@@ -475,7 +475,9 @@ function image_load(&$node) {
     } 
     else {
       // Need to remove an extra derivative image in the database.
-      drupal_set_message(t("%title's has an unneeded %key derivative images. The derivatives will be rebuilt to remove it.", array('%title' => $node->title, '%key' => $key)));
+      if (image_access('update', $node)) {
+        drupal_set_message(t("%title's has an unneeded %key derivative images. The derivatives will be rebuilt to remove it.", array('%title' => $node->title, '%key' => $key)));
+      }
       $node->rebuild_images = TRUE;
     }
   }
@@ -485,11 +487,15 @@ function image_load(&$node) {
     // If the file is missing or created after the last change to the sizes,
     // rebuild the derivatives.
     if (empty($node->images[$key]) || !file_exists($node->images[$key])) {
-      drupal_set_message(t("%title's %key derivative image %filepath was missing. The derivatives will be rebuilt to regenerate it.", array('%title' => $node->title, '%key' => $key, '%filepath' => isset($node->images[$key]) ? $node->images[$key] : '')));
+      if (image_access('update', $node)) {
+        drupal_set_message(t("%title's %key derivative image %filepath was missing. The derivatives will be rebuilt to regenerate it.", array('%title' => $node->title, '%key' => $key, '%filepath' => isset($node->images[$key]) ? $node->images[$key] : '')));
+      }
       $node->rebuild_images = TRUE;
     }
     else if (filemtime($node->images[$key]) < variable_get('image_updated', 0)) {
-      drupal_set_message(t("%title's %key derivative image had a timestamp (%filetime) that predates the last changes to the image size settings (%vartime). The derivatives will be rebuilt to regenerate it.", array('%title' => $node->title, '%key' => $key, '%filetime' => format_date(filemtime($node->images[$key])), '%vartime' => format_date(variable_get('image_updated', 0)))));
+      if (image_access('update', $node)) {
+        drupal_set_message(t("%title's %key derivative image had a timestamp (%filetime) that predates the last changes to the image size settings (%vartime). The derivatives will be rebuilt to regenerate it.", array('%title' => $node->title, '%key' => $key, '%filetime' => format_date(filemtime($node->images[$key])), '%vartime' => format_date(variable_get('image_updated', 0)))));
+      }
       $node->rebuild_images = TRUE;
     }
   }
@@ -722,10 +728,10 @@ function _image_check_settings() {
   $image_path = file_create_path(file_directory_path() .'/'. variable_get('image_default_path', 'images'));
   $temp_path = rtrim($image_path, '/') .'/temp';
 
-  if (!file_check_directory($image_path, FILE_CREATE_DIRECTORY, 'image_default_path')) {
+  if (!file_check_directory($image_path, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS, 'image_default_path')) {
     return false;
   }
-  if (!file_check_directory($temp_path, FILE_CREATE_DIRECTORY, 'image_default_path')) {
+  if (!file_check_directory($temp_path, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS, 'image_default_path')) {
     return false;
   }
 
@@ -1025,5 +1031,15 @@ function image_create_node_from($filepath, $title = NULL, $body = '', $taxonomy 
   file_delete($original_path);
 
   return $node;
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function image_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'image') .'/views',
+  );
 }
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: image_attach.module,v 1.42 2008/08/17 09:06:57 drewish Exp $
+// $Id: image_attach.module,v 1.43 2008/10/20 23:52:48 drewish Exp $
 
 /**
  * @file image_attach.module
@@ -325,6 +325,35 @@ function _image_attach_get_image_nodes() {
   return $rows;
 }
 
+
+
+/**
+ * Views 2 API handler
+ * 
+ */
+
+function image_attach_views_api() {
+return array(
+  'api' => 2,
+  'path' => drupal_get_path('module', 'image_attach'),
+);
+}
+
+
+function image_attach_views_handlers() {
+  return array(
+  'info' => array(
+    'path' => drupal_get_path('module', 'image_attach'),
+    ),
+  'handlers' => array(
+    'image_attach_views_handler_field_iid' => array(
+     'parent' => 'views_handler_field',
+     ),
+    ),
+  );
+}
+
+
 /**
  * Implementation of hook_theme() registry.
  **/
@@ -390,4 +419,6 @@ function theme_image_attach_body($node) {
     return $output;
   }
 }
+
+
 

@@ -76,6 +76,9 @@ function campus_management_install() {
     
   }
   
+  // update default permission for content_manager
+  
+  
   // Making the Default Navigation (which is now the administration navigation) 
   // only visible by authenticated users 
   db_query("INSERT IGNORE INTO {blocks_roles} (module, delta, rid) VALUES('user', 1, " . DRUPAL_AUTHENTICATED_RID . ")");

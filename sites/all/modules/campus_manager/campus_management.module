@@ -52,10 +52,23 @@ function campus_management_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   
+  $items['campus_management/menu'] = array(
+    'title' => t('Menus'),
+    'description' => "Control your site's navigation menu, primary links and secondary links. as well as rename and reorganize menu items.",
+    'page callback' => '_campus_management_menu_overview_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   $path = drupal_get_path('module', 'campus_management');
   drupal_add_css($path .'/campus_management.css');
   
   return $items;
+}
+
+function _campus_management_menu_overview_page() {
+  include '../../../../modules/menu/menu.admin.inc';
+  return menu_overview_page();
 }
 
 //End Hook_MENU()*********************************************************
