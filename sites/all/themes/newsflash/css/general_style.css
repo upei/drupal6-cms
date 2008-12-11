@@ -23,34 +23,20 @@ tr.even {
     background: #e9ecd9;
     }
 
-#section2 {
-       background: #43590E url(../images/upei-news/BottomBG.png) 0 0 repeat-x;
-       }
 
-       a:link,
-       a:visited,
-       a:hover,
-       .title, .title a,
-       .submitted,
-       .links,
-       .node .taxonomy,
+a:link,
+a:visited,
+a:hover,
+.title, .title a,
+.submitted,
+.links,
+.node .taxonomy,
 #aggregator .news-item .categories, #aggregator .source, #aggregator .age,
 #forum td .name,
-       div.admin-panel .description {
-         color: #43590E;
-	 }
+div.admin-panel .description {
+  color: #43590E;
+}
 
-
-#section2 a:link,
-#section2 a:visited,
-#section2 a.hover {
-	    color: #577218;
-	    }
-
-#header {
-	      background: #43590E url(../images/upei-news/graphic.jpg) 0 0 no-repeat;
-	        height: 110px;
-		}
 
 #header a {
 		color: #43590E;
@@ -307,3 +293,42 @@ border-bottom: 1px solid #ccc;
 .view-faculty .views-field-title, .view-staff .views-field-title{padding:3px;font-size:16px;border:1px solid #aaa;}
 .view-faculty .views-field-teaser, .view-staff .views-field-teaser{width:400px;}
 .imagefield-field_faculty_photo{clear:both;}
+
+
+.sections {
+	width: 100%;
+	padding: 0;
+}
+
+.section {
+	float: left;
+}
+
+.width99 {
+	width: 100%;
+}
+
+.width49 {
+	width: 50%;
+}
+
+.width33 {
+	width: 33%;
+}
+
+.width24 {
+	width: 25%;
+}
+
+/* adjusted to fit in content for an attempt to get rid of panels */
+.sections {
+	width: 100%;
+}
+
+.sections .block {
+  padding: 5px;
+}
+
+#content-top .block {
+  padding: 5px;
+}

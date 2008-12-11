@@ -219,19 +219,8 @@
 <?php endif; ?>
 		   <?php print $content; ?> 
               <?php print $feed_icons; ?>
-              <?php if ($content_bottom): ?>
-                <div id="content-bottom"><?php print $content_bottom; ?></div>
-              <?php endif; ?>
-            </div><!-- /inner-content -->
-          </div><!-- /squeeze-content -->
-        </div><!-- /squeeze -->
-      </div><!-- /main -->
-      <?php if ($sidebar_right) { ?>
-        <div id="sidebar-right"><?php print $sidebar_right ?> </div>
-      <?php } ?>
-    </div><!-- /middle-container -->
-    <div style="clear:both"></div>
-    <?php
+              
+			  <?php
       $section2count = 0;
       if ($user4)  { $section2count++; }
       if ($user5)  { $section2count++; }
@@ -254,6 +243,19 @@
         <div style="clear:both"></div>
       </div><!-- /section2 -->
     <?php endif; ?>
+			  <?php if ($content_bottom): ?>
+                <div id="content-bottom"><?php print $content_bottom; ?></div>
+              <?php endif; ?>
+            </div><!-- /inner-content -->
+          </div><!-- /squeeze-content -->
+        </div><!-- /squeeze -->
+      </div><!-- /main -->
+      <?php if ($sidebar_right) { ?>
+        <div id="sidebar-right"><?php print $sidebar_right ?> </div>
+      <?php } ?>
+    </div><!-- /middle-container -->
+    <div style="clear:both"></div>
+    
     <div id="footer">
       <?php if ($footer_region) { ?>
         <div id="footer-region"><?php print $footer_region?></div>
@@ -263,7 +265,6 @@
       <?php } ?>
       <br />
       <?php $logo_path = base_path() . path_to_theme() . "/images/" . get_newsflash_style(); ?>
-      <a href="http://www.roopletheme.com" title="RoopleTheme!"><img src="<?php print $logo_path . '/RoopleThemeLogo.png'; ?>" alt="RoopleTheme!"/></a>
     </div><!-- /footer -->
   <div style="clear:both"></div>
   <?php print $closure ?>

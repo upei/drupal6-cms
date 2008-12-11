@@ -24,46 +24,6 @@ body {
   margin-bottom: 3px;
 }
 
-.sections {
-	width: 100%;
-	padding: 0;
-}
-
-.section {
-	float: left;
-}
-
-#section1 {
-  border: 1px solid #ccc;
-  margin: 4px 0;
-}
-
-#section1 .block,
-#section2 .block {
-	padding: 8px;
-}
-
-.section.width99 {
-	width: 100%;
-}
-
-.section.width49 {
-	width: 50%;
-}
-
-.section.width33 {
-	width: 33%;
-}
-
-.section.width24 {
-	width: 25%;
-}
-
-/* adjusted to fit in content for an attempt to get rid of panels */
-.sections {
-	width: 100%;
-}
-
 #middlecontainer {
 margin: 0 auto;
 }
