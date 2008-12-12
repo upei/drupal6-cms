@@ -15,9 +15,9 @@ class views_plugin_style_ajax extends views_plugin_style {
       $rows = array();
       foreach ($records as $label => $row) {
         $rendered_row = $this->row_plugin->render($row);
-        $fields = new stdClass();
+        $fields = array();
         foreach ($rendered_row as $field) {
-          $fields->{$field->label} = $field->content;
+          $fields[$field->label] = $field->content;
         }
         $rows[] = $fields;
       }

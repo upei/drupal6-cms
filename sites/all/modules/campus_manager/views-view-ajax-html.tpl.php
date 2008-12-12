@@ -1,4 +1,3 @@
-<div class="item-list clear-block">
   <ul>
     <?php foreach ($rows as $row): ?>
       <li>
@@ -10,4 +9,3 @@
       </li>
     <?php endforeach; ?>
   </ul>
-</div>

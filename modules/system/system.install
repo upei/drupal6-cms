@@ -1899,7 +1899,7 @@ function system_update_6021() {
       $ret[] = update_sql("UPDATE {blocks_roles} SET delta = '". $menu_name ."' WHERE module = 'menu' AND delta = '". $mid ."'");
     }
     $ret[] = array('success' => TRUE, 'query' => 'Relocated '. $_SESSION['system_update_6021'] .' existing items to the new menu system.');
-    // $ret[] = update_sql("DROP TABLE {menu}");
+    //$ret[] = update_sql("DROP TABLE {menu}");
     unset($_SESSION['system_update_6021'], $_SESSION['system_update_6021_max'], $_SESSION['menu_menu_map'], $_SESSION['menu_item_map'], $_SESSION['menu_bogus_menus']);
     // Create the menu overview links - also calls menu_rebuild(). If menu is
     // disabled, then just call menu_rebuild.

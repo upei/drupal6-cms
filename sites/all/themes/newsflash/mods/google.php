@@ -1,5 +1,9 @@
+<?php 
+	$bucket = _get_bucket(); 
+	if($bucket == "home"){$searchstyle="padding-right:15px;width:976px;background-image:url(/home/sites/all/themes/newsflash/images/market/home/bkgrd_search.gif);";}else{$searchstyle="width:1000px;";}
+?>
 <div align="center">
-<div style="width:1000px;" id="google_search">
+<div style="<?php print $searchstyle; ?>">
 <div align = "right" id="google_search_box">
 <form method="GET" target="FlyFrame" action="http://websearch.cs.upei.ca/search">
    <input type="text" name="q" size="32" maxlength="256" value="" />

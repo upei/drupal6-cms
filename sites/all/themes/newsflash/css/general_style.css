@@ -290,9 +290,19 @@ border-bottom: 1px solid #ccc;
 /**********************************/
 #primarymenu{padding-top:0px;}
 
-.view-faculty .views-field-title, .view-staff .views-field-title{padding:3px;font-size:16px;border:1px solid #aaa;}
-.view-faculty .views-field-teaser, .view-staff .views-field-teaser{width:400px;}
-.imagefield-field_faculty_photo{clear:both;}
+.view-faculty .views-field-title, .view-Faculty .views-field-title, .view-staff .views-field-title
+{padding:3px;font-size:16px;border:1px solid #aaa;}
+
+.view-faculty .views-field-teaser, .view-Faculty .views-field-teaser, .view-staff .views-field-teaser
+{width:400px;}
+
+.view-faculty img, .view-Faculty img, .view-staff img
+{float:right;padding-top:5px;}
+
+.view-faculty .views-row-odd, .view-faculty .views-row-even,
+.view-Faculty .views-row-odd, .view-Faculty .views-row-even,
+.view-staff .views-row-odd, .view-staff .views-row-even
+{padding:5px;border:1px solid #cccccc;margin-bottom:5px;}
 
 
 .sections {
@@ -331,4 +341,66 @@ border-bottom: 1px solid #ccc;
 
 #content-top .block {
   padding: 5px;
+}
+
+.clearfix:after {
+   content: ".";
+   display: block;
+   height: 0;
+   clear: both;
+   visibility: hidden;
+}
+
+/* carousel default style */
+			
+#mycarousel {
+  width: 682px;
+}
+#mycarousel .jcarousel-container-horizontal {
+    width: 682px;
+}
+
+#mycarousel .jcarousel-clip-horizontal {
+    width: 682px;
+    height: 252px;
+}
+
+#mycarousel .jcarousel-item,
+#mycarousel .jcarousel-item-placeholder {
+    width: 680px;
+    height: 250px;
+}
+
+#mycarousel .jcarousel-item li {
+  width: 680px;
+}
+
+#mycarousel .jcarousel-item-horizontal p {
+    margin: 5px;
+    text-align: center;
+    clear: both;
+    white-space: wrap;
+}
+
+#mycarousel .jcarousel-item-placeholder {
+    background: transparent url(/js/jcarousel/images/loading.gif) 50% 50% no-repeat;
+}
+
+#mycarousel .jcarousel-next {
+    top: 125px;
+    right: 5px;
+}
+
+#mycarousel .jcarousel-prev {
+    top: 125px;
+    left: 5px;
+}
+
+#mycarousel form {
+    margin-top: 10px;
+}
+
+#mycarousel form label,
+#mycarousel form small {
+    display: block;
 }

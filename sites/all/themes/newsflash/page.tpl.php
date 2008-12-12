@@ -10,10 +10,28 @@
 <script type="text/javascript" src="/misc/swfobject.js"></script>
 
 <style type="text/css">
+<?php 
+
+ 
+$bucket = _get_bucket();
+
+if($bucket == "home"){
+	include "home.tpl.php";
+	$mybanner = _RandomImage();
+	echo "$mybanner \n";
+}else{
+?>
 #header {background: #ffffff url(<?php echo _get_banner(); ?>) 0 0 no-repeat;height: 110px;}
+<?php } ?>
 </style>
   
   <?php print $scripts ?>
+  <script type="text/javascript" src="<?=$base_path?>misc/jquery-ui.js"></script>
+  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.domec.js"></script>
+  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.timers.js"></script>
+  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.cookie.js"></script>
+  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/campus_emergency_receiver.js"></script>
+  <link rel="stylesheet" type="text/css" href="<?=$base_path?>sites/all/modules/campus_manager/campus_emergency.css"></script>
   <script type="text/javascript"><?php /* Needed to avoid Flash of Unstyle Content in IE */ ?> </script>
   <?php if (theme_get_setting('newsflash_width')) { ?>
     <style type="text/css">
@@ -114,6 +132,7 @@
   <script type="text/javascript" src="<?php print $GLOBALS['base_url']."/"; print $directory; ?>/js/pickstyle.js"></script>
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
+ <?php include "mods/google.php";?> 
   <div id="page">
     <div id="header" class="clear-block">
       <div id="logo-title">
@@ -171,7 +190,7 @@
       <?php endif; ?>
     <div id="middlecontainer">
 <!-- dave did this and he's very sorry--> 
-<h1 class="title"><?php print $title ?></h1>  
+<?php if($bucket != "home"){?><h1 class="title"><?php print $title ?></h1> <?php }?> 
 <?php if ($sidebar_left) { ?>
         <div id="sidebar-left"><?php print $sidebar_left ?> </div>
       <?php } ?>
@@ -190,7 +209,7 @@
              <?php if ($content_top):?>
                 <div id="content-top"><?php print $content_top; ?></div>
               <?php endif; ?>
-         <!--dave is sorry     <h1 class="title"><?php print $title ?></h1>-->
+         <?php if($bucket == "home"){?><h1 class="title"><?php print $title ?></h1><?php }?>
               <div class="tabs"><?php print $tabs ?></div>
               <?php print $help ?>
               <?php if ($show_messages) { print $messages; } ?>
@@ -263,7 +282,6 @@
       <?php if ($footer_message) { ?>
         <div id="footer-message"><?php print $footer_message ?></div>
       <?php } ?>
-      <br />
       <?php $logo_path = base_path() . path_to_theme() . "/images/" . get_newsflash_style(); ?>
     </div><!-- /footer -->
   <div style="clear:both"></div>

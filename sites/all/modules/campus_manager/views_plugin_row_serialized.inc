@@ -15,10 +15,9 @@ class views_plugin_row_serialized extends views_plugin_row {
 				else {
 					$object->raw = NULL; // make sure it exists to reduce NOTICE
 				}
-				
 				$object->handler = $field;
 				$object->class = views_css_safe($id);
-				$object->label = check_plain($field->label());
+				$object->label = $field->label();
 				$result[$id] = $object;
 			}
 		}

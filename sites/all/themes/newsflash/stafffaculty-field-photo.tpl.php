@@ -20,4 +20,4 @@
   * the view is modified.
   */
 ?>
-<?php print "<div style=\"margin:5px 0px 5px 5px;width:150px;float:right;\">" . $output . "</div>" ; ?>
+<?php echo  $output /* . "<div style=\"clear:both;\"></div>" */; ?>

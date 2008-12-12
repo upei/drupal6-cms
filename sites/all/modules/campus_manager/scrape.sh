@@ -6,7 +6,7 @@
 # 
 # 1. Uses httrack to assemble a static copy of a drupal "bucket"
 #
-# 2. Replaces any instances of the strings cms.upei.ca or cms-dev.upei.ca with www.upei.ca
+# 2. Replaces any instances of the strings ${source_site} or cms-dev.upei.ca with www.upei.ca
 #
 # 3. Copies the static files to the front-end proxy server
 #
@@ -22,6 +22,7 @@
 #
 
 # Record a few important values in variables
+source_site=cms-dev.upei.ca
 cache_directory=/var/cache/httrack
 static_directory=/var/www-static
 log_filename=/var/log/cms_mirror.log
@@ -85,63 +86,63 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 
 	# Need to include fix-ie.css file explicitly
 	HTTRACK_OPTS="-O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -K4"
-	HTTRACK_OPTIONS="http://cms.upei.ca/$bucket/sites/all/themes/upei_generic_v1/fix-ie.css
-			-cms.upei.ca/$bucket/files/*
-			-cms.upei.ca/*/scrape/*
+	HTTRACK_OPTIONS="http://${source_site}/$bucket/sites/all/themes/upei_generic_v1/fix-ie.css
+			-${source_site}/$bucket/files/*
+			-${source_site}/*/scrape/*
 			+${photo_site}/d/*
 			${HTTRACK_OPTS}"
 
 	# Scrape the bucket
 	if [ x$2 == x ]; then
-		httrack http://cms.upei.ca/$1 \
+		httrack -* http://${source_site}/$1 \
+		  +${source_site}/$1* \
 			$HTTRACK_OPTIONS
 	elif [ x$2 == xtimetable ]; then
-		httrack http://cms.upei.ca/$1/$2 \
-			$HTTRACK_OPTIONS -X0 \
-			-* \
-			+cms.upei.ca/$1/timetable*
+		httrack -* http://${source_site}/$1/$2 \
+	    +${source_site}/$1/timetable* \
+			$HTTRACK_OPTIONS -X0
 	else
 		# we need to go upstairs, but only direct links. old pages are not removed.
-		httrack http://cms.upei.ca/$1/$2 \
+		httrack -* http://${source_site}/$1/$2 \
+		  +${source_site}/$1/$2* \
 			$HTTRACK_OPTIONS -r2 -X0 \
-			-* \
 			+*.jpg +*.png +*.gif +*.js +*.css
 	fi
 
 	echo `date` $1 mirror finished >> ${log_filename}
 
 	echo "Preparing content to be copied."
-	# This will copy the files directory from cms.upei.ca to upei.ca/$1/files
+	# This will copy the files directory from ${source_site} to upei.ca/$1/files
 
 	# Check to see if files directories exists, create if necessary
-	if [ ! -d ${cache_directory}/$bucket/cms.upei.ca/$bucket/files ] ; then
-		mkdir ${cache_directory}/$bucket/cms.upei.ca/$bucket/files
+	if [ ! -d ${cache_directory}/$bucket/${source_site}/$bucket/files ] ; then
+		mkdir ${cache_directory}/$bucket/${source_site}/$bucket/files
 	fi
 
 	# Copy files from Drupal file store to cache directory
 	rsync -av --delete --exclude "tmp/" \
 		${sites_home}/upei.ca.$bucket/files/ \
-		${cache_directory}/$bucket/cms.upei.ca/$bucket/files/$bucket
+		${cache_directory}/$bucket/${source_site}/$bucket/files/$bucket
 
-	# Replace all instances of cms.upei.ca or cms-dev.upei.ca with www.upei.ca in captured HTML and XML files
-	find ${cache_directory}/$bucket/cms.upei.ca/$1/ -name "*html" \
+	# Replace all instances of ${source_site} or cms-dev.upei.ca with www.upei.ca in captured HTML and XML files
+	find ${cache_directory}/$bucket/${source_site}/$1/ -name "*html" \
 		-exec sed -i 's/cms\(-dev\)\?\.upei\.ca/www.upei.ca/g' {} \;
 
-	find ${cache_directory}/$bucket/cms.upei.ca/$1/ -name "*xml" \
+	find ${cache_directory}/$bucket/${source_site}/$1/ -name "*xml" \
 		-exec sed -i 's/cms\(-dev\)\?\.upei\.ca/www.upei.ca/g' {} \;
 
 	# sync the photos from testbed.ip.upei.ca/d to www.upei.ca/photos
 	if [ -d ${cache_directory}/$bucket/${photo_site} ]; then
 		echo Copying from photo site ${photo_site} to www.upei.ca/photos
-		mkdir -p ${cache_directory}/$bucket/cms.upei.ca/$bucket/gallery2
+		mkdir -p ${cache_directory}/$bucket/${source_site}/$bucket/gallery2
 		rsync -av --delete --exclude "tmp/" \
 			${cache_directory}/$bucket/${photo_site}/d/* \
-			${cache_directory}/$bucket/cms.upei.ca/$bucket/gallery2
+			${cache_directory}/$bucket/${source_site}/$bucket/gallery2
 		rm -rf ${cache_directory}/$bucket/${photo_site}
 
 		# HTML links fixes (href and src)
 		# 1. convert photo_site links to www.upei.ca links
-		find ${cache_directory}/$bucket/cms.upei.ca/$bucket/ -name "*html" \
+		find ${cache_directory}/$bucket/${source_site}/$bucket/ -name "*html" \
 			-exec sed -r -i \
 				-e "/(href|src)=/ {
 					s%${photo_site}/d/%www.upei.ca/${bucket}/gallery2/%g
@@ -150,7 +151,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	# HTML links fixes
 	# 1. pagination
 	# 2. fix httrack's inappropriate treatment to feeds (deleted)
-	find ${cache_directory}/$bucket/cms.upei.ca/$1/ -name "*html" \
+	find ${cache_directory}/$bucket/${source_site}/$1/ -name "*html" \
 		-exec sed -r -i \
 			-e "/(href|src)=/ {
 				s/href=\"([^?]+)\?page=([[:digit:]]+)[^\"]*\"/href=\"\1-\2\"/g
@@ -158,15 +159,15 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 
 # 2007-08-25 -- Don't think these next two sections are required now that symlinks are being created -- BV
 #        # Add .html extensions to link URLs -rp
-#        find ${cache_directory}/$1/cms.upei.ca/$1/ -name "*xml" \
+#        find ${cache_directory}/$1/${source_site}/$1/ -name "*xml" \
 #                -exec sed -i 's/<\/link>/.html<\/link>/g' {} \;
 #
 #        # Add .html extensions to read more URLs -rp
-#        find ${cache_directory}/$1/cms.upei.ca/$1/ -name "*xml" \
+#        find ${cache_directory}/$1/${source_site}/$1/ -name "*xml" \
 #                -exec sed -i 's/\&quot\;\&gt\;read more/.html\&quot\;\&gt\;more/g' {} \;
 
 	# Create extension-less symbolic links to .html and .xml files
-	dir_names=`find /var/cache/httrack/$bucket/cms.upei.ca/$1 -type d`
+	dir_names=`find /var/cache/httrack/$bucket/${source_site}/$1 -type d`
 
 	# Doing it one directory at a time to ensure that symlinks are created relative to files
 	# in the same directory.
@@ -195,9 +196,14 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	echo "Copying content to public server."
 
 	# Copy files to proxy server
-#	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$1/cms.upei.ca/$1/ --delete drupal@prinny.cs.upei.ca:${static_directory}/$1/
-
-        echo `date` $1 rsync finished >> ${log_filename}
+	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$1/${source_site}/$1/ --delete drupal@prinny.cs.upei.ca:${static_directory}/$1/
+  # copy banners and css to proxy server
+  rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/css/ --delete drupal@prinny.cs.upei.ca:${static_directory}/css/
+  rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/js/ --delete drupal@prinny.cs.upei.ca:${static_directory}/js/
+  rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/banner/ --delete drupal@prinny.cs.upei.ca:${static_directory}/banner/
+  
+  
+	      echo `date` $1 rsync finished >> ${log_filename}
 	
 	echo "Copy has completed."
 
