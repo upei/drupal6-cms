@@ -20,4 +20,4 @@
   * the view is modified.
   */
 ?>
-<?php echo  $output /* . "<div style=\"clear:both;\"></div>" */; ?>
+<?php echo  $output  . "<div class=\"clear:both;\"></div>" ; ?>

@@ -20,18 +20,13 @@ if($bucket == "home"){
 	$mybanner = _RandomImage();
 	echo "$mybanner \n";
 }else{
+	if($bucket == "avc"){$bheight = "126";}else{$bheight = "110";}
 ?>
-#header {background: #ffffff url(<?php echo _get_banner(); ?>) 0 0 no-repeat;height: 110px;}
+#header {background: #ffffff url(<?php echo _get_banner(); ?>) 0 0 no-repeat;height: <?php print $bheight;?>px;}
 <?php } ?>
 </style>
   
   <?php print $scripts ?>
-  <script type="text/javascript" src="<?=$base_path?>misc/jquery-ui.js"></script>
-  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.domec.js"></script>
-  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.timers.js"></script>
-  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.cookie.js"></script>
-  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/campus_emergency_receiver.js"></script>
-  <link rel="stylesheet" type="text/css" href="<?=$base_path?>sites/all/modules/campus_manager/campus_emergency.css"></script>
   <script type="text/javascript"><?php /* Needed to avoid Flash of Unstyle Content in IE */ ?> </script>
   <?php if (theme_get_setting('newsflash_width')) { ?>
     <style type="text/css">
@@ -190,7 +185,7 @@ if($bucket == "home"){
       <?php endif; ?>
     <div id="middlecontainer">
 <!-- dave did this and he's very sorry--> 
-<?php if($bucket != "home"){?><h1 class="title"><?php print $title ?></h1> <?php }?> 
+<?php if($bucket != "home" && $bucket != "avc"){?><h1 class="title"><?php print $title ?></h1> <?php }?> 
 <?php if ($sidebar_left) { ?>
         <div id="sidebar-left"><?php print $sidebar_left ?> </div>
       <?php } ?>
@@ -209,7 +204,7 @@ if($bucket == "home"){
              <?php if ($content_top):?>
                 <div id="content-top"><?php print $content_top; ?></div>
               <?php endif; ?>
-         <?php if($bucket == "home"){?><h1 class="title"><?php print $title ?></h1><?php }?>
+         <?php if($bucket == "home" || $bucket == "avc"){?><h1 class="title"><?php print $title ?></h1><?php }?>
               <div class="tabs"><?php print $tabs ?></div>
               <?php print $help ?>
               <?php if ($show_messages) { print $messages; } ?>
@@ -280,11 +275,24 @@ if($bucket == "home"){
         <div id="footer-region"><?php print $footer_region?></div>
       <?php } ?>
       <?php if ($footer_message) { ?>
-        <div id="footer-message"><?php print $footer_message ?></div>
+        <div id="footer-message">
+		<?php 
+		$bucket = _get_bucket();
+		if($bucket != "home" && $bucket != "avc"){print "<img style=\"position:relative;top:16px;\" src=\"/home/sites/all/themes/newsflash/images/leaf_rust_gold.jpg\">";}
+		print $footer_message 
+		?>
+		</div>
       <?php } ?>
       <?php $logo_path = base_path() . path_to_theme() . "/images/" . get_newsflash_style(); ?>
     </div><!-- /footer -->
   <div style="clear:both"></div>
+  <!-- <script type="text/javascript" src="<?=$base_path?>misc/jquery-ui.js"></script> -->
+  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.domec.js"></script>
+  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.timers.js"></script>
+  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.cookie.js"></script>
+  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/campus_emergency_receiver.js"></script>
+  <link rel="stylesheet" type="text/css" href="<?=$base_path?>sites/all/modules/campus_manager/campus_emergency.css"></script>
+  
   <?php print $closure ?>
   </div> <!-- /page -->
 </body>

@@ -18,7 +18,7 @@ if [ -d /var/www/drupal/cms/current/sites/upei.ca.$1 ]; then
 	mysql -v -h chinstrap.cs.upei.ca -P 3307 -u cms_dev --password=$PASS $1 -e "UPDATE $1_system SET status=0 WHERE name='imagefield'"
 	mysql -v -h chinstrap.cs.upei.ca -P 3307 -u cms_dev --password=$PASS $1 -e "CREATE TABLE $1_image ( \`nid\` INTEGER UNSIGNED NOT NULL, \`fid\` INTEGER UNSIGNED NOT NULL, \`image_size\` VARCHAR(32) NOT NULL, PRIMARY KEY (\`nid\`, \`image_size\`), INDEX image_fid(\`fid\`) )"
 	mysql -v -h chinstrap.cs.upei.ca -P 3307 -u cms_dev --password=$PASS $1 -e "INSERT IGNORE INTO $1_image SELECT DISTINCT f.nid, f.fid, f.filename FROM $1_files f WHERE f.filename IN ('_original', 'thumbnail', 'preview', 'img_assist_properties', 'img_assist_custom') OR f.filename LIKE '%px wide'"
-	rm -f /tmp/__upgrade_$1.sql
+	#rm -f /tmp/__upgrade_$1.sql
 
 	cp -ar /var/www/drupal/cms/current/sites/upei.ca.$1 /var/www-d6/current/sites/
 	chown -R www-data.www-data /var/www-d6/current/sites/upei.ca.$1/files

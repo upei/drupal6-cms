@@ -1,0 +1,27 @@
+<?php
+// $Id: site_map.install,v 1.3.2.2 2008/08/17 20:27:21 frjo Exp $
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function site_map_uninstall() {
+  variable_del('site_map_message');
+  variable_del('site_map_show_front');
+  variable_del('site_map_show_blogs');
+  variable_del('site_map_show_books');
+  variable_del('site_map_show_menus');
+  variable_del('site_map_show_faq');
+  variable_del('site_map_show_vocabularies');
+  variable_del('site_map_books_expanded');
+  variable_del('site_map_show_count');
+  variable_del('site_map_categories_depth');
+  variable_del('site_map_show_rss_links');
+  variable_del('site_map_rss_depth');
+
+  if (function_exists('locale')) {
+    $langs = locale_language_list();
+    foreach ($langs as $lang_code => $lang_name) {
+      variable_del("site_map_message_$lang_code");
+    }
+  }
+}

@@ -26,7 +26,7 @@ source_site=cms-dev.upei.ca
 cache_directory=/var/cache/httrack
 static_directory=/var/www-static
 log_filename=/var/log/cms_mirror.log
-sites_home=/var/www/drupal/cms/current/sites
+sites_home=/var/www-d6/current/sites
 photo_site=photo.ic.upei.ca
 
 symlinks() {

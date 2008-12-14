@@ -49,7 +49,7 @@ div.admin-panel .description {
 		}
 
 #sidebar-left, #sidebar-right {
-		  /*background-color: #e9ecd9;*/
+		  background-color: transparent;
 		  /* margin-left:100px; */
 		  }
 #sidebar-left .block, #sidebar-right .block {
@@ -266,11 +266,11 @@ border-bottom: 1px dotted #ccc;
 }
 
 #sidebar-left div.content > ul li.active-trail > a {
-color: blue;
+color: #5C8727;
 }
 
 #sidebar-left li li a {
-color: red;
+color: #8C8727;
 }
 
 
@@ -302,8 +302,9 @@ border-bottom: 1px solid #ccc;
 .view-faculty .views-row-odd, .view-faculty .views-row-even,
 .view-Faculty .views-row-odd, .view-Faculty .views-row-even,
 .view-staff .views-row-odd, .view-staff .views-row-even
-{padding:5px;border:1px solid #cccccc;margin-bottom:5px;}
+{width:100%;float:left;padding:5px;border:1px solid #cccccc;margin-bottom:5px;}
 
+#footer{border:none;color:#6c1c00;}
 
 .sections {
 	width: 100%;

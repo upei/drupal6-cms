@@ -1,6 +1,6 @@
 <?php 
 	$bucket = _get_bucket(); 
-	if($bucket == "home"){$searchstyle="padding-right:15px;width:976px;background-image:url(/home/sites/all/themes/newsflash/images/market/home/bkgrd_search.gif);";}else{$searchstyle="width:1000px;";}
+	if($bucket == "home" || $bucket == "avc"){$searchstyle="padding-right:15px;width:976px;background-image:url(/home/sites/all/themes/newsflash/images/market/". $bucket ."/bkgrd_search.gif);";}else{$searchstyle="width:1000px;";}
 ?>
 <div align="center">
 <div style="<?php print $searchstyle; ?>">
