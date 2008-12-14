@@ -286,13 +286,6 @@ if($bucket == "home"){
       <?php $logo_path = base_path() . path_to_theme() . "/images/" . get_newsflash_style(); ?>
     </div><!-- /footer -->
   <div style="clear:both"></div>
-  <!-- <script type="text/javascript" src="<?=$base_path?>misc/jquery-ui.js"></script> -->
-  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.domec.js"></script>
-  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.timers.js"></script>
-  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/jquery.cookie.js"></script>
-  <script type="text/javascript" src="<?=$base_path?>sites/all/modules/campus_manager/campus_emergency_receiver.js"></script>
-  <link rel="stylesheet" type="text/css" href="<?=$base_path?>sites/all/modules/campus_manager/campus_emergency.css"></script>
-  
   <?php print $closure ?>
   </div> <!-- /page -->
 </body>
