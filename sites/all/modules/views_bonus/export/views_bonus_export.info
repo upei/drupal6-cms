@@ -1,0 +1,14 @@
+; $Id: views_bonus_export.info,v 1.1 2008/10/08 05:50:10 neclimdul Exp $
+name = Bonus: Views Export
+description = "Plugin to export views a couple of formats including Comma Separated Values(CSV), or Doc"
+dependencies[] = views
+package = Views
+core = 6.x
+
+
+; Information added by drupal.org packaging script on 2008-12-10
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "views_bonus"
+datestamp = "1228868226"
+

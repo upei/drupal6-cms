@@ -405,3 +405,15 @@ border-bottom: 1px solid #ccc;
 #mycarousel form small {
     display: block;
 }
+
+#section1 a, #section2 a{text-decoration: none;}
+#section1 a:hover, #section2 a:hover{text-decoration: underline;}
+
+#section1, #section2{background-image:none;background-color:transparent;color:#000000;}
+#section1 a:link, #section2 a:visited, #section2 a.hover,
+#section2 a:link, #section1 a:visited, #section1 a.hover
+{color: #6c1c00;}
+
+#section1 img, #section2 img{padding-bottom:5px;}
+
+#section1 h2 a, #section2 h2 a{font-size:14px;font-weight:bold;}
