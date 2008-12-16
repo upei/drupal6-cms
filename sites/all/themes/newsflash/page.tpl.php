@@ -279,8 +279,10 @@ if($bucket == "home"){
 		<?php 
 		$bucket = _get_bucket();
 		if($bucket != "home" && $bucket != "avc"){print "<img style=\"position:relative;top:16px;\" src=\"/home/sites/all/themes/newsflash/images/leaf_rust_gold.jpg\">";}
-		print $footer_message 
-		?>
+		print $footer_message;
+
+ print $closure; ?>		
+
 		</div>
       <?php } ?>
       <?php $logo_path = base_path() . path_to_theme() . "/images/" . get_newsflash_style(); ?>

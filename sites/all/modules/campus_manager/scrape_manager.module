@@ -44,7 +44,7 @@ class ScrapeManager {
           'access arguments' => array(ScrapeManager::$PERM_SECTION),
           'type' => MENU_CALLBACK,
         );
-    
+
       $items['scrape/endpoint'] = array(
           'title' => t('Scrape Endpoint'),
           'page callback' => '__scrape_manager_scrape_endpoint',
@@ -70,36 +70,48 @@ class ScrapeManager {
     }
     
     // let's do permission check first
-    
-    // scrape site permission
-    if (strpos($arg1, '/') === false &&
-        !user_access(ScrapeManager::$PERM_SITE)) {
-      print 'You have no permission to ' . ScrapeManager::$PERM_SITE;
-      return;
-    }
-    
-    // scrape section permission
-    if (strpos($arg1, '/') >= 0 &&
-        !user_access(ScrapeManager::$PERM_SECTION)) {
-      print 'You have no permission to ' . ScrapeManager::$PERM_SECTION;
-      return;
-    }
-    
-    // scrape page permission
-    if (!empty($arg2) && !user_access(ScrapeManager::$PERM_PAGE)) {
-      print 'You have no permission to ' . ScrapeManager::$PERM_PAGE;
-      return;
-    }
+	$choice = 'none';
+	if (!empty($arg2)) {
+		$choice = 'page';
+	}
+	else {
+		if (strpos($arg1, '/') == false) {
+			$choice = 'site';
+		}
+		else {
+			$choice = 'section';
+		}
+	}
+
+	switch($choice) {
+		case 'site':
+			if (!user_access(ScrapeManager::$PERM_SITE)) {
+				print(t('You have no permission to scrape site ' . $arg1));
+				return;
+			}
+			break;
+		case 'section':
+			if (!user_access(ScrapeManager::$PERM_SECTION)) {
+				print(t('You have no permission to scrape section ' . $arg1));
+				return;
+			}
+			break;
+		case 'page':
+			if (!user_access(ScrapeManager::$PERM_PAGE)) {
+				print(t('You have no permission to scrape page ' . $arg1 . ' ' . $arg2));
+				return;
+			}
+			break;
+		default:
+			print(t('You have no permission to scrape anything.'));
+			return;
+	}
 
     $start_time = time();
     
     $scrape_script = drupal_get_path('module', 'scrape_manager') . '/scrape.sh';
     
-    if($arg1 == 'news') {
-      $command = "sudo -u drupal $scrape_script";
-    } else {
-      $command = "sudo -u drupal $scrape_script -f $arg1 $arg2";
-    }
+    $command = "sudo -u drupal $scrape_script -f $arg1 $arg2";
     
     system($command, $result);
     if ($result) {
@@ -279,7 +291,7 @@ final class ScrapeBlock extends DrupalBlockBase {
       );
     }
     
-    // scrape page
+	// scrape page
     if (user_access(ScrapeManager::$PERM_PAGE)) {
       $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/onegolive.jpg\" alt=\"Scrape Page\"/>";
       $page_scrape_content = l($image, 'scrape/page',

@@ -353,7 +353,7 @@ class CampusEmergencyReceiver {
   }
   
   function attachJavascript() {
-    include_once '/var/www-d6/current/sites/all/modules/jquery_ui/jquery_ui.module';
+    include_once dirname(__FILE__) . '/../jquery_ui/jquery_ui.module';
     jquery_ui_add(array('ui.draggable', 'ui.resizable', 'ui.dialog'));
     drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/jquery.domec.js", 'module', 'footer');
     drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/jquery.timers.js", 'module', 'footer');
@@ -650,9 +650,12 @@ function campus_emergency_footer($main = 0) {
 //  
 // }
 
-$receiver__ = new CampusEmergencyReceiver();
-if (user_access(CampusEmergencyReceiver::$RECEIVER_PERM)) {
-  $receiver__->attachCSS();
-  $receiver__->attachJavascript();
+function _campus_emergency_run() {
+  $receiver__ = new CampusEmergencyReceiver();
+  if (user_access(CampusEmergencyReceiver::$RECEIVER_PERM)) {
+    $receiver__->attachCSS();
+    $receiver__->attachJavascript();
+  }
 }
-unset($receiver__);
+
+_campus_emergency_run();

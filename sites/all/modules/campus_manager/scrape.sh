@@ -22,7 +22,8 @@
 #
 
 # Record a few important values in variables
-source_site=cms-dev.upei.ca
+# Changed source_site from cms-dev.upei.ca dec 15th
+source_site=cms.upei.ca
 cache_directory=/var/cache/httrack
 static_directory=/var/www-static
 log_filename=/var/log/cms_mirror.log
@@ -89,6 +90,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	HTTRACK_OPTIONS="http://${source_site}/$bucket/sites/all/themes/upei_generic_v1/fix-ie.css
 			-${source_site}/$bucket/files/*
 			-${source_site}/*/scrape/*
+			-${source_site}/*/field_email
 			+${photo_site}/d/*
 			${HTTRACK_OPTS}"
 

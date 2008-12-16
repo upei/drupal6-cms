@@ -67,7 +67,7 @@ function campus_management_menu() {
 }
 
 function _campus_management_menu_overview_page() {
-  include drupal_get_path('module', 'menu'). '/menu.admin.inc';
+  include  '/var/www-d6/current/modules/menu/menu.admin.inc';
   return menu_overview_page();
 }
 
