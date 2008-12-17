@@ -1,4 +1,4 @@
-// $Id: fckeditor.utils.js,v 1.2.2.8.2.14 2008/10/23 06:22:55 wwalc Exp $
+// $Id: fckeditor.utils.js,v 1.2.2.8.2.17 2008/12/05 09:07:28 wwalc Exp $
 // map of instancename -> FCKeditor object
 var fckInstances = {};
 // this object will store teaser information
@@ -17,7 +17,7 @@ Drupal.behaviors.fckeditor = function(context) {
 
       if (editorInstance.defaultState == 1) {
         if (textarea.attr('class').indexOf("filterxss1") != -1 || textarea.attr('class').indexOf("filterxss2") != -1) {
-          $.post(Drupal.settings.basePath + 'fckeditor/xss', {
+          $.post(Drupal.settings.basePath + 'index.php?q=fckeditor/xss', {
             text: $('#' + taid).val(),
             'filters[]': Drupal.settings.fckeditor_filters[fckInstances[taid].DrupalId]
             }, 
@@ -51,7 +51,7 @@ function Toggle(textareaID, TextTextarea, TextRTE, xss_check)
   if (fckInstances[textareaID].defaultState == 0) {
     fckInstances[textareaID].defaultState = 2;
     if ($('#' + textareaID).attr('class').indexOf("filterxss2") != -1) {
-      $.post(Drupal.settings.basePath + 'fckeditor/xss', {
+      $.post(Drupal.settings.basePath + 'index.php?q=fckeditor/xss', {
         text: $('#' + textareaID).val(),
         'filters[]': Drupal.settings.fckeditor_filters[fckInstances[textareaID].DrupalId]
         }, 
@@ -165,7 +165,7 @@ function FCKeditor_OnComplete(editorInstance) {
   if (teaser) {
     // if there is a teaser, prepend it to the text, only when switched to FCKeditor using toggle
     //if (fckInstances[editorInstance.Name].defaultState == 2) {
-      if (teaser.textarea.val().length > 0) {
+      if (teaser.textarea.val().length > 0 && editorInstance.GetData(true).indexOf('\n<!--break-->\n') == -1 ) {
         var text = teaser.textarea.val() + '\n<!--break-->\n' + editorInstance.GetData(true);
         editorInstance.SetData(text);
       }

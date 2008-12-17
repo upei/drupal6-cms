@@ -255,17 +255,7 @@ final class ScrapeBlock extends DrupalBlockBase {
       return;
     }
     
-    // get the last access date
-    if (user_access(ScrapeManager::$PERM_SITE) ||
-        user_access(ScrapeManager::$PERM_SECTION) ||
-        user_access(ScrapeManager::$PERM_PAGE)) {
-          $sql = "SELECT w.timestamp, w.uid, w.message, u.name FROM {watchdog} w INNER JOIN {users} u ON w.uid = u.uid WHERE w.type = 'site mirror' ORDER BY w.timestamp DESC LIMIT 1";
-          $result = db_query($sql);
-          $row = db_fetch_array($result);
-          $last_access_time = ScrapeBlock::time_since($row['timestamp']);
-    }
-    
-    // scrape site
+   // scrape site
     if (user_access(ScrapeManager::$PERM_SITE)) {
       $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/allgolive.jpg\" alt=\"Scrape Website\"/>";
       $block_content .= l($image, 'scrape/site',
@@ -322,6 +312,17 @@ final class ScrapeBlock extends DrupalBlockBase {
           }
         }
       }
+    }
+ 
+ // get the last access date
+    if (user_access(ScrapeManager::$PERM_SITE) ||
+        user_access(ScrapeManager::$PERM_SECTION) ||
+        user_access(ScrapeManager::$PERM_PAGE)) {
+          $sql = "SELECT w.timestamp, w.uid, w.message, u.name FROM {watchdog} w INNER JOIN {users} u ON w.uid = u.uid WHERE w.type = 'site mirror' ORDER BY w.timestamp DESC LIMIT 1";
+          $result = db_query($sql);
+          $row = db_fetch_array($result);
+          $last_access_time = ScrapeBlock::time_since($row['timestamp']);
+					$block_content .= '<p><b>Last scraped by ' . $row['name'] . ' ' . $last_access_time . ' ago</b></p>';
     }
     
     // set up the block if we have block content

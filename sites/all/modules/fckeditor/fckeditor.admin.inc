@@ -1,5 +1,5 @@
 <?php
-// $Id: fckeditor.admin.inc,v 1.1.2.26 2008/11/14 16:40:14 wwalc Exp $
+// $Id: fckeditor.admin.inc,v 1.1.2.27 2008/12/12 20:11:54 wwalc Exp $
 /**
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
@@ -273,7 +273,7 @@ function fckeditor_admin_profile_form($form_state, $profile = NULL) {
   $form['security'] = array(
     '#type' => 'fieldset',
     '#title' => t('Security'),
-    '#description' => t('Because Drupal stores content in an unmodified form, it is necessary to perform additional security checks before FCKeditor renders the Html content for editing.') .' '. t('Without security filters, when you decide to edit an article which contains a malicious attack (like xss), that code will be rendered along with the html and therefore executed by your browser.') .' '. t('Before FCKeditor renders the content in its editor, it makes an AJAX call to check the node\'s textarea for which filters are checked below and are in the textarea\'s input format.') .' '. t('For example, if you\'re using a Filtered HTML input format and have checked the HTML filter below, it will be executed. However, if you edit node with Full HTML input format assigned, HTML filter will not be executed.') .' '. t('Most obvious is when using a custom module\'s security filter which allows html attributes but strips attribute xss when viewed, but FCKeditor will attempt to show original content when edited which could be malicious. Now same filter if checked below will run when edited to clean up content.'),    
+    '#description' => '<p>' . t("When Drupal saves user data input through a textarea, it's saved in the database in unmodified form. That's why all untrusted textarea input should be run through an input format filter before outputting it to the screen.") . '</p>' .'<p>' . t("Drupal will not, however, filter data for content editor's editing a textarea. Normally, there is no security risk because the unmodified code is displayed as text and will not be rendered as HTML. But with FCKeditor installed, this is not the case, and content editor's are subject to having raw, untrusted code running inside their browsers.") . '</p>' . '<p>' . t("To address this issue, you should select a security filters below to prevent FCKeditor from rendering malicious code. Note that if a textarea's input format is set to \"Full HTML\" (or if the input format of the node doesn't include the filter), FCKeditor will properly ignore the setting below and will not run the code through the security filter.") . '</p>' . '<p>' .  t("If any textareas on your site are accessible to unwanted users, we recommend checking the \"HTML Filter\". You may have other modules installed that provide other kinds of security filters and you may use those as long as you trust them to properly filter out malicious code. Note that not all the filters below are security filters and will provide no protection.") . '</p>',
     '#collapsible' => TRUE,
     '#collapsed' => TRUE
   );

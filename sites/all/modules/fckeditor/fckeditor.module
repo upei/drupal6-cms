@@ -1,5 +1,5 @@
 <?php
-// $Id: fckeditor.module,v 1.20.2.34.2.52 2008/11/14 16:40:14 wwalc Exp $
+// $Id: fckeditor.module,v 1.20.2.34.2.55 2008/12/09 16:54:09 wwalc Exp $
 /**
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
@@ -109,6 +109,8 @@ function fckeditor_elements() {
  * AJAX callback - XSS filter
  */
 function fckeditor_filter_xss() {
+  $GLOBALS['devel_shutdown'] = FALSE;
+
   if (!isset($_POST['text']) || !is_string($_POST['text']) || !is_array($_POST['filters'])) {
     exit;
   }
@@ -120,7 +122,11 @@ function fckeditor_filter_xss() {
     $module = strtok($module_delta, "/");
     $delta = strtok("/");
     $format = strtok("/");
-    
+
+    if (!module_hook($module, 'filter')) {
+      continue;
+    }
+
     //built-in filter module, a special case where we would like to strip XSS and nothing more
     if ($module == 'filter' && $delta == 0) {
       preg_match_all("|</?([a-z][a-z0-9]*)(?:\b[^>]*)>|i", $text, $matches);
@@ -190,7 +196,7 @@ function fckeditor_process_form(&$form) {
           $formats = element_children($element);          
           
           foreach ($formats as $format_id) {
-            $format = $element[$format_id]['#default_value'];
+            $format = !empty($element[$format_id]['#default_value']) ? $element[$format_id]['#default_value'] : $element[$format_id]['#value'];
             break;
           }
           
@@ -833,13 +839,18 @@ function fckeditor_sorted_roles() {
  */
 function fckeditor_is_compatible_client() {
   $editor_local_path    = fckeditor_path(TRUE);
-  $fckeditor_main_file  = $editor_local_path .'/fckeditor.php';
+  
+  if (!function_exists('version_compare') || version_compare(phpversion(), '5', '<'))
+    $fckeditor_main_file  = $editor_local_path .'/fckeditor_php4.php';
+  else
+    $fckeditor_main_file  = $editor_local_path .'/fckeditor_php5.php';
+  
   if (file_exists($fckeditor_main_file)) {
     include_once $fckeditor_main_file;
     if (function_exists('FCKeditor_IsCompatibleBrowser')) {
       return FCKeditor_IsCompatibleBrowser();
     }
-    else {
+    else if (class_exists('FCKeditor')) {
       $fck = new FCKeditor('fake');
       return $fck->IsCompatible();
     }

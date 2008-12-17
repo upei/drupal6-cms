@@ -1,4 +1,25 @@
-$Id: CHANGELOG.txt,v 1.2.2.27.2.58 2008/11/19 12:12:54 wwalc Exp $
+$Id: CHANGELOG.txt,v 1.2.2.27.2.66 2008/12/12 23:23:37 wwalc Exp $
+
+-- 2008-12-12 version 6.x-2.x-dev
+* #338923 Improved description of security setting
+* #321844 Fixed: FCKeditor and Image Assist not working together
+
+-- 2008-12-09 version 6.x-2.x-dev
+* #344765 Fixed: PHP Fatal error: Class 'FCKeditor' not found
+
+-- 2008-12-05 version 6.x-2.x-dev
+* #331329 Added expermimental support for Link to content/node integration
+
+-- 2008-12-04 version 6.x-2.x-dev
+* Fixed problems with detecting valid input format
+* #338019 Fixed problem with duplicated teaser on edit
+* #342155 Added webform fields to the default exclusion list
+
+-- 2008-12-01 version 6.x-2.x-dev
+* #321818 Fixed: FCKeditor not displaying on any posts except initial ones
+
+-- 2008-11-25 version 6.x-2.x-dev
+* #336753 Fixed: All text disappears
 
 -- 2008-11-19 version 6.x-2.x-dev
 * #323170 Fixed: unclear notifications on the status page (You are using a feature...)

@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.16.2.5.2.10 2008/11/14 16:40:14 wwalc Exp $
+$Id: README.txt,v 1.16.2.5.2.12 2008/12/12 19:37:35 wwalc Exp $
 
 CONTENTS OF THIS FILE
 ---------------------
@@ -13,6 +13,7 @@ CONTENTS OF THIS FILE
  * Uploading images and files
  * How to enable the built-in file browser
  * Modules: Image Assist
+ * Modules: Link to content (EXPERIMENTAL)
  * Upgrading instructions
  * Help & Contribution
  * Credits
@@ -136,6 +137,11 @@ You can enable any (or even both) of them.
       ['Image','Flash','Table','Rule','SpecialChar', 'DrupalBreak', 'DrupalPageBreak']
 
       (remember about single quotes).
+      
+    3. Note that the <!--pagebreak--> tag is not supported by default in Drupal.
+       You should install the Paging module: http://drupal.org/project/paging
+       to enable the <!--pagebreak--> tag support. Please refer to the Paging
+       module documentation for detailed installation instructions.
 
 Uploading images and files
 --------------------------
@@ -185,6 +191,40 @@ Modules: Image Assist
 ---------------------
 Image Assist can be integrated with FCKeditor.
 To do this, simply copy the modules/fckeditor/img_assist_fckeditor.js file to modules/img_assist/img_assist_fckeditor.js.
+
+Modules: Link to content (EXPERIMENTAL)
+---------------------------------------
+Link to content module can be integrated with FCKeditor.
+ATTENTION: this module is not yet compatible with FCKeditor :(
+
+The unofficial version of Link to content module compatible with FCKeditor can be downloaded here:
+     http://drupal.fckeditor.net/download/linktocontent-fckeditor-6.x-2.x-dev.zip
+
+Installation:
+Follow the instruction from INSTALL.txt attached to the linktocontent module.
+Then do the following steps to add Linktocontent button to the FCKeditor toolbar:
+
+By default, FCKeditor module comes with two plugins that allows you to use linktocontent and linktonode features.
+You can enable any (or even both) of them.
+
+   1. Open /drupal/modules/fckeditor/fckeditor.config.js and uncomment these three lines:
+
+            FCKConfig.PluginsPath = '../../plugins/' ;
+            FCKConfig.Plugins.Add( 'linktonode', 'en,pl' ) ;
+            FCKConfig.Plugins.Add( 'linktomenu', 'en,pl' ) ;
+
+   2. The second step is to add buttons to the toolbar (in the same file).
+      The button names are: LinkToNode, LinkToMenu. 
+      For example if you have a toolbar with an array of buttons defined as follows:
+
+      ['Link','Unlink','Anchor']
+
+      simply add those two buttons at the end of array (or somewhere in the middle):
+
+      ['Link','Unlink','LinkToNode','LinkToMenu','Anchor']
+
+      (remember about single quotes).
+
 
 Upgrading instructions
 ----------------------

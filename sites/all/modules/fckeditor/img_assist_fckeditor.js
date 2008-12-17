@@ -67,3 +67,36 @@ function InitFCKeditorImgAssist() {
     oldInsertToEditor(content);
   };
 }
+
+//#321844
+if (typeof(initLoader) == 'undefined') {
+var myDoc, myForm, myTextarea, hasInputFormat;
+
+function initLoader() {
+  // Save the references to the parent form and textarea to be used later. 
+  myDoc      = window.opener.document; // global (so don't use var keyword)
+  myForm     = '';
+  myTextarea = '';
+  hasInputFormat = false;
+  
+  var args = getArgs(); // get the querystring arguments
+  var textarea = args.textarea;
+  
+  // Reference the form object for this textarea.
+  if (myDoc.getElementsByTagName) {
+    var f = myDoc.getElementsByTagName('form');
+    for (var i=0; i<f.length; i++) {
+      // Is this textarea is using an input format?
+      if (f[i]['edit-format']) {
+        hasInputFormat = true;
+      }
+      if (f[i][textarea]) {
+        myForm = f[i];
+        myTextarea = f[i][textarea];
+        break;
+      }
+    }
+  }
+  frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/thumbs/myimages';
+}
+}

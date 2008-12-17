@@ -84,7 +84,7 @@ function FCKeditor_OnComplete( editorInstance )
   oEditor = editorInstance;
   var textarea = window.opener.document.getElementById( FCKURLParams[ 'el' ] );
   if ($(textarea).attr('class').indexOf("filterxss2") != -1) {
-    $.post(window.opener['Drupal'].settings.basePath + 'fckeditor/xss', {
+    $.post(window.opener['Drupal'].settings.basePath + 'index.php?q=fckeditor/xss', {
       text: oFCKeditor.Value,
       'filters[]': window.opener['Drupal'].settings.fckeditor_filters[FCKURLParams[ 'var' ]]
       }, 
