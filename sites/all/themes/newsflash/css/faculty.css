@@ -7,13 +7,6 @@ body {
    background-color: #fff;
 }
 
-tr.odd {
-  background: #F5F5E9;
-}
-
-tr.even {
-  background: #EEF4F9;
-}
 
 #navlist a.active,
 #subnavlist a.active {

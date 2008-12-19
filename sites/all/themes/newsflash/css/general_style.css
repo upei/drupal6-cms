@@ -23,7 +23,7 @@ tr.even {
     background: #e9ecd9;
     }
 
-
+tr.odd{}
 a:link,
 a:visited,
 a:hover,
