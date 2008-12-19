@@ -1,4 +1,11 @@
-// $Id: CHANGELOG.txt,v 1.1.2.4.2.7 2008/10/10 15:41:51 aronnovak Exp $
+// $Id: CHANGELOG.txt,v 1.1.2.4.2.9 2008/12/05 21:17:43 aronnovak Exp $
+FeedAPI 1.5, 2008-12-05
+-----------------------
+- Enclosure and location support in parser_simplepie
+- More robust RDF parsing in parser_common_syndication
+- WARNING: API change, feedapi_item($op = 'purge') is changed.
+  see _feedapi_node_purge as an example
+- Fixed: cron failed to delete old items under some circumstances
 
 FeedAPI 1.4, 2008-10-10
 -----------------------

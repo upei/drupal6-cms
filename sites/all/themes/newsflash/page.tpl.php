@@ -278,10 +278,15 @@ if($bucket == "home"){
         <div id="footer-message">
 		<?php 
 		$bucket = _get_bucket();
-		if($bucket != "home" && $bucket != "avc"){print "<img style=\"position:relative;top:16px;\" src=\"/home/sites/all/themes/newsflash/images/leaf_rust_gold.jpg\">";}
+		if($bucket != "home" && $bucket != "avc"){
+			print "<img style=\"position:relative;top:16px;\" src=\"/css/images/leaf_rust_gold.jpg\">";
+		}
 		print $footer_message;
+		$date = date('Y');
+		print "<br />University of Prince Edward Island, 550 University Avenue, Charlottetown, PE, Canada C1A 4P3<br />
+		&copy; $date | University of Prince Edward Island | All Rights Reserved ";
 
- print $closure; ?>		
+?>		
 
 		</div>
       <?php } ?>

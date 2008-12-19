@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_mapper.module,v 1.1.2.7.2.7 2008/10/27 00:07:34 alexb Exp $
+// $Id: feedapi_mapper.module,v 1.1.2.7.2.9 2008/12/02 14:31:47 alexb Exp $
 
 /**
  * Implementation of hook_help().
@@ -34,8 +34,8 @@ function feedapi_mapper_menu() {
       'page arguments' => array(3),
       'load arguments' => array(3),
       'type' => MENU_LOCAL_TASK,
-      'access callback' => 'user_access',
-      'access arguments' => array('administer feedapi'),
+      'access callback' => 'feedapi_mapper_access_mapper',
+      'access arguments' => array(3),
       );
   }
   return $items;
@@ -52,6 +52,54 @@ function feedapi_mapper_nodeapi(&$node, $op, $teaser, $page) {
       }
       break;
   }
+}
+
+/**
+ * Implementation of hook_theme().
+ *
+ */
+function feedapi_mapper_theme() {
+  return array(
+    'feedapi_mapper_descriptions' => array(
+      'arguments' => array('descriptions'),
+    ),
+  );
+}
+
+/**
+ * Theming function for outputting result of _feedapi_mapper_get_field_mappers_descriptions().
+ * @param $descriptions
+ *   Result of _feedapi_mapper_get_field_mappers_descriptions().
+ * @return
+ *   HTML output.
+ */
+function theme_feedapi_mapper_descriptions($descriptions) {
+  $output = '<dl>';
+  foreach ($descriptions as $field_mapper => $implementations) {
+    foreach ($implementations as $module => $description) {
+      $output .= '<dt><strong>'. $field_mapper .' '. t('(!module_name module)', array('!module_name' => $module)) .'</strong></dt>';
+      $output .= '<dd>'. $description .'</dd>';
+    }
+  }
+  $output .= '</dl>';
+  return $output;
+}
+
+/**
+ * Determine whether current user can map on a given content type.
+ * Primarily used as menu acess callback. @see feedapi_mapper_menu()
+ * 
+ * @param $node_type
+ *   String that defines a content type.
+ * @return 
+ *   TRUE if current user can map feed elements AND content type is feed enabled.
+ *   FALSE otherwise.
+ */
+function feedapi_mapper_access_mapper($node_type) {
+  if (feedapi_enabled_type($node_type) && user_access('administer feedapi')) {
+    return TRUE;
+  }
+  return FALSE;
 }
 
 /**
@@ -102,10 +150,6 @@ function feedapi_mapper_page($node) {
     $node_type = $node;
     $node = new stdClass();
     $node->type = str_replace('-', '_', $node_type);
-  }
-  if (!feedapi_enabled_type($node->type)) {
-    drupal_set_message(t('This content type is not FeedAPI enabled. Enable it if you would like to use the FeedAPI mapper on it.'));
-    return '';
   }
   $names = node_get_types('names');
   drupal_set_title($node->title ? $node->title : $names[$node->type]);
@@ -572,33 +616,3 @@ function _feedapi_mapper_get_field_names($node_type) {
   return $field_names[$node_type];
 }
 
-/**
- * Theming function for outputting result of _feedapi_mapper_get_field_mappers_descriptions().
- * @param $descriptions
- *   Result of _feedapi_mapper_get_field_mappers_descriptions().
- * @return
- *   HTML output.
- */
-function theme_feedapi_mapper_descriptions($descriptions) {
-  $output = '<dl>';
-  foreach ($descriptions as $field_mapper => $implementations) {
-    foreach ($implementations as $module => $description) {
-      $output .= '<dt><strong>'. $field_mapper .' '. t('(!module_name module)', array('!module_name' => $module)) .'</strong></dt>';
-      $output .= '<dd>'. $description .'</dd>';
-    }
-  }
-  $output .= '</dl>';
-  return $output;
-}
-
-/**
- * Implementation of hook_theme().
- *
- */
-function feedapi_mapper_theme() {
-  return array(
-    'feedapi_mapper_descriptions' => array(
-      'arguments' => array('descriptions'),
-    ),
-  );
-}

@@ -153,10 +153,12 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	# HTML links fixes
 	# 1. pagination
 	# 2. fix httrack's inappropriate treatment to feeds (deleted)
+  # 3. fix jquery ui javascript
 	find ${cache_directory}/$bucket/${source_site}/$1/ -name "*html" \
 		-exec sed -r -i \
 			-e "/(href|src)=/ {
 				s/href=\"([^?]+)\?page=([[:digit:]]+)[^\"]*\"/href=\"\1-\2\"/g
+        s/src=\"([^?]+)\?.*\"/src=\"\1\"/g
 			}" {} \;
 
 # 2007-08-25 -- Don't think these next two sections are required now that symlinks are being created -- BV

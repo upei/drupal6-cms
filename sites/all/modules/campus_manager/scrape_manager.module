@@ -270,7 +270,7 @@ final class ScrapeBlock extends DrupalBlockBase {
     
     // scrape section
     if (user_access(ScrapeManager::$PERM_SECTION)) {
-      $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/sectiongolive.jpg\" alt=\"Scrape Section\"/>";
+      $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/minegolive.jpg\" alt=\"Scrape Section\"/>";
       $block_content .= l($image, 'scrape/section',
         array(
           'query' => array(

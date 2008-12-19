@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.module,v 1.1.2.18.2.17 2008/10/10 12:54:35 aronnovak Exp $
+// $Id: feedapi_node.module,v 1.1.2.18.2.21 2008/12/05 21:09:44 aronnovak Exp $
 
 /**
  * @file
@@ -81,12 +81,14 @@ function feedapi_node_nodeapi(&$node, $op, $teaser) {
 function feedapi_node_link($type, $node = NULL) {
   $links = array();
   if ($type == 'node') {
-    if (count($node->feed->processors) > 0 && module_exists('views')) {
-      if (in_array('feedapi_node', $node->feed->processors)) {
-        $links['view_items'] = array(
-          'title' => t('Feed items'),
-          'href' => 'feed-item/'. $node->nid
-        );
+    if (isset($node->feed)) {
+      if (count($node->feed->processors) > 0 && module_exists('views')) {
+        if (in_array('feedapi_node', $node->feed->processors)) {
+          $links['view_items'] = array(
+            'title' => t('Feed items'),
+            'href' => 'feed-item/'. $node->nid
+          );
+        }
       }
     }
     if (isset($node->feedapi_node)) {
@@ -272,6 +274,7 @@ function _feedapi_node_save($feed_item, $feed_nid, $settings = array()) {
   $node = new stdClass();
   if (isset($feed_item->nid)) {
     $node->nid = $feed_item->nid;
+    $node->vid = db_result(db_query("SELECT vid FROM {node_revisions} WHERE nid = %d", $node->nid));
   }
   // Determines the node type.
   if (empty($settings['content_type'])) {
@@ -371,8 +374,8 @@ function _feedapi_node_update($feed_item, $feed_nid, $settings = array()) {
  * Delete a node which already assigned to a feed item
  */
 function _feedapi_node_delete($feed_item) {
-    if (isset($feed_item->nid)) {
-    node_delete($feed_item->nid);
+  if (isset($feed_item->nid)) {
+    _feedapi_node_node_delete($feed_item->nid);
   }
   else {
     // Let's throw an error on the off chance we land here.
@@ -381,20 +384,37 @@ function _feedapi_node_delete($feed_item) {
 }
 
 /**
- * Add to the feed item object some data to identify the node assigned
+ * Delete all nodes associated with a feed.
  */
-function _feedapi_node_load($feed_item, $feed_nid) {
-  $item = db_fetch_object(db_query("SELECT * FROM {feedapi_node_item} WHERE nid = %d", $feed_item->nid));
-  $feed_item->nid = $item->nid;
-  $feed_item->arrived = $item->arrived;
-  $feed_item->options->original_url = $item->url;
-  $feed_item->options->guid = $item->guid;
-  $feed_item->options->timestamp = $item->timestamp;
-  $content = node_load($item->nid);
-  $feed_item->description = $content->body;
-  $feed_item->title = $content->title;
-  $feed_item->teaser = $content->teaser;
-  return $feed_item;
+function _feedapi_node_purge($feed) {
+  $total = db_result(db_query('SELECT COUNT(*) FROM {feedapi_node_item_feed} WHERE feed_nid = %d', $feed->nid));
+  
+  $deleted = 0;
+  $max_execution_time = ini_get('max_execution_time');
+  while ($deleted < $total) {
+    // Take hundred items at a time.
+    $result = db_query_range('SELECT feed_item_nid as nid FROM {feedapi_node_item_feed} WHERE feed_nid = %d', $feed->nid, 0, 100);
+    
+    while ($node = db_fetch_object($result)) {
+      node_delete($node->nid);
+      $deleted++;
+      // Stop 5 seconds before script time out.
+      if (($max_execution_time - 5) < round(timer_read('page') / 1000)) {
+        // Don't show all the node delete messages.
+        drupal_get_messages();
+        drupal_set_message(t('!deleted feed items of !total could be deleted before script time out - click <em>Remove items</em> again to delete more.', array('!deleted' => $deleted, '!total' => $total)));
+        return;
+      }
+    }
+  }
+  if ($deleted) {
+    // Don't show all the node delete messages.
+    drupal_get_messages();
+    drupal_set_message(t('!count feed items have been deleted.', array('!count' => $deleted)));
+  }
+  else {
+    drupal_set_message(t('There where no feed items to delete'));
+  }
 }
 
 /**
@@ -465,4 +485,32 @@ function _feedapi_node_unique($feed_item, $feed_nid, $settings) {
   }
   // Neither GUID, nor URL present: no unique item.
   return FALSE;
+}
+
+/**
+ * Copy of http://api.drupal.org/api/function/node_delete/6 to avoid permission checking
+ * 
+ * @todo: this is just a workaround to be able to delete nodes at cron time
+ * @param unknown_type $nid
+ */
+function _feedapi_node_node_delete($nid) {
+
+  $node = node_load($nid);
+
+  db_query('DELETE FROM {node} WHERE nid = %d', $node->nid);
+  db_query('DELETE FROM {node_revisions} WHERE nid = %d', $node->nid);
+
+  // Call the node-specific callback (if any):
+  node_invoke($node, 'delete');
+  node_invoke_nodeapi($node, 'delete');
+
+  // Clear the page and block caches.
+  cache_clear_all();
+
+  // Remove this node from the search index if needed.
+  if (function_exists('search_wipe')) {
+    search_wipe($node->nid, 'node');
+  }
+  watchdog('content', '@type: deleted %title.', array('@type' => $node->type, '%title' => $node->title));
+  drupal_set_message(t('@type %title has been deleted.', array('@type' => node_get_types('name', $node), '%title' => $node->title)));
 }

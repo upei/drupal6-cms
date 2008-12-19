@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.module.test,v 1.1.4.11 2008/09/16 14:10:27 aronnovak Exp $
+// $Id: feedapi_node.module.test,v 1.1.4.13 2008/12/04 21:35:20 aronnovak Exp $
 
 /**
  * Class for testing feedapi_node.
@@ -65,8 +65,8 @@ class FeedAPI_Node_Tests extends DrupalTestCase {
    */
   function get_parsers() {
     // Determine enabled and well-setup parsers
-    $parsers_ok = array();
-    $parsers_ok = module_implements('feedapi_feed', TRUE);
+    // @todo: the hard-wired list is suboptimal. But no way to determine the compatibility of the parser
+    $parsers_ok = array('parser_simplepie', 'parser_common_syndication');
     foreach ($parsers_ok as $key => $parser) {
       $status = module_invoke($parser, 'requirements', 'runtime');
       if (isset($status[$parser]) && $status[$parser]['severity'] == REQUIREMENT_ERROR) {
@@ -291,8 +291,6 @@ class FeedAPI_Node_Tests extends DrupalTestCase {
 	<body>
 		<outline title="Scripting News" count="580" xmlUrl="http://www.scripting.com/rss.xml"/>
 		<outline title="Wired News" count="546" xmlUrl="http://www.wired.com/news_drop/netcenter/netcenter.rdf"/>
-		<outline title="Boing Boing Blog" count="519" xmlUrl="http://boingboing.net/rss.xml"/>
-		<outline title="The Scobleizer Weblog" count="460" xmlUrl="http://radio.weblogs.com/0001011/rss.xml"/>
 		</body>
 	</opml>
 EOT;
@@ -313,16 +311,15 @@ EOT;
       $edit['override_title'] = TRUE;
       $edit['override_body'] = FALSE;
       $this->drupalPost('admin/content/feed/import_opml', $edit, 'Submit');
-
-      $this->drupalGet('admin/content/feed');
-      $this->assertText('Scripting News', 'The first entry of OPML can be found at admin page.');
-      $this->assertText('Wired News', 'The second entry of OPML can be found at admin page.');
-      $this->assertText('Boing Boing Blog', 'The third entry of OPML can be found at admin page.');
-      $this->assertText('The Scobleizer Weblog', 'The fouth entry of OPML can be found at admin page.');
-      node_delete(db_result(db_query("SELECT n.nid FROM {node} n LEFT JOIN {feedapi} f ON n.nid = f.nid WHERE f.url = '%s' ORDER BY nid DESC", 'http://www.scripting.com/rss.xml')));
-      node_delete(db_result(db_query("SELECT n.nid FROM {node} n LEFT JOIN {feedapi} f ON n.nid = f.nid WHERE f.url = '%s' ORDER BY nid DESC", 'http://www.wired.com/news_drop/netcenter/netcenter.rdf')));
-      node_delete(db_result(db_query("SELECT n.nid FROM {node} n LEFT JOIN {feedapi} f ON n.nid = f.nid WHERE f.url = '%s' ORDER BY nid DESC", 'http://boingboing.net/rss.xml')));
-      node_delete(db_result(db_query("SELECT n.nid FROM {node} n LEFT JOIN {feedapi} f ON n.nid = f.nid WHERE f.url = '%s' ORDER BY nid DESC", 'http://radio.weblogs.com/0001011/rss.xml')));
+      
+      $nid = db_result(db_query("SELECT n.nid FROM {node} n LEFT JOIN {feedapi} f ON n.nid = f.nid WHERE f.url = '%s' ORDER BY nid DESC", 'http://www.scripting.com/rss.xml'));
+      $node = node_load($nid);
+      $this->assertTrue(is_object($node), 'The first entry of OPML can be loaded as a node.');
+      node_delete($nid);
+      $nid = db_result(db_query("SELECT n.nid FROM {node} n LEFT JOIN {feedapi} f ON n.nid = f.nid WHERE f.url = '%s' ORDER BY nid DESC", 'http://www.wired.com/news_drop/netcenter/netcenter.rdf'));
+      $node = node_load($nid);
+      $this->assertTrue(is_object($node), 'The first entry of OPML can be loaded as a node.');
+      node_delete($nid);
       unlink($opml_filename);
       $this->delete_type();
     }
@@ -333,7 +330,8 @@ EOT;
    */
   function testContentType_Setting_Page() {
     $this->feedapi_user(TRUE);
-    $this->create_type($parser);
+    $parsers_ok = $this->get_parsers();
+    $this->create_type(array_shift($parsers_ok));
     $this->drupalGet('admin/content/node-type/'. $this->info->type);
     $this->assertText(t('FeedAPI'), 'The FeedAPI group appears at content-type edit page.');
     $this->assertText(t('Created date of item nodes'), 'FeedAPI Node settings at content-type edit page.');

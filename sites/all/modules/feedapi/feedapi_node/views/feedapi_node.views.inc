@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.views.inc,v 1.1.2.2 2008/10/07 20:58:53 aronnovak Exp $
+// $Id: feedapi_node.views.inc,v 1.1.2.3 2008/11/13 18:01:32 alexb Exp $
 
 /**
  * @file
@@ -44,6 +44,9 @@ function feedapi_node_views_data() {
     'help' => t('The original URL of this feed item'),
     'field' => array(
       'handler' => 'views_handler_field_url',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',
     ),
   );
   $data['feedapi_node_item']['timestamp'] = array(

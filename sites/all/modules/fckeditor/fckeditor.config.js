@@ -51,7 +51,8 @@ FCKConfig.ToolbarSets['DrupalFull'] = [
 ] ;
 
 FCKConfig.ToolbarSets['DrupalBasic'] = [
-['FontFormat','-','Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink', 'Image']
+['FontFormat','-','Bold','Italic','Underline','-','OrderedList','UnorderedList','PasteWord','-','Link','Unlink', 'Image'],
+['JustifyLeft','JustifyCenter','Anchor','DrupalBreak']
 ] ;
 
 //This toolbar should work fine with "Filtered HTML" filter

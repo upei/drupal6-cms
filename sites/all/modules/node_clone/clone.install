@@ -1,0 +1,18 @@
+<?php
+// $Id: clone.install,v 1.2 2008/05/04 00:23:21 pwolanin Exp $
+// $Name: DRUPAL-6--1-0 $
+
+/**
+ * Implementation of hook_uninstall.
+ */
+function clone_uninstall() {
+  
+  variable_del('clone_method');
+  variable_del('clone_omitted');
+  variable_del('clone_nodes_without_confirm');
+  $types = node_get_types('names');
+  foreach ($types as $type => $name) {
+    variable_del('clone_reset_'. $type);
+  }
+}
+
