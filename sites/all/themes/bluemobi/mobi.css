@@ -8,23 +8,18 @@ body {
   padding: 0 6px 0 6px;
   color: #000;
   background: #fff;
-  font-family: Georgia, Times New Roman, serif;
-  -webkit-text-size-adjust: none;
-  -webkit-user-select: none;
+  font-family: serif;
+  font-size: 9pt;
 }
 p { margin-bottom: 1em; }
-a { text-decoration: none; font-weight: bold; }
+a { text-decoration: none; font-weight: bold;}
 a:link    { color: #6c1c00; }
 a:visited { color: #6c1c00; }
 a:hover   { color: #6c1c00; text-decoration: underline; }
 
-input {
-  -webkit-text-size-adjust: 150%;
-}
-
 div.feed-item-body img {
-  max-width: 240px;
-  max-height: 300px;
+  max-width: 200px;
+  max-height: 200px;
   display: block;
   text-align: center;
 }
@@ -38,25 +33,22 @@ div.feed-item-body img {
 #header h1 {
 	margin: 0 0 0 1px;
 	padding: 0 0 0 36px;/* T R B L */
-	background: url('logo.gif') no-repeat center left;
 }
 
 /* customize */
 h1.title {
-  font-size: 14pt;
+  font-size: 9pt;
 }
 
 .feed-item {
   margin: 15px 0;
   border: 1px solid #000;
   padding: 0 6px 6px 6px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
 }
 
 .feed-item-title {
   margin-top: 6px;
-  font-size: 12pt;
+  font-size: 9pt;
 }
 
 .feed-item-categories {
@@ -69,7 +61,7 @@ h1.title {
 }
 
 .feed-item-body {
-  font-size: 11pt;
+  font-size: 9pt;
 }
 
 span.caption {

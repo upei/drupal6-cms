@@ -1,0 +1,56 @@
+/* $Id: style.css, v 1.00 2008/03/01 09:51:29 jaburns Exp $ */
+
+/*
+** HTML elements
+*/
+body {
+  font-family: Georgia, Times New Roman, serif;
+  font-size: 12pt;
+  -webkit-text-size-adjust: none;
+  -webkit-user-select: none;
+}
+
+input {
+  -webkit-text-size-adjust: 150%;
+}
+
+div.feed-item-body img {
+  max-width: 285px;
+  max-height: 400px;
+}
+
+/* customize */
+h1.title {
+  font-size: 14pt;
+}
+
+.feed-item {
+  margin: 15px 0;
+  border: 1px solid #000;
+  padding: 0 6px 6px 6px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-box-shadow: 2px 2px 3px #ccc;
+}
+
+.feed-item-title {
+  margin-top: 6px;
+  font-size: 12pt;
+}
+
+.feed-item-categories {
+  margin-bottom: 6px;
+}
+
+.feed-item-meta {
+  font-size: 9pt;
+  margin-bottom: 12px;
+}
+
+.feed-item-body {
+  font-size: 11pt;
+}
+
+span.caption {
+  display: block;
+}

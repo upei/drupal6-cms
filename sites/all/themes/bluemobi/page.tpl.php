@@ -13,6 +13,10 @@
   print $scripts;
   print $head_extra;
   ?>
+<!--[if !IE]>-->
+<link media="only screen and (max-device-width: 480px)" href="/sites/all/themes/bluemobi/safari.css" type="text/css" rel="stylesheet" />
+<!--<![endif]>-->
+
 </head>
 
 <body>
