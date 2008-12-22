@@ -358,7 +358,7 @@ class CampusEmergencyReceiver {
     drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/jquery.domec.js", 'module', 'footer');
     drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/jquery.timers.js", 'module', 'footer');
     drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/jquery.cookie.js", 'module', 'footer');
-    drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/campus_emergency_receiver.js", 'module', 'footer', false, false, false);
+    drupal_add_js(drupal_get_path('module', 'campus_emergency') . "/campus_emergency_receiver.js", 'module', 'footer');
   }
   
   function footer() {

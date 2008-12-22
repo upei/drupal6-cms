@@ -1,11 +1,12 @@
 <?php
 // $Id: page.tpl.php,v 1.00 2008/03/03 12:00:00 jaburns Exp $
+$_base_path = base_path();
 ?><?php print $dtd ?>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $language->language ?>" xml:lang="<?php print $language->language ?>">
 
 <head>
 <meta name="viewport" content="width=device-width,user-scalable=no" />
-<link rel="apple-touch-icon" href="/sites/upei.ca.m/files/images/upei-touch-logo.png" />
+<link rel="apple-touch-icon" href="<?= $_base_path?>sites/upei.ca.m/files/images/upei-touch-logo.png" />
 <title>UPEI</title>
   <?php 
   print $head;
@@ -14,7 +15,7 @@
   print $head_extra;
   ?>
 <!--[if !IE]>-->
-<link media="only screen and (max-device-width: 480px)" href="/sites/all/themes/bluemobi/safari.css" type="text/css" rel="stylesheet" />
+<link media="only screen and (max-device-width: 480px)" href="<?=$_base_path?>sites/all/themes/bluemobi/safari.css" type="text/css" rel="stylesheet" />
 <!--<![endif]>-->
 
 </head>
@@ -47,6 +48,8 @@
     <?php print $mobi_links; ?>
 </div>
  <?php } ?>
+
+<a name="top"></a>
 
 <?php if ($left) { ?>
 <div id="sidebar-left">
@@ -85,7 +88,9 @@
 <?php } ?>
 
 <!--<?php print $breadcrumb ?>-->
-
+<div>
+<a href="#top">&gt; Top</a>
+</div>
 <div id="footer">
 <div align="center"><?php
     $date = date('Y');

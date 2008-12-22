@@ -51,6 +51,10 @@ h1.title {
   font-size: 11pt;
 }
 
+.feed-item-body a {
+  word-break: break-all;
+}
+
 span.caption {
   display: block;
 }

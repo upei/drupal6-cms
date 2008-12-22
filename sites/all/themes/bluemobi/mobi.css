@@ -11,15 +11,16 @@ body {
   font-family: serif;
   font-size: 9pt;
 }
+
 p { margin-bottom: 1em; }
-a { text-decoration: none; font-weight: bold;}
+a { text-decoration: none; font-weight: bold; }
 a:link    { color: #6c1c00; }
 a:visited { color: #6c1c00; }
 a:hover   { color: #6c1c00; text-decoration: underline; }
 
 div.feed-item-body img {
   max-width: 200px;
-  max-height: 200px;
+  max-height: 300px;
   display: block;
   text-align: center;
 }
@@ -30,6 +31,7 @@ div.feed-item-body img {
 #header {
   background: #69c;
 }
+
 #header h1 {
 	margin: 0 0 0 1px;
 	padding: 0 0 0 36px;/* T R B L */
