@@ -88,6 +88,8 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	# Need to include fix-ie.css file explicitly
 	HTTRACK_OPTS="-O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -K4"
 	HTTRACK_OPTIONS="http://${source_site}/$bucket/sites/all/themes/upei_generic_v1/fix-ie.css
+      http://${source_site}/$bucket/hidden/links
+      +${source_site}/$bucket/link/*
 			-${source_site}/$bucket/files/*
 			-${source_site}/*/scrape/*
 			-${source_site}/*/field_email
@@ -205,7 +207,8 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/css/ --delete drupal@prinny.cs.upei.ca:${static_directory}/css/
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/js/ --delete drupal@prinny.cs.upei.ca:${static_directory}/js/
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/banner/ --delete drupal@prinny.cs.upei.ca:${static_directory}/banner/
-  
+  rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/misc/ --delete drupal@prinny.cs.upei.ca:${static_directory}/misc/ 
+ 
   
 	      echo `date` $1 rsync finished >> ${log_filename}
 	
