@@ -2,6 +2,19 @@
 
 function views_ajax_endpoint_views_plugins() {
   return array(
+    'display' => array(
+      'ajax_page' => array(
+        'title' => t('AJAX Page'),
+        'help' => t('Display the view as a AJAX page.'),
+        'handler' => 'views_plugin_display_ajax_page',
+        'parent' => 'page', // so it knows to load the page plugin .inc file
+        'uses hook menu' => TRUE,
+        'use ajax' => FALSE,
+        'use pager' => FALSE,
+        'accept attachments' => FALSE,
+        'admin' => t('AJAX Page'),
+      ),
+    ),
     'style' => array(
       'views_ajax_json' => array(
         'title' => t('AJAX JSON Endpoint'),
@@ -10,7 +23,7 @@ function views_ajax_endpoint_views_plugins() {
         'handler' => 'views_plugin_style_ajax_json',
         'uses row plugin' => true,
         'uses fields' => true,
-        'type' => 'normal',
+        'type' => 'ajax',
       ),
       
       'views_ajax_html' => array(
@@ -21,7 +34,7 @@ function views_ajax_endpoint_views_plugins() {
         'uses row plugin' => true,
         'uses fields' => true,
 		'uses options' => true,
-        'type' => 'normal',
+        'type' => 'ajax',
       ),
     ),
     
@@ -30,7 +43,7 @@ function views_ajax_endpoint_views_plugins() {
         'title' => t('Serialized'),
         'handler' => 'views_plugin_row_serialized',
         'uses fields' => true,
-        'type' => 'normal',
+        'type' => 'ajax',
       ),
     ),
   );

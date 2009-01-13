@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_mapper.module,v 1.1.2.7.2.9 2008/12/02 14:31:47 alexb Exp $
+// $Id: feedapi_mapper.module,v 1.1.2.7.2.13 2009/01/06 16:49:21 alexb Exp $
 
 /**
  * Implementation of hook_help().
@@ -96,8 +96,11 @@ function theme_feedapi_mapper_descriptions($descriptions) {
  *   FALSE otherwise.
  */
 function feedapi_mapper_access_mapper($node_type) {
-  if (feedapi_enabled_type($node_type) && user_access('administer feedapi')) {
-    return TRUE;
+  if (user_access('administer feedapi')) {
+    $settings = feedapi_get_settings(str_replace('-', '_', $node_type));
+    if (!empty($settings['processors']['feedapi_node']['enabled'])) {
+      return TRUE;
+    }
   }
   return FALSE;
 }
@@ -273,10 +276,10 @@ function _feedapi_mapper_store_mapping($param, $mapping, $elements) {
   }
   if (is_numeric($param)) {
     if (db_result(db_query('SELECT * FROM {feedapi_mapper} WHERE nid = %d', $param))) {
-      db_query('UPDATE {feedapi_mapper} SET mapping = "%s" WHERE nid = %d', serialize($stored_mapping), $param);
+      db_query('UPDATE {feedapi_mapper} SET mapping = \'%s\' WHERE nid = %d', serialize($stored_mapping), $param);
     }
     else {
-      db_query('INSERT INTO {feedapi_mapper} (nid, mapping) VALUES (%d, "%s")', $param, serialize($stored_mapping));
+      db_query('INSERT INTO {feedapi_mapper} (nid, mapping) VALUES (%d, \'%s\')', $param, serialize($stored_mapping));
     }
   }
   else if (is_string($param)) {
@@ -600,19 +603,32 @@ function _feedapi_mapper_get_node_form($node_type) {
 function _feedapi_mapper_get_field_names($node_type) {
   static $field_names;
   if (!is_array($field_names[$node_type])) {
-		$form = _feedapi_mapper_get_node_form($node_type);
+    $form = _feedapi_mapper_get_node_form($node_type);
 
     $node = (array)$form['#node'];
     $node['taxonomy'] = array();
     $fields = array_merge($form, $node);
 
-    foreach ($fields as $k => $v ) {
-      if (strpos($k, '#') === FALSE) {
-        $field_names[$node_type][] = $k;
-      }
-    }
+    $field_names[$node_type] = _feedapi_mapper_extract_names($fields);
     sort($field_names[$node_type]);
   }
   return $field_names[$node_type];
 }
 
+/**
+ * Recursively get the possible field names from the form structure.
+ */
+function _feedapi_mapper_extract_names($fields) {
+  $names = array();
+  foreach ($fields as $k => $v ) {
+    if (strpos($k, '#') === FALSE) {
+      if ($v['#type'] == 'fieldset') {
+        $names = array_merge($names, _feedapi_mapper_extract_names($v));
+      }
+      else {
+        $names[] = $k;
+      }
+    }
+  }
+  return $names;
+}

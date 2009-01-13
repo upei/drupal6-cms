@@ -1,0 +1,53 @@
+<?php
+// $Id: print_mail.install,v 1.1.2.2 2008/08/21 22:03:40 jcnventura Exp $
+
+/**
+ * @file
+ * Install file of the print_mail module
+ */
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function print_mail_uninstall() {
+  variable_del('print_mail_settings');
+  variable_del('print_mail_show_link');
+  variable_del('print_mail_link_pos');
+  variable_del('print_mail_node_link_visibility');
+  variable_del('print_mail_node_link_pages');
+  variable_del('print_mail_link_class');
+  variable_del('print_mail_sys_link_visibility');
+  variable_del('print_mail_sys_link_pages');
+  variable_del('print_mail_book_link');
+  variable_del('print_mail_hourly_threshold');
+  variable_del('print_mail_teaser_default');
+  variable_del('print_mail_teaser_choice');
+  $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'print\_mail\_display\_%'");
+  while ($variable = db_fetch_object($settings)) {
+    variable_del($variable->name);
+  }
+}
+
+/**
+ * Update to version 6.x-1.0
+ */
+function print_mail_update_6000() {
+  global $conf;
+
+  $ret = array();
+  if (isset($conf['print_mail_settings'])) {
+    $print_mail_settings = variable_get('print_mail_settings', '');
+    variable_set('print_mail_link_pos', array('link' => ($print_html_settings['show_link'] ? 'link' : 0) ));
+    variable_set('print_mail_show_link', max(1, $print_mail_settings['show_link']));
+    variable_set('print_mail_node_link_visibility', $print_mail_settings['node_link_visibility']);
+    variable_set('print_mail_node_link_pages', $print_mail_settings['node_link_pages']);
+    variable_set('print_mail_link_class', $print_mail_settings['link_class']);
+    variable_set('print_mail_sys_link_visibility', $print_mail_settings['sys_link_visibility']);
+    variable_set('print_mail_sys_link_pages', $print_mail_settings['sys_link_pages']);
+    variable_set('print_mail_book_link', $print_mail_settings['book_link']);
+    variable_set('print_mail_teaser_default', $print_mail_settings['teaser_default']);
+    variable_set('print_mail_teaser_choice', $print_mail_settings['teaser_choice']);
+    variable_del('print_mail_settings');
+  }
+  return $ret;
+}

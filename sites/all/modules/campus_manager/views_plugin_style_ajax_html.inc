@@ -37,8 +37,8 @@ class views_plugin_style_ajax_html extends views_plugin_style_ajax {
 			}
 		}
 		drupal_set_header('Content-type: text/html; charset=utf-8');
-		print $__output;
-		exit;
+		
+		return $__output;
 	}
 }
 

@@ -87,8 +87,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 
 	# Need to include fix-ie.css file explicitly
 	HTTRACK_OPTS="-O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -K4"
-	HTTRACK_OPTIONS="http://${source_site}/$bucket/sites/all/themes/upei_generic_v1/fix-ie.css
-      http://${source_site}/$bucket/hidden/links
+	HTTRACK_OPTIONS="http://${source_site}/$bucket/hidden/links
       +${source_site}/$bucket/link/*
 			-${source_site}/$bucket/files/*
 			-${source_site}/*/scrape/*

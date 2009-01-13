@@ -21,13 +21,13 @@ class views_plugin_style_ajax extends views_plugin_style {
         }
         $rows[] = $fields;
       }
-			$output[] = array(
-				'title' => $title,
-				'rows' => $rows,
-			);
+      $output[] = array(
+        'title' => $title,
+        'rows' => $rows,
+      );
     }
-
-		return $output;
+    return $output;
   }
+
 }
 
