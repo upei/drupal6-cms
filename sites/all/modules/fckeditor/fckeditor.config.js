@@ -33,6 +33,7 @@ FCKConfig.ToolbarSets['DrupalFull'] = [
 ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
 ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 ['JustifyLeft','JustifyCenter','JustifyRight'],
+['DrupalBreak','SpellCheck'],
 /* 
  * EXPERIMENTAL
  * Uncomment the line below to enable linktonode and linktomenu buttons
@@ -68,7 +69,7 @@ FCKConfig.ToolbarSets['DrupalFiltered'] = [
  */
 //['Link','Unlink','LinkToNode','LinkToMenu','Anchor'],
 ['Link','Unlink','Anchor'],
-['Image','Flash','Table','Rule','Smiley','SpecialChar'],
+['Image','Flash','Table','Rule','Smiley','SpecialChar','SpellCheck'],
 '/',
 ['FontFormat'],
 ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],

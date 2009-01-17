@@ -1,2 +1,12 @@
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('(7(A){A.n.z=7(B){y d.j(7(){f 3=A(d);f h=A.n.x(3,B.4.w||"m");f c=B.4.v||5;b(h=="g"){c--}b(3.u(":t")){3.s("6",0);3.m();3.a({6:1},B.9/2,B.4.8);c=c-2}r(f C=0;C<c;C++){3.a({6:0},B.9/2,B.4.8).a({6:1},B.9/2,B.4.8)}b(h=="g"){3.a({6:0},B.9/2,B.4.8,7(){3.g();b(B.e){B.e.l(d,k)}})}q{3.a({6:0},B.9/2,B.4.8).a({6:1},B.9/2,B.4.8,7(){b(B.e){B.e.l(d,k)}})}3.j("p",7(){3.i()});3.i()})}})(o)',39,39,'|||D|options||opacity|function|easing|duration|animate|if|E|this|callback|var|hide|F|dequeue|queue|arguments|apply|show|effects|jQuery|fx|else|for|css|hidden|is|times|mode|setMode|return|pulsate|||'.split('|'),0,{}))
-
+/*
+ * jQuery UI Effects Pulsate 1.6rc4
+ *
+ * Copyright (c) 2008 AUTHORS.txt (http://ui.jquery.com/about)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * http://docs.jquery.com/UI/Effects/Pulsate
+ *
+ * Depends:
+ *	effects.core.js
+ */eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(a(A){A.j.u=a(B){w e.n(a(){f 3=A(e);f h=A.j.s(3,B.4.y||"k");f b=B.4.v||5;c(h=="g"){b--}c(3.r(":q")){3.o("6",0);3.k();3.8({6:1},B.9/2,B.4.7);b=b-2}t(f C=0;C<b;C++){3.8({6:0},B.9/2,B.4.7).8({6:1},B.9/2,B.4.7)}c(h=="g"){3.8({6:0},B.9/2,B.4.7,a(){3.g();c(B.d){B.d.m(e,i)}})}z{3.8({6:0},B.9/2,B.4.7).8({6:1},B.9/2,B.4.7,a(){c(B.d){B.d.m(e,i)}})}3.n("x",a(){3.l()});3.l()})}})(p)',39,39,'|||D|options||opacity|easing|animate|duration|function|E|if|callback|this|var|hide|F|arguments|effects|show|dequeue|apply|queue|css|jQuery|hidden|is|setMode|for|pulsate|times|return|fx|mode|else|||'.split('|'),0,{}))

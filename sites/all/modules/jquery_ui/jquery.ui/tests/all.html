@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 	<title>jQuery UI All Tests</title>
-	<link rel="stylesheet" href="qunit/testsuite.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="qunit/testsuite.css" type="text/css">
 
 	<script type="text/javascript" src="../jquery-1.2.6.js"></script>
 	<script type="text/javascript" src="../ui/ui.core.js"></script>
 	<script type="text/javascript" src="../ui/ui.accordion.js"></script>
-	<script type="text/javascript" src="../ui/ui.autocomplete.js"></script>
 	<script type="text/javascript" src="../ui/ui.datepicker.js"></script>
 	<script type="text/javascript" src="../ui/ui.dialog.js"></script>
 	<script type="text/javascript" src="../ui/ui.draggable.js"></script>
@@ -17,14 +16,13 @@
 	<script type="text/javascript" src="../ui/ui.selectable.js"></script>
 	<script type="text/javascript" src="../ui/ui.slider.js"></script>
 	<script type="text/javascript" src="../ui/ui.sortable.js"></script>
-	<script type="text/javascript" src="../ui/ui.spinner.js"></script>
 	<script type="text/javascript" src="../ui/ui.tabs.js"></script>
-	
+
 	<script type="text/javascript" src="qunit/testrunner.js"></script>
 	<script type="text/javascript" src="simulate/jquery.simulate.js"></script>
+	<script type="text/javascript" src="plugins/cookie/jquery.cookie.js"></script>
 
 	<script type="text/javascript" src="accordion.js"></script>
-	<script type="text/javascript" src="autocomplete.js"></script>
 	<script type="text/javascript" src="datepicker.js"></script>
 	<script type="text/javascript" src="dialog.js"></script>
 	<script type="text/javascript" src="draggable.js"></script>
@@ -33,15 +31,17 @@
 	<script type="text/javascript" src="selectable.js"></script>
 	<script type="text/javascript" src="slider.js"></script>
 	<script type="text/javascript" src="sortable.js"></script>
-	<script type="text/javascript" src="spinner.js"></script>
+	<script type="text/javascript" src="tabs.js"></script>
 
 	<style type="text/css">
-		@import "../themes/flora/flora.datepicker.css";
-		.xerror, .error { display: none }
+		@import "../themes/default/ui.datepicker.css";
+		.xerror, .error, .ui-tabs-hide {
+		    display: none;
+		}
 	</style>
 
 </head>
-<body class="flora">
+<body>
 	<h1>jQuery UI All Tests</h1>
 	<h2 id="banner"></h2>
 	<h2 id="userAgent"></h2>
@@ -49,7 +49,6 @@
 	<h4>Run individual testsuites or doubleclick a test below</h4>
 	<ul>
 		<li><a href="accordion.html">Accordion</a></li>
-		<li><a href="autocomplete.html">Autocomplete</a></li>
 		<li><a href="datepicker.html">Datepicker</a></li>
 		<li><a href="dialog.html">Dialog</a></li>
 		<li><a href="draggable.html">Draggable</a></li>
@@ -57,7 +56,7 @@
 		<li><a href="selectable.html">Selectable</a></li>
 		<li><a href="slider.html">Slider</a></li>
 		<li><a href="sortable.html">Sortable</a></li>
-		<li><a href="spinner.html">Spinner</a></li>
+		<li><a href="tabs.html">Tabs</a></li>
 	</ul>
 
 	<ol id="tests"></ol>
@@ -70,8 +69,8 @@
 	<div id="draggable2" style="background: green; width: 200px; height: 100px; position: absolute; top: 10px; left: 10px;"><span>Absolute</span></div>
 
 	<div id="slider1"></div>
-	<div id="slider3" style="position: relative; margin: 40px; width: 217px; height: 28px; background: url(http://developer.yahoo.com/yui/examples/slider/assets/bg-fader.gif) no-repeat scroll 5px 0px;">
-		<div class="ui-slider-handle" style="position: absolute; height: 21px; left: 0px; bottom: 0px; width: 17px; background-image: url(http://developer.yahoo.com/yui/examples/slider/assets/thumb-n.gif);"></div>
+	<div id="slider3" style="position: relative; margin: 40px; width: 217px; height: 28px;">
+		<div class="ui-slider-handle" style="position: absolute; height: 21px; left: 0px; bottom: 0px; width: 17px;"></div>
 	</div>
 
 	<div id="list1">
@@ -150,7 +149,7 @@
 			Cool kids are blue.
 		</dd>
 	</dl>
-	
+
 	<div id="list3">
 		<div>
 			<div class="title">Tennis</div>
@@ -198,11 +197,28 @@
 
 	<p><input type="text" id="inp"/><input type="text" id="alt"/><div id="inl"></div></p>
 
-	<input type="text" name="autocomplete" value="" id="autocomplete">
-
 	<input type="text" id="spin" />
 
 	<div id="progressbar"></div>
+
+    <div id="tabs1">
+		<ul>
+			<li><a href="#fragment-1">1</a></li>
+			<li><a href="#fragment-2">2</a></li>
+			<li><a href="#fragment-3">3</a></li>
+		</ul>
+		<div id="fragment-1"></div>
+		<div id="fragment-2"></div>
+		<div id="fragment-3"></div>
+	</div>
+	<div id="tabs2">
+		<ul>
+			<li><a href="#colon:test">1</a></li>
+			<li><a href="#inline-style">2</a></li>
+		</ul>
+		<div id="colon:test"></div>
+		<div style="height: 300px;" id="inline-style"></div>
+	</div>
 
 </div>
 	</body>

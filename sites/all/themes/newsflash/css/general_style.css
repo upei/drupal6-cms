@@ -24,6 +24,7 @@ tr.even {
     }
 
 tr.odd{}
+
 a:link,
 a:visited,
 a:hover,
@@ -35,6 +36,7 @@ a:hover,
 #forum td .name,
 div.admin-panel .description {
   color: #43590E;
+  border-bottom:0px;
 }
 
 
@@ -241,8 +243,8 @@ list-style-type:decimal;
 
 /* This overrides the button images inside the editor to take away the spacing */
 .mceEditor img{margin:0px;}
-tr.odd{background-color:#feefd9;}
-tr.even{background-color:#feeacb;}
+tr.odd{background-color:#efefef;}
+tr.even{background-color:#ffffff;}
 
 /*tr.even, tr.odd{border-bottom: 2px solid #ffffff;}*/
 tr.even td, tr.odd td{border: 2px solid #ffffff;}
@@ -291,7 +293,10 @@ border-bottom: 1px solid #ccc;
 #primarymenu{padding-top:0px;}
 
 .view-faculty .views-field-title, .view-Faculty .views-field-title, .view-staff .views-field-title
-{padding:3px;font-size:16px;border:1px solid #aaa;}
+{padding:3px;font-size:16px;border:1px solid #aaa;font-weight:bold;text-decoration:underline;}
+
+
+
 
 .view-faculty .views-field-teaser, .view-Faculty .views-field-teaser, .view-staff .views-field-teaser
 {width:400px;}

@@ -349,7 +349,7 @@ class CampusEmergencyReceiver {
   }
   
   function attachCSS() {
-    drupal_add_css(drupal_get_path('module', 'campus_emergency') . "/campus_emergency.css");
+    drupal_add_css(drupal_get_path('module', 'campus_emergency') . "/campus_emergency.css", 'module');
   }
   
   function attachJavascript() {

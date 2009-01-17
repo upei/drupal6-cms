@@ -87,6 +87,8 @@ function _campus_management_menu_overview_page() {
 //*******************************************************
 function _campus_management_updateable_content() {
   $site = explode("/", request_uri());
+  $order = intval(trim($_REQUEST['_order']));
+  $order = ($order == '0') ? 'DESC' : 'ASC';
   $bucket = $site[1];
   $page_content = "<table>\n";
   $page_content .= "<tr><th>Title</th><th width=\"75\">Type</th><th  width=\"75\" style=\"text-align:center;\">Published?</th><th width=\"75\" >Edit</th></tr>\n";

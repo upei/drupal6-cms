@@ -5,6 +5,13 @@
 //
 // Selectable Test Helper Functions
 //
+
+var defaults = {
+	autoRefresh: true,
+	disabled: false,
+	filter: '*'
+};
+
 var el;
 
 var drag = function(dx, dy) {
@@ -27,62 +34,56 @@ module("selectable");
 test("init", function() {
 	expect(6);
 
-	$("#selectable1").selectable().remove();
+	$("<div></div>").appendTo('body').selectable().remove();
 	ok(true, '.selectable() called on element');
 
 	$([]).selectable().remove();
 	ok(true, '.selectable() called on empty collection');
 
-	$("<div/>").selectable().remove();
+	$("<div></div>").selectable().remove();
 	ok(true, '.selectable() called on disconnected DOMElement');
 
-	$("<div/>").selectable().selectable("foo").remove();
+	$("<div></div>").selectable().selectable("foo").remove();
 	ok(true, 'arbitrary method called after init');
 
-	el = $("<div/>").selectable()
+	el = $("<div></div>").selectable()
 	var foo = el.data("foo.selectable");
 	el.remove();
 	ok(true, 'arbitrary option getter after init');
 
-	$("<div/>").selectable().data("foo.selectable", "bar").remove();
+	$("<div></div>").selectable().data("foo.selectable", "bar").remove();
 	ok(true, 'arbitrary option setter after init');
 });
 
 test("destroy", function() {
 	expect(6);
 
-	$("#selectable1").selectable().selectable("destroy").remove();
+	$("<div></div>").appendTo('body').selectable().selectable("destroy").remove();
 	ok(true, '.selectable("destroy") called on element');
 
 	$([]).selectable().selectable("destroy").remove();
 	ok(true, '.selectable("destroy") called on empty collection');
 
-	$("<div/>").selectable().selectable("destroy").remove();
+	$("<div></div>").selectable().selectable("destroy").remove();
 	ok(true, '.selectable("destroy") called on disconnected DOMElement');
 
-	$("<div/>").selectable().selectable("destroy").selectable("foo").remove();
+	$("<div></div>").selectable().selectable("destroy").selectable("foo").remove();
 	ok(true, 'arbitrary method called after destroy');
 
-	el = $("<div/>").selectable();
+	el = $("<div></div>").selectable();
 	var foo = el.selectable("destroy").data("foo.selectable");
 	el.remove();
 	ok(true, 'arbitrary option getter after destroy');
 
-	$("<div/>").selectable().selectable("destroy").data("foo.selectable", "bar").remove();
+	$("<div></div>").selectable().selectable("destroy").data("foo.selectable", "bar").remove();
 	ok(true, 'arbitrary option setter after destroy');
 });
 
 test("defaults", function() {
-	el = $('#selectable1').selectable();
-	var defaults = {
-		autoRefresh: true,
-		filter: '*'
-	};
+	el = $('<div></div>').selectable();
 	$.each(defaults, function(key, val) {
-		var actual = el.data(key + ".selectable"), expected = val,
-			method = (expected && expected.constructor == Object) ?
-				compare2 : equals;
-		method(actual, expected, key);
+		var actual = el.data(key + ".selectable"), expected = val;
+		same(actual, expected, key);
 	});
 	el.remove();
 });
@@ -161,18 +162,6 @@ test("enable", function() {
 	el.selectable("enable");
 	el.simulate("drag", 20, 20);
 	equals(fired, true, "start fired");
-	el.selectable("destroy");
-});
-
-test("toggle", function() {
-	expect(2);
-
-	el = $("#selectable1").selectable({ disabled: true }).selectable("toggle");
-	equals(el.data("disabled.selectable"), false, "disabled -> enabled");
-	el.selectable("destroy");
-
-	el = $("#selectable1").selectable({ disabled: false }).selectable("toggle");
-	equals(el.data("disabled.selectable"), true, "enabled -> disabled");
 	el.selectable("destroy");
 });
 

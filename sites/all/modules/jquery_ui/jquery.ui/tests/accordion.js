@@ -10,7 +10,7 @@ jQuery.ui.accordion.defaults.animated = false;
 function state(accordion) {
 	var args = $.makeArray(arguments).slice(1);
 	$.each(args, function(i, n) {
-		equals(accordion.find("div").eq(i).is(":visible"), n);
+		equals(accordion.find(".ui-accordion-content").parent().eq(i).is(":visible"), n);
 	});
 }
 
@@ -23,14 +23,14 @@ test("basics", function() {
 });
 
 test("autoheight", function() {
-	$('#navigation').accordion({ header: '.head', autoHeight: false });
-	equals( 90, $('#navigation ul:first').height() );
-	equals( 126, $('#navigation ul:eq(1)').height() );
-	equals( 54, $('#navigation ul:last').height() );
-	$('#navigation').accordion("destroy").accordion({ header: '.head', autoHeight: true });
-	equals( 126, $('#navigation ul:first').height() );
-	equals( 126, $('#navigation ul:eq(1)').height() );
-	equals( 126, $('#navigation ul:last').height() );
+	$('#navigation').accordion({ autoHeight: false });
+	equals( 90, $('#navigation div:first').height() );
+	equals( 126, $('#navigation div:eq(1)').height() );
+	equals( 54, $('#navigation div:last').height() );
+	$('#navigation').accordion("destroy").accordion({ autoHeight: true });
+	equals( 126, $('#navigation div:first').height() );
+	equals( 126, $('#navigation div:eq(1)').height() );
+	equals( 126, $('#navigation div:last').height() );
 });
 
 test("activate, numeric", function() {
@@ -67,7 +67,7 @@ test("activate, boolean, alwaysOpen:true", function() {
 });
 
 test("activate, string expression", function() {
-	var ac = $('#list1').accordion({ active: ":last" });
+	var ac = $('#list1').accordion({ active: "a:last" });
 	state(ac, 0, 0, 1);
 	ac.accordion("activate", ":first");
 	state(ac, 1, 0, 0);
@@ -89,12 +89,12 @@ test("activate, jQuery or DOM element", function() {
 function state2(accordion) {
 	var args = $.makeArray(arguments).slice(1);
 	$.each(args, function(i, n) {
-		equals(accordion.find("ul").eq(i).is(":visible"), n);
+		equals(accordion.find("div").eq(i).is(":visible"), n);
 	});
 }
 
 test("handle click on header-descendant", function() {
-	var ac = $('#navigation').accordion({ header: '.head', autoHeight: false })
+	var ac = $('#navigation').accordion({ autoHeight: false })
 	ac.triggerEvent("click", $('#navigation span:contains(Bass)')[0]);
 	state2(ac, 0, 1, 0);
 });
@@ -128,5 +128,23 @@ test("accordionchange event, open closed and close again", function() {
 	})
 	.accordion("activate", 0);
 });
+
+test("accessibility", function () {
+	expect(9);
+	var ac = $('#list1').accordion().accordion("activate", 1);
+	var headers = $(".ui-accordion-header");
+
+	equals( headers.eq(1).attr("tabindex"), "0", "active header should have tabindex=0");
+	equals( headers.eq(0).attr("tabindex"), "-1", "inactive header should have tabindex=-1");
+	equals( ac.attr("role"), "tablist", "main role");
+	equals( headers.attr("role"), "tab", "tab roles");
+	equals( headers.next().attr("role"), "tabpanel", "tabpanel roles");
+	equals( headers.eq(1).attr("aria-expanded"), "true", "active tab has aria-expanded");
+	equals( headers.eq(0).attr("aria-expanded"), "false", "inactive tab has aria-expanded");
+	ac.accordion("activate", 0);
+	equals( headers.eq(0).attr("aria-expanded"), "true", "newly active tab has aria-expanded");
+	equals( headers.eq(1).attr("aria-expanded"), "false", "newly inactive tab has aria-expanded");
+});
+
 
 })(jQuery);

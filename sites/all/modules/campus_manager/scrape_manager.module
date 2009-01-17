@@ -188,10 +188,11 @@ EOF;
   
   function scrapeSection() {
     $site = trim($_REQUEST['uri']);
+    $site = explode('/', $site);
     
     $url = url('scrape/endpoint', array(
       'query' => array(
-        'arg1' => substr($site, 1),
+        'arg1' => "{$site[1]}/{$site[2]}",
         ),
       )
     );
@@ -271,14 +272,17 @@ final class ScrapeBlock extends DrupalBlockBase {
     // scrape section
     if (user_access(ScrapeManager::$PERM_SECTION)) {
       $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/minegolive.jpg\" alt=\"Scrape Section\"/>";
-      $block_content .= l($image, 'scrape/section',
-        array(
-          'query' => array(
-            'uri' => request_uri(),
-            ),
-          'html' => true,
-          )
-      );
+      // make sure section scrape does not appear when it is under admin
+      if ($site[2] != 'admin') {
+        $block_content .= l($image, 'scrape/section',
+          array(
+            'query' => array(
+              'uri' => request_uri(),
+              ),
+            'html' => true,
+            )
+        );
+      }
     }
     
 	// scrape page

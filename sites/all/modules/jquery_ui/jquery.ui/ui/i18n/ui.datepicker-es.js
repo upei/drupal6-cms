@@ -15,11 +15,11 @@ jQuery(function($){
 		'Jul','Ago','Sep','Oct','Nov','Dic'],
 		monthStatus: '', yearStatus: '',
 		weekHeader: 'Sm', weekStatus: '',
-		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;dabo'],
+		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
 		dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
 		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
 		dayStatus: 'DD', dateStatus: 'D, M d',
-		dateFormat: 'dd/mm/yy', firstDay: 0, 
+		dateFormat: 'dd/mm/yy', firstDay: 0,
 		initStatus: '', isRTL: false};
 	$.datepicker.setDefaults($.datepicker.regional['es']);
 });

@@ -1,2 +1,12 @@
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('(c(A){A.4.U=c(B){T i.S(c(){3 E=A(i),J=["R","Q","P"];3 G=A.4.O(E,B.7.z||"b");3 N=B.7.y||x;3 M=!(!B.7.w);A.4.v(E,J);E.8();3 D=A.4.u(E).h({t:"s"});3 H=((G=="8")!=M);3 F=H?["5","6"]:["6","5"];3 C=H?[D.5(),D.6()]:[D.6(),D.5()];3 I=/([0-9]+)%/.r(N);a(I){N=q(I[1])/p*C[G=="b"?0:1]}a(G=="8"){D.h(M?{6:0,5:N}:{6:N,5:0})}3 L={},K={};L[F[0]]=G=="8"?C[0]:N;K[F[1]]=G=="8"?C[1]:0;D.g(L,B.f/2,B.7.e).g(K,B.f/2,B.7.e,c(){a(G=="b"){E.b()}A.4.o(E,J);A.4.n(E);a(B.d){B.d.m(E[0],l)}E.k()})})}})(j)',57,57,'|||var|effects|width|height|options|show||if|hide|function|callback|easing|duration|animate|css|this|jQuery|dequeue|arguments|apply|removeWrapper|restore|100|parseInt|exec|hidden|overflow|createWrapper|save|horizFirst|15|size|mode|||||||||||||||setMode|left|top|position|queue|return|fold'.split('|'),0,{}))
-
+/*
+ * jQuery UI Effects Fold 1.6rc4
+ *
+ * Copyright (c) 2008 AUTHORS.txt (http://ui.jquery.com/about)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * http://docs.jquery.com/UI/Effects/Fold
+ *
+ * Depends:
+ *	effects.core.js
+ */eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(a(A){A.5.z=a(B){w i.v(a(){3 E=A(i),J=["P","S","t"];3 G=A.5.R(E,B.7.Q||"c");3 N=B.7.U||r;3 M=!(!B.7.m);A.5.n(E,J);E.8();3 D=A.5.p(E).h({s:"o"});3 H=((G=="8")!=M);3 F=H?["4","6"]:["6","4"];3 C=H?[D.4(),D.6()]:[D.6(),D.4()];3 I=/([0-9]+)%/.q(N);b(I){N=k(I[1])/l*C[G=="c"?0:1]}b(G=="8"){D.h(M?{6:0,4:N}:{6:N,4:0})}3 L={},K={};L[F[0]]=G=="8"?C[0]:N;K[F[1]]=G=="8"?C[1]:0;D.f(L,B.e/2,B.7.g).f(K,B.e/2,B.7.g,a(){b(G=="c"){E.c()}A.5.T(E,J);A.5.O(E);b(B.d){B.d.u(E[0],x)}E.y()})})}})(j)',57,57,'|||var|width|effects|height|options|show||function|if|hide|callback|duration|animate|easing|css|this|jQuery|parseInt|100|horizFirst|save|hidden|createWrapper|exec|15|overflow|left|apply|queue|return|arguments|dequeue|fold|||||||||||||||removeWrapper|position|mode|setMode|top|restore|size'.split('|'),0,{}))

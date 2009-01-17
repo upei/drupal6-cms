@@ -25,8 +25,9 @@
  if ($field_award_faculty[0][view]) {$award_faculty = $field_award_faculty[0][view];}else {$award_faculty = "No Restrictions by Faculty";}
  if ($field_award_major[0][view]) {$award_major =  $field_award_major[0][view];}else {$award_major = "No Restrictions by Major";}
  if ($field_award_deadline[0][view]) {$award_deadline =  $field_award_deadline[0][view];} else {$award_deadline = "N/A";}
- if ($field_award_app_link[0][view]){$award_app_link =  "<a href=\"" . $field_award_app_link[0][view] . "\">Application Form</a>";} else {$award_app_link = "No Application Form";}
-
+ if (preg_match('|^http://|', $field_award_app_link[0][view])){$award_app_link =  "<a href=\"" . $field_award_app_link[0][view] . "\">Application Form</a>";} 
+ else if (!empty($field_award_app_link[0]['view'])) { $award_app_link = $field_award_app_link[0]['view']; }
+ else {$award_app_link = "No Application Form";}
 print $field_responsibility[0]['label_text'];
   ?>
 
@@ -61,7 +62,7 @@ print $field_responsibility[0]['label_text'];
 	<td style="padding-top:10px;"><? print $award_process; ?></td>
   </tr>
 </table>
-<h2><a href="http://upei.ca/studentservices/award">Return to UPEI Awards List</a> </h2>
+<h2><a href="http://cms.upei.ca/studentservices/award/entering-upei">Return to UPEI Scholarship main List</a> </h2>
   </div>
   <div class="clear-block clear"></div>
 
