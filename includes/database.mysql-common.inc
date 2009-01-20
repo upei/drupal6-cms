@@ -60,7 +60,7 @@ function db_query($query) {
 function db_create_table_sql($name, $table) {
 
   if (empty($table['mysql_suffix'])) {
-    $table['mysql_suffix'] = "/*!40100 DEFAULT CHARACTER SET UTF8 */ ENGINE=InnoDB";
+    $table['mysql_suffix'] = "/*!40100 DEFAULT CHARACTER SET UTF8 */";
   }
 
   $sql = "CREATE TABLE {". $name ."} (\n";
