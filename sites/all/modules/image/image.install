@@ -1,27 +1,27 @@
 <?php
-// $Id: image.install,v 1.15 2008/01/06 22:15:24 drewish Exp $
+// $Id: image.install,v 1.17 2009/01/13 09:32:25 drewish Exp $
 
 /**
  * Implementation of hook_schema().
  */
 function image_schema() {
   $schema['image'] = array(
-    'description' => t('Stores image files information.'),
+    'description' => 'Stores image files information.',
     'fields' => array(
       'nid' => array(
-        'description' => t('Primary Key: The {node}.nid of the image node.'),
+        'description' => 'Primary Key: The {node}.nid of the image node.',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ),
       'fid' => array(
-        'description' => t('Index: The {files}.fid of the image file.'),
+        'description' => 'Index: The {files}.fid of the image file.',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ),
       'image_size' => array(
-        'description' => t('Primary Key: The {files}.filename of the image file.  For image module this indicates the file size.'),
+        'description' => 'Primary Key: The {files}.filename of the image file. For image module this indicates the file size.',
         'type' => 'varchar',
         'length' => 32,
         'not null' => TRUE,
@@ -61,15 +61,15 @@ function image_requirements($phase) {
     // Make sure we've got a working toolkit
     if ($toolkit = image_get_toolkit()) {
       $requirements['image_toolkit'] = array(
-        'value' => t('The %toolkit-name toolkit is installed', array('%toolkit-name' => $toolkit)),
+        'value' => t('The %toolkit_name toolkit is installed.', array('%toolkit_name' => $toolkit)),
         'severity' => REQUIREMENT_OK,
       ); 
     }
     else {
       $requirements['image_toolkit'] = array(
-        'value' => t('Not installed'),
+        'value' => t('Not installed.'),
         'severity' => REQUIREMENT_ERROR,
-        'description' => t('No image toolkit is currently enabled. Without one the image module will not be able to resize your images. You can select one from the <a href="!link">image toolkit settings page</a>.', array('!link' => url('admin/settings/image-toolkit'))),
+        'description' => t('No image toolkit is currently enabled. Without one the image module will not be able to resize your images. You can select one from the <a href="@link">image toolkit settings page</a>.', array('@link' => url('admin/settings/image-toolkit'))),
       );
     }
     $requirements['image_toolkit']['title'] = t('Image toolkit');
@@ -80,21 +80,21 @@ function image_requirements($phase) {
     $temp_path = rtrim($image_path, '/') .'/temp';
     if (!file_check_directory($image_path, FILE_CREATE_DIRECTORY)) {
       $requirements['image_dirs'] = array(
-        'value' => t('Missing directory'),
+        'value' => t('Missing directory.'),
         'severity' => REQUIREMENT_ERROR,
-        'description' => t("The image module's image directory %image-dir is missing.", array('%image-dir' => $image_path)),
+        'description' => t("The image module's image directory %image_dir is missing.", array('%image_dir' => $image_path)),
       );
     }
     else if (!file_check_directory($temp_path, FILE_CREATE_DIRECTORY)) {
       $requirements['image_dirs'] = array(
-        'value' => t('Missing temp directory'),
+        'value' => t('Missing temp directory.'),
         'severity' => REQUIREMENT_ERROR,
-        'description' => t("The image module's temp directory %temp-dir is missing.", array('%temp-dir' => $temp_path)),
+        'description' => t("The image module's temp directory %temp_dir is missing.", array('%temp_dir' => $temp_path)),
       );
     }
     else {
       $requirements['image_dirs'] = array(
-        'value' => t('Exists (%path)', array('%path' => $image_path)),
+        'value' => t('Exists (%path).', array('%path' => $image_path)),
         'severity' => REQUIREMENT_OK,
       );
     }
@@ -186,7 +186,7 @@ function image_update_5() {
   if ($old_sizes = variable_get('image_sizes', FALSE)) {
     // Make sure all the required sizes are represented.
     if (!isset($old_sizes[IMAGE_ORIGINAL])) {
-      drupal_set_message(t("The original image size was missing so no changes were made. See this <a href='!link'>image module issue</a> for more information. Include the following:<br /><pre>@old_sizes\n</pre>", array('!link' => url('http://drupal.org/node/158334'), '@old_sizes' => print_r($old_sizes, 1))), 'error');
+      drupal_set_message(t("The original image size was missing so no changes were made. See this <a href='@link'>image module issue</a> for more information. Include the following:<br /><pre>@old_sizes\n</pre>", array('@link' => 'http://drupal.org/node/158334', '@old_sizes' => print_r($old_sizes, 1))), 'error');
       return array();
     }
     // These sizes may already exist under incorrect keys. We'll put a default

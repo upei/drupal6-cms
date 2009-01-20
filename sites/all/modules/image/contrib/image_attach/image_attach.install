@@ -1,21 +1,21 @@
 <?php
-// $Id: image_attach.install,v 1.12 2008/01/06 22:15:24 drewish Exp $
+// $Id: image_attach.install,v 1.13 2009/01/13 09:32:25 drewish Exp $
 
 /**
  * Implementation of hook_schema().
  */
 function image_attach_schema() {
   $schema['image_attach'] = array(
-    'description' => t('Stores the image/node relationship.'),
+    'description' => 'Stores the image/node relationship.',
     'fields' => array(
       'nid' => array(
-        'description' => t('Primary Key: The {node}.nid of the node.'),
+        'description' => 'Primary Key: The {node}.nid of the node.',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ),
       'iid' => array(
-        'description' => t('TODO'),
+        'description' => 'TODO',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,

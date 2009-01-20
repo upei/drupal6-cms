@@ -1,4 +1,4 @@
-// $Id: img_assist_tinymce.js,v 1.3.4.1 2008/07/18 22:54:36 sun Exp $
+// $Id: img_assist_tinymce.js,v 1.3.4.3 2009/01/18 04:10:37 sun Exp $
 /**
  * This javascript file allows img_assist to work with TinyMCE via the
  * drupalimage plugin for TinyMCE.
@@ -18,26 +18,21 @@
 // get variables that were passed to this window from the tinyMCE editor
 var nid, captionTitle, captionDesc, link, url, align, width, height;
 
-function preinit() {
-  tinyMCE.setWindowArg('mce_windowresize', false);
-  tinyMCE.setWindowArg('mce_replacevariables', false);
-}
-
 function initLoader() {
-  nid          =      tinyMCE.getWindowArg('nid');
-  captionTitle = '' + tinyMCE.getWindowArg('captionTitle');
-  captionDesc  = '' + tinyMCE.getWindowArg('captionDesc');
-  link         = '' + tinyMCE.getWindowArg('link');
-  url          = '' + tinyMCE.getWindowArg('url');
-  align        = '' + tinyMCE.getWindowArg('align');
-  width        = '' + tinyMCE.getWindowArg('width');
-  height       = '' + tinyMCE.getWindowArg('height');
+  nid          =      tinyMCEPopup.getWindowArg('nid');
+  captionTitle = '' + tinyMCEPopup.getWindowArg('captionTitle');
+  captionDesc  = '' + tinyMCEPopup.getWindowArg('captionDesc');
+  link         = '' + tinyMCEPopup.getWindowArg('link');
+  url          = '' + tinyMCEPopup.getWindowArg('url');
+  align        = '' + tinyMCEPopup.getWindowArg('align');
+  width        = '' + tinyMCEPopup.getWindowArg('width');
+  height       = '' + tinyMCEPopup.getWindowArg('height');
 
   if (nid > 0) {
-    frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/properties/' + nid + '/update';
+    frames['img_assist_main'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/properties/' + nid + '/update';
   }
   else {
-    frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/thumbs/img_assist_browser';
+    frames['img_assist_main'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/thumbs/img_assist_browser';
   }
 }
 
@@ -98,6 +93,7 @@ function getFilterTag(formObj) {
   align        = formObj['edit-align'].value;
   width        = formObj['edit-width'].value;
   height       = formObj['edit-height'].value;
+  var size     = formObj['edit-size-label'].value;
   
   // Create the image placeholder tag
   // @see TinyMCE_drupalimage_cleanup() in drupalimage plugin.
@@ -107,7 +103,7 @@ function getFilterTag(formObj) {
     miscAttribs += '|url=' + url;
   }
   miscAttribs = encodeURIComponent(miscAttribs);
-  var content = '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '"'
+  var content = '<img src="' + Drupal.settings.basePath + 'index.php?q=image/view/' + nid + '"'
               + ' width="' + width + '" height="' + height + '" align="' + align + '"'
               + ' alt="' + miscAttribs + '" title="' + miscAttribs + '"'
               + ' name="mceItemDrupalImage" class="mceItemDrupalImage" />';
@@ -117,8 +113,7 @@ function getFilterTag(formObj) {
 
 function insertToEditor(content) {
   // Insert the image
-  tinyMCE.execCommand("mceInsertContent", true, content);
-  tinyMCE.selectedInstance.repaint();
+  tinyMCEPopup.editor.execCommand('mceInsertContent', false, content);
   
   // Close the dialog
   tinyMCEPopup.close();
@@ -130,5 +125,3 @@ function cancelAction() {
   tinyMCEPopup.close();
 }
 
-// While loading
-preinit();

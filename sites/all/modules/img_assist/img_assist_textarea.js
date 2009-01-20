@@ -1,4 +1,4 @@
-// $Id: img_assist_textarea.js,v 1.4.4.1 2008/07/18 22:54:36 sun Exp $
+// $Id: img_assist_textarea.js,v 1.4.4.2 2008/12/25 19:15:08 sun Exp $
 /**
  * This javascript file allows img_assist to work with a plain textarea.
  * This file is used instead of img_assist_tinymce.js if img_assist is called
@@ -38,7 +38,7 @@ function initLoader() {
       }
     }
   }
-  frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/thumbs/img_assist_browser';
+  frames['img_assist_main'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/thumbs/img_assist_browser';
 }
 
 function initProperties() {

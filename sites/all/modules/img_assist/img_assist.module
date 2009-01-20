@@ -1,5 +1,5 @@
 <?php
-// $Id: img_assist.module,v 1.75.2.18 2008/10/27 19:15:16 sun Exp $
+// $Id: img_assist.module,v 1.75.2.22 2009/01/18 21:51:17 sun Exp $
 
 /**
  * @file
@@ -152,8 +152,7 @@ function img_assist_elements() {
 function img_assist_textarea($element) {
   static $initialized = FALSE;
 
-  // FAPI #wysiwyg support.
-  if (!user_access('access img_assist') || (isset($element['#wysiwyg']) && $element['#wysiwyg'])) {
+  if (!user_access('access img_assist')) {
     return $element;
   }
   $link = variable_get('img_assist_link', 'icon');
@@ -568,26 +567,21 @@ function img_assist_cache_clear() {
  * @todo Remove hard-coded TinyMCE integration.
  */
 function img_assist_loader() {
+  $path = drupal_get_path('module', 'img_assist');
   $editor = arg(2) ? arg(2) : 'textarea';
-  
+
+  drupal_add_js($path .'/img_assist_popup.js');
+  if ($editor == 'tinymce') {
+    $tinymce_path = drupal_get_path('module', 'wysiwyg');
+    drupal_add_js($tinymce_path .'/tinymce/jscripts/tiny_mce/tiny_mce_popup.js');
+  }
+  drupal_add_js($path .'/img_assist_'. $editor .'.js');
+
   $output  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN">'."\n";
   $output .= "<html>\n";
   $output .= "<head>\n";
   $output .= '<title>'. t('Add image') ."</title>\n";
-  $output .= "\n<script type=\"text/javascript\"><!--\n";
-  $output .= '  var BASE_URL = "'. base_path() .'";'. "\n";
-  $output .= "--></script>\n";
-  
-  $path = drupal_get_path('module', 'img_assist');
-  $output .= '<script type="text/javascript" src="'. base_path() . $path .'/img_assist_popup.js"></script>'."\n";
-  if ($editor == 'tinymce') {
-    $tinymce_path = drupal_get_path('module', 'wysiwyg');
-    $tinymce_js = base_path() . $tinymce_path .'/tinymce/jscripts/tiny_mce/tiny_mce_popup.js';
-    $output .= '<script type="text/javascript" src="'. $tinymce_js .'"></script>' . "\n";
-  }
-  $editor_js = base_path() . $path .'/img_assist_'. $editor .'.js';
-  $output .= '<script type="text/javascript" src="'. $editor_js .'"></script>' . "\n";
-  
+  $output .= drupal_get_js();
   $output .= "</head>\n\n";
   
   $output .= '<frameset rows="38, *" onload="initLoader()" frameborder="0" border="0" framespacing="0">' . "\n";
@@ -597,12 +591,35 @@ function img_assist_loader() {
   
   $output .= "</html>\n";
   echo $output;
+  exit;
+}
+
+/**
+ * Fetch the number of nodes for terms of given vocabulary ids.
+ *
+ * Note that this does not count nodes of subterms, as opposed to 
+ * taxonomy_term_count_nodes().
+ *
+ * @param $vids
+ *   An array of taxonomy vocabulary ids.
+ *
+ * @return
+ *   An array keyed by term ids with the count of nodes for each term.
+ */
+function _img_assist_term_count_nodes($vids) {
+  $count = array();
+  $result = db_query(db_rewrite_sql('SELECT t.tid, COUNT(n.nid) AS count FROM {term_node} t INNER JOIN {node} n ON t.vid = n.vid INNER JOIN {term_data} td ON td.tid = t.tid WHERE n.status = 1 AND td.vid IN (' . db_placeholders($vids) . ') GROUP BY t.tid'), implode(',', $vids));
+  while ($term = db_fetch_object($result)) {
+    $count[$term->tid] = $term->count;
+  }
+  return $count;
 }
 
 function img_assist_header($mode) {
   // Mode may be 'uploading', 'properties' or 'browse'.
   $output = drupal_get_form('img_assist_header_form', $mode);
   echo theme('img_assist_page', $output, array('id' => 'img_assist_header', 'onload' => 'parent.initHeader();', 'class' => 'img_assist'));
+  exit;
 }
 
 function img_assist_header_form(&$form_state, $mode) {
@@ -647,7 +664,7 @@ function img_assist_header_form(&$form_state, $mode) {
         $myimages->set_arguments(array($user->uid));
         $myimages->execute();
         $options['img_assist_browser/' . $user->uid] = t('My Images') ." ($myimages->total_rows)";
-        
+
         // Get all images and count.
         if (user_access('access all images')) {
           $allimages = views_get_view('img_assist_browser');
@@ -656,13 +673,10 @@ function img_assist_header_form(&$form_state, $mode) {
           $options['img_assist_browser/all'] = t('All Images') ." ($allimages->total_rows)";
         }
         // Get category list.
-        if (module_exists('taxonomy')) {
-          $vocabs = (array)variable_get('img_assist_vocabs', array());
-          
+        if (module_exists('taxonomy') && $vocabs = variable_get('img_assist_vocabs', array())) {
+          $term_counts = _img_assist_term_count_nodes($vocabs);
           // Get all images or only user's images depending on permissions.
           $user_arg = (user_access('access all images')) ? 'all' : $user->uid;
-          
-          $term_images = array();
           foreach ($vocabs as $vid) {
             $vocab = taxonomy_vocabulary_load($vid);
             $terms = taxonomy_get_tree($vid);
@@ -670,12 +684,8 @@ function img_assist_header_form(&$form_state, $mode) {
               foreach ($terms as $key => $value) {
                 $tid = $value->tid;
                 $name = $value->name;
-                
-                // Get term images and count.
-                $term_images[$tid] = views_get_view('img_assist_browser');
-                $term_images[$tid]->set_arguments(array($user_arg, $tid));
-                $term_images[$tid]->execute();
-                $options[$vocab->name]["img_assist_browser/$user_arg/" . $tid] = $name ." ({$term_images[$tid]->total_rows})";
+                $count = (isset($term_counts[$tid]) ? $term_counts[$tid] : 0);
+                $options[$vocab->name]["img_assist_browser/$user_arg/" . $tid] = "$name ($count)";
               }
             }
           }
@@ -750,6 +760,7 @@ function img_assist_upload() {
     }
   }
   echo theme('img_assist_page', $output, array('id' => 'img_assist_upload', 'class' => 'img_assist'));
+  exit;
 }
 
 /**
@@ -830,6 +841,7 @@ function img_assist_thumbs() {
     $output = t('The Image and Views modules must be enabled to use Image assist.');
   }
   echo theme('img_assist_page', $output, array('id' => 'img_assist_thumbs', 'onload' => 'parent.initThumbs();', 'class' => 'img_assist'));
+  exit;
 }
 
 /**
@@ -848,6 +860,7 @@ function img_assist_properties() {
   }
   
   echo theme('img_assist_page', $output, array('id' => 'img_assist_properties', 'onload' => 'parent.initProperties();', 'class' => 'img_assist'));
+  exit;
 }
 
 /**
@@ -1500,6 +1513,7 @@ function img_assist_popup() {
   $attributes = array('id' => 'img_assist_popup');
   
   echo theme('img_assist_popup', $content, $attributes);
+  exit;
 }
 
 /**
@@ -1806,7 +1820,7 @@ function theme_img_assist_page($content, $attributes = NULL) {
   $output .= drupal_get_js();
   $output .= "\n<script type=\"text/javascript\"><!-- \n";
   $output .= "  if (parent.tinyMCE) {\n";
-  $output .= "    document.write('<link href=\"' + parent.tinyMCE.getParam(\"popups_css\") + '\" rel=\"stylesheet\" type=\"text/css\">');\n";
+  $output .= "    document.write('<link href=\"' + parent.tinyMCEPopup.getParam(\"popups_css\") + '\" rel=\"stylesheet\" type=\"text/css\">');\n";
   $output .= "  } else {\n";
   foreach (drupal_add_css() as $media => $type) {
     $paths = array_merge($type['module'], $type['theme']);
@@ -1843,17 +1857,20 @@ function theme_img_assist_page($content, $attributes = NULL) {
 /**
  * Implementation of hook_wysiwyg_plugin().
  */
-function img_assist_wysiwyg_plugin($editor) {
+function img_assist_wysiwyg_plugin($editor, $version) {
   switch ($editor) {
     case 'tinymce':
-      return array(
-        'drupalimage' => array(
-          'path' => drupal_get_path('module', 'img_assist') .'/drupalimage',
-          'buttons' => array('drupalimage' => t('Image Assist')),
-          'url' => 'http://drupal.org/project/img_assist',
-          'extended_valid_elements' => array('img[class|src|border=0|alt|title|width|height|align|name|style]'),
-        ),
-      );
+      if ($version > 3) {
+        return array(
+          'img_assist' => array(
+            'path' => drupal_get_path('module', 'img_assist') .'/drupalimage/editor_plugin.js',
+            'buttons' => array('img_assist' => t('Image Assist')),
+            'url' => 'http://drupal.org/project/img_assist',
+            'extended_valid_elements' => array('img[class|src|border=0|alt|title|width|height|align|name|style]'),
+          ),
+        );
+      }
+      break;
   }
 }
 

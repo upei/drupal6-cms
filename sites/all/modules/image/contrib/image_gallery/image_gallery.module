@@ -1,5 +1,5 @@
 <?php
-// $Id: image_gallery.module,v 1.28 2008/08/17 09:04:19 drewish Exp $
+// $Id: image_gallery.module,v 1.29 2008/12/27 06:58:41 drewish Exp $
 
 define('IMAGE_GALLERY_SORT_CREATE_DESC', 0);
 define('IMAGE_GALLERY_SORT_CREATE_ASC', 1);
@@ -397,7 +397,7 @@ function theme_image_gallery($galleries, $images) {
       }
       $content .= "<h3>". l($gallery->name, 'image/tid/'. $gallery->tid) ."</h3>\n";
       $content .= '<div class="description">'. check_markup($gallery->description) ."</div>\n";
-      $content .= '<p class="count">'. format_plural($gallery->count, 'There is 1 image in this gallery', 'There are @count images in this gallery') ."</p>\n";
+      $content .= '<p class="count">'. format_plural($gallery->count, 'There is 1 image in this gallery.', 'There are @count images in this gallery.') ."</p>\n";
       if ($gallery->latest->changed) {
         $content .= '<p class="last">'. t('Last updated: %date', array('%date' => format_date($gallery->latest->changed))) ."</p>\n";
       }
@@ -419,7 +419,7 @@ function theme_image_gallery($galleries, $images) {
   }
 
   if (count($images) + count($galleries) == 0) {
-      $content .= '<p class="count">'. format_plural(0, 'There is 1 image in this gallery', 'There are @count images in this gallery') ."</p>\n";
+      $content .= '<p class="count">'. format_plural(0, 'There is 1 image in this gallery.', 'There are @count images in this gallery.') ."</p>\n";
   }
 
   return $content;

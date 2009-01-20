@@ -1,5 +1,5 @@
 <?php
-// $Id: image_attach.module,v 1.43 2008/10/20 23:52:48 drewish Exp $
+// $Id: image_attach.module,v 1.44 2008/12/27 06:58:41 drewish Exp $
 
 /**
  * @file image_attach.module
@@ -24,14 +24,14 @@ function image_attach_menu() {
   $items = array();
 
   $items['image_attach'] = array(
-    'title' => 'Image Attachment View',
+    'title' => 'Image attachment view',
     'page callback' => 'image_attach_view_image',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   $items['admin/settings/image/image_attach'] = array(
     'title' => 'Image attach',
-    'description' => 'Enable image attach for content',
+    'description' => 'Enable image attach for content.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('image_attach_admin_settings'),
     'access arguments' => array('administer site configuration'),
@@ -48,7 +48,10 @@ function image_attach_admin_settings() {
     '#type' => 'radios',
     '#title' => t('Attach existing images'),
     '#default_value' => variable_get('image_attach_existing', 1),
-    '#options' => array(0 => 'Disabled', 1 => 'Enabled'),
+    '#options' => array(
+      0 => t('Disabled'),
+      1 => t('Enabled')
+    ),
     '#description' => t('When enabled, will allow existing image nodes to be attached instead of uploading new images.')
   );
 
@@ -62,7 +65,7 @@ function image_attach_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
     case 'list':
       $blocks[0] = array(
-        'info'       => t('Attached Images'),
+        'info'       => t('Attached images'),
         'status'     => TRUE,
         'weight'     => 0,
         'visibility' => 1,
@@ -79,7 +82,7 @@ function image_attach_block($op = 'list', $delta = 0, $edit = array()) {
             if (node_access('view', $image)) {
               $img = image_display($image, variable_get('image_attach_block_0_size', IMAGE_THUMBNAIL));
               return array(
-                'subject' => t('Attached Images'),
+                'subject' => t('Attached images'),
                 'content' => l($img, "node/$node->iid", array('html' => TRUE)),
               );
             }
@@ -99,7 +102,7 @@ function image_attach_block($op = 'list', $delta = 0, $edit = array()) {
           '#title' => t('Image size'),
           '#default_value' => variable_get('image_attach_block_0_size', IMAGE_THUMBNAIL),
           '#options' => $image_sizes,
-          '#description' => t("This determines the size of the image that appears in the block."),
+          '#description' => t('This determines the size of the image that appears in the block.'),
         );
         return $form;
       }
@@ -136,7 +139,7 @@ function image_attach_form_alter(&$form, $form_state, $form_id) {
     );
     $form['image_attach']['image_attach'] = array(
       '#type' => 'radios',
-      '#title' => t('Attach Images'),
+      '#title' => t('Attach images'),
       '#default_value' => variable_get('image_attach_'. $form['#node_type']->type, 0),
       '#options' => array(0 => t('Disabled'), 1 => t('Enabled')),
       '#description' => t('Should this node allows users to upload an image?'),
@@ -152,7 +155,7 @@ function image_attach_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'weight',
       '#title' => t('Teaser image weight'),
       '#default_value' => variable_get('image_attach_weight_teaser_'. $form['#node_type']->type, 0),
-      '#description' => t("This value determines the order of the image when displayed in the teaser."),
+      '#description' => t('This value determines the order of the image when displayed in the teaser.'),
     );
     $form['image_attach']['image_attach_size_body'] = array(
       '#type' => 'select',
@@ -165,7 +168,7 @@ function image_attach_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'weight',
       '#title' => t('Full node image weight'),
       '#default_value' => variable_get('image_attach_weight_body_'. $form['#node_type']->type, 0),
-      '#description' => t("This value determines the order of the image when displayed in the body."),
+      '#description' => t('This value determines the order of the image when displayed in the body.'),
     );
   }
   // Node edit form.
@@ -180,7 +183,7 @@ function image_attach_form_alter(&$form, $form_state, $form_id) {
 
       $form['image_attach'] = array(
         '#type' => 'fieldset',
-        '#title' => t('Attached Images'),
+        '#title' => t('Attached images'),
         '#collapsible' => TRUE,
         '#collapsed' => empty($node->iid),
       );
@@ -198,7 +201,7 @@ function image_attach_form_alter(&$form, $form_state, $form_id) {
       if (variable_get('image_attach_existing', 1) && user_access('access content')) {
         $form['image_attach']['iid'] = array(
           '#type' => 'select',
-          '#title' => t('Existing Image'),
+          '#title' => t('Existing image'),
           '#options' => _image_attach_get_image_nodes(),
           $value => empty($node->iid) ? NULL : $node->iid,
           '#description' => t('Choose an image already existing on the server if you do not upload a new one.')
@@ -217,7 +220,7 @@ function image_attach_form_alter(&$form, $form_state, $form_id) {
       }
       $form['image_attach']['image'] = array(
         '#type' => 'file',
-        '#title' => t('Upload Image')
+        '#title' => t('Upload image')
       );
       $form['image_attach']['image_title'] = array(
         '#type' => 'textfield',

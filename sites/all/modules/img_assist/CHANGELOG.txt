@@ -1,4 +1,4 @@
-/* $Id: CHANGELOG.txt,v 1.30.2.21 2008/11/03 23:14:52 sun Exp $ */
+/* $Id: CHANGELOG.txt,v 1.30.2.28 2009/01/18 21:51:17 sun Exp $ */
 
 Img_Assist x.x-x.x, xxxx-xx-xx
 ------------------------------
@@ -6,6 +6,17 @@ Img_Assist x.x-x.x, xxxx-xx-xx
 
 Img_Assist 6.x-2.x, xxxx-xx-xx
 ------------------------------
+#356454 by sun: Fixed missing DB table placeholder tags for new count query.
+
+
+Img_Assist 6.x-2.0-ALPHA-1, 2009-01-18
+--------------------------------------
+#352015 by sun: Fixed inserting images without clean URLs not working.
+#179712 by sun: Partially reverted changes for #wysiwyg FAPI property.
+#356454 by scroogie: Performance: Count nodes instead of executing view for
+  taxonomy dropdown list.
+#300591 by zoo33: Fixed CSS for the new Views-based popup window.
+#245799 by sun: Added support for TinyMCE 3; dropped support for TinyMCE 2.
 #322731 by sun: Fixed improper use of t() in module install file.
 #326640 by Anselm Heaton, sun: Fixed wysiwyg_editor renamed to wysiwyg module.
 #308005 by sun: Moved includes into /includes, theme includes into /theme.

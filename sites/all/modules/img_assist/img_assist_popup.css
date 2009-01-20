@@ -1,4 +1,4 @@
-/* $Id: img_assist_popup.css,v 1.1.2.2 2008/07/22 23:08:13 sun Exp $ */
+/* $Id: img_assist_popup.css,v 1.1.2.3 2009/01/16 19:46:54 sun Exp $ */
 
 body#img_assist_popup {
   margin: 0;
@@ -32,9 +32,6 @@ body#img_assist_header {
   font-weight: bold;
   margin: 3px;
 }
-.img_assist img {
-  display: inline; /* pushbutton theme changes the display to block */
-}
 .img_assist .messages {
   border: 1px solid #000;
   background-color: #ccc;
@@ -42,9 +39,26 @@ body#img_assist_header {
   margin: 3px 0px 6px 0px;
 }
 
+/* Override themes' table styling */
+.img_assist table, .img_assist tbody, .img_assist td {
+  border: none;
+  margin: 0;
+  width: auto;
+}
+
+/* Browser window */
+.img_assist table {
+  margin: 0 auto;
+}
+.img_assist .views-admin-links {
+  display: none;
+}
+
+
 /* Upload window */
 .img_assist .node-form {
   width: 95%;
+  margin: 0 auto;
 }
 
 /* Properties window */

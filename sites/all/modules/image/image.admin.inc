@@ -1,5 +1,5 @@
 <?php
-// $Id: image.admin.inc,v 1.1 2008/02/04 00:34:22 drewish Exp $
+// $Id: image.admin.inc,v 1.2 2008/12/27 06:58:41 drewish Exp $
 
 /**
  * Admin settings callback.
@@ -21,7 +21,7 @@ function image_admin_settings() {
     '#type' => 'textfield',
     '#title' => t('Default image path'),
     '#default_value' => variable_get('image_default_path', 'images'),
-    '#description' => t('Subdirectory in the directory "%dir" where pictures will be stored. Do not include trailing slash.', array('%dir' => variable_get('file_directory_path', 'files'))),
+    '#description' => t('Subdirectory in the directory %dir where pictures will be stored. Do not include trailing slash.', array('%dir' => variable_get('file_directory_path', 'files'))),
   );
 
   $form['files']['image_max_upload_size'] = array(
@@ -30,7 +30,7 @@ function image_admin_settings() {
     '#default_value' => variable_get('image_max_upload_size', 800),
     '#field_suffix' => t('KB'),
     '#size' => 12,
-    '#description' => t('Maximum file size for image uploads. When a maximum image dimensions is specified for original images the size is checked after resizing. '),
+    '#description' => t('Maximum file size for image uploads. When a maximum image dimensions is specified for original images the size is checked after resizing.'),
   );
 
   $form['image_sizes'] = array(

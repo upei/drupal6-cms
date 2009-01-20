@@ -1,5 +1,5 @@
 <?php
-// $Id: image_gallery.install,v 1.8 2008/08/17 08:54:50 drewish Exp $
+// $Id: image_gallery.install,v 1.9 2008/12/27 06:58:41 drewish Exp $
 
 function image_gallery_install() {
   // Nothing to do.
@@ -21,7 +21,7 @@ function image_gallery_requirements($phase) {
     else {
       $requirements['image_gallery']['value'] = t('No galleries defined');
       $requirements['image_gallery']['description'] =
-        t('The Image gallery module is enabled, but no galleries have been created.  You should <a href="@create">create</a> at least one image gallery.',
+        t('The Image gallery module is enabled, but no galleries have been created. You should <a href="@create">create</a> at least one image gallery.',
           array('@create' => url('admin/content/image/add')));
       $requirements['image_gallery']['severity'] = REQUIREMENT_WARNING;
     }

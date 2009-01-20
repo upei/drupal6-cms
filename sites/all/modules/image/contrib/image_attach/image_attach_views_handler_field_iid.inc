@@ -25,7 +25,7 @@ class image_attach_views_handler_field_iid extends views_handler_field {
     }
     $form['size'] = array(
       '#type' => 'select',
-      '#title' => t('Image Size'),
+      '#title' => t('Image size'),
       '#options' => $options,
       '#default_value' => $this->options['size'],
     );
@@ -33,7 +33,7 @@ class image_attach_views_handler_field_iid extends views_handler_field {
     $form['as_link'] = array(
       '#type' => 'select',
       '#title' => t('Link'),
-      '#options' => array('none' => t('No link'), 'node' => t('Node'), 'image' => t('Image Node')),
+      '#options' => array('none' => t('No link'), 'node' => t('Node'), 'image' => t('Image node')),
       '#default_value' => $this->options['as_link'],
     );
   }

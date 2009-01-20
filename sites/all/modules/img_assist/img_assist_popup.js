@@ -1,17 +1,17 @@
-/* $Id: img_assist_popup.js,v 1.1.2.2 2008/07/22 23:08:13 sun Exp $ */
+/* $Id: img_assist_popup.js,v 1.1.2.3 2008/12/25 19:15:08 sun Exp $ */
 
 var currentMode;
 
 function onChangeBrowseBy(el) {
-  frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/thumbs/' + el.value;
+  frames['img_assist_main'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/thumbs/' + el.value;
 }
 
 function onClickUpload() {
-  frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/upload';
+  frames['img_assist_main'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/upload';
 }
 
 function onClickStartOver() {
-  frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/thumbs/img_assist_browser';
+  frames['img_assist_main'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/thumbs/img_assist_browser';
 }
 
 function updateCaption() {
@@ -80,7 +80,7 @@ function onChangeSizeLabel() {
 
 function setHeader(mode) {
   if (currentMode != mode) {
-    frames['img_assist_header'].window.location.href = BASE_URL + 'index.php?q=img_assist/header/' + mode;
+    frames['img_assist_header'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/header/' + mode;
   }
   currentMode = mode;
 }
@@ -113,7 +113,7 @@ function hideElement(id) {
 }
 
 function insertImage() {
-  if (window.opener) {
+  if (window.opener || !tinyMCEPopup.isWindow) {
     // Get variables from the fields on the properties frame
     var formObj = frames['img_assist_main'].document.forms[0];
     // Get mode  (see img_assist.module for detailed comments)

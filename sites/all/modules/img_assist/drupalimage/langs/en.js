@@ -1,6 +1,3 @@
-// English language variables
-
-tinyMCE.addToLang('drupalimage', {
-  title: 'Drupal image',
-  desc: 'Add an existing Drupal image or upload a new one.'
+tinyMCE.addI18n('en.img_assist', {
+  desc : 'Insert or update an embedded image.'
 });

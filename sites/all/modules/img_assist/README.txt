@@ -1,4 +1,4 @@
-/* $Id: README.txt,v 1.15.2.4 2008/08/01 19:07:14 sun Exp $ */
+/* $Id: README.txt,v 1.15.2.5 2009/01/18 04:04:19 sun Exp $ */
 
 -- SUMMARY --
 
@@ -19,7 +19,7 @@ Bug reports, feature suggestions and latest developments:
 
 * Token module (optional) <http://drupal.org/project/token>
 
-* Wysiwyg Editor module (optional) <http://drupal.org/project/wysiwyg>
+* Wysiwyg API module (optional) <http://drupal.org/project/wysiwyg>
 
 
 -- INSTALLATION --
@@ -57,13 +57,13 @@ Bug reports, feature suggestions and latest developments:
   want your users to be able to easily choose images from their galleries, select
   for example "Acidfree albums" as the vocabulary to use for Image assist.
 
-* If Wysiwyg Editor module is installed, you need to edit your Wysiwyg profiles
+* If Wysiwyg API module is installed, you need to edit your Wysiwyg profiles
   and enable the plugin for Image assist.
 
 
 -- USAGE --
 
-* Using this module with TinyMCE, provided by Wysiwyg Editor module:
+* Using this module with TinyMCE via Wysiwyg API module:
   1. Click the camera icon on the TinyMCE toolbar.
   2. Upload a new photo or choose an existing image.
   3. Set the properties for how you want the image to display.
@@ -83,7 +83,7 @@ Bug reports, feature suggestions and latest developments:
 
   Users with the 'access img_assist' permission will see the 'add image' link
   or icon (configurable). Access to img_assist via the TinyMCE plugin is
-  controlled by the Wysiwyg Editor module.  
+  controlled by the Wysiwyg API module.  
 
   Users with the 'create images' permission will be able to upload images using
   img_assist. All users will be able to see and insert their own pictures, even
