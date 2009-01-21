@@ -1,0 +1,98 @@
+<?php
+// $Id: webfm.install,v 1.14 2008/11/14 20:59:47 robmilne Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function webfm_install(){
+  drupal_install_schema('webfm');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function webfm_uninstall(){
+  drupal_uninstall_schema('webfm');
+    variable_del('webfm_root_dir');
+  variable_del('webfm_ftp_enable');
+  variable_del('webfm_ftp_root_dir');
+  variable_del('webfm_icon_dir');
+  variable_del('webfm_attach_body');
+  variable_del('webfm_attach_desc');
+  variable_del('webfm_attach_date');
+  variable_del('webfm_attach_size');
+  variable_del('webfm_debug');
+  variable_del('webfm_display_title');
+  variable_del('webfm_cron');
+  variable_del('webfm_max_resolution');
+  variable_del('webfm_ie_dd_list_offset');
+  variable_del('webfm_ie_dd_tree_offset');
+  $roles = user_roles(1, 'access webfm');
+  foreach ($roles as $rid => $role) {
+   variable_del('root_dir_'.$rid);
+   variable_del('webfm_extensions_'.$rid);
+   variable_del('webfm_uploadsize_'.$rid);
+   variable_del('webfm_usersize_'.$rid);
+  }
+  $types = node_get_types();
+  foreach ($types as $type) {
+    if ($type->type)
+      variable_del('webfm_attach_'.$type->type);
+  }
+  variable_del('webfm_file_perm_role');
+  variable_del('webfm_file_perm_mod');
+  variable_del('webfm_file_perm_attach');
+  variable_del('webfm_file_public');
+  variable_del('webfm_date_format');
+  variable_del('webfm_attach_new_window');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function webfm_schema(){
+  $schema['webfm_file'] = array(
+    'fields' => array(
+      'fid' => array('type' => 'serial', 'size' => 'normal', 'unsigned' => TRUE, 'not null' => TRUE),
+      'uid' => array('type' => 'int', 'size' => 'normal', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
+      'fpath' => array('type' => 'text', 'size' => 'medium', 'not null' => TRUE),
+      'fsize' => array('type' => 'int', 'size' => 'normal', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
+      'fmime' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
+      'ftitle' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
+      'fdesc' => array('type' => 'text', 'size' => 'normal', 'not null' => TRUE, 'default' => ''),
+      'fcreatedate' => array('type' => 'int', 'size' => 'normal', 'not null' => TRUE, 'default' => 0),
+      'flang' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
+      'fpublisher' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
+      'fformat' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
+      'fversion' => array('type' => 'int', 'size' => 'normal', 'not null' => TRUE, 'default' => 0),
+      'perm' => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0),
+      'dl_cnt' => array('type' => 'int', 'size' => 'normal', 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('fid'),
+  );
+
+  $schema['webfm_attach'] = array(
+    'fields' => array(
+      'nid' => array('type' => 'int', 'size' => 'normal', 'not null' => TRUE, 'default' => 0),
+      'fid' => array('type' => 'int', 'size' => 'normal', 'not null' => TRUE, 'default' => 0),
+      'weight' => array('type' => 'int', 'size' => 'normal', 'not null' => TRUE, 'default' => 0),
+      'cid' => array('type' => 'int', 'size' => 'normal', 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('nid', 'fid', 'cid' ),
+  );
+  return $schema;
+}
+
+/**
+ * Add column for comment id in webfm_attach table.
+ */
+function webfm_update_1() {
+  $ret = array();
+  // Add the new column to store a comment id.
+  db_add_field($ret, 'webfm_attach', 'cid', array('type' => 'int', 'not null' => TRUE, 'default' => '0'));
+
+  // Make it a primary key.
+  db_drop_primary_key($ret, 'webfm_attach');
+  db_add_primary_key($ret, 'webfm_attach', array('nid', 'cid', 'fid'));
+  return $ret;
+}

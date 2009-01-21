@@ -1,0 +1,79 @@
+/* $Id: webfm.css,v 1.11 2008/12/02 17:48:28 robmilne Exp $ */
+
+img { border: 0; }
+
+#dirlist.narrow { text-align: left;  margin-left: 220px;}
+#dirlist.wide { margin-left:0px; }
+#dirlist table { width:99%; font-weight:normal; font-size: 8pt; margin:0 auto; cursor:default; background-color:#f0f0f0; border:2px solid #d0d0d0; }
+#dirlist td { border-bottom: 1px solid #d8d8d8; }
+#dirlist img { margin-left: 5px; }
+#dirlist table tr.selected { background-color: #e7e7e7; }
+#dirlist table tr { background-color: #f0f0f0; }
+#dirlist a:hover { color: red; text-decoration: none; }
+#dirlist .head { color: #2092d0; background-color: #e0e0e0; font-weight: bold; font-size: 9pt; }
+#dirlist .head a { text-decoration: none; color: #2092d0; font-weight: bold; font-size: 9pt; }
+#dirlist .head a:hover { color: red; text-decoration: none; }
+#dirlist .navi { color: #2092d0; background-color: #f0f0f0; font-weight: normal; font-size: 9pt; text-align: left; line-height: 18px; }
+#dirlist .navi a { color:#2092d0; font-weight: bold; font-size: 9pt; }
+#dirlist .navi a:hover { color: red; text-decoration: none; }
+#dirlist .txt { font-weight: normal; font-size: 8pt; text-align: left; padding-left: 5px; padding-right: 5px; }
+#dirlist-ctls .selected { background-color: #2092d0; cursor:pointer; }
+
+#tree { float:left; clear:both; position:relative; }
+#tree .selected { background-color: #e7e7e7; }
+#tree a:hover { color: red; text-decoration: none; }
+
+#tree .dirtree { border: solid #d0d0d0 2px; padding:5px 5px 10px 5px; white-space:nowrap; width:200px; overflow:auto; background-color: #f0f0f0; }
+#tree .dirtree ul { margin:0; padding:0; }
+#tree .dirtree li { margin:0; padding-left:10px; list-style:none; background: #f0f0f0 none; }
+
+#webfm-attach { margin:0; padding:0;  width: 97%; }
+#webfm-attach table { width:94%; font-weight: normal; font-size: 8pt; margin: 0 auto; cursor: default; background-color: #f0f0f0; border: 2px solid #d0d0d0; }
+#webfm-attach td { border-bottom: 1px solid #d8d8d8; }
+#webfm-attach img { margin-left: 5px; }
+
+#wfmatt-wrapper .upload-msg { padding-top:5px; color:red; }
+
+#webfm-dragCont { background:transparent none; list-style: none; }
+#webfm-dragCont ul { margin:0; padding:0; background:transparent none; }
+#webfm-dragCont li { margin:0; padding-left:20px; background:transparent none; }
+
+#webfm-cxtCont { border:1px solid #202867; background:#FFF none; font-size:8pt; line-height: 12px; }
+#webfm-cxtCont ul { list-style-type:none; margin:0; padding:0;}
+#webfm-cxtCont ul li { padding:3px; margin: 0; background: #FFF none; text-align: left; }
+#webfm-cxtCont ul li.selected { background:#E2EBED none; color:red; cursor:pointer;}
+
+.pane { font-size:8pt; border: 2px solid black; background-color: white; overflow: hidden; }
+.pane input { font-size:8pt; }
+.pane-header { background-color: #e7e7e7; cursor: move; overflow: hidden; width: auto; }
+.pane-content { clear:left; border-top: 1px solid black; border-bottom: 1px solid black; background-color: white; color: black; padding: 2px; line-height: 12px; overflow: auto; }
+.pane-header .pane-close { position: absolute; right: 5px; top: 4px; cursor: hand; cursor: pointer; }
+.pane-footer { height:15px; }
+.pane-title { float:left; padding: 1px; text-indent: 3px; font-weight:bold; font-size:9pt; }
+.pane-msg { float:left; font-size:8pt; color:red; padding-left:10px; }
+.pane-resize { float:right; height:14px; width:14px; cursor: nw-resize; }
+.pane-content .button { cursor: hand; cursor: pointer; }
+.pane td { padding-top:2px; padding-right:5px; }
+
+#webfm-search li { list-style:none; }
+
+#webfm-meta-form table { border: 0; margin: 0; padding: 0; }
+#webfm-meta-form tbody { border: 0; }
+#webfm-meta-form .meta-button { font-weight:bold; margin:5px 5px 0 5px; }
+
+#webfm-debug .g { color: green; font-size: 120%; }
+#webfm-debug .dbg-button { font-weight:bold; margin:0 5px 0 5px; }
+
+#webfm-alert { margin: 5px; }
+#webfm-alert .alertspan { background-color: #ff0; color: #000; font-weight: bold; font-size: 9px; }
+
+#webfm-ieDD img { padding-right: 10px; }
+
+.webfm-attach-list img { margin-bottom: -4px; }
+.webfm-attach-list .att-time { white-space:nowrap; }
+.webfm-attach-list .att-size { white-space:nowrap; }
+.webfm-attach-list .att-fdesc { overflow:auto; }
+
+#webfm-progress { color: white; font-weight: bold; font-size: 10pt; visibility: hidden; }
+
+#webfm-upload-fieldset { clear: left }

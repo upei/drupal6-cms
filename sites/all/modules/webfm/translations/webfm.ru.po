@@ -1,0 +1,370 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal 5.1\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-03-03 21:55+0300\n"
+"Last-Translator: SadhooKlay <sadhoo@mail.ru>\n"
+"Language-Team: SadhooKlay <sadhoo@mail.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\\n\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: webfm_file.inc:17
+#: ;225
+msgid "The directory %directory is not writable."
+msgstr "Каталог %directory закрыт для записи."
+
+#: webfm_file.inc:52
+msgid "webfm_rename_db_dir_recur error - db may be corrupted"
+msgstr "ошибка webfm_rename_db_dir_recurr - бд может быть испорчена"
+
+#: webfm_file.inc:59
+msgid "rename %file fail"
+msgstr "переименование %file завершилось неудачей"
+
+#: webfm.module:11
+msgid ""
+"Webfm is a hierarchical file system manager.\n"
+"        Webfm does not use a flat file system (a single directory indexed by a\n"
+"        database).  Webfm allows users to arrange files on the server in the\n"
+"        same way they do on their local storage drives.  This ability to\n"
+"        heirarchically arrange files greatly enhances the managability of large\n"
+"        collections of data."
+msgstr "WebFM является менеджером иерархической файловой системы. Он не использует плоскую файловую систему (одну директорию, индексированную в базе данных). Модуль WebFM позволяет пользователям упорядочить файлы на сервере так же, как они делают это на своем локальном диске. Возможность иерархически упорядочить файлы намного совершенствует возможности управления большими объемами данных."
+
+#: webfm.module:17
+msgid ""
+"Note that webfm uses <b>includes/file.inc</b> which manages the\n"
+"        file system path.  The <b>Root Directory</b> and <b>Ftp root directory\n"
+"        </b> paths are relative to this file system path and must be prefaced\n"
+"        with a \"/\"."
+msgstr "Обратите внимание, что webfm использует <b>includes/file.inc</b>, который управляет файловой системой. Катологи <b>Корневой каталог (Root Directory)</b> и <b>Корневой каталог FTP (Ftp root directory)</b> относятся к этой файловой системе и должны быть использованы с префиксом \"/\"."
+
+#: webfm.module:22
+msgid ""
+"Webfm uses ajax and javascript extensively to provide\n"
+"        application intensive functionality such as file/dir move and ordering\n"
+"        of attachments via drag-and-drop.  The context menuing provided by the\n"
+"        right mouse button click provides context sensitive menus for user\n"
+"        selection.  Javascript must be enabled for webfm to function."
+msgstr "WebFM в значительной степени использует ajax и javascript для дополнения приложения такими функциональными возможностями, как перемещение файла или директории и добавления прикрепленных файлов с помощью drag-and-drop. Контекстные меню предоставляются."
+
+#: webfm.module:27
+msgid ""
+"Webfm presents two left hand blocks to represent directory\n"
+"        trees and a right hand block to list the contents of the current\n"
+"        directory.  The upper left block represents the directory structure of\n"
+"        file data enumerated in the database and available to the site for\n"
+"        attachment to content.  The lower left block is the directory structure\n"
+"        of the \"ftp\" directory.  This tree is outside the region accessible to\n"
+"        drupal content and its purpose is as a bulk upload area.  For sites with\n"
+"        large sets of documents, ftp is an good method of bulk transfer,\n"
+"        especially if secure shell access does not exist (ie: inexpensive\n"
+"        hosting).  A hierarchical structure can be constructed in this area to\n"
+"        be instantly copied and enumerated in the database with a single drag\n"
+"        operation."
+msgstr "В WebFM слева располагаются 2 блока, показывающих деревья каталогов, а справа расположен блок со списком содержимого выбранной директории. В верхнем левом блоке показана структура  пронумерованых в базе данных, доступных для прикрепления к контенту. Нижний левый блок отображает структуру католога  \"ftp\". Это дерево находится вне доступа для контента друпала и она служит большой областью загрузки. Для сайтов с большим объемом документов, ftp является хорошим способом для передачи больших файлов, особенно при отсутствии ограничений конфиденциальности (как на дешевом хостинге). Здесь  может быть сооружена иерархическая структура для последующего копирования в базу данных одним перетаскиванием."
+
+#: webfm.module:42
+msgid "Enable the Web Networks File Browser."
+msgstr "Включить Web Networks File Browser."
+
+#: webfm.module:53
+msgid "Root directory"
+msgstr "Корневой каталог"
+
+#: webfm.module:57
+msgid ""
+"Root directory used to present the filebrowser\n"
+"            interface. Users will not be able to go up from this folder.<br />\n"
+"            <br />This path is relative to \"File system path\" set in\n"
+"            admin/settings and must be preceeded with a slash."
+msgstr "Корневой каталог используется для предоставления интерфейса файлового браузера. Пользователи не могут получить доступ на уровень выше данного каталога. Этот путь относится к установкам \"Файловая система\" в admin/settings и может начинаться со слеша."
+
+#: webfm.module:65
+msgid "FTP root directory"
+msgstr "Корневой каталог FTP"
+
+#: webfm.module:69
+msgid ""
+"WebFM allows you to move files from a specified\n"
+"            FTP folder to the file manager thereby making those files available\n"
+"            to your drupal site.  The benefit of this feature is to allow you to\n"
+"            do bulk uploads of files via FTP and then let webFM make your site\n"
+"            aware of them via drag and drop.<br /><br />This path is relative to\n"
+"            \"File system path\" set in admin/settings and must be preceeded with\n"
+"            a slash."
+msgstr "WebFM позволяет перемещать файлы из нижнего блока FTP-каталога в верхний блок файл-менеджера, делая их доступными для использования сайтом. Эта возможность полезна тем, что позволяет загружать большой объем информации с помощью FTP и WebFM сделает ее доступной сайту после операциии drag and drop."
+
+#: webfm.module:79
+msgid "Icon directory"
+msgstr "Каталог иконок (пиктограм)"
+
+#: webfm.module:83
+msgid "Name of directory where file type icons are stored (relative to base url)."
+msgstr "Имя каталога, где могут храниться файлы иконок (по отношению к базовому url)"
+
+#: webfm.module:88
+msgid "Append file links to Node Body"
+msgstr "Добавить ссылки на файлы в текст материала"
+
+#: webfm.module:90
+msgid ""
+"Check this box to append downloadable attachments to the node body.\n"
+"                               <br />This setting does not affect the attachment block."
+msgstr "Установите галочку чтобы дать возможность скачать прикрепленные в теле материала файлы. Данные настройки не распостроняются на блок прикреплений."
+
+#: webfm.module:96
+msgid "Webfm javascript debug"
+msgstr "отладчик javascript WebFM "
+
+#: webfm.module:98
+msgid "Check this box for javascript debug messaging."
+msgstr "Установите галочку, чтобы разрешить сообщения отладчика javascript."
+
+#: webfm.module:103
+msgid "Forbidden"
+msgstr "Запретить доступ к данным файлам"
+
+#: webfm.module:105
+msgid "Forbidden file types (use comma delimited with no spaces)"
+msgstr "Запрещённые типы файлов (используйте разделение запятыми без пробелов)"
+
+#: webfm.module:113
+msgid "Settings for @role"
+msgstr "Настройки для @role"
+
+#: webfm.module:120
+msgid "Permitted file extensions"
+msgstr "Разрешенные расширения файлов"
+
+#: webfm.module:123
+msgid "Extensions that users in this role can upload. Separate extensions with a space and do not include the leading dot."
+msgstr "Расширения, которые пользователи данной роли могут закачивать. Разделяйте расширения пробелами, не указывая точку."
+
+#: webfm.module:128
+msgid "Maximum file size per upload"
+msgstr "Максимальный размер файла для закачки"
+
+#: webfm.module:132
+msgid "The maximum size of a file a user can upload (in megabytes)."
+msgstr "Максимальный размер загружаемого файла, который может загрузить пользователь (в мегабайтах)."
+
+#: webfm.module:137
+msgid "Total file size per user"
+msgstr "Общий размер файлов для пользователя"
+
+#: webfm.module:141
+msgid "The maximum size of all files a user can have on the site (in megabytes)."
+msgstr "Максимальный размер всех файлов, которые пользователь может разместить на сайте (в MB)."
+
+#: webfm.module:151
+#: ;151
+msgid "access webfm"
+msgstr "доступ к модулю webfm"
+
+#: webfm.module:151
+#: ;151
+msgid "attach WebFM files"
+msgstr "прикреплять файлы через webfm"
+
+#: webfm.module:151
+msgid "see webfm_attachments"
+msgstr "просматривать прикрепленные  webfm файлы"
+
+#: webfm.module:161
+#: ;166;172
+msgid "Web File Manager"
+msgstr "Файловый менеджер"
+
+#: webfm.module:178
+msgid "File Not Found"
+msgstr "Файл не найден"
+
+#: webfm.module:184
+msgid "Webfm Settings"
+msgstr "Файловый менеджер"
+
+#: webfm.module:185
+msgid "Configure WebFM."
+msgstr "Конфигурировать WebFM."
+
+#: webfm.module:199
+msgid "Webfm File Attachments"
+msgstr "Файловые прикрепления Webfm"
+
+#: webfm.module:206
+msgid "Attachments"
+msgstr "Прикрепленные файлы"
+
+#: webfm.module:281
+msgid "Attachment"
+msgstr "Прикрепленный файл"
+
+#: webfm.module:281
+msgid "Size"
+msgstr "Размер"
+
+#: webfm.module:303
+msgid "Webfm Attachments"
+msgstr "Прикрепления Webfm"
+
+#: webfm.module:304
+msgid "Disabled"
+msgstr "Отключено"
+
+#: webfm.module:304
+msgid "Enabled"
+msgstr "Включено"
+
+#: webfm.module:326
+msgid "Attached files"
+msgstr "Прикрепленные файлы"
+
+#: webfm.module:327
+msgid "Drag attachments to set order.<br />Changes made to the attachments are not permanent until you save this post."
+msgstr "Упорядочите прикрепления. Изменения не сохраняться, пока вы не сохраните сообщение."
+
+#: webfm.module:340
+msgid "File Browser"
+msgstr "Файловый браузер"
+
+#: webfm.module:347
+#: ;699
+msgid "File Upload"
+msgstr "Загрузка файла"
+
+#: webfm.module:350
+#: ;702
+msgid "Uploaded file will be saved to the current directory."
+msgstr "Загруженный файл будет сохранен в текущем каталоге."
+
+#: webfm.module:387
+#: ;448
+msgid "illegal name for ftp root directory"
+msgstr "неправильное имя для корневого каталога ftp"
+
+#: webfm.module:410
+msgid "Upload Success"
+msgstr "Успешная загрузка"
+
+#: webfm.module:413
+msgid "webfm_dbinsert_file() failed"
+msgstr "ошибка в работе webfm_dbinsert_file() "
+
+#: webfm.module:417
+msgid "Upload success"
+msgstr "Успешная загрузка"
+
+#: webfm.module:420
+msgid "file_move to %path failed"
+msgstr "перемещение файла в %path завершилось неуспешно"
+
+#: webfm.module:423
+msgid "file %s is not valid for upload"
+msgstr "%s — неверный файл для загрузки"
+
+#: webfm.module:426
+msgid "file_check_upload() failed"
+msgstr "ошибка выполнения file_check_upload()"
+
+#: webfm.module:429
+msgid "Invalid destination path: %dest"
+msgstr "Неправильный путь назначения: %dest"
+
+#: webfm.module:432
+msgid "Invalid upload path"
+msgstr "Направильный путь для загрузки."
+
+#: webfm.module:478
+msgid "New_Folder"
+msgstr "new_folder"
+
+#: webfm.module:722
+msgid "Upload file"
+msgstr "Загрузить файл"
+
+#: webfm.module:723
+msgid "Upload"
+msgstr "Закачать"
+
+#: webfm.module:1158
+msgid "Query Failed: Could not insert file into the database"
+msgstr "Запрос завершился неуспешно: Невозможно загрузить файл в базу данных."
+
+#: webfm.module:1200
+msgid "webfm_dbupdate_file() err: fid=%fid"
+msgstr "ошибка webfm_dbupdate_file(): fid=%fid"
+
+#: webfm.module:1238
+msgid "%name can not be uploaded because it does not have one of the following extensions: %files-allowed."
+msgstr "%name не может быть загружен, т.к. не имеет одно из следующих расширений: %files-allowed."
+
+#: webfm.module:1242
+msgid "%name can not be attached to this post, because it exceeded the maximum filesize of %maxsize."
+msgstr "%name не может быть прикреплен к материалу, поскольку его размер превышает максимально допустимый (%maxsize)."
+
+#: webfm.module:1246
+msgid "%name can not be attached to this post, because the disk quota of %quota has been reached."
+msgstr "%name не может быть прикреплен к материалу, поскольку достигнуто ограничение на дисковое пространство (%quota)."
+
+#: webfm.module:1250
+msgid "The selected file can not be attached to this post, because the filename is too long."
+msgstr "Упорядочьте прикрепления. Изменения не сохранятся, пока вы не сохраните сообщение."
+
+#: webfm.module:1269
+msgid "file %s has no db record"
+msgstr "записи о файле %s нет в базе данных"
+
+#: webfm.module:1335
+msgid "Query Failed: Could not delete file %fid ."
+msgstr "Запрос завершился неуспешно: Невозможно удалить файл %fid ."
+
+#: webfm.module:1354
+msgid "fid= %fid"
+msgstr "fid= %fid"
+
+#: webfm.module:1405
+msgid "File is already attached to this node."
+msgstr "Нефозможно прикрепить файл к данному материалу."
+
+#: webfm.module:1412
+msgid "Query Failed:  Could not attach files to node "
+msgstr "Запрос завершился неуспешно: Невозможно прикрепить файлы в материал."
+
+#: webfm.module:1432
+msgid "Query Failed: Could not detach file %fid from node %nid"
+msgstr "Запрос завершился неуспешно: Невозможно открепить файл %fid от материала %nid."
+
+#: webfm.module:1449
+msgid "Query Failed: Could not detach file %fid from nodes."
+msgstr "Запрос завершился неуспешно: Невозможно открепить файл  %fid от материалов."
+
+#: webfm.module:0
+#: webfm.info:0
+#: ;0
+#: contrib/webfm_ext_example/webfm_ext_example.info:0
+msgid "webfm"
+msgstr "webfm"
+
+#: webfm.info:0
+msgid "Heirarchical filesystem manager."
+msgstr "Менеджер иерархической файловой системы."
+
+#: webfm.info:0
+#: contrib/webfm_ext_example/webfm_ext_example.info:0
+msgid "Core - optional"
+msgstr "Ядро - дополнительное"
+
+#: contrib/webfm_ext_example/webfm_ext_example.info:0
+msgid "webfm_ext_example"
+msgstr "webfm_ext_example"
+
+#: contrib/webfm_ext_example/webfm_ext_example.info:0
+msgid "Webfm extension example."
+msgstr "Пример расширения Webfm."
+

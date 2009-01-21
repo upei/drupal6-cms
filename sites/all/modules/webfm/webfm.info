@@ -1,0 +1,11 @@
+; $Id:
+name = Web File Manager
+description = Hierarchical AJAX file system manager
+package = WebFM
+core = 6.x
+; Information added by drupal.org packaging script on 2008-12-06
+version = "6.x-2.10-rc3"
+core = "6.x"
+project = "webfm"
+datestamp = "1228540228"
+

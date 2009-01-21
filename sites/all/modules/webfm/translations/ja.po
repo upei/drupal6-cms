@@ -1,0 +1,416 @@
+# $Id: ja.po,v 1.1 2008/12/02 18:25:44 robmilne Exp $
+# -----------------------------------------------------------------------------
+# Japanese translation of Drupal (webfm.module)
+#
+# Copyright (c) 2006-2007  Drupal Japan  ( http://drupal.jp/ )  /
+#                          Drupal Nippon ( http://drupon.org/ ) /
+#                          Takafumi      ( jp.drupal@imagine **reverse order**)
+#
+# Generated from file:
+#  webfm.module,v 1.2.2.3 2007/05/02 23:42:35 robmilne
+#  webfm.info,v 1.1.2.1 2007/05/01 04:56:56 robmilne
+#  webfm_ext_example.info,v 1.3.2.2 2007/05/01 05:00:01 robmilne
+#  webfm_file.inc,v 1.2.2.1 2007/05/01 04:56:56 robmilne
+#
+# -----------------------------------------------------------------------------
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2007-05-03 17:28+0900\n"
+"Last-Translator: Takafumi <jp.drupal@imagine **reverse order**>\n"
+"Language-Team: Drupal Japan / Drupal Nippon\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+# typoあり h[e/i]rarchically
+#: webfm.module:12
+msgid ""
+"Webfm is a hierarchical file system manager.\n"
+"        Webfm does not use a flat file system (a single directory indexed by a\n"
+"        database).  Webfm allows users to arrange files on the server in the\n"
+"        same way they do on their local storage drives.  This ability to\n"
+"        heirarchically arrange files greatly enhances the managability of large\n"
+"        collections of data."
+msgstr ""
+"WebFMは、フラットなファイルシステム（データベースによって索引付けられた単独のディレクトリ）を使わない、階層型のファイルマネージャーです。 ユーザは、ローカルのストレージドライブ（HDD等）で行うのと同じ方法で、サーバ上のファイルを整頓できます。 階層的にファイルを整頓できることは、大量に集められたデータの管理性を大いに強化します。"
+
+#: webfm.module:18
+msgid ""
+"Note that webfm uses <b>includes/file.inc</b> which manages the\n"
+"        file system path.  The <b>Root Directory</b> and <b>Ftp root directory\n"
+"        </b> paths are relative to this file system path and must be prefaced\n"
+"        with a \"/\"."
+msgstr ""
+"WebFMが、ファイルシステムパスを管理する <b>includes/file.inc</b> を使用することに注意してください。 「<b>ルートディレクトリ</b>」と「<b>FTPのルートディレクトリ</b>」は、このファイルシステムパスに相対的で、先頭が \"/\" で始まる必要があります。"
+
+#: webfm.module:23
+msgid ""
+"Webfm uses ajax and javascript extensively to provide\n"
+"        application intensive functionality such as file/dir move and ordering\n"
+"        of attachments via drag-and-drop.  The context menuing provided by the\n"
+"        right mouse button click provides context sensitive menus for user\n"
+"        selection.  Javascript must be enabled for webfm to function."
+msgstr ""
+"ドラッグアンドドロップによる、ファイルやディレクトリの移動や添付ファイルの並び替えのような、アプリケーション集中的な機能性を提供するために、WebFMは広範囲にわたってajaxとjavascriptを使用します。 マウスの右クリックによるコンテクストメニューには、ユーザが選択できる項目を操作状況に合わせて提供します。 WebFMの機能を使用するために、javascript の有効化は必須です。"
+
+#: webfm.module:28
+msgid ""
+"Webfm presents two left hand blocks to represent directory\n"
+"        trees and a right hand block to list the contents of the current\n"
+"        directory.  The upper left block represents the directory structure of\n"
+"        file data enumerated in the database and available to the site for\n"
+"        attachment to content.  The lower left block is the directory structure\n"
+"        of the \"ftp\" directory.  This tree is outside the region accessible to\n"
+"        drupal content and its purpose is as a bulk upload area.  For sites with\n"
+"        large sets of documents, ftp is an good method of bulk transfer,\n"
+"        especially if secure shell access does not exist (ie: inexpensive\n"
+"        hosting).  A hierarchical structure can be constructed in this area to\n"
+"        be instantly copied and enumerated in the database with a single drag\n"
+"        operation."
+msgstr ""
+"WebFMでは、ディレクトリツリーを表す2つの左側ブロックと、現在のディレクトリの内容を一覧表示する右側ブロックが表示されます。 左上段のブロックは、コンテンツに添付してサイトで利用できる、データベースで列挙されたファイルデータのディレクトリ構造を表します。 左下段のブロックは、FTPディレクトリの構造を表します。 FTPのツリーは、Drupalのコンテンツがアクセスできる領域外にあり、大量のファイルをアップロードする領域としての用途を想定しています。 大量のドキュメントを備えたサイト、特にセキュアシェルが利用できない環境（つまり、低価格ホスティング）では、FTPは大量のファイル転送によい方法です。 階層構造は、一回のドラッグ操作で直ちにコピーされ、データベースで列挙される、このエリアで構築することができます。"
+
+#: webfm.module:43
+msgid "Enable the Web Networks File Browser."
+msgstr "ウェブ上のファイルブラウザを有効にします。"
+
+# ----------
+#: webfm.module:67
+#msgid "Read full article to view attachments."
+#msgstr "全文と添付ファイルを表示"
+
+#: webfm.module:81
+msgid "Root directory"
+msgstr "ルートディレクトリ"
+
+# typoあり preceeded
+#: webfm.module:85
+msgid ""
+"Root directory used to present the filebrowser\n"
+"            interface. Users will not be able to go up from this folder.<br />\n"
+"            <br />This path is relative to \"File system path\" set in\n"
+"            admin/settings and must be preceeded with a slash."
+msgstr ""
+"ファイルブラウザのインターフェイスを提供するために使用する、ルートディレクトリを入力してください。 ユーザはこのフォルダより上位に移動することはできません。\n"
+"<p>入力するパスは、admin/settings/file-system で設定された「ファイルシステムのパス」に相対的で、先頭にスラッシュを含める必要があります。</p>"
+
+#: webfm.module:93
+msgid "FTP root directory"
+msgstr "FTPのルートディレクトリ"
+
+# typoあり preceeded
+#: webfm.module:97
+msgid ""
+"WebFM allows you to move files from a specified\n"
+"            FTP folder to the file manager thereby making those files available\n"
+"            to your drupal site.  The benefit of this feature is to allow you to\n"
+"            do bulk uploads of files via FTP and then let webFM make your site\n"
+"            aware of them via drag and drop.<br /><br />This path is relative to\n"
+"            \"File system path\" set in admin/settings and must be preceeded with\n"
+"            a slash."
+msgstr ""
+"FTPを用いてファイルをアップロードするディレクトリを入力してください。 WebFMでは、指定されたFTPフォルダからファイルマネージャーへファイルを移動することができます。 この機能の利点は、FTPで多数のファイルを一括にアップロードし、それらをWebFM上でドラッグアンドドロップすることで、サイトで利用できるようになることです。"
+"<p>入力するパスは、admin/settings/file-system で設定された「ファイルシステムのパス」に相対的で、先頭にスラッシュを含める必要があります。</p>"
+
+#: webfm.module:107
+msgid "Icon directory"
+msgstr "アイコンディレクトリ"
+
+#: webfm.module:111
+msgid "Name of directory where file type icons are stored (relative to base url)."
+msgstr "ファイルタイプ用アイコンが格納されているパスを入力してください。 このパスは、Drupalのルートから相対的に指定します。"
+
+#: webfm.module:116
+msgid "Append file links to Node Body"
+msgstr "ノード本文にファイルリンクを付加"
+
+#: webfm.module:118
+msgid ""
+"Check this box to append downloadable attachments to the node body.\n"
+"                               <br />This setting does not affect the attachment block."
+msgstr "ノードの本文に添付ファイルのリンクを表示するかどうかを指定してください。<br />この設定は、WebFM用の添付ファイルブロックには影響を与えません。"
+
+#: webfm.module:124
+msgid "Webfm javascript debug"
+msgstr "WebFM javascript デバッグ"
+
+#: webfm.module:126
+msgid "Check this box for javascript debug messaging."
+msgstr "javascriptのデバッグメッセージを出力する場合、ここにチェックを入れてください。"
+
+#: webfm.module:131
+msgid "Forbidden"
+msgstr "禁止"
+
+#: webfm.module:133
+msgid "Forbidden file types (use comma delimited with no spaces)"
+msgstr "禁止するファイルタイプを入力してください。 入力の際にはコンマで区切り、空白文字は含めないでください。"
+
+# ----------
+#: webfm.module:141
+#msgid "Settings for @role"
+#msgstr "@role の設定"
+
+# ----------
+#: webfm.module:148
+#msgid "Permitted file extensions"
+#msgstr "許容するファイルの拡張子"
+
+# ----------
+#: webfm.module:151
+#msgid "Extensions that users in this role can upload. Separate extensions with a space and do not include the leading dot."
+#msgstr "このグループのユーザがアップロードできる、ファイルの拡張子を入力してください。 拡張子には先頭のドット（.）を含めず、空白文字で区切って指定してください。<br />例： jpg png gif pdf doc zip"
+
+# ----------
+#: webfm.module:156
+#msgid "Maximum file size per upload"
+#msgstr "アップロードできる最大ファイルサイズ"
+
+# ----------
+#: webfm.module:160
+#msgid "The maximum size of a file a user can upload (in megabytes)."
+#msgstr "このグループのユーザがアップロードできる、最大ファイルサイズを入力してください。 サイズの単位は MB （メガバイト）です。 例えば、<b>3MB</b> までのファイルを許可するのであれば、数字で <b>3</b> とだけ入力してください。"
+
+# ----------
+#: webfm.module:165
+#msgid "Total file size per user"
+#msgstr "ユーザ1人あたりの最大ディスク使用量"
+
+# ----------
+#: webfm.module:169
+#msgid "The maximum size of all files a user can have on the site (in megabytes)."
+#msgstr "このグループのユーザがアップロードできる、全ファイルの最大合計サイズを入力してください。 サイズの単位は MB （メガバイト）です。 例えば、合計で <b>10MB</b> までのアップロードを許可するのであれば、数字で <b>10</b> とだけ入力してください。"
+
+#: webfm.module:189;194;200
+msgid "Web File Manager"
+msgstr "ウェブファイルマネージャー"
+
+#: webfm.module:206
+msgid "File Not Found"
+msgstr "ファイルが見つかりませんでした"
+
+#: webfm.module:212
+msgid "Webfm Settings"
+msgstr "WebFMの設定"
+
+#: webfm.module:213
+msgid "Configure WebFM."
+msgstr "WebFMの設定を行います。"
+
+#: webfm.module:227
+msgid "Webfm File Attachments"
+msgstr "WebFM 添付ファイル"
+
+# ----------
+#: webfm.module:234
+#msgid "Attachments"
+#msgstr "添付"
+
+# ----------
+#: webfm.module:309
+#msgid "Attachment"
+#msgstr "添付"
+
+# ----------
+#: webfm.module:309
+#msgid "Size"
+#msgstr "サイズ"
+
+#: webfm.module:371
+msgid "Webfm Attachments"
+msgstr "WebFMのファイル添付"
+
+# ----------
+#: webfm.module:372
+#msgid "Disabled"
+#msgstr "無効"
+
+# ----------
+#: webfm.module:372
+#msgid "Enabled"
+#msgstr "有効"
+
+#: webfm.module:394
+msgid "Attached files"
+msgstr "添付ファイル"
+
+#: webfm.module:395
+msgid "Drag attachments to set order.<br />Changes made to the attachments are not permanent until you save this post."
+msgstr "添付ファイルをドラッグして並び順を設定してください。<br />なお、添付ファイルに対する変更は、この投稿を送信するまで適用されませんので注意してください。"
+
+#: webfm.module:408
+msgid "File Browser"
+msgstr "ファイルブラウザ"
+
+#: webfm.module:415;788
+msgid "File Upload"
+msgstr "ファイルアップロード"
+
+#: webfm.module:418;791
+msgid "Uploaded file will be saved to the current directory."
+msgstr "アップロードされたファイルは、現在のディレクトリに保存されます。"
+
+#: webfm.module:455;516
+msgid "illegal name for ftp root directory"
+msgstr "FTPルートディレクトリの名前が不正です"
+
+#: webfm.module:478
+msgid "Upload Success"
+msgstr "アップロードに成功しました"
+
+#: webfm.module:481
+msgid "webfm_dbinsert_file() failed"
+msgstr "webfm_dbinsert_file() に失敗しました"
+
+#: webfm.module:485
+msgid "Upload success"
+msgstr "アップロードに成功しました"
+
+#: webfm.module:488
+msgid "file_move to %path failed"
+msgstr "%path への file_move() に失敗しました"
+
+#: webfm.module:491
+msgid "file %s is not valid for upload"
+msgstr "ファイル %s のアップロードは無効です"
+
+#: webfm.module:494
+msgid "file_check_upload() failed: Check your php configuration to ensure that \"max_file_upload\" is greater than the file size you are attempting to upload."
+msgstr "file_check_upload() の失敗： アップロードしようとしているファイルのサイズより \"max_file_upload\" が大きいことを確認するため、PHPの設定をチェックしてください。"
+
+#: webfm.module:497
+msgid "Invalid destination path: %dest"
+msgstr "無効な送り先パス： %dest"
+
+#: webfm.module:500
+msgid "Invalid upload path"
+msgstr "無効なアップロードパスです"
+
+#: webfm.module:546
+msgid "New_Folder"
+msgstr "新しいフォルダ"
+
+#: webfm.module:811
+msgid "Upload file"
+msgstr "アップロードファイル"
+
+# ----------
+#: webfm.module:812
+#msgid "Upload"
+#msgstr "アップロード"
+
+#: webfm.module:1247
+msgid "Query Failed: Could not insert file into the database"
+msgstr "クエリ失敗： データベースにファイルを挿入できませんでした"
+
+#: webfm.module:1289
+msgid "webfm_dbupdate_file() err: fid=%fid"
+msgstr "webfm_dbupdate_file() エラー： fid=%fid"
+
+#: webfm.module:1327
+msgid "%name can not be uploaded because it does not have one of the following extensions: %files-allowed."
+msgstr "%name は、次の拡張子の1つを持たないためアップロードすることはできません： %files-allowed"
+
+#: webfm.module:1331
+msgid "%name can not be attached to this post, because it exceeded the maximum filesize of %maxsize."
+msgstr "%name は、最大ファイルサイズ（%maxsize）を超えたため、この投稿に添付することはできません。"
+
+#: webfm.module:1335
+msgid "%name can not be attached to this post, because the disk quota of %quota has been reached."
+msgstr "%name は、割り当てられたディスク容量（%quota）に達したため、この投稿に添付することはできません。"
+
+#: webfm.module:1339
+msgid "The selected file can not be attached to this post, because the filename is too long."
+msgstr "選択されたファイルは、ファイル名が長すぎるため、この投稿に添付することはできません。"
+
+#: webfm.module:1358
+msgid "file %s has no db record"
+msgstr "ファイル %s はデータベースに登録されていません"
+
+#: webfm.module:1424
+msgid "Query Failed: Could not delete file %fid ."
+msgstr "クエリ失敗： ファイル %fid が削除できませんでした。"
+
+#: webfm.module:1443
+msgid "fid= %fid"
+msgstr "fid= %fid"
+
+#: webfm.module:1494
+msgid "File is already attached to this node."
+msgstr "ファイルはこのノードにすでに添付されています。"
+
+# 要t()修正
+#: webfm.module:1501
+msgid "Query Failed:  Could not attach files to node "
+msgstr "クエリ失敗： ノードにファイルを添付できませんでした。 nid = "
+
+#: webfm.module:1521
+msgid "Query Failed: Could not detach file %fid from node %nid"
+msgstr "クエリ失敗： ノード %nid からファイル %fid を取り外せませんでした。"
+
+#: webfm.module:1538
+msgid "Query Failed: Could not detach file %fid from nodes."
+msgstr "クエリ失敗： ノードからファイル %fid を取り外せませんでした。"
+
+# ----------
+#: webfm.module:65
+#msgid "1 attachment"
+#msgid_plural "@count attachments"
+#msgstr[0] "添付ファイル(1)"
+#msgstr[1] "添付ファイル(@count)"
+
+#: webfm.module:179
+msgid "access webfm"
+msgstr "WebFMへのアクセス"
+
+#: webfm.module:179
+msgid "attach WebFM files"
+msgstr "WebFMファイルの添付"
+
+#: webfm.module:0 webfm.info:0
+#: contrib/webfm_ext_example/webfm_ext_example.info:0
+msgid "webfm"
+msgstr "webfm"
+
+#: webfm.info:0
+msgid "WebFM Web File Manager"
+msgstr "WebFM ウェブファイルマネージャー"
+
+#: webfm.info:0
+msgid "Hierarchical AJAX file system manager"
+msgstr "AJAXを用いた階層型ファイルシステムマネージャーです。"
+
+#: webfm.info:0 contrib/webfm_ext_example/webfm_ext_example.info:0
+msgid "WebFM"
+msgstr "WebFM"
+
+#: contrib/webfm_ext_example/webfm_ext_example.info:0
+msgid "webfm_ext_example"
+msgstr "webfm_ext_example"
+
+#: contrib/webfm_ext_example/webfm_ext_example.info:0
+msgid "Webfm extension example."
+msgstr "WebFM拡張の実例です。"
+
+# ----------
+#: webfm_file.inc:18;245
+#msgid "The directory %directory is not writable."
+#msgstr "ディレクトリ %directory は書き込み可能ではありません。"
+
+#: webfm_file.inc:46
+msgid "%ext is invalid extension for rename"
+msgstr "%ext は名前変更には無効な拡張子です。"
+
+#: webfm_file.inc:63
+msgid "rename %source dir fail"
+msgstr "%source ディレクトリの名前変更に失敗しました"
+
+#: webfm_file.inc:73
+msgid "webfm_rename_db_dir_recur error - db may be corrupted"
+msgstr "webfm_rename_db_dir_recur() エラー － DBが破損する可能性があります"
+
+#: webfm_file.inc:79
+msgid "rename %source to %dest fail"
+msgstr "%source から %dest への名前変更に失敗しました"
+
