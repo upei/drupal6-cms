@@ -91,7 +91,6 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
       +${source_site}/$bucket/link/*
 			-${source_site}/$bucket/files/*
 			-${source_site}/*/scrape/*
-			-${source_site}/*/field_email
 			+${photo_site}/d/*
 			${HTTRACK_OPTS}"
 
@@ -172,7 +171,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 #                -exec sed -i 's/\&quot\;\&gt\;read more/.html\&quot\;\&gt\;more/g' {} \;
 
 	# Create extension-less symbolic links to .html and .xml files
-	dir_names=`find /var/cache/httrack/$bucket/${source_site}/$1 -type d`
+	dir_names=`find /var/cache/httrack/$bucket/${source_site}/$bucket -type d`
 
 	# Doing it one directory at a time to ensure that symlinks are created relative to files
 	# in the same directory.
@@ -201,7 +200,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	echo "Copying content to public server."
 
 	# Copy files to proxy server
-	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$1/${source_site}/$1/ --delete drupal@prinny.cs.upei.ca:${static_directory}/$1/
+	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$bucket/${source_site}/$1 --delete drupal@prinny.cs.upei.ca:${static_directory}/$1
   # copy banners and css to proxy server
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/css/ --delete drupal@prinny.cs.upei.ca:${static_directory}/css/
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/js/ --delete drupal@prinny.cs.upei.ca:${static_directory}/js/

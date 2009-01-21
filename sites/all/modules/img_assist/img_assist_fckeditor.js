@@ -3,6 +3,8 @@
 //
 // Get the header of the document
 var head= document.getElementsByTagName('head')[0];
+var BASE_URL = Drupal.settings.basePath;
+
 // Create a new script object
 var script= document.createElement('script');
 script.type= 'text/javascript';
@@ -99,4 +101,6 @@ function initLoader() {
   }
   frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/thumbs/myimages';
 }
+
 }
+
