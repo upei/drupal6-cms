@@ -1,0 +1,83 @@
+body {
+  color: #000;
+  background-color: #8596AA;
+}
+
+#page {
+   background-color: #fff;
+}
+
+
+#section1 {
+   background: #F5F5E9;
+}
+
+#section2 {
+   background: #336299 url(../images/market/BottomBG.png) 0 0 repeat-x;
+   color: #fff;
+}
+
+#navlist a.active,
+#subnavlist a.active {
+  color: #CDCD8F;
+}
+
+a:link,
+a:visited,
+a:hover,
+.title, .title a,
+.submitted,
+.links,
+.node .taxonomy,
+#aggregator .news-item .categories, #aggregator .source, #aggregator .age,
+#forum td .name,
+div.admin-panel .description {
+  color: #336299;
+}
+
+#section2 .title,
+#section2 .title a {
+   color: #fff;
+}
+
+#section2 a:link,
+#section2 a:visited,
+#section2 a.hover {
+   color: #EEC193;
+}
+
+#header {
+  background: #336299 url(../images/market/MastBG.png) 0 0 repeat-x;
+}
+
+#sidebar-left, #sidebar-right {
+  background-color: #EEF4F9;
+}
+
+#mission,
+div.admin-panel h3 {
+  background-color: #336299;
+}
+
+h1.title
+{
+  font-size: 24px;
+  background-color: #6c1c00;
+  margin-left: 0px;
+  padding-left: 15px;
+  color:#ffffff;
+}
+
+
+#sidebar-left h2.title, #sidebar-right h2.title {
+	background: #ffffff url(../images/market/menu_cap.png) 0 0 no-repeat;
+	background-position: top right;
+	padding-left:10px;
+	font-size:13px;
+	font-family:helvetica;
+	font-weight:bold;
+	color:#000000;padding:2px;
+	border-color:#6C1C00;
+	border-style:solid;
+	border-width:1px;
+	}

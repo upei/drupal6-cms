@@ -86,7 +86,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	echo "Beginning copy of content in /$1.  This may take several minutes."
 
 	# Need to include fix-ie.css file explicitly
-	HTTRACK_OPTS="-O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -K4"
+	HTTRACK_OPTS="-O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -K4 -b0"
 	HTTRACK_OPTIONS="http://${source_site}/$bucket/hidden/links
       +${source_site}/$bucket/link/*
 			-${source_site}/$bucket/files/*
@@ -177,7 +177,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	# in the same directory.
 	for dir_name in ${dir_names}
 	do
-		cd $dir_name
+		cd "$dir_name" 
 
 		#find -maxdepth 1 -name "*xml" | \
 		#	sed 's/\.xml$//g' | \
@@ -190,7 +190,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 		symlinks .xml
 
 
-		check_name=../`basename ${dir_name}`.html
+		check_name=../`basename "${dir_name}"`.html
 		if [ -f ${check_name} ] ; then
 			ln -sT ${check_name} index.html
 		fi
@@ -200,7 +200,8 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	echo "Copying content to public server."
 
 	# Copy files to proxy server
-	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$bucket/${source_site}/$1 --delete drupal@prinny.cs.upei.ca:${static_directory}/$1
+	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$bucket/${source_site}/$1/ --delete drupal@prinny.cs.upei.ca:${static_directory}/$1/
+	echo rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$bucket/${source_site}/$1 --delete drupal@prinny.cs.upei.ca:${static_directory}/$1
   # copy banners and css to proxy server
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/css/ --delete drupal@prinny.cs.upei.ca:${static_directory}/css/
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/js/ --delete drupal@prinny.cs.upei.ca:${static_directory}/js/

@@ -1,5 +1,5 @@
 <?php
-// $Id: views_bonus_plugin_style_export_txt.inc,v 1.3 2008/12/06 17:10:47 neclimdul Exp $
+// $Id: views_bonus_plugin_style_export_txt.inc,v 1.5 2008/12/28 03:47:37 neclimdul Exp $
 /**
  * @file
  * Plugin include file for export style plugin.
@@ -7,13 +7,26 @@
 
 /**
  * Generalized style plugin for export plugins.
+ *
+ * @ingroup views_style_plugins
  */
 class views_bonus_plugin_style_export_txt extends views_bonus_plugin_style_export {
+  /**
+   * Initialize plugin.
+   *
+   * Set feed image for shared rendering later.
+   */
   function init(&$view, &$display, $options = NULL) {
-    parent::init(&$view, &$display, $options = NULL);
+    parent::init($view, $display, $options = NULL);
     $this->feed_image = drupal_get_path('module', 'views_bonus_export') . '/images/txt.png';
   }
 
+  /**
+   * Set options fields and default values.
+   *
+   * @return
+   * An array of options information.
+   */
   function option_definition() {
     $options = parent::option_definition();
 
@@ -25,6 +38,16 @@ class views_bonus_plugin_style_export_txt extends views_bonus_plugin_style_expor
     return $options;
   }
 
+  /**
+   * Options form mini callback.
+   *
+   * @param $form
+   * Form array to add additional fields to.
+   * @param $form_state
+   * State of the form.
+   * @return
+   * None.
+   */
   function options_form(&$form, &$form_state) {
     $form['filename'] = array(
       '#type' => 'textfield',

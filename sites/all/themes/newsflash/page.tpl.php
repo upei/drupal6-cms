@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $language->language ?>" xml:lang="<?php print $language->language ?>">
 <head>
   <title><?php print $head_title ?></title>
+  <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
+  
   <?php print $head ?>
   <?php print $styles ?>
 <style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_style.css";</style>

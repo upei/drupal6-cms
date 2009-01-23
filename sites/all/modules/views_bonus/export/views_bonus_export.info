@@ -6,9 +6,9 @@ package = Views
 core = 6.x
 
 
-; Information added by drupal.org packaging script on 2008-12-10
-version = "6.x-1.x-dev"
+; Information added by drupal.org packaging script on 2009-01-06
+version = "6.x-1.0-beta1"
 core = "6.x"
 project = "views_bonus"
-datestamp = "1228868226"
+datestamp = "1231268143"
 

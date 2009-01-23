@@ -51,7 +51,14 @@ function campus_management_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
   );
-  
+  /*
+  $items['content/view'] = array(
+    'title' => t('Content View'),
+    'page callback' => '_campus_management_content_view',
+    'access arguments' => array('administer menu'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  */
   $items['campus_management/menu'] = array(
     'title' => t('Menus'),
     'description' => "Control your site's navigation menu, primary links and secondary links. as well as rename and reorganize menu items.",
@@ -106,6 +113,103 @@ function _campus_management_updateable_content() {
   $page_content .= "</table>";
   $page_content .= theme('pager', NULL, 100, 0);
   return $page_content;
+}
+
+function _campus_management_content_view() {
+  return '';
+  
+  $path = drupal_get_path('module', 'views');
+  require_once "./$path/includes/view.inc";
+  
+  $view = new view;
+  $view->name = 'content_view';
+  $view->description = '';
+  $view->tag = '';
+  $view->view_php = '';
+  $view->base_table = 'node';
+  $view->is_cacheable = FALSE;
+  $view->api_version = 2;
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->override_option('fields', array(
+    'title' => array(
+      'label' => 'Title',
+      'link_to_node' => 1,
+      'exclude' => 0,
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'relationship' => 'none',
+    ),
+    'type' => array(
+      'label' => 'Type',
+      'link_to_node' => 0,
+      'exclude' => 0,
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('sorts', array(
+    'changed' => array(
+      'order' => 'DESC',
+      'granularity' => 'second',
+      'id' => 'changed',
+      'table' => 'node',
+      'field' => 'changed',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('access', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('items_per_page', 50);
+  $handler->override_option('use_pager', '1');
+  $handler->override_option('style_plugin', 'bulk');
+  $handler->override_option('style_options', array(
+    'execution_type' => '1',
+    'display_type' => '0',
+    'skip_confirmation' => 0,
+    'display_result' => 1,
+    'selected_operations' => array(
+      '7a9a34556136a4e6d403cacfe0573d64' => '7a9a34556136a4e6d403cacfe0573d64',
+      '2590ff43ab3648737ccd1865cd76084e' => '2590ff43ab3648737ccd1865cd76084e',
+      '62984dda008cb28a75baa79ef8268e03' => 0,
+      '837cbe58fd9af30cf48e5c9de552d925' => 0,
+      'd0746f09756440a699f4a721c7683290' => 0,
+      'b26a99d8d89001e5998b3651fa7b10ba' => 0,
+      '339302ab7ef2adc1a3a9844e15e76967' => 0,
+      'e865a3ac236dc71e38301049a0f356e8' => 0,
+      '2fd6d151e013faf3099170a3bb1284d4' => 0,
+      'bf6b6cafe38816388f6606b93b881f16' => 0,
+      'c240117f80fc27a29633c29df38c3802' => 0,
+      'e52c7d4b8ccc8fd7b8f7a59ca8e0e013' => 0,
+      'e620912b6bfc590784848cf00c05b42f' => 0,
+      'ffd4dd7c59102655f73303c040b08914' => 0,
+      '2094a5f797e4c4f0f5ecc0cfcdae09de' => 0,
+      '97cdd5da60cce28fec0e8a22e535938c' => 0,
+      '0b086d2bd7e37bf66a3b8b0b9226249a' => 0,
+      'c775ce4cea01fb1d3491f61c7cb2c2b2' => 0,
+      '44601207cad7f7db21f92437c9e84938' => 0,
+    ),
+  ));
+  $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->override_option('path', 'content/edit');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'weight' => 0,
+  ));
+
+  
+  return $view->render('page_1');
 }
 // END UpdatableContent()*************************
 

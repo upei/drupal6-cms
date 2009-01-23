@@ -1,12 +1,12 @@
 <?php
-// $Id: views_bonus_export.views.inc,v 1.4 2008/12/06 17:10:47 neclimdul Exp $
+// $Id: views_bonus_export.views.inc,v 1.5 2008/12/28 02:56:03 neclimdul Exp $
 /**
  * @file
  * Views include file with views hooks.
  */
 
 /**
- * Implementation of hook_views_plugins
+ * Implementation of hook_views_plugins().
  */
 function views_bonus_export_views_plugins() {
   $path = drupal_get_path('module', 'views_bonus_export');
