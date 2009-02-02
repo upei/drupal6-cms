@@ -1,5 +1,5 @@
 <?php
-// $Id: image_gallery.module,v 1.29 2008/12/27 06:58:41 drewish Exp $
+// $Id: image_gallery.module,v 1.31 2009/01/17 22:29:47 sun Exp $
 
 define('IMAGE_GALLERY_SORT_CREATE_DESC', 0);
 define('IMAGE_GALLERY_SORT_CREATE_ASC', 1);
@@ -146,10 +146,11 @@ function image_gallery_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
  * Image gallery callback, displays an image gallery
  */
 function image_gallery_page($type = NULL, $tid = 0) {
-  $galleries = taxonomy_get_tree(_image_gallery_get_vid(), $tid, -1, 1);
+  $vid = _image_gallery_get_vid();
+  $galleries = taxonomy_get_tree($vid, $tid, -1, 1);
   for ($i=0; $i < count($galleries); $i++) {
     $galleries[$i]->count = taxonomy_term_count_nodes($galleries[$i]->tid, 'image');
-    $tree = taxonomy_get_tree(_image_gallery_get_vid(), $galleries[$i]->tid, -1);
+    $tree = taxonomy_get_tree($vid, $galleries[$i]->tid, -1);
     $descendant_tids = array_merge(array($galleries[$i]->tid), array_map('_taxonomy_get_tid_from_term', $tree));
     // The values of $descendant_tids should be safe for raw inclusion in the
     // SQL since they're all loaded from integer fields in the database.
@@ -278,7 +279,7 @@ function image_gallery_admin_form(&$form_state, $edit = array()) {
   );
   $form['submit' ] = array(
     '#type' => 'submit',
-    '#value' => t('Submit'),
+    '#value' => t('Save'),
   );
   if ($edit['tid']) {
     $form['delete'] = array(

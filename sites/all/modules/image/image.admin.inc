@@ -1,13 +1,12 @@
 <?php
-// $Id: image.admin.inc,v 1.2 2008/12/27 06:58:41 drewish Exp $
+// $Id: image.admin.inc,v 1.3 2009/01/18 00:31:35 sun Exp $
 
 /**
- * Admin settings callback.
+ * Menu callback; Form builder function for image settings.
  */
 function image_admin_settings() {
   _image_check_settings();
 
-  $form['#submit'][] = 'image_settings_sizes_submit';
   $form['image_updated'] = array(
     '#type' => 'hidden',
     '#value' => variable_get('image_updated', time()),
@@ -100,6 +99,10 @@ function image_admin_settings() {
     );
   }
 
+  // Make changes to the settings before passing them off to
+  // system_settings_form_submit().
+  $form['#submit'][] = 'image_admin_settings_submit';
+
   return system_settings_form($form);
 }
 
@@ -118,14 +121,14 @@ function image_settings_sizes_validate($form, &$form_state) {
 }
 
 /**
- * Make changes to the settings before passing them off to
- * system_settings_form_submit().
- *
- * Remove deleted sizes, and use the label as indexes for new sizes.
+ * Form submit handler for image admin settings form.
  */
-function image_settings_sizes_submit($form, &$form_state) {
-  $old_sizes = image_get_sizes();
+function image_admin_settings_submit($form, &$form_state) {
+  // Ensure that 'image_default_path' variable contains no trailing slash.
+  $form_state['values']['image_default_path'] = rtrim($form_state['values']['image_default_path'], '/');
 
+  // Remove deleted sizes, and use the label as indexes for new sizes.
+  $old_sizes = image_get_sizes();
   // If the size's operation, or dimensions change we need to rebuild.
   $rebuild = FALSE;
 

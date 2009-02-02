@@ -6,7 +6,7 @@ ul.galleries {
 
 ul.galleries li {
   position : relative;
-  background : #eeeeee;
+  background: transparent none;
   border : 1px #cccccc solid;
   margin : 1em 0;
   padding : 1em;
@@ -45,5 +45,6 @@ ul.images h3 {
 ul.images li {
   float : left;
   margin : 1em;
-  background: transparent;
+  background: transparent none;
+  list-style: none;
 }

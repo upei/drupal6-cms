@@ -1,5 +1,5 @@
 <?php
-// $Id: image.install,v 1.17 2009/01/13 09:32:25 drewish Exp $
+// $Id: image.install,v 1.20 2009/01/18 04:32:57 sun Exp $
 
 /**
  * Implementation of hook_schema().
@@ -11,12 +11,14 @@ function image_schema() {
       'nid' => array(
         'description' => 'Primary Key: The {node}.nid of the image node.',
         'type' => 'int',
+        'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
       ),
       'fid' => array(
         'description' => 'Index: The {files}.fid of the image file.',
         'type' => 'int',
+        'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
       ),
@@ -27,6 +29,10 @@ function image_schema() {
         'not null' => TRUE,
         'default' => '',
       ),
+    ),
+    'primary key' => array('nid', 'image_size'),
+    'indexes' => array(
+      'fid' => array('fid'),
     ),
   );
   return $schema;
@@ -49,6 +55,8 @@ function image_uninstall() {
   variable_del('image_updated');
   variable_del('image_default_path');
   variable_del('image_sizes');
+  variable_del('image_block_0_number_images');
+  variable_del('image_block_1_number_images');
 }
 
 /**
@@ -269,3 +277,38 @@ function image_update_5201() {
   
   return array();
 }
+
+/**
+ * Add primary key and index on 'fid' to {image} table.
+ */
+function image_update_6100() {
+  $ret = array();
+  db_change_field($ret, 'image', 'nid', 'nid', array(
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  ));
+  db_change_field($ret, 'image', 'fid', 'fid', array(
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  ));
+  db_add_primary_key($ret, 'image', array('nid', 'image_size'));
+  db_add_index($ret, 'image', 'fid', array('fid'));
+  return $ret;
+}
+
+/**
+ * Ensure that 'image_default_path' variable contains no trailing slash.
+ */
+function image_update_6101() {
+  $ret = array();
+  $path = variable_get('image_default_path', NULL);
+  if (!empty($path)) {
+    variable_set('image_default_path', rtrim($path, '/'));
+  }
+  return $ret;
+}
+

@@ -159,7 +159,7 @@ h1.title{font-size:18px;margin-bottom:5px;}
 
 /* Styles added to allow sub banners to appear in user2 area of newsflash*/
 #section1 td.section{padding:0px;background-color:#ffffff;}
-#section1 img{margin:0px;padding:0px;border:none;float:right;}
+#section1 img{margin:0px;padding:0px;border:none;}
 #section1{border:none;}
 
 /* Style for the course schedule feel for the top menu*/
@@ -342,7 +342,7 @@ border-bottom: 1px solid #ccc;
 }
 
 .sections .block {
-  padding: 5px;
+  /* padding: 5px; */
 }
 
 #content-top .block {

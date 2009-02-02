@@ -1,5 +1,5 @@
 <?php
-// $Id: image_gallery.install,v 1.9 2008/12/27 06:58:41 drewish Exp $
+// $Id: image_gallery.install,v 1.10 2009/01/22 12:17:20 sun Exp $
 
 function image_gallery_install() {
   // Nothing to do.
@@ -32,7 +32,7 @@ function image_gallery_requirements($phase) {
 
 function image_gallery_uninstall() {
   if ($vid = variable_get('image_gallery_nav_vocabulary', FALSE)) {
-    taxonomy_del_vocabulary($vid);
+    module_invoke('taxonomy', 'del_vocabulary', $vid);
   }
 
   variable_del('image_images_per_page');

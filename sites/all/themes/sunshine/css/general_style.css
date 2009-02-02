@@ -67,8 +67,6 @@ div.admin-panel .description {
 		    background-color: #43590E;
 		    }
 img {
-  margin-left: 5px;
-  margin-right: 5px;
   margin-bottom: 10px;
 }
 #footer-message img{padding:0px margin:0px;}
@@ -159,7 +157,7 @@ h1.title{font-size:18px;margin-bottom:5px;}
 
 /* Styles added to allow sub banners to appear in user2 area of sunshine*/
 #section1 td.section{padding:0px;background-color:#ffffff;}
-#section1 img{margin:0px;padding:0px;border:none;float:right;}
+#section1 img{margin:0px;padding:0px;border:none;}
 #section1{border:none;}
 
 /* Style for the course schedule feel for the top menu*/
@@ -280,9 +278,7 @@ h1.title {
 background-color: white;
 color: #333;
 font-size: 18px;
-padding: 10px;
-border-top: 1px solid #ccc;
-border-bottom: 1px solid #ccc;
+padding: 5px;
 }
 
 
@@ -319,6 +315,13 @@ border-bottom: 1px solid #ccc;
 .section {
 	float: left;
 }
+
+.user1-width99 { width: 100%; }
+.user1-width49 { width: 48%; }
+.user2-width49 { width: 52%; }
+.user1-width33 { width: 31%; }
+.user2-width33 { width: 31%; }
+.user3-width33 { width: 38%; }
 
 .width99 {
 	width: 100%;
@@ -358,7 +361,7 @@ border-bottom: 1px solid #ccc;
 }
 
 #content-top .block {
-  padding: 5px;
+  padding: 0px;
 }
 
 .clearfix:after {
@@ -436,3 +439,6 @@ border-bottom: 1px solid #ccc;
 #section1 h2 a, #section2 h2 a{font-size:14px;font-weight:bold;}
 #block-scrape_manager-0 img{margin-bottom:2px;}
 
+#inner-content {
+padding: 0px;
+}

@@ -23,7 +23,35 @@ if($bucket == "home"){
 	echo "$mybanner \n";
 }else{
 	if($bucket == "avc"){$bheight = "126";}else{$bheight = "110";}
+	
+}
+
+if($bucket == "wf"){
+	$uri = explode("/", request_uri());
+    $alias = str_replace("/". $uri[1] . "/node/add/", "", request_uri());
+    $alias_part = explode("-", $alias);
+	 if($uri[2] == "node" && $uri[3]=="add"){
+     	switch ($alias_part[0]){
+        case "clll":
+        	$bucket = "lifelonglearning";
+        break;
+
+        case "ic";
+            $bucket = "integratedcommunications";
+        break;
+
+        case "coop";
+            $bucket = "co-op";
+        break;
+
+        default:
+            $bucket = $alias_part[0];
+        break;
+        }
+	}
 ?>
+#header {background: #ffffff url(<?php echo "/banner/" . $bucket .".jpg"; ?>) 0 0 no-repeat;height: <?php print $bheight;?>px;}
+<?}else{?>
 #header {background: #ffffff url(<?php echo _get_banner(); ?>) 0 0 no-repeat;height: <?php print $bheight;?>px;}
 <?php } ?>
 </style>
@@ -118,15 +146,15 @@ if($bucket == "home"){
 <style type="text/css" media="all">@import "<?php print base_path() . path_to_theme() ?>/css/ie.css";</style>
 
 <![endif]-->
-
+<style type="text/css">@import url('/misc/ui-theme/ui.all.css');</style>
 <?php if ($suckerfish) { ?>
     <?php if (theme_get_setting('newsflash_suckerfish')) { ?>
 <!--[if lte IE 6]>
-<script type="text/javascript" src="<?php print $GLOBALS['base_url']."/"; print $directory; ?>/js/suckerfish.js"></script>
+<script type="text/javascript" src="<? print url(drupal_get_path('theme', 'newsflash').'/js/suckerfish.js'); ?>"></script>
 <![endif]-->
     <?php }  ?>
   <?php } ?>
-  <script type="text/javascript" src="<?php print $GLOBALS['base_url']."/"; print $directory; ?>/js/pickstyle.js"></script>
+  <script type="text/javascript" src="<?php print url(drupal_get_path('theme', 'newsflash') . '/js/pickstyle.js'); ?>"></script>
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
  <?php include "mods/google.php";?> 
@@ -168,7 +196,7 @@ if($bucket == "home"){
 <li class=""><a href="http://www.upei.ca/alumni">Alumni &amp; Friends</a></li>
 <li class=""><a href="http://www.upei.ca/futurestudents/parentsandfamily">Parents &amp; Family</a></li>
 <li class=""><a href="http://www.upei.ca/staff_faculty">Staff &amp; Faculty</a></li>
-<li class=" last"><a href="http://www.upei.ca/home/contactpage">Contact UPEI</a></li>
+<li class=" last"><a href="http://www.upei.ca/home/contactpage">Contacts</a></li>
 </ul>     
 		  
 		  
@@ -187,7 +215,12 @@ if($bucket == "home"){
       <?php endif; ?>
     <div id="middlecontainer">
 <!-- dave did this and he's very sorry--> 
-<?php if($bucket != "home" && $bucket != "avc"){?><h1 class="title"><?php print $title ?></h1> <?php }?> 
+<?php if($bucket != "home" && $bucket != "avc"){?>
+<? if($bucket == "wf"){$title = str_replace("Create", "", $title);}?>
+<h1 class="title"><?php print $title ?></h1> 
+
+<?php }?> 
+
 <?php if ($sidebar_left) { ?>
         <div id="sidebar-left"><?php print $sidebar_left ?> </div>
       <?php } ?>

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $language->language ?>" xml:lang="<?php print $language->language ?>">
 <head>
-  <title><?php print $head_title ?></title>
+  <title><?php print "University of Prince Edward Island" //$head_title ?></title>
   <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
   
   <?php print $head ?>
@@ -104,6 +104,7 @@
 
 <![endif]-->
 
+    <style type="text/css">@import url('/misc/ui-theme/ui.all.css');</style>
 <?php if ($suckerfish) { ?>
     <?php if (theme_get_setting('sunshine_suckerfish')) { ?>
 <!--[if lte IE 6]>
@@ -128,81 +129,43 @@
 <li class=""><a href="http://www.upei.ca/alumni">Alumni &amp; Friends</a></li>
 <li class=""><a href="http://www.upei.ca/futurestudents/parentsandfamily">Parents &amp; Family</a></li>
 <li class=""><a href="http://www.upei.ca/staff_faculty">Staff &amp; Faculty</a></li>
-<li class=" last"><a href="http://www.upei.ca/home/contactpage">Contact UPEI</a></li>
+<li class=" last"><a href="http://www.upei.ca/home/contactpage">Contacts</a></li>
 </ul>     
 	</div>
 	
-	
-<script language="javascript">
+<div style="margin-top:5px;width:706px;float:right;border:0px solid #cccccc;">
+<?php include "mods/google.php";?>
+
+<!--<script language="javascript">
 function ExecuteQuickLink(){
 	window.location.href = document.frmQuickLinks.sltURL.value;
 }
 </script>
-
-<form style="font-size:0.9em;margin:7px 5px 0px 0px;float:right;" name="frmQuickLinks">
+<form style="float:left;font-size:1.1em;margin:2px 0px 0px 0px;" name="frmQuickLinks">
 <select name="sltURL" onchange="ExecuteQuickLink();">
-	<option value="http://upei.ca/home">--- Quick Links ---</option>
+	<option value="http://upei.ca/home">--- Campus Links ---</option>
 	<option value="https://secure.upei.ca/cls/dropbox/SpringTime.html">Second Semester 2008-09 Timetable</option>
 	<option value="http://welcome.upei.ca/news/">News &amp; Events</option>
 	<option value="http://upei.ca/staff_faculty/search">Search Faculty &amp; Staff</option>
 	<option value="http://www.upei.ca/registrar/">Registrar's Office</option>
-	<option value="http://upei.ca/studentservices/award/entering-upei">Scholarships</option>
 	<option value="http://www.upei.ca/futurestudents/tuition">Tuition</option>
-	<option value="http://upei.ca/internationalization">Internationalization</option>
 	<option value="http://www.upei.ca/bookstore">Bookstore</option>
 	<option value="http://www.upei.ca/residence">Residences</option>
-	<option value="http://www.upei.ca/conference">Conference Services</option>
 	<option value="http://cms.upei.ca/home/research_institutes_and_centres">Institutes &amp; Centres</option>
 	<option value="http://cms.upei.ca/home/safety">Campus Safety</option>
 </select>
-</form>
-	</div>
+</form>-->
+</div>
+
+
+
+</div>
+
+	
 </div>
 <!-- End Top Section-->
-<?php //include "mods/google.php";?> 
   <div id="page">
-  <!--  class="clear-block" -->
-    <div id="header3">
-      <div id="logo-title">
-        <?php if ($logo): ?>
-          <?php if (theme_get_setting('sunshine_themelogo')) { ?>
-            <?php $logo_path = base_path() . path_to_theme() . "/images/" . get_sunshine_style() . "/logo.png"; ?>
-            <a href="<?php print $base_path; ?>" title="<?php print t('Home'); ?>"> <img src="<?php print $logo_path; ?>" alt="<?php print t('Home'); ?>" id="logo" /> </a>
-          <?php } else { ?>
-            <a href="<?php print $base_path; ?>" title="<?php print t('Home'); ?>"> <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" id="logo" /> </a>
-          <?php } ?>
-        <?php endif; ?>
-      </div><!-- /logo-title -->
-      <div id="name-and-slogan">
-        <?php if ($site_name): ?>
-          <h1 class='site-name'> <a href="<?php print $base_path ?>" title="<?php print t('Home'); ?>"> <?php print $site_name; ?> </a> </h1>
-        <?php endif; ?>
-        <?php if ($site_slogan): ?>
-          <div class='site-slogan'> <?php print $site_slogan; ?> </div>
-        <?php endif; ?>
-      </div><!-- /name-and-slogan -->
-      <?php if ($header): ?>
-        <!-- <div style="clear:both"></div> -->
-        <?php print $header; ?>
-      <?php endif; ?>
-      <?php print $search_box; ?>
-      <?php if (isset($primary_links) || isset($secondary_links)) { ?>
-        <div id="primarymenu">
-        <?php if (isset($primary_links)) : ?>
-          <?php //print theme('links', $primary_links, array('class' => 'links primary-links')) ?>
-		  
-		  <!-- This is where the Primary Navigation used to be!!! Moved Above-->
-		  
-		  
-        <?php endif; ?>
-        <?php if (isset($secondary_links)) : ?>
-          <?php print theme('links', $secondary_links, array('class' => 'links secondary-links')) ?> 
-        <?php endif; ?>
-        </div>
-      <?php } ?>
-      <?php //Suckerfish statement was here...moved out of header December 2008?>
-    </div><!-- /header -->
-	 <?php //Suckerfish statement moved to here Dec 2008?>
+	<?php //Suckerfish statement moved to here Dec 2008?>
 	<?php if ($suckerfish): ?>
         <!-- <div style="clear:both"></div> -->
         <!--  -->
@@ -210,9 +173,9 @@ function ExecuteQuickLink(){
       <?php endif; ?>
     <div id="middlecontainer">
 <!-- dave did this and he's very sorry--> 
-<!--
-<?php if($bucket != "home" && $bucket != "avc"){?><h1 class="title"><?php print $title ?></h1> <?php }?> 
--->
+
+
+<?php //include "mods/google.php";?>
 <?php if ($sidebar_left) { ?>
         <div id="sidebar-left"><?php print $sidebar_left ?> </div>
       <?php } ?>
@@ -231,30 +194,34 @@ function ExecuteQuickLink(){
              <?php if ($content_top):?>
                 <div id="content-top"><?php print $content_top; ?></div>
               <?php endif; ?>
-			<!--  
-         <?php if($bucket == "home" || $bucket == "avc"){?><h1 class="title"><?php print $title ?></h1><?php }?>
-              -->
+
+<?
+	$aURI = explode("/", request_uri());
+	if($aURI[1] == "home" && !$aURI[2]){$DisplayTitle = "<a style=\"font-weight:none;color:#666666;text-decoration:underline;\" href=\"http://www.upei.ca/news\">". $title ."</a>";}else{$DisplayTitle = $title;}
+?>		  
+<h1 class="title"><?php print $DisplayTitle ?></h1>
+              
 			  <div class="tabs"><?php print $tabs ?></div>
               <?php print $help ?>
               <?php if ($show_messages) { print $messages; } ?>
  <?php
-      $section1count = 0;
-      if ($user1)  { $section1count++; }
-      if ($user2)  { $section1count++; }
-      if ($user3)  { $section1count++; }
+      $section1count = 3;
+      // if ($user1)  { $section1count++; }
+      // if ($user2)  { $section1count++; }
+      // if ($user3)  { $section1count++; }
     ?>
     <?php if ($section1count): ?>
       <?php $section1width = 'width' . floor(99 / $section1count); ?>
       <div class="clear-block clr" id="section1">
         <div class="sections">
           <?php if ($user1): ?>
-            <div class="section <?php echo $section1width ?>"><?php print $user1; ?></div>
+            <div class="section user1-<?=$section1width?>"><?php print $user1; ?></div>
           <?php endif; ?>
           <?php if ($user2): ?>
-            <div class="section <?php echo $section1width ?>"><?php print $user2; ?></div>
+            <div class="section user2-<?=$section1width?>"><?php print $user2; ?></div>
           <?php endif; ?>
           <?php if ($user3): ?>
-            <div class="section <?php echo $section1width ?>"><?php print $user3; ?></div>
+            <div class="section user3-<?=$section1width?>"><?php print $user3; ?></div>
           <?php endif; ?>
         </div>
         <div style="clear:both"></div>
@@ -263,23 +230,23 @@ function ExecuteQuickLink(){
               <?php print $feed_icons; ?>
               
 			  <?php
-      $section2count = 0;
-      if ($user4)  { $section2count++; }
-      if ($user5)  { $section2count++; }
-      if ($user6)  { $section2count++; }
+      $section2count = 2;
+      // if ($user4)  { $section2count++; }
+      // if ($user5)  { $section2count++; }
+      // if ($user6)  { $section2count++; }
     ?>
     <?php if ($section2count): ?>
       <?php $section2width = 'width' . floor(99 / $section2count); ?>
       <div class="clear-block clr" id="section2">
         <div class="sections">
           <?php if ($user4): ?>
-            <div class="section <?php echo $section2width ?>"><?php print $user4; ?></div>
+            <div class="section user1-<?php echo $section2width ?>"><?php print $user4; ?></div>
           <?php endif; ?>
           <?php if ($user5): ?>
-            <div class="section <?php echo $section2width ?>"><?php print $user5; ?></div>
+            <div class="section user2-<?php echo $section2width ?>"><?php print $user5; ?></div>
           <?php endif; ?>
           <?php if ($user6): ?>
-            <div class="section <?php echo $section2width ?>"><?php print $user6; ?></div>
+            <div class="section user3-<?php echo $section2width ?>"><?php print $user6; ?></div>
           <?php endif; ?>
         </div>
         <div style="clear:both"></div>
@@ -299,7 +266,6 @@ function ExecuteQuickLink(){
     </div><!-- /middle-container -->
     <div style="clear:both"></div>
      </div> <!-- /page -->
-    
 	<div id="footer"  style="width:100%;background-color:#e8e8e8;" >
       <?php if ($footer_region) { ?>
         <div id="footer-region"><?php print $footer_region?></div>

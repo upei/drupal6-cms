@@ -20,7 +20,8 @@ http://www.alistapart.com/articles/horizdropdowns
 
 #suckerfishmenu	 {
   line-height: 20px;
-  background: #6C1C00;
+width: 100%;
+background-color: #666;
 	border-top: 1px solid #fff;
 }
 
@@ -30,15 +31,15 @@ http://www.alistapart.com/articles/horizdropdowns
   z-index: 100;
   display: inline;
 	position:relative; /*added by DH to move the nav items to the right instead of the left */
-  float:right;/*added by DH to move the nav items to the right instead of the left */
+  float:center;/*added by DH to move the nav items to the right instead of the left */
 } 
 
 #suckerfishmenu	 a {
-  background: #6C1C00;
+  background: #666;
 	/*url(../images/upei-news/MenuDiv.png) 100% 0 repeat-y;*/
   color: #FFF;
   display: block;
-  padding: 0px 17px 0px 17px; /* padding between menu elements */
+  padding: 0px 9px 0px 9px; /* padding between menu elements */
   margin: 0;
   text-decoration: none;
   font-size: 95%;

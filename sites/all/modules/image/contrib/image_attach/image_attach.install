@@ -1,5 +1,5 @@
 <?php
-// $Id: image_attach.install,v 1.13 2009/01/13 09:32:25 drewish Exp $
+// $Id: image_attach.install,v 1.14 2009/01/17 23:42:14 sun Exp $
 
 /**
  * Implementation of hook_schema().
@@ -9,17 +9,23 @@ function image_attach_schema() {
     'description' => 'Stores the image/node relationship.',
     'fields' => array(
       'nid' => array(
-        'description' => 'Primary Key: The {node}.nid of the node.',
+        'description' => 'The {node}.nid of the node.',
         'type' => 'int',
+        'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
       ),
       'iid' => array(
-        'description' => 'TODO',
+        'description' => 'The {image}.nid of the image file.',
         'type' => 'int',
+        'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
       ),
+    ),
+    'primary key' => array('nid'),
+    'indexes' => array(
+      'iid' => array('iid'),
     ),
   );
   return $schema;
@@ -76,3 +82,26 @@ function image_attach_update_2() {
   }
   return $ret;
 }
+
+/**
+ * Add primary key and index on 'iid' to {image_attach} table.
+ */
+function image_attach_update_6100() {
+  $ret = array();
+  db_change_field($ret, 'image_attach', 'nid', 'nid', array(
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  ));
+  db_change_field($ret, 'image_attach', 'iid', 'iid', array(
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  ));
+  db_add_primary_key($ret, 'image_attach', array('nid'));
+  db_add_index($ret, 'image_attach', 'iid', array('iid'));
+  return $ret;
+}
+

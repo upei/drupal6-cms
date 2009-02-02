@@ -88,8 +88,8 @@ CampusEmergencyReceiver.prototype.display = function() {
     draggable: true,
     resizable: 'se',
     closeOnEscape: false,
-    height: 200,
-    width: 400,
+    height: 250,
+    width: 500,
     overlay: {
       opacity: 0.5,
       background: "black"

@@ -1,5 +1,5 @@
 <?php
-// $Id: image.module,v 1.282 2009/01/13 09:39:09 drewish Exp $
+// $Id: image.module,v 1.293 2009/01/19 10:43:30 sun Exp $
 
 define('IMAGE_ORIGINAL', '_original');
 define('IMAGE_PREVIEW', 'preview');
@@ -81,20 +81,18 @@ function image_perm() {
 }
 
 /**
- * Implementation of hook_access
+ * Implementation of hook_access().
  */
-function image_access($op, $node) {
-  global $user;
-
-  if ($op == 'create' && user_access('create images')) {
+function image_access($op, $node, $account) {
+  if ($op == 'create' && user_access('create images', $account)) {
     return TRUE;
   }
 
   if ($op == 'update' || $op == 'delete') {
-    if (user_access('edit images')) {
+    if (user_access('edit images', $account)) {
       return TRUE;
     }
-    if (user_access('edit own images') && ($user->uid == $node->uid)) {
+    if (user_access('edit own images', $account) && ($account->uid == $node->uid)) {
       return TRUE;
     }
   }
@@ -277,14 +275,14 @@ function image_link($type, $node, $main = 0) {
         if (isset($node->images[$key]) && $node->images[$key] != $node->images[$request]) {
           if ($size['link'] == IMAGE_LINK_NEW) {
             $links['image_size_'. $key] = array(
-              'title' => $size['label'],
+              'title' => t($size['label']),
               'href' => "image/view/{$node->nid}/$key",
               'attributes' => array('target' => '_blank'),
             );
           }
           else {
             $links['image_size_'. $key] = array(
-              'title' => $size['label'],
+              'title' => t($size['label']),
               'href' => 'node/'. $node->nid,
               'query' => 'size='. urlencode($key)
             );
@@ -305,29 +303,43 @@ function image_link($type, $node, $main = 0) {
  *
  * Offers 2 blocks: latest image and random image
  */
-function image_block($op = 'list', $delta = 0) {
+function image_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
     case 'list':
       $block[0]['info'] = t('Latest image');
       $block[1]['info'] = t('Random image');
-
       return $block;
+
+    case 'configure':
+      $form['number_images'] = array(
+        '#type' => 'select', 
+        '#title' => t('Number of images to display'),
+        '#options' => drupal_map_assoc(range(1, 99)),
+        '#default_value' => variable_get("image_block_{$delta}_number_images", 1),
+      );
+      return $form;
+
     case 'view':
       if (user_access('access content')) {
         switch ($delta) {
           case 0:
-            $images = image_get_latest();
+            $images = image_get_latest(variable_get("image_block_{$delta}_number_images", 1));
             $block['subject'] = t('Latest image');
             $block['content'] = theme('image_block_latest', $images, IMAGE_THUMBNAIL);
             break;
+
           case 1:
-            $images = image_get_random();
+            $images = image_get_random(variable_get("image_block_{$delta}_number_images", 1));
             $block['subject'] = t('Random image');
             $block['content'] = theme('image_block_random', $images, IMAGE_THUMBNAIL);
             break;
         }
       }
       return $block;
+
+    case 'save':
+      variable_set("image_block_{$delta}_number_images", $edit['number_images']);
+      break;
   }
 }
 
@@ -382,6 +394,7 @@ function image_form(&$node, &$param) {
     '#title' => t('Rebuild derivative images.'),
     '#default_value' => FALSE,
     '#description' => t('Check this to rebuild the derivative images for this node.'),
+    '#access' => (!isset($node->nid) ? FALSE : TRUE),
   );
 
   $form['#attributes'] = array("enctype" => "multipart/form-data");
@@ -389,7 +402,7 @@ function image_form(&$node, &$param) {
     '#type' => 'file',
     '#title' => t('Image'),
     '#size' => 40,
-    '#description' => t('Click "Browse..." to select an image to upload.'),
+    '#description' => t('Select an image to upload.'),
     '#weight' => -3,
   );
   if ($type->has_body) {
@@ -617,8 +630,15 @@ function image_display(&$node, $label = IMAGE_PREVIEW, $attributes = array()) {
 
   $image_info = image_get_info(file_create_path($node->images[$label]));
   $attributes['class'] = "image image-$label ". (isset($attributes['class']) ? $attributes['class'] : "");
-  $attributes['width'] = $image_info['width'];
-  $attributes['height'] = $image_info['height'];
+  // Only output width/height attributes if image_get_info() was able to detect
+  // the image dimensions, since certain browsers interpret an empty attribute
+  // value as zero.
+  if (!empty($image_info['width'])) {
+    $attributes['width'] = $image_info['width'];
+  }
+  if (!empty($image_info['height'])) {
+    $attributes['height'] = $image_info['height'];
+  }
 
   return theme('image_display', $node, $label, file_create_url($node->images[$label]), $attributes);
 }
@@ -675,14 +695,22 @@ function theme_image_display($node, $label, $url, $attributes) {
  * Theme a random block
  */
 function theme_image_block_random($images, $size) {
-  return l(image_display($images[0], $size), 'node/'. $images[0]->nid, array('html' => TRUE));
+  $output = '';
+  foreach ($images as $image) {
+    $output .= l(image_display($image, $size), 'node/'. $image->nid, array('html' => TRUE));
+  }
+  return $output;
 }
 
 /**
  * Theme a latest block
  */
 function theme_image_block_latest($images, $size) {
-  return l(image_display($images[0], $size), 'node/'. $images[0]->nid, array('html' => TRUE));
+  $output = '';
+  foreach ($images as $image) {
+    $output .= l(image_display($image, $size), 'node/'. $image->nid, array('html' => TRUE));
+  }
+  return $output;
 }
 
 /**
@@ -724,8 +752,7 @@ function image_get_latest($count = 1, $tid = 0) {
  */
 function _image_check_settings() {
   // File paths
-  $image_path = rtrim(variable_get('image_default_path', 'images'), '/');
-  $image_path = file_create_path(file_directory_path() .'/'. $image_path);
+  $image_path = file_create_path(file_directory_path() .'/'. variable_get('image_default_path', 'images'));
   $temp_path = $image_path .'/temp';
 
   if (!file_check_directory($image_path, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS, 'image_default_path')) {

@@ -4,95 +4,80 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nl\n"
+"Project-Id-Version: Image 6.x-1.0-alpha4 - Dutch translation\n"
 "POT-Creation-Date: 2004-02-17 14:32+0100\n"
-"PO-Revision-Date: 2005-11-09 23:46+0100\n"
-"Last-Translator: Hendrik Eeckhaut\n"
-"Language-Team:  <nl@li.org>\n"
+"PO-Revision-Date: 2009-01-24 16:07+0100\n"
+"Last-Translator: Jack <j.garmisch@gmail.com>\n"
+"Language-Team:  <j.garmisch@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.10.2\n"
 
 #: image.module:7
-msgid ""
-"<p>Admins may create many image nodes at once by uploading all images to a "
-"folder on the server. This upload happens outside of Drupal, usually using "
-"an FTP client.</p>"
-msgstr ""
+msgid "<p>Admins may create many image nodes at once by uploading all images to a folder on the server. This upload happens outside of Drupal, usually using an FTP client.</p>"
+msgstr "<p>Beheerders kunnen verschillende afbeeldingsnodes gelijktijdig aanmaken door alle afbeeldingen te uploaden naar een map op de server. Deze upload gebeurt buiten Drupal om, gewoonlijk met een FTP cliënt.</p>"
 
 #: image.module:10
 msgid "Allows uploading of images and creating image galleries."
 msgstr "Laat toe om afbeeldingen te uploaden en fotoalbums te maken."
 
 #: image.module:12
-msgid ""
-"An image (with thumbnail). This is ideal for publishing photographs or "
-"screenshots."
-msgstr ""
-"Een afbeelding (met miniatuurvoorbeeld). Ideaal om foto's of schermafdrukken "
-"te publiceren."
+msgid "An image (with thumbnail). This is ideal for publishing photographs or screenshots."
+msgstr "Een afbeelding (met miniatuurvoorbeeld). Ideaal om foto's of schermafdrukken te publiceren."
 
 #: image.module:14
-msgid ""
-"Image galleries can be used to organize and present groups of images. "
-"Galleries may be nested. To add a new gallery click the \"add gallery\" tab."
-msgstr ""
-"Met fotoalbums organiseert en presenteert u afbeeldingen in groepen. Klik op "
-"het tabblad \"album toevoegen\" om een nieuw album te maken."
+msgid "Image galleries can be used to organize and present groups of images. Galleries may be nested. To add a new gallery click the \"add gallery\" tab."
+msgstr "Met fotoalbums organiseert en presenteert u afbeeldingen in groepen. Klik op het tabblad \"album toevoegen\" om een nieuw album te maken."
 
 #: image.module:30
 msgid "Below is a status of image module's current configuration."
-msgstr ""
+msgstr "Onderaan is de status van de huidige configuratie van de Image module."
 
 #: image.module:33
 msgid ""
 "\n"
 "      <h4>Fast Mode</h4><ul>\n"
 "      <li>Creates all image nodes at once without user interaction.</li>\n"
-"      <li>Applies the same taxonomy term(s) to each node, thus creating a "
-"gallery.</li>\n"
-"      <li>If IPTC data is present in the image, the headline and caption "
-"fields are used to populate the title and body respectively.</li>\n"
-"      <li>If the image dimensions are bigger than the maximum allowed, the "
-"image is automatically scaled down.</li></ul>"
+"      <li>Applies the same taxonomy term(s) to each node, thus creating a gallery.</li>\n"
+"      <li>If IPTC data is present in the image, the headline and caption fields are used to populate the title and body respectively.</li>\n"
+"      <li>If the image dimensions are bigger than the maximum allowed, the image is automatically scaled down.</li></ul>"
 msgstr ""
+"\n"
+"      <h4>Snelle Modus</h4><ul>\n"
+"      <li>Maak alle afbeeldingnodes meteen aan zonder interventie van de gebruiker</li>\n"
+"      <li>Pas dezelfde taxonomieterm(en) toe op iedere node, om zo een album aan te maken.</li>\n"
+"      <li>Indien IPTC gegevens in de afbeelding beschikbaar zijn, worden de koplijn en de bijschrift velden gebruikt om, respectievelijk, de titel en de berichttekst aan te maken.</li>\n"
+"      <li>Indien dimensies van de afbeelding groter zijn dan het toegelaten maximum, wordt de afbeelding automatisch gereduceerd.</li></ul>"
 
 #: image.module:41
 msgid ""
 "\n"
 "      <h4>Slow Mode</h4><ul>\n"
-"      <li>Manipulate each image individually (i.e. crop, rotate, etc.).</"
-"li>\n"
+"      <li>Manipulate each image individually (i.e. crop, rotate, etc.).</li>\n"
 "      <li>Add custom titles, descriptions, etc.</li></ul>"
 msgstr ""
+"\n"
+"      <h4>Trage Modus</h4><ul>\n"
+"      <li>Bewerk iedere afbeelding afzonderlijk (d.i. reduceer, draai, enz.).</li>\n"
+"      <li>Toevoegen van titels, omschrijvingen, enz.</li></ul>"
 
 #: image.module:47
-#, fuzzy
-msgid ""
-"Allow users to upload images and to display them in shared and personal "
-"image galleries."
-msgstr "Laat toe om afbeeldingen te uploaden en fotoalbums te maken."
+msgid "Allow users to upload images and to display them in shared and personal image galleries."
+msgstr "Laat gebruikers toe om afbeeldingen te uploaden en te tonen in gemeenschappelijke en persoonlijke fotoalbums."
 
 #: image.module:50
-msgid ""
-"Images can be uploaded into either shared or personal galleries. Once images "
-"are uploaded they can be manipulated.  The image system will auto-generate "
-"thumbnails for all images to be used in other nodes via filters and in "
-"gallery navigation.  These settings allow you to control where images are "
-"placed, how they are displayed, and any restrictions that should be enforced."
-msgstr ""
+msgid "Images can be uploaded into either shared or personal galleries. Once images are uploaded they can be manipulated.  The image system will auto-generate thumbnails for all images to be used in other nodes via filters and in gallery navigation.  These settings allow you to control where images are placed, how they are displayed, and any restrictions that should be enforced."
+msgstr "Afbeeldingen kunnen worden geüpload in gemeenschappelijke of persoonlijke albums. Eens afbeeldingen zijn geupload kunnen ze worden bewerkt. Het systeem zal zelf de miniaturen aanmaken voor alle afbeeldingen te gebruiken in andere nodes via filters en in de albumnavigatie. Deze instellingen geven u de mogelijkheid om te bepalen waar de afbeeldingen worden geplaatst, hoe zij worden weergegeven en of er bepaalde beperkingen zijn opgelegd."
 
 #: image.module:53
 msgid "An image you can insert into nodes, or see in image galleries."
-msgstr ""
+msgstr "Een afbeelding die u in de nodes kunt invoegen of zien in de afbeeldingenalbums."
 
 #: image.module:57
-msgid ""
-"You may link to images on this site <a href=\"%explanation-url\">using a "
-"special syntax</a>"
-msgstr ""
+msgid "You may link to images on this site <a href=\"%explanation-url\">using a special syntax</a>"
+msgstr "U mag naar afbeeldingen op deze site linken<a href=\"%explanation-url\">door gebruik te maken van een speciale syntax</a>"
 
 #: image.module:59
 msgid "Default image path"
@@ -107,13 +92,8 @@ msgid "File paths"
 msgstr "Paden naar bestanden"
 
 #: image.module:61
-msgid ""
-"<p>You may quickly link to image nodes using a special syntax. The image code"
-"(s) will be replaced by thumbnail linked to full size image node. Syntax: "
-"<code>[image:node_id,(left|right|top|middle|bottom|absmiddle|texttop|"
-"baseline),hspace,vspace,border]</code>. Every parameter except node_id is "
-"<em>optional</em>.</p>"
-msgstr ""
+msgid "<p>You may quickly link to image nodes using a special syntax. The image code(s) will be replaced by thumbnail linked to full size image node. Syntax: <code>[image:node_id,(left|right|top|middle|bottom|absmiddle|texttop|baseline),hspace,vspace,border]</code>. Every parameter except node_id is <em>optional</em>.</p>"
+msgstr "<p>U kan snel linken naar afbeeldingennodes door gebruik te maken van een speciale syntax.  De afbeeldingencode(s) zullen worden vervangen door miniaturen gelinkt naar de afbeeldingennode op ware grootte. Syntax: <code>[image:node_id,(links|rechts|top|midden|onder|absmiddel|teksttop|baseline),hspace,vspace,border]</code>. Elke parameter met uitzondering van node_id is <em>optioneel</em>.</p>"
 
 #: image.module:72;207;1550;0
 msgid "image"
@@ -132,11 +112,8 @@ msgid "Height"
 msgstr "Hoogte"
 
 #: image.module:80
-msgid ""
-"Select various pixel dimensions, \"thumbnail\" and \"preview\" are required."
-msgstr ""
-"Afmetingen in pixels, \"miniatuurvoorbeeld\" en \"voorbeeldweergave\" zijn "
-"vereist."
+msgid "Select various pixel dimensions, \"thumbnail\" and \"preview\" are required."
+msgstr "Afmetingen in pixels, \"miniatuurvoorbeeld\" en \"voorbeeldweergave\" zijn vereist."
 
 #: image.module:81
 msgid "Allow users to view original image"
@@ -147,105 +124,84 @@ msgid "Image sizes"
 msgstr "Afmetingen afbeelding "
 
 #: image.module:84
-#, fuzzy
 msgid "Images per page"
-msgstr "Afbeeldingenalbums"
+msgstr "Afbeeldingen per pagina"
 
 #: image.module:84
 msgid "Sets the number of images to be displayed in a gallery page."
-msgstr ""
+msgstr "Bepaalt het aantal afbeeldingen weer te geven op een pagina in een album."
 
 #: image.module:85
-#, fuzzy
 msgid "Gallery settings"
-msgstr "Naam van album"
+msgstr "Instellingen van het album"
 
 #: image.module:87
 msgid "Explanation or submission guidelines"
-msgstr ""
+msgstr "Uitleg of richtlijnen om in te zenden"
 
 #: image.module:87
-msgid ""
-"This text will be displayed at the top of the image submission form.  It is "
-"useful for helping or instructing your users."
-msgstr ""
+msgid "This text will be displayed at the top of the image submission form.  It is useful for helping or instructing your users."
+msgstr "Deze tekst zal worden weergegeven bovenaan het indienformulier voor de afbeelding. Het is gemakkelijk om uw gebruikers te helpen of instructies te geven."
 
 #: image.module:89
-msgid ""
-"Default path for uploaded images relative to your Drupal installation; it "
-"must be writeable and visible from the web. Don't forget the slash (/) at "
-"the end."
-msgstr ""
+msgid "Default path for uploaded images relative to your Drupal installation; it must be writeable and visible from the web. Don't forget the slash (/) at the end."
+msgstr "Standaard pad voor geüploadde afbeeldingen relatief t.o.v. uw Drupal installatie; het moet schrijfbaar en zichtbaar zijn van het web. Vergeet de slash (/) niet op het einde."
 
 #: image.module:92
-#, fuzzy
 msgid "Default thumb path"
-msgstr "Standaard pad voor afbeeldingen"
+msgstr "Standaard pad voor miniaturen"
 
 #: image.module:92
-msgid ""
-"Default path for thumbnails relative to your Drupal installation; it must be "
-"writeable and visible from the web. Don't forget the slash (/) at the end."
-msgstr ""
+msgid "Default path for thumbnails relative to your Drupal installation; it must be writeable and visible from the web. Don't forget the slash (/) at the end."
+msgstr "Standaard pad voor miniaturen relatief t.o.v. uw Drupal installatie; het moet schrijfbaar en zichtbaar zijn van het web. Vergeet de slash (/) niet op het einde."
 
 #: image.module:95
-#, fuzzy
 msgid "Temporary image path"
-msgstr "Standaard pad voor afbeeldingen"
+msgstr "Tijdelijk pad voor afbeeldingen"
 
 #: image.module:95
-msgid ""
-"Path for working directory relative to your Drupal installation; it must be "
-"writeable and visible from the web. Don't forget the slash (/) at the end."
-msgstr ""
+msgid "Path for working directory relative to your Drupal installation; it must be writeable and visible from the web. Don't forget the slash (/) at the end."
+msgstr "Pad voor de werkmap relatief t.o.v. uw Drupal installatie; het moet schrijbaar en zichtbaar zijn van het web. Vergeet de slash (/) op het einde niet."
 
 #: image.module:96
 msgid "Maximum temporary image directory size"
-msgstr ""
+msgstr "Maximum grootte tijdelijke afbeeldingsmap"
 
 #: image.module:96
 msgid "MBytes."
-msgstr ""
+msgstr "MBytes."
 
 #: image.module:98
 msgid "Stored images filenames"
-msgstr ""
+msgstr "Opgeslagen bestandsnamen van de afbeeldingen"
 
 #: image.module:98
-msgid ""
-"The filename of an image stored on the server could be based on an unique "
-"random string or include the original filename. In the later case, the node "
-"id will be appended to the filename."
-msgstr ""
+msgid "The filename of an image stored on the server could be based on an unique random string or include the original filename. In the later case, the node id will be appended to the filename."
+msgstr "De bestandsnaam van een afbeelding op de server kan gebaseerd zijn op een unieke random tekenreeeks of de oorspronkelijke bestandsnaam bevatten. In het laatste geval zal de node-ID  worden toegevoegd aan de bestandsnaam."
 
 #: image.module:100
-#, fuzzy
 msgid "Default max image size"
-msgstr "Standaard pad voor afbeeldingen"
+msgstr "Standaard max. afbeeldingsgrootte"
 
 #: image.module:100
 msgid "KBytes."
-msgstr ""
+msgstr "KBytes."
 
 #: image.module:101
-#, fuzzy
 msgid "Default max image resolution"
-msgstr "Standaard pad voor afbeeldingen"
+msgstr "Standaard max. afbeeldingsresolutie"
 
 #: image.module:101
 msgid "Example: 800x600."
-msgstr ""
+msgstr "Voorbeeld: 800x600."
 
 #: image.module:103
 msgid "Default thumbnail resolution"
-msgstr ""
+msgstr "Standaard resolutie miniaturen"
 
 #: image.module:103
-msgid ""
-"Default size of thumbnails: format will be the same as original image. Use "
-"just one dimension, and put a \"x\" to specify height. Examples: \"100\" for "
-"width of 100; \"x200\" for height of 200."
-msgstr ""
+msgid "Default size of thumbnails: format will be the same as original image. Use just one dimension, and put a \"x\" to specify height. Examples: \"100\" for width of 100; \"x200\" for height of 200."
+msgstr "Standaard grootte van de miniaturen: het formaat zal identiek zijn aan de oorspronkelijke afbeelding.  Gebruik alleen één dimensie en plaats een \"x\" om de hoogte te specifiëren.  Bijvoorbeeld: \"100\" voor breedte van 100; \"x200\" voor hoogte van 200."
 
 #: image.module:110
 msgid "list"
@@ -257,109 +213,91 @@ msgstr "album toevoegen"
 
 #: image.module:116
 msgid "Image library"
-msgstr ""
+msgstr "Afbeeldingenbibliotheek"
 
 #: image.module:116
-msgid ""
-"Select the image library to be used during thumbnail generation and image "
-"manipulation.  Use ImageMagick if you can; GD produces worse thumbnails, "
-"might not support GIF and this module doesn't support image editing (rotate, "
-"crop etc) with it."
-msgstr ""
+msgid "Select the image library to be used during thumbnail generation and image manipulation.  Use ImageMagick if you can; GD produces worse thumbnails, might not support GIF and this module doesn't support image editing (rotate, crop etc) with it."
+msgstr "Kies de te gebruiken image library gedurende de miniatuuraanmaak en de afbeelding bewerkingl. Gebruik ImageMagick iniden u kan; GD geeft slechtere miniaturen, mogelijk ondersteunt GIF niet en ondersteunt afbeeldingbewerkingen niet (draai, crop enz.)."
 
 #: image.module:118
 msgid "Imagemagick Convert path"
-msgstr ""
+msgstr "Imagemagick Convert pad"
 
 #: image.module:118
-msgid ""
-"Absolute path to ImageMagick convert file. Include the 'convert.exe' (or "
-"other filename) at the end. Leave it blank if you have selected GD library."
-msgstr ""
+msgid "Absolute path to ImageMagick convert file. Include the 'convert.exe' (or other filename) at the end. Leave it blank if you have selected GD library."
+msgstr "Absoluut pad naar ImageMagick converteerbestand.  Neem op het einde de 'convert.exe' (of andere bestandsnaam) op. Laat het leeg indien u de GD library heeft gekozen."
 
 #: image.module:121
 msgid "Background Color"
-msgstr ""
+msgstr "Achtergrondkleur"
 
 #: image.module:121
 msgid "Color used to fill in background when rotating images."
-msgstr ""
+msgstr "Kleur gebruikt om de achtergrond te vullen bij het roteren van beelden."
 
 #: image.module:128
-#, fuzzy
 msgid "jhead path"
-msgstr "Paden naar bestanden"
+msgstr "jhead pad"
 
 #: image.module:128
 msgid "Absolute path of jhead, for EXIF parsing; blank to disable."
-msgstr ""
+msgstr "Absoluut pad van jhead, voor EXIF ontleding; blank om uit te schakelen."
 
 #: image.module:133
 msgid "<none>"
-msgstr ""
+msgstr "<none>"
 
 #: image.module:135
 msgid "Gallery Navigation Vocabulary"
-msgstr ""
+msgstr "Navigatiewoordenschat album"
 
 #: image.module:135
-msgid ""
-"One of the taxonomy vocabularies will be the navigation tree. Select it "
-"here. Make sure that a term from this vocabulary is required."
-msgstr ""
+msgid "One of the taxonomy vocabularies will be the navigation tree. Select it here. Make sure that a term from this vocabulary is required."
+msgstr "Eén van de taxonomiewoordenschatten zal dienen als navigatie. Selecteer het hier. Vergewis u dat een term van deze woordenschat vereist is."
 
 #: image.module:137
-#, fuzzy
 msgid "Gallery Thumbnails"
-msgstr "Naam van album"
+msgstr "Albumminiaturen"
 
 #: image.module:137
 msgid "Set the thumbnail to be dislayed on the gallery page."
-msgstr ""
+msgstr "Bepaal het te tonen miniatuur op de albumpagina."
 
 #: image.module:138
 msgid "Specify how many rows of thumbnails in each page of the gallery."
-msgstr ""
+msgstr "Specifieer het aantal rijen met miniaturen op iedere albumpagina."
 
 #: image.module:139
-#, fuzzy
 msgid "Gallery Columns"
-msgstr "Naam van album"
+msgstr "Kolommen van het album"
 
 #: image.module:139
 msgid "Specify how many columns of thumbnails in each page of the gallery."
-msgstr ""
+msgstr "Specifieer het aantal kolommen met miniaturen op iedere albumpagina."
 
 #: image.module:140
-#, fuzzy
 msgid "Gallery Order"
-msgstr "Naam van album"
+msgstr "Volgorde album"
 
 #: image.module:140
-msgid ""
-"Order of thumbnails within a gallery. Lighter and heavier refer to weight "
-"property."
-msgstr ""
+msgid "Order of thumbnails within a gallery. Lighter and heavier refer to weight property."
+msgstr "Volgorde van miniaturen in een album.  Lichter en zwaarder verwijst naar de gewichteigenschap."
 
 #: image.module:142
-#, fuzzy
 msgid "Personal Image Galleries"
-msgstr "Afbeeldingenalbums"
+msgstr "Persoonijke afbeeldingenalbums"
 
 #: image.module:142
-msgid ""
-"Activate/deactivate personal image galleries site-wide.  When enabled you "
-"can use the \"has personal image gallery\" permission to control which roles "
-"have personal galleries."
-msgstr ""
+msgid "Activate/deactivate personal image galleries site-wide.  When enabled you can use the \"has personal image gallery\" permission to control which roles have personal galleries."
+msgstr "Schakel in/uit de persoonlijke albums van deze site.  Indien ingeschakeld kan u de \"heeft persoonlijk album\" toegangsrecht gebruiken om te bepalen welke rollen persoonlijke albums hebben."
 
 #: image.module:144
 msgid "Personal Gallery Picture Limit"
-msgstr ""
+msgstr "Persoonlijk Album Afbeeldingslimiet"
 
 #: image.module:144
 msgid "Set how many pictures users are allowed."
-msgstr ""
+msgstr "Bepaal hoeveel afbeeldingen per gebruiker zijn toegelaten."
 
 #: image.module:145
 msgid "Uploaded file is not a valid image"
@@ -367,30 +305,27 @@ msgstr "Upgeload bestand is geen geldige afbeelding"
 
 #: image.module:145
 msgid "Personal Gallery Picture Limit Per Role"
-msgstr ""
+msgstr "Persoonlijk Album Afbeeldingslimiet per rol"
 
 #: image.module:145
-msgid ""
-"Enabling this will allow for setting a maximum number of pictures per role."
-msgstr ""
+msgid "Enabling this will allow for setting a maximum number of pictures per role."
+msgstr "Dit inschakelen laat toe om per rol het maximum aantal afbeeldingen te bepalen."
 
 #: image.module:150
 msgid "Personal Gallery Size Limit"
-msgstr ""
+msgstr "Persoonlijk Album Limiet"
 
 #: image.module:150
 msgid "Set a maximum number of kilobytes allowed per user."
-msgstr ""
+msgstr "Bepaal het maximum toegelaten kilobytes per gebruiker."
 
 #: image.module:153
 msgid "Disable Image Caching"
-msgstr ""
+msgstr "Uitschakelen afbeeldingscaching"
 
 #: image.module:153
-msgid ""
-"Enabling this will add random parameters to image URIs which will prevent "
-"the browser from caching."
-msgstr ""
+msgid "Enabling this will add random parameters to image URIs which will prevent the browser from caching."
+msgstr "Dit aanzetten zal random parameters toevoegen aan de afbeeldings- URI's, wat voorkomt dat de browser de afbeeldingen cached."
 
 #: image.module:193;216
 msgid "image galleries"
@@ -401,22 +336,20 @@ msgid "view original"
 msgstr "origineel tonen"
 
 #: image.module:200
-#, fuzzy
 msgid "images"
-msgstr "afbeelding"
+msgstr "afbeeldingen"
 
 #: image.module:201
 msgid "directory upload: slow"
-msgstr ""
+msgstr "map upload: traag"
 
 #: image.module:202
 msgid "directory upload: fast"
-msgstr ""
+msgstr "map upload: snel"
 
 #: image.module:212
-#, fuzzy
 msgid "my image gallery"
-msgstr "afbeeldingenalbums"
+msgstr "mijn afbeeldingenalbum"
 
 #: image.module:213;222
 msgid "Latest image"
@@ -427,24 +360,20 @@ msgid "Random image"
 msgstr "Willekeurige afbeelding"
 
 #: image.module:224
-#, fuzzy
 msgid "edit this image"
-msgstr "afbeeldingen beheren"
+msgstr "bewerk deze afbeelding"
 
 #: image.module:224
-#, fuzzy
 msgid "Edit this image."
-msgstr "afbeeldingen beheren"
+msgstr "Bewerk deze afbeelding."
 
 #: image.module:229
-#, fuzzy
 msgid "%u's image gallery"
-msgstr "afbeeldingenalbums"
+msgstr "%u's afbeeldingenalbum"
 
 #: image.module:229
-#, fuzzy
 msgid "View %u's image gallery."
-msgstr "afbeeldingenalbums"
+msgstr "Toon %u's afbeeldingenalbum."
 
 #: image.module:254
 msgid "Thumbnail"
@@ -459,37 +388,32 @@ msgid "Description"
 msgstr "Beschrijving"
 
 #: image.module:259
-#, fuzzy
 msgid "%t image gallery"
-msgstr "afbeeldingenalbums"
+msgstr "%t afbeeldingenalbum"
 
 #: image.module:259
-#, fuzzy
 msgid "View %t image gallery."
-msgstr "afbeeldingenalbums"
+msgstr "Toon %t afbeeldingenalbum."
 
 #: image.module:288
-#, fuzzy
 msgid "previous image"
-msgstr "Laatste afbeelding"
+msgstr "vorige afbeelding"
 
 #: image.module:292
-#, fuzzy
 msgid "next image"
-msgstr "Laatste afbeelding"
+msgstr "volgende afbeelding"
 
 #: image.module:307
-#, fuzzy
 msgid "Image gallery"
-msgstr "Afbeeldingenalbums"
+msgstr "Afbeeldingenalbum"
 
 #: image.module:370
 msgid "EXIF data"
-msgstr ""
+msgstr "EXIF gegevens"
 
 #: image.module:374
 msgid "IPTC data"
-msgstr ""
+msgstr "IPTC gegevens"
 
 #: image.module:382
 msgid "Click \"Browse...\" to select an image to upload."
@@ -500,155 +424,140 @@ msgid "Weight"
 msgstr "Gewicht"
 
 #: image.module:388
-msgid ""
-"Weight of image used to sort thumbnails.  Heavier thumbnails will fall to "
-"the bottom of the gallery."
-msgstr ""
+msgid "Weight of image used to sort thumbnails.  Heavier thumbnails will fall to the bottom of the gallery."
+msgstr "Gewicht van de afbeelding gebruikt om de miniaturen te sorteren. Zwaardere mniaturen zullen onderaan het album verschijnen."
 
 #: image.module:392
 msgid "Personal"
-msgstr ""
+msgstr "Persoonlijk"
 
 #: image.module:392
 msgid "A personal image can only be seen in the user's image gallery."
-msgstr ""
+msgstr "Een persoonlijke afbeelding kan alleen worden bekeken in het album van de gebruiker."
 
 #: image.module:439;443
 msgid "The image file you are trying to upload is too big."
-msgstr ""
+msgstr "Het afbeeldingenbestand dat u probeert te uploaden is te groot."
 
 #: image.module:447
 msgid "The image file was only partially uploaded. Please try again."
-msgstr ""
+msgstr "Het afbeeldingbestand is maar gedeeltelijk geüpload. Probeert u het opnieuw."
 
 #: image.module:451
-#, fuzzy
 msgid "You must select an image for upload."
-msgstr "Klik \"Navigeren...\" om een te uploaden afbeelding te kiezen."
+msgstr "U moet een afbeelding selecteren om up te loaden."
 
 #: image.module:464;523
 msgid "Error processing image file."
-msgstr ""
+msgstr "Fout gedurende het bewerken van het afbeeldingbestand."
 
 #: image.module:486
-#, fuzzy
 msgid "Uploaded file was not an image."
-msgstr "Upgeload bestand is geen geldige afbeelding"
+msgstr "Het geüpload bestand is geen geldige afbeelding."
 
 #: image.module:489
 msgid "image type '%type' is not supported."
-msgstr ""
+msgstr "Afbeeldingstype '%type' wordt niet ondersteund."
 
 #: image.module:496
 msgid "The uploaded image(%ax%b) is too large (max %cx%d)."
-msgstr ""
+msgstr "De geüploadde afbeelding(%ax%b) is te groot (max %cx%d)."
 
 #: image.module:651;666
-#, fuzzy
 msgid "Image filter"
-msgstr "Afmetingen afbeelding "
+msgstr "Afbeeldingenfilter"
 
 #: image.module:665
-#, fuzzy
 msgid "Image codes"
-msgstr "Afmetingen afbeelding "
+msgstr "Afbeeldingscodes"
 
 #: image.module:665
-msgid ""
-"When enabled, image codes will be replaced by thumb linked to real node. "
-"Syntax: [image:node_id,(left|right|top|middle|bottom|absmiddle|texttop|"
-"baseline),hspace,vspace,border]; every param but node_id is optional."
-msgstr ""
+msgid "When enabled, image codes will be replaced by thumb linked to real node. Syntax: [image:node_id,(left|right|top|middle|bottom|absmiddle|texttop|baseline),hspace,vspace,border]; every param but node_id is optional."
+msgstr "Indien ingeschakeld, zullen de afbeeldingscodes vervangen worden door de miniaturen gelinkt aan de werkelijke node. Syntax: [image:node_id,(left|right|top|middle|bottom|absmiddle|texttop|baseline),hspace,vspace,border]; met uitzondering van node_id is elke parameter optioneel."
 
 #: image.module:715;720;745;750
-#, fuzzy
 msgid "Cannot save image."
-msgstr "Willekeurige afbeelding"
+msgstr "Kan afbeelding niet opslaan."
 
 #: image.module:734
 msgid "Cannot delete old image."
-msgstr ""
+msgstr "Kan oude afbeelding niet verwijderen."
 
 #: image.module:737
 msgid "Cannot delete old thumb."
-msgstr ""
+msgstr "Kan oude miniatuur niet verwijderen."
 
 #: image.module:934
-msgid ""
-"Cannot create thumbnail. Current GD library has no read support for '%type' "
-"image format."
-msgstr ""
+msgid "Cannot create thumbnail. Current GD library has no read support for '%type' image format."
+msgstr "Kan geen miniatuur aanmaken. De huidige GD library heeft ondersteuning voor '%type' afbeeldingsformaat."
 
 #: image.module:965
-msgid ""
-"Cannot create thumbnail. Current GD library has no support for '%type' "
-"format image creation."
-msgstr ""
+msgid "Cannot create thumbnail. Current GD library has no support for '%type' format image creation."
+msgstr "Kan geen miniatuur aanmaken. De huidige GD library heeft ondersteuning voor het aanmaken van '%type' afbeeldingsformaat."
 
 #: image.module:978
 msgid "Imagemagick: you have to set <code>convert</code> path."
-msgstr ""
+msgstr "Imagemagick: u dient het <code>convert</code> pad te bepalen."
 
 #: image.module:1032
 msgid "You can have at most %a images in your gallery."
-msgstr ""
+msgstr "U kan maximum %a afbeeldingen in uw album hebben."
 
 #: image.module:1038
 msgid "You have %a kb for your gallery."
-msgstr ""
+msgstr "U heeft %a kb voor uw album."
 
 #: image.module:1045
 msgid "File is too big (max %a kbytes)"
-msgstr ""
+msgstr "Bestand is te groot (max. %a kbytes)"
 
 #: image.module:1053
 msgid "Upload directory is full."
-msgstr ""
+msgstr "Uploadmap is vol."
 
 #: image.module:1102
 msgid "Resize/Crop"
-msgstr ""
+msgstr "Grootte wijzigen/Bijsnijden"
 
 #: image.module:1112
 msgid "keep prop"
-msgstr ""
+msgstr "behoud prop"
 
 #: image.module:1116
 msgid "Rotate"
-msgstr ""
+msgstr "Roteren"
 
 #: image.module:1119
 msgid "clockwise"
-msgstr ""
+msgstr "met de klok mee"
 
 #: image.module:1120
 msgid "background"
-msgstr ""
+msgstr "achtergrond"
 
 #: image.module:1120
 msgid "white"
-msgstr ""
+msgstr "wit"
 
 #: image.module:1120
 msgid "black"
-msgstr ""
+msgstr "zwart"
 
 #: image.module:1124
 msgid "Convert"
-msgstr ""
+msgstr "Converteer"
 
 #: image.module:1125
 msgid "Quality (1-100)"
-msgstr ""
+msgstr "Qualiteit (1-100)"
 
 #: image.module:1161;1196
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: image.module:1164
-#, fuzzy
 msgid "%u's Image Gallery"
-msgstr "Afbeeldingenalbums"
+msgstr "%u's Afbeeldingenalbum"
 
 #: image.module:1195
 msgid "Image galleries"
@@ -656,121 +565,103 @@ msgstr "Afbeeldingenalbums"
 
 #: image.module:1204
 msgid "Access Denied"
-msgstr ""
+msgstr "Toegang geweigerd"
 
 #: image.module:1327
-#, fuzzy
 msgid "There is 1 image in this album."
-msgstr "%count afbeelding in dit album"
+msgstr "Er is 1 afbeelding in dit album."
 
 #: image.module:1327
-#, fuzzy
 msgid "There are %a images in this album."
-msgstr "%count afbeelding in dit album"
+msgstr "Er zijn %a afbeeldingen in dit album."
 
 #: image.module:1329
-#, fuzzy
 msgid "There are no images in this album."
-msgstr "%count afbeelding in dit album"
+msgstr "Er zijn geen afbeeldingen in dit album."
 
 #: image.module:1332
-#, fuzzy
 msgid "Last updated: "
 msgstr "Laatst bijgewerkt: %date"
 
 #: image.module:1425
 msgid "Directory to scan"
-msgstr ""
+msgstr "Map om te scannen"
 
 #: image.module:1425
-msgid ""
-"The path to the directory which holds the source image files. This path "
-"should be relative to Drupal root directory - don't forget the slash (/) at "
-"the end."
-msgstr ""
+msgid "The path to the directory which holds the source image files. This path should be relative to Drupal root directory - don't forget the slash (/) at the end."
+msgstr "Het pad naar de map dat de bronafbeeldingsbestanden bevat. Dit pad moet relatief zijn t.o.v. de Drupal hoofdmap - vergeet de slash (/) op het einde niet."
 
 #: image.module:1427
 msgid "Show resized image. Use only if you have large bandwidth."
-msgstr ""
+msgstr "Toon de afbeelding met gewijzigde grootte. Gebruik dit alleen indien een grote bandbreedte heeft."
 
 #: image.module:1430
 msgid "Delete images after insert"
-msgstr ""
+msgstr "Verwijder afbeeldingen na invoegen"
 
 #: image.module:1430
-msgid ""
-"If instructed, Drupal will delete all files in the above directory after "
-"creating the image nodes."
-msgstr ""
+msgid "If instructed, Drupal will delete all files in the above directory after creating the image nodes."
+msgstr "Indien opgedragen zal Drupal alle bestanden verwijderen in de bovenstaande map nadat de afbeeldingsnodes zijn aangemaakt."
 
 #: image.module:1434
-#, fuzzy
 msgid "Add new gallery"
-msgstr "album toevoegen"
+msgstr "Album toevoegen"
 
 #: image.module:1434
-msgid ""
-"If needed, create a new term for this gallery by clicking on one of these "
-"vocabularies"
-msgstr ""
+msgid "If needed, create a new term for this gallery by clicking on one of these vocabularies"
+msgstr "Indien gewenst, maak een nieuwe term aan voor dit album door een van deze woordenlijsten aan te klikken"
 
 #: image.module:1437
 msgid "Directory upload"
-msgstr ""
+msgstr "Map upload"
 
 #: image.module:1444
 msgid "is not a directory"
-msgstr ""
+msgstr "is geen map"
 
 #: image.module:1452
 msgid "is not writable. Change permissions on server"
-msgstr ""
+msgstr "is niet schrijfbaar. Verander de toegangsrechten op de server."
 
 #: image.module:1542
 msgid "You may wish to view your new images:"
-msgstr ""
+msgstr "U wenst misschien uw nieuwe afbeeldingen te bekijken:"
 
 #: image.module:1545
-#, fuzzy
 msgid "gallery"
-msgstr "album toevoegen"
+msgstr "album"
 
 #: image.module:1555
 msgid "is not an image."
-msgstr ""
+msgstr "is geen afbeelding."
 
 #: image.module:1558
 msgid "image type is not supported."
-msgstr ""
+msgstr "afbeeldingstype wordt niet ondersteund."
 
 #: image.module:1705
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #: image.module:1705
 msgid "Limit"
-msgstr ""
+msgstr "Limiet"
 
 #: image.module:1713
-msgid ""
-"Set how many pictures each role listed above is allowed. \"Personal Gallery "
-"Picture Limit\" will be the default value for new roles."
-msgstr ""
+msgid "Set how many pictures each role listed above is allowed. \"Personal Gallery Picture Limit\" will be the default value for new roles."
+msgstr "Bepaal hoeveel afbeeldingen toegelaten zijn voor iedere bovenstaande rol. \"Persoonlijk Album Afbeeldingslimiet\" zal de standaard waarde worden voor de nieuwe rollen."
 
 #: image.module:79
-#, fuzzy
 msgid "has personal image gallery"
-msgstr "%count afbeelding in dit album"
+msgstr "heeft een persoonlijke afbeeldingsalbum"
 
 #: image.module:79
-#, fuzzy
 msgid "manipulate images"
-msgstr "afbeeldingen beheren"
+msgstr "behandel afbeeldingen"
 
 #: image.module:79
-#, fuzzy
 msgid "access images"
-msgstr "Laatste afbeelding"
+msgstr "toegang afbeeldingen"
 
 #: image.module:79
 msgid "create images"
@@ -786,11 +677,11 @@ msgstr "album bewerken"
 
 #: image.module:461
 msgid "No galleries available"
-msgstr ""
+msgstr "Geen albums beschikbaar"
 
 #: image.module:470
 msgid "Gallery name"
-msgstr "Naam van album"
+msgstr "Naam van het album"
 
 #: image.module:470
 msgid "The name is used to identify the gallery."
@@ -821,8 +712,8 @@ msgid "Image Galleries"
 msgstr "Afbeeldingenalbums"
 
 #: image.module:515;550
-#, fuzzy
 msgid "There is 1 image in this gallery"
 msgid_plural "There are %count images in this gallery"
-msgstr[0] "%count afbeelding in dit album"
-msgstr[1] "%count afbeeldingen in dit album"
+msgstr[0] "Er is 1 afbeelding in dit album"
+msgstr[1] "Er zijn %count afbeeldingen in dit album"
+

@@ -1,0 +1,50 @@
+Index: views.install
+===================================================================
+--- views.install	(revision 77)
++++ views.install	(working copy)
+@@ -153,7 +153,8 @@
+         'description' => t('The time this cache was created or updated.'),
+       ),
+       'data' => array(
+-        'type' => 'blob',
++        'type' => 'text',
++        'size' => 'big',
+         'description' => t('Serialized data being stored.'),
+         'serialize' => TRUE,
+       ),
+@@ -204,3 +205,22 @@
+ 
+   return $ret;
+ }
++
++/**
++ * Enlarge the views_object_cache.data column to prevent truncation and JS
++ * errors.
++ */
++function views_update_6002() {
++  $ret = array();
++
++  $new_field = array(
++    'type' => 'text',
++    'size' => 'big',
++    'description' => t('Serialized data being stored.'),
++    'serialize' => TRUE,
++  );
++
++  db_change_field($ret, 'views_object_cache', 'data', 'data', $new_field);
++
++  return $ret;
++}
+Index: includes/cache.inc
+===================================================================
+--- includes/cache.inc	(revision 77)
++++ includes/cache.inc	(working copy)
+@@ -209,7 +209,7 @@
+   if (!array_key_exists($key, $cache)) {
+     $data = db_fetch_object(db_query("SELECT * FROM {views_object_cache} WHERE sid = '%s' AND obj = '%s' AND name = '%s'", session_id(), $obj, $name));
+     if ($data) {
+-      $cache[$key] = unserialize(db_decode_blob($data->data));
++      $cache[$key] = unserialize($data->data);
+     }
+   }
+   return isset($cache[$key]) ? $cache[$key] : NULL;

@@ -1,4 +1,5 @@
 <?php
+// $Id: image.test,v 1.2 2009/01/17 00:20:44 sun Exp $
 
 class ImageTest extends DrupalTestCase {
   protected $web_user;
@@ -41,7 +42,7 @@ class ImageTest extends DrupalTestCase {
       'body' => $this->randomName(),
       'files[image]' => realpath($this->image),
     );
-    $this->drupalPost('node/add/image', $edit, 'Save');
+    $this->drupalPost('node/add/image', $edit, t('Save'));
     
     $this->assertWantedRaw(t('@type %title has been created.', array('@type' => 'Image', '%title' => $edit['title'])), 'Image created. %s');
     
@@ -66,7 +67,7 @@ class ImageTest extends DrupalTestCase {
       'title' => $edit['title'],
       'files[image]' => realpath($this->another_image),
     );
-    $this->drupalPost('node/' . $node->nid .'/edit', $another_edit, 'Save');
+    $this->drupalPost('node/' . $node->nid .'/edit', $another_edit, t('Save'));
     $another_node = node_load(array('title' => $edit['title']));
     $this->assertFalse(file_exists($node->images['preview']) || file_exists($node->images['_original']) || file_exists($node->images['thumbnail']), 'The previous image deleted. %s');
     
@@ -84,7 +85,7 @@ class ImageTest extends DrupalTestCase {
       'body' => $this->randomName(),
       'files[image]' => realpath($this->image),
     );
-    $this->drupalPost('node/add/image', $edit, 'Save');
+    $this->drupalPost('node/add/image', $edit, t('Save'));
     $this->assertWantedRaw(t('@type %title has been created.', array('@type' => 'Image', '%title' => $edit['title'])), 'Image created. %s');
     
     $node_post = node_load(array('title' => $edit['title']));
