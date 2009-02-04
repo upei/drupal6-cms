@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.module,v 1.1.2.18.2.21 2008/12/05 21:09:44 aronnovak Exp $
+// $Id: feedapi_node.module,v 1.1.2.18.2.22 2008/12/30 10:23:06 aronnovak Exp $
 
 /**
  * @file
@@ -70,6 +70,9 @@ function feedapi_node_nodeapi(&$node, $op, $teaser) {
       if (isset($node->feedapi_node)) {
         db_query('DELETE FROM {feedapi_node_item} WHERE nid = %d', $node->nid);
         db_query('DELETE FROM {feedapi_node_item_feed} WHERE feed_item_nid = %d', $node->nid);
+      }
+      if (isset($node->feed)) {
+        db_query('DELETE FROM {feedapi_node_item_feed} WHERE feed_nid = %d', $node->nid);
       }
       break;
   }

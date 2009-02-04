@@ -52,7 +52,7 @@ FCKConfig.ToolbarSets['DrupalFull'] = [
 ] ;
 
 FCKConfig.ToolbarSets['DrupalBasic'] = [
-['FontFormat','-','Bold','Italic','Underline','-','OrderedList','UnorderedList','PasteWord','-','Link','Unlink', 'Image'],
+['FontFormat','-','Bold','Italic','Underline','-','OrderedList','UnorderedList','PasteWord','-','Link','Unlink', 'Image', 'Rule'],
 ['JustifyLeft','JustifyCenter','JustifyRight','Anchor','DrupalBreak','SpellCheck']
 ] ;
 

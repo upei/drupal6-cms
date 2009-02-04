@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi.module,v 1.23.2.119.2.32 2008/12/04 21:35:20 aronnovak Exp $
+// $Id: feedapi.module,v 1.23.2.119.2.36 2009/02/03 12:02:03 aronnovak Exp $
 
 /**
  * @file
@@ -270,7 +270,7 @@ function feedapi_purge_confirm($form_state, $node) {
   $output = confirm_form(
     array('nid' => array('#type' => 'hidden', '#value' => $node->nid)),
     t('Delete all the feed items from !name', array('!name' => $node->title)),
-    'node/'. $node->nid,
+    isset($_GET['destination']) ? $_GET['destination'] : 'node/'. $node->nid,
     t("Are you sure you want to delete all the feed items from !name?", array('!name' => $node->title)),
     t('Yes'), t('No'),
     'feedapi_purge_confirm'
@@ -523,6 +523,10 @@ function feedapi_form_alter(&$form, $form_state, $form_id) {
       $node_type_settings = feedapi_get_settings($form['type']['#value']);
       // retrieve forms.
 
+      $submodules_names = array(
+        'parsers' => t('Parsers'),
+        'processors' => t('Processors'),
+      );
       foreach (array("parsers" => "feedapi_feed", "processors" => "feedapi_item") as $type => $requirement) {
         $suitable_handlers = module_implements($requirement, TRUE);
         foreach ($suitable_handlers as $module) {
@@ -542,7 +546,7 @@ function feedapi_form_alter(&$form, $form_state, $form_id) {
         }
         if (isset($form['feedapi'][$type])) {
           $form['feedapi'][$type]['#type'] = 'fieldset';
-          $form['feedapi'][$type]['#title'] = t(ucfirst($type));
+          $form['feedapi'][$type]['#title'] = $submodules_names[$type];
           $form['feedapi'][$type]['#collapsible'] = TRUE;
           $form['feedapi'][$type]['#collapsed'] = TRUE;
           $form['feedapi'][$type]['#tree'] = TRUE;
@@ -572,7 +576,7 @@ function feedapi_node_validate($form, &$form_state) {
   if (empty($form_state['values']['title']) && isset($feed->title)) {
     form_set_value($form['title'], $feed->title, $form_state);
   }
-  if (empty($form_state['values']['body']) && isset($feed->description)) {
+  if (isset($form['body_field']) && empty($form_state['values']['body']) && isset($feed->description)) {
     form_set_value($form['body_field']['body'], $feed->description, $form_state);
   }
   if (empty($form_state['values']['title'])) {
@@ -976,13 +980,13 @@ function _feedapi_update(&$node, $teaser, $page) {
  * @return
  *  The object of the parser data
  */
-function _feedapi_call_parsers($feed, $parsers) {
+function _feedapi_call_parsers($feed, $parsers, $settings) {
   $nid = isset($feed->nid) ? $feed->nid : '';
   $parser_primary = array_shift($parsers);
   $parsers_secondary = $parsers;
   if (module_exists($parser_primary)) {
-    $feed->feed_type =  module_invoke($parser_primary, 'feedapi_feed', 'compatible', $feed);
-    $parser_output =  module_invoke($parser_primary, 'feedapi_feed', 'parse', $feed);
+    $feed->feed_type =  module_invoke($parser_primary, 'feedapi_feed', 'compatible', $feed, $settings[$parser_primary]);
+    $parser_output =  module_invoke($parser_primary, 'feedapi_feed', 'parse', $feed, $settings[$parser_primary]);
     if ($parser_output === FALSE) {
       return $parser_output;
     }
@@ -1164,7 +1168,7 @@ function _feedapi_invoke_refresh(&$feed, $param) {
   // Step 2: Get feed.
   $nid = $feed->nid;
   $hash_old = $feed->hash;
-  $feed = _feedapi_call_parsers($feed, $feed->parsers, $feed->half_done);
+  $feed = _feedapi_call_parsers($feed, $feed->parsers, $settings['parsers']);
   if (is_object($feed)) {
     $feed->hash = md5(serialize($feed->items));
   }
@@ -1288,7 +1292,7 @@ function _feedapi_build_feed_object($node_type, $url) {
   $feed->processors = _feedapi_format_settings($node_type_settings, 'processors');
   $feed->parsers = _feedapi_format_settings($node_type_settings, 'parsers');
   if (isset($feed->url)) {
-    $feed = _feedapi_call_parsers($feed, $feed->parsers);
+    $feed = _feedapi_call_parsers($feed, $feed->parsers, $node_type_settings['parsers']);
   }
   $feed->link = isset($feed->options->link) ? $feed->options->link : '';
   return $feed;

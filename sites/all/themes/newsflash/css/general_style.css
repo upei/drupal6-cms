@@ -109,7 +109,6 @@ h1.title
 
 li{
   list-style-type: square;
-  list-style-image: url(../images/menu-leaf.png);
   padding: 0.2em 0.5em 0 0;
   margin: 0;
   }
@@ -293,16 +292,18 @@ border-bottom: 1px solid #ccc;
 #primarymenu{padding-top:0px;}
 
 .view-faculty .views-field-title, .view-Faculty .views-field-title, .view-staff .views-field-title
-{padding:3px;font-size:16px;border:1px solid #aaa;font-weight:bold;text-decoration:underline;}
+{margin-bottom:5px;padding:3px;font-size:16px;border-bottom:1px solid #aaa;font-weight:bold;text-decoration:underline;}
 
 
 
 
 .view-faculty .views-field-teaser, .view-Faculty .views-field-teaser, .view-staff .views-field-teaser
-{width:400px;}
+{}
 
-.view-faculty img, .view-Faculty img, .view-staff img
-{float:right;padding-top:5px;}
+
+.view-faculty .views-field-field-faculty-photo-fid, .view-Faculty .views-field-field-faculty-photo-fid, .view-staff .views-field-field-faculty-photo-fid{
+	width:155px;float:right;margin-left:10px;
+}
 
 .view-faculty .views-row-odd, .view-faculty .views-row-even,
 .view-Faculty .views-row-odd, .view-Faculty .views-row-even,
@@ -329,7 +330,9 @@ border-bottom: 1px solid #ccc;
 }
 
 .width33 {
-	width: 33%;
+	/*changed Feb3-09 to space the sections properly */
+	width: 30%;
+	margin:0px 5px 0px 5px;
 }
 
 .width24 {

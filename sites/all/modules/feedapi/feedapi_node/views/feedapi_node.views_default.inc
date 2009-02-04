@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.views_default.inc,v 1.1.2.1 2008/10/01 08:55:47 aronnovak Exp $
+// $Id: feedapi_node.views_default.inc,v 1.1.2.2 2009/01/23 13:47:10 alexb Exp $
 /**
  * @file
  * FeedAPI Node Views - Default Views
@@ -13,177 +13,116 @@ function feedapi_node_views_default_views() {
   $view = new view;
   $view->name = 'feeds';
   $view->description = t('Show a listing of all feed items for a feed');
-  $view->tag = t('default');
+  $view->tag = 'default';
   $view->view_php = '';
   $view->base_table = 'node';
-  $view->is_cacheable = '0';
+  $view->is_cacheable = FALSE;
   $view->api_version = 2;
-  $view->disabled = FALSE;
-  $view->display = array();
-
-  $display = new views_display;
-  $display->id = 'default';
-  $display->display_title = t('Defaults');
-  $display->display_plugin = 'default';
-  $display->position = '1';
-  $display->display_options = array(
-    'style_plugin' => 'default',
-    'style_options' =>
-    array(
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->override_option('relationships', array(
+    'feed_nid' => array(
+      'id' => 'feed_nid',
+      'table' => 'feedapi_node_item_feed',
+      'field' => 'feed_nid',
     ),
-    'row_plugin' => 'node',
-    'row_options' =>
-    array(
-      'teaser' => 1,
-      'links' => 1,
+  ));
+  $handler->override_option('sorts', array(
+    'created' => array(
+      'order' => 'DESC',
+      'granularity' => 'second',
+      'id' => 'created',
+      'table' => 'node',
+      'field' => 'created',
+      'sortorder' => 'desc',
+      'relationship' => 'none',
     ),
-    'relationships' =>
-    array(
+  ));
+  $handler->override_option('arguments', array(
+    'nid' => array(
+      'default_action' => 'ignore',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'All',
+      'title' => '',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'node',
+      'validate_fail' => 'not found',
+      'break_phrase' => 0,
+      'not' => 0,
+      'id' => 'nid',
+      'table' => 'node',
+      'field' => 'nid',
+      'relationship' => 'feed_nid',
+      'default_options_div_prefix' => '',
+      'default_argument_user' => 0,
+      'default_argument_fixed' => '',
+      'default_argument_php' => '',
+      'validate_argument_node_type' => array(
+        'blog' => 0,
+        'event' => 0,
+        'feed' => 0,
+        'feed_item' => 0,
+        'page' => 0,
+        'story' => 0,
+        'video' => 0,
+      ),
+      'validate_argument_node_access' => 0,
+      'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(
+        '2' => 0,
+        '1' => 0,
+      ),
+      'validate_argument_type' => 'tid',
+      'validate_argument_php' => '',
     ),
-    'fields' =>
-    array(
-    ),
-    'sorts' =>
-    array(
-      'created' =>
-      array(
-        'order' => 'DESC',
-        'granularity' => 'second',
-        'id' => 'created',
-        'table' => 'node',
-        'field' => 'created',
-        'sortorder' => 'desc',
-        'relationship' => 'none',
+  ));
+  $handler->override_option('filters', array(
+    'status' => array(
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'operator' => '=',
+      'value' => '1',
+      'group' => 0,
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
       ),
     ),
-    'arguments' =>
-    array(
-      'feed_nid' => array(
-        'default_action' => 'ignore',
-        'style_plugin' => 'default_summary',
-        'style_options' => array(),
-        'wildcard' => 'all',
-        'wildcard_substitution' => 'All',
-        'title' => '%1',
-        'default_argument_type' => 'fixed',
-        'default_argument' => '',
-        'validate_type' => 'node',
-        'validate_fail' => 'not found',
-        'break_phrase' => 0,
-        'not' => 0,
-        'id' => 'feed_nid',
-        'table' => 'feedapi_node_item_feed',
-        'field' => 'feed_nid',
-        'relationship' => 'none',
-        'default_options_div_prefix' => '',
-        'default_argument_user' => 0,
-        'default_argument_fixed' => '',
-        'default_argument_php' => '',
-        'validate_argument_node_type' => array(
-          'blog' => 0,
-          'bookmark' => 0,
-          'feedapi_node' => 0,
-          'feed_item' => 0,
-          'page' => 0,
-          'story' => 0,
-        ),
-        'validate_argument_node_access' => 1,
-        'validate_argument_nid_type' => 'nid',
-        'validate_argument_vocabulary' => array(
-          '1' => 0,
-        ),
-        'validate_argument_type' => 'tid',
-        'validate_argument_php' => '',
-        ),
-    ),
-    'filters' =>
-    array(
-      'status' =>
-      array(
-        'id' => 'status',
-        'table' => 'node',
-        'field' => 'status',
-        'operator' => '=',
-        'value' => '1',
-        'group' => 0,
-        'exposed' => FALSE,
-        'expose' =>
-        array(
-          'operator' => FALSE,
-          'label' => '',
-        ),
-      ),
-    ),
-    'items_per_page' => 10,
-    'use_pager' => '1',
-    'pager_element' => 0,
-    'title' => t('Feed items'),
-    'header' => '',
-    'header_format' => '1',
-    'footer' => '',
-    'footer_format' => '1',
-    'empty' => t('No feed items found.'),
-    'empty_format' => '1',
-  );
-  $view->display['default'] = $display;
-
-  $display = new views_display;
-  $display->id = 'page';
-  $display->display_title = t('Page');
-  $display->display_plugin = 'page';
-  $display->position = '2';
-  $display->display_options = array(
-    'defaults' =>
-    array(
-      'access' => TRUE,
-      'title' => TRUE,
-      'header' => TRUE,
-      'header_format' => TRUE,
-      'header_empty' => TRUE,
-      'footer' => TRUE,
-      'footer_format' => TRUE,
-      'footer_empty' => TRUE,
-      'empty' => TRUE,
-      'empty_format' => TRUE,
-      'items_per_page' => TRUE,
-      'offset' => TRUE,
-      'use_pager' => TRUE,
-      'pager_element' => TRUE,
-      'link_display' => TRUE,
-      'php_arg_code' => TRUE,
-      'exposed_options' => TRUE,
-      'style_plugin' => TRUE,
-      'style_options' => TRUE,
-      'row_plugin' => TRUE,
-      'row_options' => TRUE,
-      'relationships' => TRUE,
-      'fields' => TRUE,
-      'sorts' => TRUE,
-      'arguments' => TRUE,
-      'filters' => TRUE,
-      'use_ajax' => TRUE,
-      'distinct' => TRUE,
-    ),
-    'relationships' =>
-    array(
-    ),
-    'fields' =>
-    array(
-    ),
-    'sorts' =>
-    array(
-    ),
-    'arguments' =>
-    array(
-    ),
-    'filters' =>
-    array(
-    ),
-    'path' => 'feed-item',
-  );
-  $view->display['page'] = $display;
-
+  ));
+  $handler->override_option('access', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('title', 'Feed items');
+  $handler->override_option('header_format', '1');
+  $handler->override_option('footer_format', '1');
+  $handler->override_option('empty', 'No feed items found.');
+  $handler->override_option('empty_format', '1');
+  $handler->override_option('use_pager', '1');
+  $handler->override_option('row_plugin', 'node');
+  $handler->override_option('row_options', array(
+    'teaser' => 1,
+    'links' => 1,
+  ));
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->override_option('path', 'feed-item');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'weight' => 0,
+  ));
   $views[$view->name] = $view;
+
   return $views;
 }
 

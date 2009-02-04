@@ -1,3 +1,3 @@
 <?php
-include "stafffaculty-rowoutput.tpl.php";
+include "all-view-rowoutput.tpl.php";
 ?>

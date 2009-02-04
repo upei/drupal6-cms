@@ -297,8 +297,13 @@ EOF;
     if (count($messages)) {
       foreach ($messages as $message) {
         print <<<EOF
-        <h2>$msg->title</h2>
-        <div>$message->body</div>
+      <div class="ui-widget" style="margin-top: 6px;">
+        <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+          <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+          <strong>$msg->title</strong></p>
+          $message->body
+        </div>
+      </div>
 EOF;
       }
     }
@@ -306,6 +311,7 @@ EOF;
 
   
   function unpublishAll() {
+    watchdog('emergency', t('All emergency messages are unpublished.'), array(), WATCHDOG_WARNING);
     CampusEmergencyNode::unpublishAllMessages();
     return '<b>All Emergency Messages have been unpublished.</b>';
   }

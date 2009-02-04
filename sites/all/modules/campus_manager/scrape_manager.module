@@ -118,7 +118,7 @@ class ScrapeManager {
       print 'cannot execute command: ' . $command;
     }
     
-    watchdog('site mirror', $message2, null, watchdog_warning);
+    watchdog('site mirror', "$arg1/$arg2 is scraped.", array(), WATCHDOG_WARNING);
 
     // $subject = t("site update message: $arg1/$arg2 has been updated");
     // $body = t($message2 . "\n\nhttp://cms.upei.ca/$arg1/$arg2");

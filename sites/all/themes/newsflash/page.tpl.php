@@ -146,7 +146,7 @@ if($bucket == "wf"){
 <style type="text/css" media="all">@import "<?php print base_path() . path_to_theme() ?>/css/ie.css";</style>
 
 <![endif]-->
-<style type="text/css">@import url('/misc/ui-theme/ui.all.css');</style>
+<style type="text/css">@import url('/misc/ui-theme/ui.generated.css');</style>
 <?php if ($suckerfish) { ?>
     <?php if (theme_get_setting('newsflash_suckerfish')) { ?>
 <!--[if lte IE 6]>
@@ -154,7 +154,6 @@ if($bucket == "wf"){
 <![endif]-->
     <?php }  ?>
   <?php } ?>
-  <script type="text/javascript" src="<?php print url(drupal_get_path('theme', 'newsflash') . '/js/pickstyle.js'); ?>"></script>
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
  <?php include "mods/google.php";?> 
@@ -216,7 +215,14 @@ if($bucket == "wf"){
     <div id="middlecontainer">
 <!-- dave did this and he's very sorry--> 
 <?php if($bucket != "home" && $bucket != "avc"){?>
-<? if($bucket == "wf"){$title = str_replace("Create", "", $title);}?>
+<?php if($bucket == "wf"){$title = str_replace("Create", "", $title);}?>
+<?php $sectional = explode("/", request_uri());?>
+
+<?php
+	//This is to remove the title on the front page of the CAHLN 2009 front page on the
+	//Projects bucket 
+	if($sectional[1] == "projects" && $sectional[2] == "cahln" && $sectional[3] == "2009" && !$sectional[4]){$title = "";}
+?>
 <h1 class="title"><?php print $title ?></h1> 
 
 <?php }?> 
@@ -330,5 +336,27 @@ if($bucket == "wf"){
   <div style="clear:both"></div>
   <?php print $closure ?>
   </div> <!-- /page -->
+
+<!-- google analytics/quancast code. -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7323270-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- Start Quantcast tag -->
+<script type="text/javascript">
+_qoptions={
+qacct:"p-73x8TBYuYZv9-"
+};
+</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript>
+<img src="http://pixel.quantserve.com/pixel/p-73x8TBYuYZv9-.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+</noscript>
+<!-- End Quantcast tag -->
 </body>
 </html>

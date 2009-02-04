@@ -38,7 +38,7 @@ define('FILE_STATUS_PERMANENT', 1);
  * @param $path A string containing the path of the file to generate URL for.
  * @return A string containing a URL that can be used to download the file.
  */
-function file_create_url($path, $absolute = FALSE) {
+function file_create_url($path, $absolute = TRUE) {
   // Strip file_directory_path from $path. We only include relative paths in urls.
   if (strpos($path, file_directory_path() .'/') === 0) {
     $path = trim(substr($path, strlen(file_directory_path())), '\\/');

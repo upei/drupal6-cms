@@ -104,7 +104,7 @@
 
 <![endif]-->
 
-    <style type="text/css">@import url('/misc/ui-theme/ui.all.css');</style>
+    <style type="text/css">@import url('/misc/ui-theme/ui.generated.css');</style>
 <?php if ($suckerfish) { ?>
     <?php if (theme_get_setting('sunshine_suckerfish')) { ?>
 <!--[if lte IE 6]>
@@ -112,7 +112,6 @@
 <![endif]-->
     <?php }  ?>
   <?php } ?>
-  <script type="text/javascript" src="<?php print $GLOBALS['base_url']."/"; print $directory; ?>/js/pickstyle.js"></script>
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
 
@@ -290,7 +289,27 @@ function ExecuteQuickLink(){
     </div><!-- /footer -->
   <div style="clear:both"></div>
   <?php print $closure ?>
- 
 
+<!-- google analytics/quancast code. -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7323270-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- Start Quantcast tag -->
+<script type="text/javascript">
+_qoptions={
+qacct:"p-73x8TBYuYZv9-"
+};
+</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript>
+<img src="http://pixel.quantserve.com/pixel/p-73x8TBYuYZv9-.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+</noscript>
+<!-- End Quantcast tag -->
 </body>
 </html>
