@@ -23,8 +23,7 @@ function ldapauth_user_filter(&$attributes) {
   // watchdog('ldapauth', t('Debug: ') . print_r($attributes, TRUE));
 
   // Example: don't allow in users with no homeDirectory set.
-  // return isset($attributes['homeDirectory'][0]) && $attributes['homedirectory'][0];
-
+  //return isset($attributes['upeiaccountmask'][0]) && ($attributes['upeiaccountmask'][0] == 0);
   return TRUE;
 }
 

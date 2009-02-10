@@ -171,11 +171,11 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 #                -exec sed -i 's/\&quot\;\&gt\;read more/.html\&quot\;\&gt\;more/g' {} \;
 
 	# Create extension-less symbolic links to .html and .xml files
-	dir_names=`find /var/cache/httrack/$bucket/${source_site}/$bucket -type d`
+	#dir_names=`find /var/cache/httrack/$bucket/${source_site}/$bucket -type d`
 
 	# Doing it one directory at a time to ensure that symlinks are created relative to files
 	# in the same directory.
-	for dir_name in ${dir_names}
+	find /var/cache/httrack/$bucket/${source_site}/$bucket -type d | while read -d $'\n' dir_name
 	do
 		cd "$dir_name" 
 
@@ -191,8 +191,8 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 
 
 		check_name=../`basename "${dir_name}"`.html
-		if [ -f ${check_name} ] ; then
-			ln -sT ${check_name} index.html
+		if [ -f "${check_name}" ] ; then
+			ln -sT "${check_name}" index.html
 		fi
 
 	done

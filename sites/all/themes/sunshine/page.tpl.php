@@ -290,6 +290,12 @@ function ExecuteQuickLink(){
   <div style="clear:both"></div>
   <?php print $closure ?>
 
+<?php if ( $_SERVER['REMOTE_ADDR'] == '137.149.3.48' || $_SERVER['REMOTE_ADDR'] == '137.149.3.28') {
+  $_ga = 'UA-7323270-1';
+}
+else {
+  $_ga = 'UA-7323270-2';
+} ?>
 <!-- google analytics/quancast code. -->
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -297,7 +303,7 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 </script>
 <script type="text/javascript">
 try {
-var pageTracker = _gat._getTracker("UA-7323270-1");
+var pageTracker = _gat._getTracker("<?=$_ga?>");
 pageTracker._trackPageview();
 } catch(err) {}</script>
 <!-- Start Quantcast tag -->

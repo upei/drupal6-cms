@@ -427,3 +427,15 @@ border-bottom: 1px solid #ccc;
 #section1 h2 a, #section2 h2 a{font-size:14px;font-weight:bold;}
 #block-scrape_manager-0 img{margin-bottom:2px;}
 
+/*Notice page styles*/
+.view-notice .views-field-title{border-bottom:1px solid #e8e8e8;font-size:1.1em;font-weight:bold;}
+
+.view-notice .views-row-odd,  .view-notice .views-row-even
+{
+	border-color:#e8e8e8;
+	border-style:solid;
+	border-width:1px 3px 3px 1px;;
+	margin-bottom:5px;
+	padding:5px;
+
+}

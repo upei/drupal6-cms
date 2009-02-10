@@ -426,7 +426,7 @@ function _ldapauth_user_lookup($name) {
       continue;
 
     $name_attr = $_ldapauth_ldap->getOption('user_attr') ? $_ldapauth_ldap->getOption('user_attr') : LDAPAUTH_DEFAULT_USER_ATTR;
-    $filter = "$name_attr=$name";
+    $filter = "(&($name_attr=$name)(!(upeiAccountMask=1)))";
     $result = $_ldapauth_ldap->search($base_dn, $filter);
     if (!$result)
       continue;
