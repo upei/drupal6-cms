@@ -156,7 +156,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
   # 3. fix jquery ui javascript
 	find ${cache_directory}/$bucket/${source_site}/$1/ -name "*html" \
 		-exec sed -r -i \
-			-e "/(href|src)=/ {
+			-e "/(href|img.*src)=/ {
 				s/href=\"([^?]+)\?page=([[:digit:]]+)[^\"]*\"/href=\"\1-\2\"/g
         s/src=\"([^?]+)\?.*\"/src=\"\1\"/g
 			}" {} \;

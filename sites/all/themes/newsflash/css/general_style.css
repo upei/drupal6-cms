@@ -295,8 +295,6 @@ border-bottom: 1px solid #ccc;
 {margin-bottom:5px;padding:3px;font-size:16px;border-bottom:1px solid #aaa;font-weight:bold;text-decoration:underline;}
 
 
-
-
 .view-faculty .views-field-teaser, .view-Faculty .views-field-teaser, .view-staff .views-field-teaser
 {}
 
@@ -304,6 +302,8 @@ border-bottom: 1px solid #ccc;
 .view-faculty .views-field-field-faculty-photo-fid, .view-Faculty .views-field-field-faculty-photo-fid, .view-staff .views-field-field-faculty-photo-fid{
 	width:155px;float:right;margin-left:10px;
 }
+
+.view table { width: 100%; }
 
 .view-faculty .views-row-odd, .view-faculty .views-row-even,
 .view-Faculty .views-row-odd, .view-Faculty .views-row-even,
@@ -358,60 +358,6 @@ border-bottom: 1px solid #ccc;
    height: 0;
    clear: both;
    visibility: hidden;
-}
-
-/* carousel default style */
-			
-#mycarousel {
-  width: 682px;
-}
-#mycarousel .jcarousel-container-horizontal {
-    width: 682px;
-}
-
-#mycarousel .jcarousel-clip-horizontal {
-    width: 682px;
-    height: 252px;
-}
-
-#mycarousel .jcarousel-item,
-#mycarousel .jcarousel-item-placeholder {
-    width: 680px;
-    height: 250px;
-}
-
-#mycarousel .jcarousel-item li {
-  width: 680px;
-}
-
-#mycarousel .jcarousel-item-horizontal p {
-    margin: 5px;
-    text-align: center;
-    clear: both;
-    white-space: wrap;
-}
-
-#mycarousel .jcarousel-item-placeholder {
-    background: transparent url(/js/jcarousel/images/loading.gif) 50% 50% no-repeat;
-}
-
-#mycarousel .jcarousel-next {
-    top: 125px;
-    right: 5px;
-}
-
-#mycarousel .jcarousel-prev {
-    top: 125px;
-    left: 5px;
-}
-
-#mycarousel form {
-    margin-top: 10px;
-}
-
-#mycarousel form label,
-#mycarousel form small {
-    display: block;
 }
 
 #section1 a, #section2 a{text-decoration: none;}

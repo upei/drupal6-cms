@@ -99,7 +99,7 @@ function _campus_management_updateable_content() {
   $bucket = $site[1];
   $page_content = "<table>\n";
   $page_content .= "<tr><th>Title</th><th width=\"75\">Type</th><th  width=\"75\" style=\"text-align:center;\">Published?</th><th width=\"75\" >Edit</th></tr>\n";
-  $sSQL = "SELECT * FROM {node} WHERE type NOT IN ('award_node', 'timetable_node') ORDER BY changed DESC";
+  $sSQL = "SELECT * FROM {node} WHERE type NOT IN ('award_node', 'timetable_node', 'full_timetable_node', 'firstyear_timetable_node', 'timetable_feed') ORDER BY changed DESC";
   $result =  db_query($sSQL);
     while ($node = db_fetch_object($result)) {
     $node_object = node_load($node->nid);
