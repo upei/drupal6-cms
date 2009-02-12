@@ -31,7 +31,7 @@ background-color: #666;
   z-index: 100;
   display: inline;
 	position:relative; /*added by DH to move the nav items to the right instead of the left */
-  float:center;/*added by DH to move the nav items to the right instead of the left */
+  float: left;/*added by DH to move the nav items to the right instead of the left */
 } 
 
 #suckerfishmenu	 a {

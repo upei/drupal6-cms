@@ -69,7 +69,7 @@ div.admin-panel .description {
 img {
   margin-bottom: 10px;
 }
-#footer-message img{padding:0px margin:0px;}
+#footer-message img{padding:0px; margin:0px;}
 .view img {margin-left:0px;}
 
 /*
@@ -126,7 +126,7 @@ li{
 #tb{padding:4px;background-color:#d3d8b9;font-weight:bold;font-size:14px;border:1px solid #999999;}
 #tbc{background-color:#e9ecd9;font-weight:bold;text-align:center;}
 .outline{border:1px #d9d9d9 solid;padding:5px 5px 5px 5px;margin-bottom:5px;}
-#infobox{border:1px #cccccc solid;background-color:#eff2e3;width:100%;margin:0px 0px 14px 0px;padding:0px -14px 0px 7px;}
+#infobox{border:1px #cccccc solid;background-color:#eff2e3;width:100%;margin:0px 0px 14px 0px;padding:0px 0px 0px 7px;}
 
 tbody {
   border-top: 0px solid #fff;
@@ -168,14 +168,6 @@ h1.title{font-size:18px;margin-bottom:5px;}
 
 /* Style for the Content Manager Messaging System*/
 .cmms{border:2px solid #333333;padding:10px;background-color:#43590E;color:#ffffff;}
-
-/* Style for the Emergency Messaging System*/
-#emms{margin:auto;width:95%;border:2px solid #6C1C00;padding:10px;color:#ffffff;}
-.emms{background-color:grey;}
-.emms1{background-color:red;}/*Level 1 Red*/
-.emms2{background-color:orange;}/*Level 2 Orange*/
-.emms3{background-color:black;}/*Level 3 Black*/
-
 
 #main .node h2.title{font-size:14px;}
 
@@ -232,7 +224,7 @@ ul.images li{
 	width:100px;
 	height:100px;
 }
-ul.images li {padding:0pxmargin:0px;}
+ul.images li { padding:0px; margin:0px; }
 .content ol li{
 list-style-image:none;
 list-style-type:decimal;
@@ -399,7 +391,7 @@ padding: 5px;
     margin: 5px;
     text-align: center;
     clear: both;
-    white-space: wrap;
+    white-space: normal;
 }
 
 #mycarousel .jcarousel-item-placeholder {
@@ -441,3 +433,5 @@ padding: 5px;
 #inner-content {
 padding: 0px;
 }
+
+.v-default, .v-image, .v-title, .v-description { display: none; }

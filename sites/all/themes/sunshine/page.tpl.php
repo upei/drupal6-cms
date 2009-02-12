@@ -1,19 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $language->language ?>" xml:lang="<?php print $language->language ?>">
+<?php include 'mods/doctype.php'; ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:u="http://upei.ca/xml/extensions" lang="<?php print $language->language ?>" xml:lang="<?php print $language->language ?>">
 <head>
   <title><?php print "University of Prince Edward Island" //$head_title ?></title>
   <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
   
   <?php print $head ?>
+  <?php print $scripts ?>
   <?php print $styles ?>
 <style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_style.css";</style>
 <?php /* includes the sub-banner code */ include 'mods/subbanners.php'; ?>
-<style type="text/css">@import "/css/sunshine.css";<?php  //print _import_override_css_files(); ?></style>
+<style type="text/css">@import "/css/sunshine.css";</style>
+<?php print _import_override_css_files(); ?>
 <script type="text/javascript" src="/misc/swfobject.js"></script>
 
 
   
-  <?php print $scripts ?>
   <script type="text/javascript"><?php /* Needed to avoid Flash of Unstyle Content in IE */ ?> </script>
   <?php if (theme_get_setting('sunshine_width')) { ?>
     <style type="text/css">
@@ -118,7 +119,7 @@
 <!-- Added January 22nd 2009 by shawn to add the new full cross section to the top of the page-->
 <div style="width:100%;height:52px;">
 	<div style="width:1000px;margin:5px auto;">
-	<a href="/home"><img style="float:left;margin-left:10px;margin-top:2px;" src="/banner/other/UPEI-Horizontal-Logo_200.jpg"></a>
+	<a href="/home"><img style="float:left;margin-left:10px;margin-top:2px;" src="/banner/other/UPEI-Horizontal-Logo_200.jpg" alt="UPEI Logo" /></a>
 	<div style="float:right;padding:0px 10px 0px 0px;">
 	
 	<ul class="links-menu links" id="navlist">
@@ -135,14 +136,15 @@
 <div style="margin-top:5px;width:706px;float:right;border:0px solid #cccccc;">
 <?php include "mods/google.php";?>
 
-<!--<script language="javascript">
+<!--
+<script language="javascript">
 function ExecuteQuickLink(){
 	window.location.href = document.frmQuickLinks.sltURL.value;
 }
 </script>
 <form style="float:left;font-size:1.1em;margin:2px 0px 0px 0px;" name="frmQuickLinks">
 <select name="sltURL" onchange="ExecuteQuickLink();">
-	<option value="http://upei.ca/home">--- Campus Links ---</option>
+	<option value="http://upei.ca/home"> - Campus Links - </option>
 	<option value="https://secure.upei.ca/cls/dropbox/SpringTime.html">Second Semester 2008-09 Timetable</option>
 	<option value="http://welcome.upei.ca/news/">News &amp; Events</option>
 	<option value="http://upei.ca/staff_faculty/search">Search Faculty &amp; Staff</option>
@@ -153,7 +155,8 @@ function ExecuteQuickLink(){
 	<option value="http://cms.upei.ca/home/research_institutes_and_centres">Institutes &amp; Centres</option>
 	<option value="http://cms.upei.ca/home/safety">Campus Safety</option>
 </select>
-</form>-->
+</form>
+-->
 </div>
 
 
@@ -196,7 +199,7 @@ function ExecuteQuickLink(){
 
 <?
 	$aURI = explode("/", request_uri());
-	if($aURI[1] == "home" && !$aURI[2]){$DisplayTitle = "<a style=\"font-weight:none;color:#666666;text-decoration:underline;\" href=\"http://www.upei.ca/news\">". $title ."</a>";}else{$DisplayTitle = $title;}
+	if($aURI[1] == "home" && !$aURI[2]){$DisplayTitle = "<a style=\"font-weight:normal;color:#666666;text-decoration:underline;\" href=\"http://www.upei.ca/news\">". $title ."</a>";}else{$DisplayTitle = $title;}
 ?>		  
 <h1 class="title"><?php print $DisplayTitle ?></h1>
               

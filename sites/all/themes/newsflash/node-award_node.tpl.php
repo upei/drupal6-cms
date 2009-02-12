@@ -34,7 +34,7 @@
  if ($field_award_deadline[0][view]) {$award_deadline =  $field_award_deadline[0][view];} else {$award_deadline = "N/A";}
  if (preg_match('|^http://|', $field_award_app_link[0][view])){$award_app_link =  "<a href=\"" . $field_award_app_link[0][view] . "\">Application Form</a>";} 
  else if (!empty($field_award_app_link[0]['view'])) { $award_app_link = $field_award_app_link[0]['view']; }
- else {$award_app_link = "No Application Form";}
+ else {$award_app_link = "Not Applicable";}
 print $field_responsibility[0]['label_text'];
   ?>
 
@@ -64,7 +64,7 @@ print $field_responsibility[0]['label_text'];
 	<td><? print $award_deadline; ?></td>
  </tr>
   <tr>
- 	<td></td>
+ 	<td><strong>Application Form:</strong></td>
 	<td><? print $award_app_link; ?></td>
  </tr>
   <tr>

@@ -31,8 +31,18 @@ function _import_override_css_files() {
 		$url = array_slice($url_part, 0, $len);
 		$file_name = '/css/' . join('_', $url) . '.css';
 		if (is_file($mypath . $file_name)) {
-			$output .= '@import "' . $file_name . "\";";
+			$output .= '<style type="text/css">@import url("' . $file_name . "\");</style>\n";
 		}
-	}
+/*
+    $file_name = '/css/' . join('_', $url) . '-ie.css';
+    if (is_file($mypath . $file_name)) {
+      $output .= <<<EOF
+<!--[if lte IE 6]>
+<style type="text/css">@import url("$file_name");</style>
+<![endif]-->
+EOF;
+    }
+*/
+  } 
 	return $output;
 }

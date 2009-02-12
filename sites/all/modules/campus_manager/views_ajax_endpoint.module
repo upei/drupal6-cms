@@ -21,3 +21,15 @@ function views_ajax_endpoint_views_api() {
   return array('api' => 2);
 }
 
+function views_ajax_endpoint_footer($main = 0) {
+  $content = '';
+  $path = base_path() . drupal_get_path('module', 'views_ajax_endpoint')  . '/codemirror';
+  $q = $_REQUEST['q'];
+  if (preg_match('|^admin/build/views|', $q)) {
+    $content .= <<<EOL
+<script type="text/javascript" src="$path/js/codemirror.js"></script>
+EOL;
+  }
+  
+  return $content;
+}
