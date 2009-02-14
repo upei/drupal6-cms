@@ -1,0 +1,32 @@
+<?php
+
+function campus_log_viewer_schema() {
+  $schema['campus_log_viewer_last_access'] = array(
+    'description' => t('The last access table for campus log viewer'),
+    'fields' => array(
+      'db' => array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'wid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+    ),
+    'primary key' => array('db'),
+  );
+
+  return $schema;
+}
+
+function campus_log_viewer_install() {
+//  drupal_install_schema('campus_log_viewer');
+}
+
+function campus_log_viewer_uninstall() {
+  drupal_uninstall_schema('campus_log_viewer');
+}

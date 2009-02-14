@@ -1,0 +1,11 @@
+#campus_log_viewer { height: 600px; width: 100%; overflow: auto; margin: 6px 0 0 0; padding: 3px; border: 1px #000 solid; }
+
+.log-entry span { display: block; float: left; }
+.log-entry .db { width: 130px; }
+.log-entry .type { width: 80px; } 
+.log-entry .message { width: 300px; }
+.log-entry .timestamp { width: 80px; }
+.log-entry .location { width: 30px; }
+.log-entry .referer { width: 30px; }
+.log-entry .link { width: 30px; }
+.log-entry .done { clear: both; }

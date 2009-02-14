@@ -1,0 +1,7 @@
+name = Campus log viewer
+description = Show multisite logs
+package = "Campus manager"
+version = 0.1
+core = 6.x
+dependencies[] = jquery_update
+dependencies[] = jquery_ui

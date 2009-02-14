@@ -1,0 +1,203 @@
+<?php
+
+function campus_log_viewer_perm() {
+  return array('access campus log viewer', 'administer campus log viewer');
+}
+
+function campus_log_viewer_menu() {
+  $items['admin/reports/campus-log-viewer'] = array(
+    'title' => t('Campus log viewer'),
+    'description' => t('Multisite log viewer'),
+    'page callback' => '_campus_log_viewer_show',
+    'access arguments' => array('access campus log viewer'),
+    'type' => MENU_NORMAL_ITEM
+  );
+
+  $items['admin/settings/campus-log-viewer'] = array(
+    'title' => t('Campus log viewer'),
+    'description' => t('Configure multisite log viewer'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('_campus_log_viewer_admin_settings'),
+    'access arguments' => array('administer campus log viewer'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['admin/reports/campus-log-viewer/ajax/recent'] = array(
+    'title' => t('AJAX receng logs'),
+    'type' => MENU_CALLBACK,
+    'page callback' => '_campus_log_viewer_ajax_recent',
+    'access arguments' => array('access campus log viewer'),
+  );
+
+  $items['admin/reports/campus-log-viewer/ajax/clear'] = array(
+    'title' => t('AJAX clear timestamp state'),
+    'type' => MENU_CALLBACK,
+    'page callback' => '_campus_log_viewer_ajax_clear',
+    'access arguments' => array('access campus log viewer'),
+  );
+
+  return $items;
+}
+
+/* get a list of databases, only compatible with mysql  */
+function _campus_log_viewer_list_databases() {
+  static $db_list = array();
+  // check for current request
+  if (count($db_list)) {
+    return $db_list;
+  }
+  // check for current session
+  $result = db_query('show databases');
+  while ($db = db_result($result)) {
+    if ($db != 'information_schema' && $db != 'mysql')
+      $db_list[] = $db;
+  }
+  return $db_list;
+}
+
+function _campus_log_viewer_admin_settings() {
+  $form['campus_log_viewer_update_frequency'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Update frequency'),
+    '#size' => 4,
+    '#maxlength' => 4,
+    '#default_value' => variable_get('campus_log_viewer_update_frequency', 30),
+    '#description' => t('Update frequency for log viewer in <b>seconds</b>.')
+  );
+  
+  $db_list = _campus_log_viewer_list_databases();
+  $form['campus_log_viewer_monitored_databases'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Monitored databases'),
+    '#cols' => 60,
+    '#rows' => 30,
+    '#default_value' => variable_get('campus_log_viewer_monitored_databases', join("\n", $db_list)),
+    '#description' => t('A list of databases that are monitored by campus log viewer, separated by carriage return.<br />') . t('<p>Possible values:<br />') . join("<br/>\n", $db_list) . "</p>"
+  );
+
+  return system_settings_form($form);
+}
+
+/* recent logs by ajax */
+function _campus_log_viewer_ajax_recent() {
+  global $db_url;
+  // get last execution time
+  if (isset($_SESSION['campus_log_viewer_last_execution'])) {
+    $last_execution_timestamp = $_SESSION['campus_log_viewer_last_execution'];
+  }
+  else {
+    $last_execution_timestamp = time()-3600;
+  }
+  // set session var
+  $_SESSION['campus_log_viewer_last_execution'] = time();
+  // change db url if neccesary
+  if (!is_array($db_url)) {
+    $db_url['default'] = $db_url;
+  }
+  // parse db url
+  $comp = parse_url($db_url['default']);
+  // get the list of dbs
+  $db_list = variable_get('campus_log_viewer_monitored_databases', join("\n", _campus_log_viewer_list_databases()));
+  // convert it into an array
+  $db_list = explode("\r\n", $db_list);
+  // filter empty items
+  $db_list = array_filter($db_list, create_function('$a', 'return !empty($a);'));
+
+  // generate db urls
+  foreach ($db_list as $db) {
+    $db_url[$db] = "{$comp['scheme']}://{$comp['user']}:{$comp['pass']}@{$comp['host']}:3307/$db";
+  }
+
+  drupal_set_header('Content-type: text/html; charset=UTF-8');
+  // list all logs
+  $msgs = array();
+  foreach ($db_list as $db) {
+    db_set_active($db);
+    $result = db_query("SELECT * FROM {watchdog} WHERE timestamp > %d ORDER BY wid DESC LIMIT 50", $last_execution_timestamp);
+    db_set_active('default');
+    while ($log = db_fetch_object($result)) {
+      $log->variables = unserialize($log->variables);
+      if ($log->variables) {
+        $msg = str_replace(array_keys($log->variables), array_values($log->variables), $log->message);
+      }
+      else {
+        $msg = $log->message;
+      }
+      $msgs[] = array(
+        'db' => $db,
+        'timestamp' => $log->timestamp,
+        'message' => $msg,
+        'type' => $log->type,
+        'location' => $log->location,
+        'referer' => $log->referer,
+        'link' => $log->link,
+      );
+    }
+    usort($msgs, create_function('$a,$b', 'if ($a["timestamp"]==$b["timestamp"]) return 0; return ($a["timestamp"] > $b["timestamp"]) ? -1 : 1;'));
+  }
+
+  foreach($msgs as $msg) {
+    $date = date('H:i:s', $msg['timestamp']);
+    print <<<EOF
+<div class="log-entry">
+  <span class="db">{$msg['db']}</span>
+  <span class="type">{$msg['type']}</span>
+  <span class="message">{$msg['message']}</span>
+  <span class="timestamp">{$date}</span>
+  <span class="location"><a href="{$msg['location']}" title="{$msg['location']}">loc</a></span>
+  <span class="referer"><a href="{$msg['referer']}" title="{$msg['referer']}">ref</a></span>
+  <span class="link">{$msg['link']}</span>
+</div>
+<div style="clear:both;"></div>
+EOF;
+  }
+
+  db_set_active('default');
+}
+
+function _campus_log_viewer_ajax_clear() {
+  unset($_SESSION['campus_log_viewer_last_execution']);
+}
+
+function _campus_log_viewer_show() {
+  $base_path = base_path();
+  $module_path = drupal_get_path('module', 'campus_log_viewer');
+  $ajax_path = "{$base_path}admin/reports/campus-log-viewer/ajax";
+  $update_frequency = variable_get('campus_log_viewer_update_frequency', 30);
+  drupal_add_css("$module_path/campus_log_viewer.css");
+  drupal_add_js("$module_path/jquery.timers.js", 'module', 'footer');
+  $content = <<<EOF
+<script type="text/javascript">
+$(function() {
+// load logs
+$('#campus_log_viewer .log_container').load('$ajax_path/recent?'+Math.random());
+
+// hook the timer to refresh logs
+$(document).everyTime("{$update_frequency}s", function(i) {
+  $('#campus_log_viewer_header img').css('display', 'inline');
+  $.ajax({
+    type: 'POST',
+    url: '$ajax_path/recent?'+Math.random(),
+    success: function (data) {
+      $('#campus_log_viewer .log_container').prepend(data);
+    },
+    complete: function() {
+      $('#campus_log_viewer_header img').css('display', 'none');
+    }
+  });
+});
+
+});
+</script>
+<div id="campus_log_viewer_header">
+<a href="" onclick="$.get('$ajax_path/clear'); window.location.href=unescape(window.location.pathname); return false;">Reload logs from 30 minutes ago</a>&nbsp;This page updates every $update_frequency seconds. <img src="$base_path$module_path/ajax-loader.gif" style="margin-bottom: -3px; display: none;" />
+</div>
+<div id="campus_log_viewer">
+  <div class="log_container">
+  </div>
+</div>
+
+EOF;
+  return $content;
+}
+
