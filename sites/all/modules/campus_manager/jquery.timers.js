@@ -1,1 +1,147 @@
-﻿;jQuery.fn.extend({everyTime:function(B,C,D,E,A){return this.each(function(){jQuery.timer.add(this,B,C,D,E,A)})},oneTime:function(A,B,C){return this.each(function(){jQuery.timer.add(this,A,B,C,1)})},stopTime:function(A,B){return this.each(function(){jQuery.timer.remove(this,A,B)})}});jQuery.extend({timer:{guid:1,global:{},regex:/^([0-9]+)\s*(.*s)?$/,powers:{ms:1,cs:10,ds:100,s:1000,das:10000,hs:100000,ks:1000000},timeParse:function(C){if(C==undefined||C==null){return null}var A=this.regex.exec(jQuery.trim(C.toString()));if(A[2]){var B=parseInt(A[1],10);var D=this.powers[A[2]]||1;return B*D}else{return C}},add:function(E,C,D,G,H,B){var A=0;if(jQuery.isFunction(D)){if(!H){H=G}G=D;D=C}C=jQuery.timer.timeParse(C);if(typeof C!="number"||isNaN(C)||C<=0){return }if(H&&H.constructor!=Number){B=!!H;H=0}H=H||0;B=B||false;if(!E.$timers){E.$timers={}}if(!E.$timers[D]){E.$timers[D]={}}G.$timerID=G.$timerID||this.guid++;var F=function(){if(B&&this.inProgress){return }this.inProgress=true;if((++A>H&&H!==0)||G.call(E,A)===false){jQuery.timer.remove(E,D,G)}this.inProgress=false};F.$timerID=G.$timerID;if(!E.$timers[D][G.$timerID]){E.$timers[D][G.$timerID]=window.setInterval(F,C)}if(!this.global[D]){this.global[D]=[]}this.global[D].push(E)},remove:function(C,B,D){var E=C.$timers,A;if(E){if(!B){for(B in E){this.remove(C,B,D)}}else{if(E[B]){if(D){if(D.$timerID){window.clearInterval(E[B][D.$timerID]);delete E[B][D.$timerID]}}else{for(var D in E[B]){window.clearInterval(E[B][D]);delete E[B][D]}}for(A in E[B]){break}if(!A){A=null;delete E[B]}}}for(A in E){break}if(!A){C.$timers=null}}}}});if(jQuery.browser.msie){jQuery(window).one("unload",function(){var D=jQuery.timer.global;for(var A in D){var C=D[A],B=C.length;while(--B){jQuery.timer.remove(C[B],A)}}})};
+﻿/**
+ * jQuery.timers - Timer abstractions for jQuery
+ * Written by Blair Mitchelmore (blair DOT mitchelmore AT gmail DOT com)
+ * Licensed under the WTFPL (http://sam.zoy.org/wtfpl/).
+ * Date: 2009/02/08
+ *
+ * @author Blair Mitchelmore
+ * @version 1.1.2
+ *
+ **/
+
+jQuery.fn.extend({
+	everyTime: function(interval, label, fn, times, belay) {
+		return this.each(function() {
+			jQuery.timer.add(this, interval, label, fn, times, belay);
+		});
+	},
+	oneTime: function(interval, label, fn) {
+		return this.each(function() {
+			jQuery.timer.add(this, interval, label, fn, 1);
+		});
+	},
+	stopTime: function(label, fn) {
+		return this.each(function() {
+			jQuery.timer.remove(this, label, fn);
+		});
+	}
+});
+
+jQuery.event.special
+
+jQuery.extend({
+	timer: {
+		global: [],
+		guid: 1,
+		dataKey: "jQuery.timer",
+		regex: /^([0-9]+(?:\.[0-9]*)?)\s*(.*s)?$/,
+		powers: {
+			// Yeah this is major overkill...
+			'ms': 1,
+			'cs': 10,
+			'ds': 100,
+			's': 1000,
+			'das': 10000,
+			'hs': 100000,
+			'ks': 1000000
+		},
+		timeParse: function(value) {
+			if (value == undefined || value == null)
+				return null;
+			var result = this.regex.exec(jQuery.trim(value.toString()));
+			if (result[2]) {
+				var num = parseFloat(result[1]);
+				var mult = this.powers[result[2]] || 1;
+				return num * mult;
+			} else {
+				return value;
+			}
+		},
+		add: function(element, interval, label, fn, times, belay) {
+			var counter = 0;
+			
+			if (jQuery.isFunction(label)) {
+				if (!times) 
+					times = fn;
+				fn = label;
+				label = interval;
+			}
+			
+			interval = jQuery.timer.timeParse(interval);
+
+			if (typeof interval != 'number' || isNaN(interval) || interval <= 0)
+				return;
+
+			if (times && times.constructor != Number) {
+				belay = !!times;
+				times = 0;
+			}
+			
+			times = times || 0;
+			belay = belay || false;
+			
+			var timers = jQuery.data(element, this.dataKey) || jQuery.data(element, this.dataKey, {});
+			
+			if (!timers[label])
+				timers[label] = {};
+			
+			fn.timerID = fn.timerID || this.guid++;
+			
+			var handler = function() {
+				if (belay && this.inProgress) 
+					return;
+				this.inProgress = true;
+				if ((++counter > times && times !== 0) || fn.call(element, counter) === false)
+					jQuery.timer.remove(element, label, fn);
+				this.inProgress = false;
+			};
+			
+			handler.timerID = fn.timerID;
+			
+			if (!timers[label][fn.timerID])
+				timers[label][fn.timerID] = window.setInterval(handler,interval);
+			
+			this.global.push( element );
+			
+		},
+		remove: function(element, label, fn) {
+			var timers = jQuery.data(element, this.dataKey), ret;
+			
+			if ( timers ) {
+				
+				if (!label) {
+					for ( label in timers )
+						this.remove(element, label, fn);
+				} else if ( timers[label] ) {
+					if ( fn ) {
+						if ( fn.timerID ) {
+							window.clearInterval(timers[label][fn.timerID]);
+							delete timers[label][fn.timerID];
+						}
+					} else {
+						for ( var fn in timers[label] ) {
+							window.clearInterval(timers[label][fn]);
+							delete timers[label][fn];
+						}
+					}
+					
+					for ( ret in timers[label] ) break;
+					if ( !ret ) {
+						ret = null;
+						delete timers[label];
+					}
+				}
+				
+				for ( ret in timers ) break;
+				if ( !ret ) 
+					jQuery.removeData(element, this.dataKey);
+			}
+		}
+	}
+});
+
+jQuery(window).bind("unload", function() {
+	jQuery.each(jQuery.timer.global, function(index, item) {
+		jQuery.timer.remove(item);
+	});
+});

@@ -7,7 +7,7 @@
     <?php }; ?>
   <?php }; ?>
 
-  <?php if ($terms) { ?>
+  <?php if (false && $terms) { // taxonomy disabled ?>
     <!--<span class="submitted"><?php print $submitted?></span>--> <span class="taxonomy"><?php print $terms?></span>
   <?php }; ?>
 

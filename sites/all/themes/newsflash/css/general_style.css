@@ -326,7 +326,8 @@ border-bottom: 1px solid #ccc;
 }
 
 .width49 {
-	width: 50%;
+	width: 47%;
+	margin:0px 5px 0px 5px;
 }
 
 .width33 {
