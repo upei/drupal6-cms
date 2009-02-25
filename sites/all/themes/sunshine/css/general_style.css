@@ -317,14 +317,11 @@ padding: 5px;
 .user1n-width99 { width: 100%; }
 .user1n-width49 { width: 45%; }
 .user2n-width49 { width: 55%; }
-.user1n-width33 { width: 31%; }
-.user2n-width33 { width: 31%; }
-.user3n-width33 { width: 38%; }
-.user7n-width33 { width: 33%; }
-.user8n-width33 { width: 33%; }
-.user9n-width33 { width: 34%; }
+.user1n-width33 { width: 40%; }
+.user2n-width33 { width: 30%; }
+.user3n-width33 { width: 30%; }
 
-.user3n-width33 a {
+.user3-width33 a {
 font-size: 85%;
 }
 

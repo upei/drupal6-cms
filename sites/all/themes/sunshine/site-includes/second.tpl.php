@@ -71,16 +71,16 @@
     ?>
     <?php if ($section2count): ?>
       <?php $section2width = 'width' . floor(99 / $section2count); ?>
-      <div class="clear-block clr" id="section2" style="margin-top: 5px; padding-top: 5px; border-top: 1px solid #e0e0e0;">
+      <div class="clear-block clr" id="section2" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee;">
         <div class="sections">
           <?php if ($user4): ?>
-            <div class="section user1n-<?php echo $section2width ?>"><?php print $user4; ?></div>
+            <div class="section user4n-<?php echo $section2width ?>"><?php print $user4; ?></div>
           <?php endif; ?>
           <?php if ($user5): ?>
-            <div class="section user2n-<?php echo $section2width ?>"><?php print $user5; ?></div>
+            <div class="section user5n-<?php echo $section2width ?>"><?php print $user5; ?></div>
           <?php endif; ?>
           <?php if ($user6): ?>
-            <div class="section user3n-<?php echo $section2width ?>"><?php print $user6; ?></div>
+            <div class="section user6n-<?php echo $section2width ?>"><?php print $user6; ?></div>
           <?php endif; ?>
         </div>
         <div style="clear:both"></div>
@@ -91,23 +91,32 @@
                 <div id="content-bottom"><?php print $content_bottom; ?></div>
               <?php endif; ?>
           			  <?php
-                $section3count = 3;
+                $section3count = 6;
                 // if ($user4)  { $section2count++; }
                 // if ($user5)  { $section2count++; }
                 // if ($user6)  { $section2count++; }
               ?>
               <?php if ($section3count): ?>
                 <?php $section3width = 'width' . floor(99 / $section3count); ?>
-                <div class="clear-block clr" id="section3">
+                <div class="clear-block clr" id="links-section">
                   <div class="sections">
-                    <?php if ($user7): ?>
-                      <div class="section user7n-<?php echo $section3width ?>"><?php print $user7; ?></div>
+                    <?php if ($links1): ?>
+                      <div class="section links1-<?php echo $section3width ?>"><?php print $links1; ?></div>
                     <?php endif; ?>
-                    <?php if ($user8): ?>
-                      <div class="section user8n-<?php echo $section3width ?>"><?php print $user8; ?></div>
+                    <?php if ($links2): ?>
+                      <div class="section links2-<?php echo $section3width ?>"><?php print $links2; ?></div>
                     <?php endif; ?>
-                    <?php if ($user9): ?>
-                      <div class="section user9n-<?php echo $section3width ?>"><?php print $user9; ?></div>
+                    <?php if ($links3): ?>
+                      <div class="section links3-<?php echo $section3width ?>"><?php print $links3; ?></div>
+                    <?php endif; ?>
+                    <?php if ($links4): ?>
+                      <div class="section links4-<?php echo $section3width ?>"><?php print $links4; ?></div>
+                    <?php endif; ?>
+                    <?php if ($links5): ?>
+                      <div class="section links5-<?php echo $section3width ?>"><?php print $links5; ?></div>
+                    <?php endif; ?>
+                    <?php if ($links6): ?>
+                      <div class="section links6-<?php echo $section3width ?>"><?php print $links6; ?></div>
                     <?php endif; ?>
                   </div>
                   <div style="clear:both"></div>

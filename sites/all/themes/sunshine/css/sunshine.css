@@ -81,3 +81,193 @@ h1.title
 	border-style:solid;
 	border-width:1px;
 	}
+	
+
+/* sunshine specific link sections */
+
+#links-section { font-size: 11px; line-height: 18px; font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif; padding: 10px; border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color: #fefefe; font-variant: normal; font-weight: normal; }
+#links-section h2 { font-size: 11px !important; line-height: 18px; font-weight: bold; }
+#links-section ul { margin: 0; padding: 0; }
+#links-section li { list-style: none; padding: 0; margin: 0; }
+#links-section a { text-decoration: none; color: #888; }
+#links-section a:hover { color: #000; }
+.links1-width16 { width: 160px; }
+.links2-width16 { width: 160px; }
+.links3-width16 { width: 160px; }
+.links4-width16 { width: 160px; }
+.links5-width16 { width: 160px; }
+.links6-width16 { width: 160px; }
+
+/* sunshine sections for second.tpl.php */
+#section2 .section {
+  height: 350px;
+  overflow: hidden;
+}
+.user4n-width33 {
+  width: 380px;
+  margin: 0 10px;
+}
+.user5n-width33 {
+  width: 290px;
+  margin: 0 5px;
+}
+.user6n-width33 {
+  width: 290px;
+  margin: 0 5px;
+}
+
+/* sunshine specific story topics */
+.front-page-story-tabs {
+  width: 432px;
+  height: 280px;
+  overflow: hidden;
+  padding-right: 5px;
+  border-right: 1px solid #eee;
+}
+.front-page-story-tabs ul.topic-list {
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+.front-page-story-tabs li.topic-list {
+  width: 156px;
+  list-style: none;
+  list-style-image: none;
+  display: block;
+  padding: 6px;
+  margin: 0;
+  border: 1px solid #fff;
+  cursor: pointer;
+  cursor: hand;
+}
+.front-page-story-tabs li.topic-list:hover {
+  background-color: #e8e8e8;
+  border: 1px solid #808080;
+}
+.front-page-story-tabs li.topic-list .v-id {
+  display: none;
+}
+.front-page-story-tabs li.topic-list img {
+  float: left;
+  border: 1px solid #808080;
+  margin: 0;
+  padding: 0 !important;
+}
+.front-page-story-tabs .one-word-title {
+  text-decoration: none;
+  float: right;
+  display: block;
+  font-size: 10px;
+  font-weight: bold;
+  color: #611c00;
+  line-height: 13px;
+  width: 100px;
+}
+.front-page-story-tabs .four-word-summary {
+  text-decoration: none;
+  float: right;
+  display: block;
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: normal;
+  color: #808080;
+  width: 100px;
+}
+.front-page-story-tabs .topic-detail {
+  float: right;
+  width: 262px;
+  display: none;
+}
+#front-page-topic-detail-row-1 {
+  display: block;
+}
+.front-page-story-tabs .first-topic {
+  height: 228px;
+  overflow: hidden;
+}
+.front-page-story-tabs .first-topic img {
+  border: 0; margin: 0; display: block;
+}
+.front-page-story-tabs .one-line-title {
+  padding-top: 6px;
+}
+.front-page-story-tabs .one-line-title a {
+  color: #611c00;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 16px;
+  text-decoration: none;
+}
+.front-page-story-tabs .one-line-title a:hover {
+  text-decoration: underline;
+}
+.front-page-story-tabs .one-line-summary {
+  font-size: 12px;
+}
+.front-page-story-tabs .push {
+}
+.front-page-story-tabs .title-list {
+  list-style: disc inside;
+  padding-left: 6px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fcfcfc;
+  height: 51px;
+  overflow: hidden;
+}
+.front-page-story-tabs .title-list li {
+  list-style: disc inside;
+  font-size: 11px;
+  padding: 0;
+}
+.front-page-story-tabs .title-list a {
+  text-decoration: none;
+}
+.front-page-story-tabs .title-list a:hover {
+  text-decoration: underline;
+}
+
+/* sunshine specific news tabs */
+.front-page-news-tabs {
+  font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, Verdana, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  overflow: hidden;
+}
+.front-page-news-tabs .tab-list {
+  display: block;
+  padding: 0 5px 0 5px;
+  margin: 5px 5px 5px 5px;
+  border-bottom: 1px solid #808080;
+}
+.front-page-news-tabs .tab-list li {
+  list-style: none;
+  list-style-image: none;
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+.front-page-news-tabs .tab-list li a {
+  display: block;
+  line-height: 15px;
+  padding: 3px 5px 3px 5px;
+}
+.front-page-news-tabs .tab-list li.selected a {
+  background-color: #808080;
+  color: #fff !important;
+}
+.front-page-news-tabs .tabs-detail {
+  margin: 5px;
+  display: none;
+  overflow: hidden;
+}
+.front-page-news-tabs div.selected {
+  display: block;
+}
+.front-page-news-tabs .tabs-detail ul {
+  list-style: disc inside;
+}
+.front-page-news-tabs .tabs-detail li {
+  list-style: disc inside;
+}
+

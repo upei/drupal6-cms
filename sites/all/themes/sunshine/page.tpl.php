@@ -170,8 +170,8 @@ else {
 ?>
 
 	<div id="footer"  style="width:100%;background-color:#e8e8e8;" >
-      <?php if ($footer_region) { ?>
-        <div id="footer-region"><?php print $footer_region?></div>
+      <?php if ($footer) { ?>
+        <div id="footer-region"><?php print $footer?></div>
       <?php } ?>
       <?php if ($footer_message) { ?>
         <div id="footer-message">
