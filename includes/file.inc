@@ -38,17 +38,16 @@ define('FILE_STATUS_PERMANENT', 1);
  * @param $path A string containing the path of the file to generate URL for.
  * @return A string containing a URL that can be used to download the file.
  */
-function file_create_url($path, $absolute = TRUE) {
+function file_create_url($path) {
   // Strip file_directory_path from $path. We only include relative paths in urls.
   if (strpos($path, file_directory_path() .'/') === 0) {
     $path = trim(substr($path, strlen(file_directory_path())), '\\/');
   }
   switch (variable_get('file_downloads', FILE_DOWNLOADS_PUBLIC)) {
     case FILE_DOWNLOADS_PUBLIC:
-      $base = ($absolute ? $GLOBALS['base_url'] . '/' : '');
-      return $base . file_directory_path() .'/'. str_replace('\\', '/', $path);
+      return $GLOBALS['base_url'] .'/'. file_directory_path() .'/'. str_replace('\\', '/', $path);
     case FILE_DOWNLOADS_PRIVATE:
-      return url('system/files/'. $path, array('absolute' => $absolute));
+      return url('system/files/'. $path, array('absolute' => TRUE));
   }
 }
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: system.module,v 1.585.2.30 2009/01/14 23:34:07 goba Exp $
+// $Id: system.module,v 1.585.2.32 2009/02/25 21:02:37 goba Exp $
 
 /**
  * @file
@@ -9,7 +9,7 @@
 /**
  * The current system version.
  */
-define('VERSION', '6.9');
+define('VERSION', '6.10');
 
 /**
  * Core API compatibility.
@@ -170,7 +170,6 @@ function system_elements() {
   $type['button'] = array('#input' => TRUE, '#name' => 'op', '#button_type' => 'submit', '#executes_submit_callback' => FALSE, '#process' => array('form_expand_ahah'));
   $type['image_button'] = array('#input' => TRUE, '#button_type' => 'submit', '#executes_submit_callback' => TRUE, '#process' => array('form_expand_ahah'), '#return_value' => TRUE, '#has_garbage_value' => TRUE, '#src' => NULL);
   $type['textfield'] = array('#input' => TRUE, '#size' => 60, '#maxlength' => 128, '#autocomplete_path' => FALSE, '#process' => array('form_expand_ahah'));
-  
   $type['password'] = array('#input' => TRUE, '#size' => 60, '#maxlength' => 128, '#process' => array('form_expand_ahah'));
   $type['password_confirm'] = array('#input' => TRUE, '#process' => array('expand_password_confirm'));
   $type['textarea'] = array('#input' => TRUE, '#cols' => 60, '#rows' => 5, '#resizable' => TRUE, '#process' => array('form_expand_ahah'));

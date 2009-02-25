@@ -1798,7 +1798,7 @@ function theme_comment_post_forbidden($node) {
       }
       else {
         // Only admins can add new users, no public registration.
-		return t('<a href="@login">Login</a> to post comments', array('@login' => url('user/login', array('query' => $destination))));
+        return t('<a href="@login">Login</a> to post comments', array('@login' => url('user/login', array('query' => $destination))));
       }
     }
   }
