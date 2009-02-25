@@ -1,6 +1,5 @@
 name = Sunshine
-description = A Drupal 6 Theme by RoopleTheme
-version = VERSION
+description = A Drupal Theme by UPEI, modified from RoopleTheme's newsflash.
 core = 6.x
 engine = phptemplate
 
@@ -12,10 +11,12 @@ regions[content_top] = Content Top
 regions[user1] = Left Top
 regions[user2] = Centre Top
 regions[user3] = Right Top
-regions[user4] = Under content left
-regions[user5] = Under content centre
-regions[user6] = Under content right
+regions[user4] = Above content left
+regions[user5] = Above content centre
+regions[user6] = Above content right
+regions[user7] = Under content left
+regions[user8] = Under content centre
+regions[user9] = Under content right
 regions[content_bottom] = Content Bottom
 regions[footer] = Footer
-
 version = "6.1"
