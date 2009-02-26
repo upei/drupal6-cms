@@ -1,5 +1,5 @@
 <?php
-// $Id: image.install,v 1.20 2009/01/18 04:32:57 sun Exp $
+// $Id: image.install,v 1.21 2009/02/01 00:36:43 sun Exp $
 
 /**
  * Implementation of hook_schema().
@@ -295,7 +295,9 @@ function image_update_6100() {
     'not null' => TRUE,
     'default' => 0,
   ));
+  db_drop_primary_key($ret, 'image');
   db_add_primary_key($ret, 'image', array('nid', 'image_size'));
+  db_drop_index($ret, 'image', 'image_fid');
   db_add_index($ret, 'image', 'fid', array('fid'));
   return $ret;
 }

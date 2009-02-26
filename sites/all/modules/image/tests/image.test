@@ -1,25 +1,30 @@
 <?php
-// $Id: image.test,v 1.2 2009/01/17 00:20:44 sun Exp $
+// $Id: image.test,v 1.3 2009/02/01 03:10:34 sun Exp $
 
-class ImageTest extends DrupalTestCase {
+/**
+ * Test image functionality.
+ */
+class ImageTestCase extends DrupalWebTestCase {
   protected $web_user;
   protected $image;
   protected $another_image;
   
-
-  function get_info() {
-    return array('name' => t('Image tests'), 'desc' => t('Test Image module functionality.'), 'group' => 'Image');
+  function getInfo() {
+    return array(
+      'name' => t('Image functionality'),
+      'description' => t('Test Image module functionality.'),
+      'group' => t('Image'),
+    );
   }
 
   function setUp() {
-    parent::setUp();
+    parent::setUp('image');
     
     // User to create images.
-    $this->web_user = $this->drupalCreateUserRolePerm(array('create images', 'view original images', 'edit own images', 'edit images'));
-    $this->drupalGet('logout');
-    $this->drupalLoginUser($this->web_user);
+    $this->web_user = $this->drupalCreateUser(array('create images', 'view original images', 'edit own images', 'edit images'));
+    $this->drupalLogin($this->web_user);
     
-    // Uploadable image
+    // Uploadable image.
     $this->image = 'misc' . DIRECTORY_SEPARATOR . 'druplicon.png';
     $this->another_image = 'misc' . DIRECTORY_SEPARATOR . 'throbber.gif';
 
@@ -32,9 +37,12 @@ class ImageTest extends DrupalTestCase {
     $image_sizes['preview']['operation'] = 'scale';
     $image_sizes['preview']['width'] = 10;
     $image_sizes['preview']['height'] = 10;
-    $this->drupalVariableSet('image_sizes', $image_sizes);
+    variable_set('image_sizes', $image_sizes);
   }
   
+  /**
+   * Verify creating/displaying/editing/deleting image nodes.
+   */
   function testNode() {
     // Create an image.
     $edit = array(
@@ -44,41 +52,44 @@ class ImageTest extends DrupalTestCase {
     );
     $this->drupalPost('node/add/image', $edit, t('Save'));
     
-    $this->assertWantedRaw(t('@type %title has been created.', array('@type' => 'Image', '%title' => $edit['title'])), 'Image created. %s');
+    $this->assertRaw(t('@type %title has been created.', array('@type' => 'Image', '%title' => $edit['title'])), t('Image created.'));
     
     $node = node_load(array('title' => $edit['title']));
-    $this->assertNotNull($node, 'Image found in database. %s');
+    $this->assertTrue($node, t('Image found in database.'));
 
     // Display an image.
     $this->drupalGet('node/' . $node->nid);
-    $this->assertWantedPattern('|<img[^>]+?' . $node->images['preview'] . '[^>]+?>|', $this->drupalGetContent(), 'Image preview is on the page. %s');
-    $this->assertTrue(file_exists($node->images['preview']), 'Image preview exists. %s');
+    $this->assertPattern('@<img[^>]+?' . $node->images['preview'] . '[^>]+?>@', t('Image preview displayed on the page.'));
+    $this->assertTrue(file_exists($node->images['preview']), t('Image preview exists.'));
 
     $this->drupalGet('node/' . $node->nid, array('query' => 'size=_original'));
-    $this->assertWantedPattern('|<img[^>]+?' . $node->images['_original'] . '[^>]+?>|', $this->drupalGetContent(), 'Original image is on the page. %s');
-    $this->assertTrue(file_exists($node->images['_original']), 'Original image exists. %s');
+    $this->assertPattern('@<img[^>]+?' . $node->images['_original'] . '[^>]+?>@', t('Original image displayed on the page.'));
+    $this->assertTrue(file_exists($node->images['_original']), t('Original image exists.'));
     
     $this->drupalGet('node/' . $node->nid, array('query' => 'size=thumbnail'));
-    $this->assertWantedPattern('|<img[^>]+?' . $node->images['thumbnail'] . '[^>]+?>|', $this->drupalGetContent(), 'Image thumbnail is on the page. %s');
-    $this->assertTrue(file_exists($node->images['thumbnail']), 'Image thumbnail exists. %s');
+    $this->assertPattern('@<img[^>]+?' . $node->images['thumbnail'] . '[^>]+?>@', t('Image thumbnail displayed on the page.'));
+    $this->assertTrue(file_exists($node->images['thumbnail']), t('Image thumbnail exists.'));
     
-    // Edit an image
+    // Edit an image.
     $another_edit = array(
       'title' => $edit['title'],
       'files[image]' => realpath($this->another_image),
     );
     $this->drupalPost('node/' . $node->nid .'/edit', $another_edit, t('Save'));
     $another_node = node_load(array('title' => $edit['title']));
-    $this->assertFalse(file_exists($node->images['preview']) || file_exists($node->images['_original']) || file_exists($node->images['thumbnail']), 'The previous image deleted. %s');
+    $this->assertFalse(file_exists($node->images['preview']) || file_exists($node->images['_original']) || file_exists($node->images['thumbnail']), t('The previous image deleted.'));
     
-    // Delete an image
-    $this->drupalPost('node/' . $node->nid .'/delete', array(), 'Delete');
-    $this->assertWantedRaw(t('@type %title has been deleted.', array('@type' => 'Image', '%title' => $edit['title'])), 'Image created. %s');
+    // Delete an image.
+    $this->drupalPost('node/' . $node->nid .'/delete', array(), t('Delete'));
+    $this->assertRaw(t('@type %title has been deleted.', array('@type' => 'Image', '%title' => $edit['title'])), t('Image created.'));
     $node = node_load(array('title' => $edit['title']));
-    $this->assertFalse($node, 'Image not found in database. %s');
-    $this->assertFalse(file_exists($another_node->images['preview']) || file_exists($another_node->images['_original']) || file_exists($another_node->images['thumbnail']), 'Image deleted. %s');
+    $this->assertFalse($node, t('Image not found in database.'));
+    $this->assertFalse(file_exists($another_node->images['preview']) || file_exists($another_node->images['_original']) || file_exists($another_node->images['thumbnail']), t('Image deleted.'));
   }
 
+  /**
+   * Test image node creation.
+   */
   function testCreateNode() {
     $edit = array(
       'title' => $this->randomName(),
@@ -86,10 +97,10 @@ class ImageTest extends DrupalTestCase {
       'files[image]' => realpath($this->image),
     );
     $this->drupalPost('node/add/image', $edit, t('Save'));
-    $this->assertWantedRaw(t('@type %title has been created.', array('@type' => 'Image', '%title' => $edit['title'])), 'Image created. %s');
+    $this->assertRaw(t('@type %title has been created.', array('@type' => 'Image', '%title' => $edit['title'])), t('Image created.'));
     
     $node_post = node_load(array('title' => $edit['title']));
-    $this->assertNotNull($node_post, 'Image found in database. %s');
+    $this->assertTrue($node_post, t('Image found in database.'));
 
     // Make a copy of the image so image_create_node_from() deletes original image.
     file_copy($edit['files[image]'], file_directory_temp());
@@ -104,6 +115,6 @@ class ImageTest extends DrupalTestCase {
       (filesize($node_post->images['_original']) == filesize($node_api->images['_original'])) &&
       (filesize($node_post->images['preview']) == filesize($node_api->images['preview'])) &&
       (filesize($node_post->images['thumbnail']) == filesize($node_api->images['thumbnail']));
-    $this->assertTrue($equality, 'Images nodes are equal. %s');
+    $this->assertTrue($equality, t('Images nodes are equal.'));
   }
 }

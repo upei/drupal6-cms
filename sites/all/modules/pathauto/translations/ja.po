@@ -1,4 +1,4 @@
-# $Id: ja.po,v 1.5.2.3 2008/06/24 17:08:30 imagine Exp $
+# $Id: ja.po,v 1.7 2008/06/24 17:13:10 imagine Exp $
 #
 # Japanese translation of Drupal (pathauto)
 # Copyright 2008 0829 <hixarg+0829@gmail.com>

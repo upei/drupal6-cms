@@ -50,10 +50,6 @@ div.admin-panel .description {
 	/*	color: black;*/
 		}
 
-#sidebar-left, #sidebar-right {
-		  background-color: transparent;
-		  /* margin-left:100px; */
-		  }
 #sidebar-left .block, #sidebar-right .block {
 	/*background-color: #e9ecd9;*/
 	border-top: 0px;
@@ -315,8 +311,6 @@ padding: 5px;
 .user3-width33 { width: 38%; }
 
 .user1n-width99 { width: 100%; }
-.user1n-width49 { width: 45%; }
-.user2n-width49 { width: 55%; }
 .user1n-width33 { width: 40%; }
 .user2n-width33 { width: 30%; }
 .user3n-width33 { width: 30%; }

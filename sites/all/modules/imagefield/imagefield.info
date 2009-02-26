@@ -7,9 +7,9 @@ dependencies[] = filefield
 dependencies[] = imageapi
 package = CCK
 
-; Information added by drupal.org packaging script on 2008-08-27
-version = "6.x-3.0-alpha2"
+; Information added by drupal.org packaging script on 2009-01-11
+version = "6.x-3.0-alpha4"
 core = "6.x"
 project = "imagefield"
-datestamp = "1219850122"
+datestamp = "1231716017"
 

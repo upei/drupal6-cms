@@ -1,5 +1,5 @@
 <?php
-// $Id: filefield.install,v 1.13 2008/08/16 20:08:34 drewish Exp $
+// $Id: filefield.install,v 1.18 2008/11/16 06:57:21 dopry Exp $
 /**
  * @file
  * FileField: Defines a CCK file field type.
@@ -8,12 +8,13 @@
  * and Drupal's {files} table to store the actual file data.
  */
 
-include_once(drupal_get_path('module', 'filefield') .'/field_file.inc');
+include_once('field_file.inc');
 
 /**
  * Implementation of hook_install().
  */
 function filefield_install() {
+  drupal_load('module', 'content');
   content_notify('install', 'filefield');
 }
 
@@ -21,6 +22,7 @@ function filefield_install() {
  * Implementation of hook_uninstall().
  */
 function filefield_uninstall() {
+  drupal_load('module', 'content');
   content_notify('uninstall', 'filefield');
 }
 
@@ -28,6 +30,7 @@ function filefield_uninstall() {
  * Implementation of hook_enable().
  */
 function filefield_enable() {
+  drupal_load('module', 'content');
   content_notify('enable', 'filefield');
 }
 
@@ -35,6 +38,7 @@ function filefield_enable() {
  * Implementation of hook_disable().
  */
 function filefield_disable() {
+  drupal_load('module', 'content');
   content_notify('disable', 'filefield');
 }
 
@@ -44,7 +48,7 @@ function filefield_update_1() {
   $ret = array();
 
   include_once(drupal_get_path('module', 'content') .'/content.module');
-  include_once(drupal_get_path('module', 'content') .'/content_admin.inc');
+  include_once(drupal_get_path('module', 'content') .'/includes/content.admin.inc');
 
   $fields = content_fields();
 
@@ -75,7 +79,7 @@ function filefield_update_3() {
   $ret = array();
 
   include_once(drupal_get_path('module', 'content') .'/content.module');
-  include_once(drupal_get_path('module', 'content') .'/content_admin.inc');
+  include_once(drupal_get_path('module', 'content') .'/includes/content.admin.inc');
 
   $fields = content_fields();
   foreach ($fields as $field) {
@@ -119,9 +123,11 @@ function filefield_update_3() {
   return $ret;
 }
 
-
-
 function filefield_update_6001() {
+  if ($abort = content_check_update('filefield')) {
+    return $abort;
+  }
+
   $ret = array();
   include_once(drupal_get_path('module','content') .'/includes/content.admin.inc');
 
@@ -235,8 +241,9 @@ function _filefield_update_6001_move_operation($field, &$context) {
  * Drop the list and description columns.
  */
 function _filefield_update_6001_drop_operation($field, &$context) {
+  $ret = array();
   $db_info = content_database_info($field);
   // TODO: Now that the data has been migrated we can drop the columns.
-  db_query('ALTER TABLE '. $db_info['table'] .' DROP COLUMN '.  $db_info['columns']['description']['column']);
+  db_drop_field($ret, $db_info['table'], $db_info['columns']['description']['column']);
   $context['finished'] = 1;
 }

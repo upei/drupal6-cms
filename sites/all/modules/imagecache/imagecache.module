@@ -1,5 +1,5 @@
 <?php
-// $Id: imagecache.module,v 1.91 2008/10/29 21:23:59 drewish Exp $
+// $Id: imagecache.module,v 1.98 2009/02/17 21:36:18 drewish Exp $
 
 /**
  * @file
@@ -30,6 +30,21 @@
  *
  */
 
+/**
+ * Imagecache preset storage constant for user-defined presets in the DB.
+ */
+define('IMAGECACHE_STORAGE_NORMAL', 0);
+
+/**
+ * Imagecache preset storage constant for module-defined presets in code.
+ */
+define('IMAGECACHE_STORAGE_DEFAULT', 1);
+
+/**
+ * Imagecache preset storage constant for user-defined presets that override
+ * module-defined presets.
+ */
+define('IMAGECACHE_STORAGE_OVERRIDE', 2);
 
 /*********************************************************************************************
  * Drupal Hooks
@@ -68,6 +83,12 @@ function imagecache_menu() {
   return $items;
 }
 
+/**
+ * Clear imagecache presets cache on admin/build/modules form.
+ */
+function imagecache_form_system_modules_alter(&$form, $form_state) {
+  imagecache_presets(TRUE);
+}
 
 /**
  * Implementation of hook_theme().
@@ -396,11 +417,24 @@ function _imagecache_cache($presetname, $path) {
   exit;
 }
 
-function _imagecache_apply_action($action, &$image) {
+/**
+ * Apply an action to an image.
+ *
+ * @param $action
+ *   Action array
+ * @param $image
+ *   Image object
+ * @return
+ *   Boolean, true indicating success and false failure.
+ */
+function _imagecache_apply_action($action, $image) {
   $actions = imagecache_action_definitions();
 
   if ($definition = imagecache_action_definition($action['action'])) {
-    return call_user_func($action['action'] .'_image', $image, $action['data']);
+    $function = $action['action'] .'_image';
+    if (function_exists($function)) {
+      return $function($image, $action['data']);
+    }
   }
   // skip undefined actions.. module probably got uninstalled or disabled.
   watchdog('imagecache', 'non-existant action %action', array('%action' => $action['action']), WATCHDOG_NOTICE);
@@ -414,14 +448,8 @@ function _imagecache_apply_action($action, &$image) {
  */
 
 function imagecache_transfer($path) {
-  if (function_exists('mime_content_type')) {
-    $mime = mime_content_type($path);
-  }
-  else {
-    $size = getimagesize($path);
-    $mime = $size['mime'];
-  }
-  $headers = array('Content-Type: '. mime_header_encode($mime));
+  $size = getimagesize($path);
+  $headers = array('Content-Type: '. mime_header_encode($size['mime']));
 
   if ($fileinfo = stat($path)) {
     $headers[] = 'Content-Length: '. $fileinfo[7];
@@ -485,6 +513,11 @@ function imagecache_build_derivative($actions, $src, $dst) {
     return false;
   }
 
+  // Simply copy the file if there are no actions.
+  if (empty($actions)) {
+    return file_copy($src, $dst, FILE_EXISTS_REPLACE);
+  }
+
   if (!$image = imageapi_image_open($src)) {
     return false;
   }
@@ -527,7 +560,7 @@ function imagecache_user($op, &$edit, &$account, $category = NULL) {
     imagecache_image_flush($account->picture);
   }
 }
- 
+
 /**
  * Implementation of hook_imagefield_file().
  */
@@ -628,7 +661,7 @@ function imagecache_field_formatter($field, $item, $formatter, $node) {
         return imagecache_create_path($presetname, $item['filepath']);
 
       default:
-        return  theme('imagecache', $presetname, $item['filepath'], $item['data']['alt'], $item['data']['title']);
+        return theme('imagecache', $presetname, $item['filepath'], $alt, $title, array('class' => $class));
     }
   }
   return '<!-- imagecache formatter preset('. $presetname .') not found! -->';
@@ -823,16 +856,46 @@ function imagecache_presets($reset = false) {
     return $presets;
   }
 
-  // Grab from cache or build the array.
-  if ($cache = cache_get('imagecache:presets', 'cache')) {
+  // Grab from cache or build the array. To ensure that the Drupal 5 upgrade
+  // path works, we also check whether the presets list is an array.
+  if (($cache = cache_get('imagecache:presets', 'cache')) && is_array($cache->data)) {
     $presets = $cache->data;
   }
   else {
+    $normal_presets = array();
+
     $result = db_query('SELECT * FROM {imagecache_preset} ORDER BY presetname');
     while ($preset = db_fetch_array($result)) {
       $presets[$preset['presetid']] = $preset;
       $presets[$preset['presetid']]['actions'] = imagecache_preset_actions($preset);
+      $presets[$preset['presetid']]['storage'] = IMAGECACHE_STORAGE_NORMAL;
+
+      // Collect normal preset names so we can skip defaults and mark overrides accordingly
+      $normal_presets[$preset['presetname']] = $preset['presetid'];
     }
+
+    // Collect default presets and allow modules to modify them before they
+    // are cached.
+    $default_presets = module_invoke_all('imagecache_default_presets');
+    drupal_alter('imagecache_default_presets', $default_presets);
+
+    // Add in default presets if they don't conflict with any normal presets.
+    // Mark normal presets that take the same preset namespace as overrides.
+    foreach ($default_presets as $preset) {
+      if (!empty($preset['presetname'])) {
+        if (!isset($normal_presets[$preset['presetname']])) {
+          $preset['storage'] = IMAGECACHE_STORAGE_DEFAULT;
+          // Use a string preset identifier
+          $preset['presetid'] = $preset['presetname'];
+          $presets[$preset['presetname']] = $preset;
+        }
+        else {
+          $presetid = $normal_presets[$preset['presetname']];
+          $presets[$presetid]['storage'] = IMAGECACHE_STORAGE_OVERRIDE;
+        }
+      }
+    }
+
     cache_set('imagecache:presets', $presets);
   }
   return $presets;

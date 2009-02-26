@@ -1,5 +1,5 @@
 <?php
-// $Id: image.module,v 1.293 2009/01/19 10:43:30 sun Exp $
+// $Id: image.module,v 1.296 2009/02/11 01:38:11 sun Exp $
 
 define('IMAGE_ORIGINAL', '_original');
 define('IMAGE_PREVIEW', 'preview');
@@ -419,16 +419,6 @@ function image_validate($node) {
   }
 }
 
-function image_submit($node) {
-  $nid = ($node->nid) ? $node->nid : 'new_node';
-  if (isset($_SESSION['image_new_files'][$nid])) {
-    $node->new_file = TRUE;
-    $node->rebuild_images = FALSE;
-    $node->images = $_SESSION['image_new_files'][$nid];
-    unset($_SESSION['image_new_files'][$nid]);
-  }
-}
-
 /**
  * Implementation of hook_view
  */
@@ -487,7 +477,7 @@ function image_load(&$node) {
     }
     else {
       // Need to remove an extra derivative image in the database.
-      if (image_access('update', $node)) {
+      if (image_access('update', $node, $GLOBALS['user'])) {
         drupal_set_message(t("%title's has an unneeded %key derivative images. The derivatives will be rebuilt to remove it.", array('%title' => $node->title, '%key' => $key)));
       }
       $node->rebuild_images = TRUE;
@@ -499,13 +489,13 @@ function image_load(&$node) {
     // If the file is missing or created after the last change to the sizes,
     // rebuild the derivatives.
     if (empty($node->images[$key]) || !file_exists($node->images[$key])) {
-      if (image_access('update', $node)) {
+      if (image_access('update', $node, $GLOBALS['user'])) {
         drupal_set_message(t("%title's %key derivative image %filepath was missing. The derivatives will be rebuilt to regenerate it.", array('%title' => $node->title, '%key' => $key, '%filepath' => isset($node->images[$key]) ? $node->images[$key] : '')));
       }
       $node->rebuild_images = TRUE;
     }
     else if (filemtime($node->images[$key]) < variable_get('image_updated', 0)) {
-      if (image_access('update', $node)) {
+      if (image_access('update', $node, $GLOBALS['user'])) {
         drupal_set_message(t("%title's %key derivative image had a timestamp (%filetime) that predates the last changes to the image size settings (%vartime). The derivatives will be rebuilt to regenerate it.", array('%title' => $node->title, '%key' => $key, '%filetime' => format_date(filemtime($node->images[$key])), '%vartime' => format_date(variable_get('image_updated', 0)))));
       }
       $node->rebuild_images = TRUE;
@@ -574,7 +564,7 @@ function image_update(&$node) {
     }
     else if (!empty($node->rebuild_images)) {
       // Find the original image.
-      $original_file = db_fetch_object(db_query("SELECT i.fid, f.filepath FROM {image} i INNER JOIN {files} f ON i.fid = f.fid WHERE i.nid = %d AND image_size = '%s'", $node->nid, IMAGE_ORIGINAL));
+      $original_file = db_fetch_object(db_query("SELECT i.fid, f.filepath FROM {image} i INNER JOIN {files} f ON i.fid = f.fid WHERE i.nid = %d AND i.image_size = '%s'", $node->nid, IMAGE_ORIGINAL));
 
       // Delete all but the original image.
       $result = db_query("SELECT i.fid, f.filepath FROM {image} i INNER JOIN {files} f ON i.fid = f.fid WHERE i.nid = %d AND f.fid <> %d", $node->nid, $original_file->fid);
@@ -591,7 +581,7 @@ function image_update(&$node) {
 
       // Display a message to the user if they're be able to modify the node
       // (this might have been called as part of a rebuild by a visitor).
-      if (image_access('update', $node)) {
+      if (image_access('update', $node, $GLOBALS['user'])) {
         drupal_set_message(t('The derivative images for <a href="@link">@title</a> have been regenerated.', array('@link' => url('node/'. $node->nid), '@title' => $node->title)));
       }
 
@@ -738,7 +728,7 @@ function image_get_latest($count = 1, $tid = 0) {
     $result = db_query_range(db_rewrite_sql("SELECT n.nid FROM {term_node} tn LEFT JOIN {node} n ON n.nid=tn.nid WHERE n.type='image' AND n.status=1 AND tn.tid=%d ORDER BY n.changed DESC"), $tid, 0, $count);
   }
   else {
-    $result = db_query_range(db_rewrite_sql("SELECT n.nid FROM {node} n WHERE n.type='image' AND n.status=1 ORDER BY changed DESC"), 0, $count);
+    $result = db_query_range(db_rewrite_sql("SELECT n.nid FROM {node} n WHERE n.type = 'image' AND n.status = 1 ORDER BY n.changed DESC"), 0, $count);
   }
   $output = array();
   while ($nid = db_fetch_object($result)) {

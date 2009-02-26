@@ -1,7 +1,7 @@
 <?php include 'mods/doctype.php'; ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:u="http://upei.ca/xml/extensions" lang="<?php print $language->language ?>" xml:lang="<?php print $language->language ?>">
 <head>
-  <title><?php print "University of Prince Edward Island" //$head_title ?></title>
+  <title><?= $_SERVER['REQUEST_URI']=='/home/' ? "University of Prince Edward Island" : $head_title ?></title>
   <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
   
   <?php print $head ?>
@@ -43,9 +43,6 @@
     body.sidebars #squeeze {
       margin-left: <?php print $left_sidebar_width ?>px;
     }
-    #sidebar-left {
-      width: <?php print $left_sidebar_width ?>px;
-    }
     </style>
   <?php }  ?>
   <?php if ($right_sidebar_width = theme_get_setting('sunshine_rightsidebarwidth')) { ?>
@@ -61,9 +58,6 @@
     }
     body.sidebars #squeeze {
       margin-right: <?php print $right_sidebar_width ?>px;
-    }
-    #sidebar-right {
-      width: <?php print $right_sidebar_width ?>px;
     }
     </style>
   <?php }  ?>

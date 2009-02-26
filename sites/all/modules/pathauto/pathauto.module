@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto.module,v 1.118 2008/06/20 20:01:01 greggles Exp $
+// $Id: pathauto.module,v 1.120 2008/08/26 04:55:19 freso Exp $
 
 /**
  * @defgroup pathauto Pathauto: Automatically generates aliases for content
@@ -24,20 +24,10 @@
 function pathauto_help($path, $arg) {
   switch ($path) {
     case 'admin/help#pathauto':
-      $output = t('<p>Provides a mechanism for modules to automatically generate aliases for the content they manage.</p>
-                  <h2>Settings</h2>
-                  <p>The <strong>Maximum Alias Length</strong> and <strong>Maximum component length</strong> values
-                  default to 100 and have a limit of 128 from pathauto. This length is limited by the length of the dst
-                  column of the url_alias database table. The default database schema for this column is 128. If you
-                  set a length that is equal to that of the one set in the dst column it will cause problems in situations
-                  where the system needs to append additional words to the aliased URL. For example... URLs generated
-                  for feeds will have "/feed" added to the end. You should enter a value that is the length of the dst
-                  column minus the length of any strings that might get added to the end of the URL. The length of
-                  strings that might get added to the end of your URLs depends on which modules you have enabled and
-                  on your Pathauto settings. The recommended and default value is 100.</p>
-                  <p><strong>Raw Tokens</strong> In Pathauto it is appropriate to use the -raw form of tokens. Paths are
-                  sent through a filtering system which ensures that raw user content is filtered. Failure to use -raw
-                  tokens can cause problems with the Pathauto punctuation filtering system.</p>');
+      $output = '<p>'. t('Provides a mechanism for modules to automatically generate aliases for the content they manage.') .'</p>';
+      $output .= '<h2>'. t('Settings') .'</h2>';
+      $output .= '<p>'. t('The <strong>maximum alias length</strong> and <strong>maximum component length</strong> values default to 100 and have a limit of 128 from Pathauto. This length is limited by the length of the "dst" column of the url_alias database table. The default database schema for this column is 128. If you set a length that is equal to that of the one set in the "dst" column it will cause problems in situations where the system needs to append additional words to the aliased URL. For example, URLs generated for feeds will have "/feed" added to the end. You should enter a value that is the length of the "dst" column minus the length of any strings that might get added to the end of the URL. The length of strings that might get added to the end of your URLs depends on which modules you have enabled and on your Pathauto settings. The recommended and default value is 100.') .'</p>';
+      $output .= '<p>'. t('<strong>Raw tokens</strong>: In Pathauto it is appropriate to use the -raw form of tokens. Paths are sent through a filtering system which ensures that raw user content is filtered. Failure to use -raw tokens can cause problems with the Pathauto punctuation filtering system.') .'</p>';
       return $output;
   }
 }
@@ -185,18 +175,18 @@ function pathauto_token_list($type = 'all') {
  * Used primarily by the bulk delete form.
  */
 function pathauto_path_alias_types() {
-  $objects = array('user/' => t('users'), 'node/' => t('content'));
+  $objects = array('user/' => t('Users'), 'node/' => t('Content'));
   if (module_exists('blog')) {
-    $objects['blog/'] = t('user blogs');
+    $objects['blog/'] = t('User blogs');
   }
   if (module_exists('taxonomy')) {
-    $objects['taxonomy/'] = t('vocabularies and terms');
+    $objects['taxonomy/'] = t('Vocabularies and terms');
   }
   if (module_exists('taxonomy')) {
-    $objects['user/%/track'] = t('user trackers');
+    $objects['user/%/track'] = t('User trackers');
   }
   if (module_exists('forum')) {
-    $objects['forum/%'] = t('forums');
+    $objects['forum/%'] = t('Forums');
   }
   return $objects;
 }
@@ -283,7 +273,7 @@ function pathauto_form_alter(&$form, $form_state, $form_id) {
     if (!empty($pattern) && user_access('create url aliases') && isset($form['path']['path'])) {
       $output = t('An alias will be generated for you. If you wish to create your own alias below, untick this option.');
       if (user_access('administer pathauto')) {
-        $output .= t(' To control the format of the generated aliases, see the <a href="@pathauto">Pathauto settings</a>.', array('@pathauto' => url('admin/build/path/pathauto')));
+        $output .= ' '. t('To control the format of the generated aliases, see the <a href="@pathauto">Pathauto settings</a>.', array('@pathauto' => url('admin/build/path/pathauto')));
       }
 
       drupal_add_js(drupal_get_path('module', 'pathauto') .'/pathauto.js');
@@ -401,7 +391,7 @@ function pathauto_user($op, &$edit, &$user, $category = FALSE) {
           $new_user = $user;
           if ($category == 'account') {
             $new_user->roles = isset($edit['roles']) ? $edit['roles'] : array();
-            $new_user->roles[DRUPAL_AUTHENTICATED_RID] = 'authenticated user'; // Add this back
+            $new_user->roles[DRUPAL_AUTHENTICATED_RID] = t('authenticated user'); // Add this back
           }
           if (user_access('create blog entries', $new_user)) {
             $src = 'blog/'. $user->uid;
@@ -416,6 +406,10 @@ function pathauto_user($op, &$edit, &$user, $category = FALSE) {
           $src = 'user/'. $user->uid .'/track';
           $alias = pathauto_create_alias('tracker', $op, $placeholders, $src, $user->uid);
         }
+        if (module_exists('contact')) {
+          $src = 'user/'. $user->uid .'/contact';
+          $alias = pathauto_create_alias('contact', $op, $placeholders, $src, $user->uid);
+        }
       }
       break;
     case 'delete':
@@ -428,6 +422,7 @@ function pathauto_user($op, &$edit, &$user, $category = FALSE) {
       path_set_alias('blog/'. $user->uid .'/feed');
       path_set_alias('user/'. $user->uid .'/track');
       path_set_alias('user/'. $user->uid .'/track/feed');
+      path_set_alias('user/'. $user->uid .'/contact');
       break;
     default:
       break;

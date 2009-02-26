@@ -1,0 +1,35 @@
+// $Id: CHANGELOG.txt,v 1.29 2009/02/11 01:38:11 sun Exp $
+
+Image x.x-x.x, xxxx-xx-xx
+-------------------------
+
+
+Image 6.x-1.x, xxxx-xx-xx
+-------------------------
+#338159 by sun: Fixed improper table aliases in db queries for db_rewrite_sql().
+#298644 by smk-ka, sun: Updated tests for SimpleTest 2.x.
+#247738 by sun: Removed unused image_submit() function.
+#360691 by sun: Fixed image/image_attach table index creation errors when
+  upgrading from 5.x-2.x.
+#361874 by sun: Fixed Image Gallery uninstall fails if Taxonomy was disabled at
+  the same time.
+#220281 by sun: Fixed empty width/height attributes in image tags if image size
+  detection failed.
+#350511 by simon.males, sun: Added option to configure number of images for
+  latest/random image blocks.
+#280197 by sun: Fixed 'image_default_path' variable must not have a trailing
+  slash.
+#299250 by sun: Changed file upload description in image form.
+#346289 by sun: Fixed missing primary key and index on image_attach table.
+#105739 by sun: Removed colors from default style for image gallery images.
+#134395 by sun: Fixed default list bullet style for image gallery images.
+#234983 by sun: Performance: Improved image_gallery_page().
+#288378 by smk-ka, mustafau, sun: Added primary key and index to image table.
+#70396 by bibo, sun: Fixed node image size links are not localized.
+#310693 by sun: Updated image_access() for 6.x.
+#351552 by hass, sun: Changed Image Gallery's form submit button to "Save".
+#196823 by sun: Removed "Rebuild derivatives" option from node/add form.
+#310391 by pcorbett, sun: Fixed SQL server/PostGreSQL support for Image Attach.
+#309872 by brenda003, sun: Fixed link to Image Import settings page.
+#247433 by greenmother: Added Russian translation.
+

@@ -1,5 +1,5 @@
 <?php
-// $Id: ldapgroups.module,v 1.24.2.10 2008/10/05 18:46:47 miglius Exp $
+// $Id: ldapgroups.module,v 1.24.2.11 2009/02/12 13:55:08 miglius Exp $
 
 /**
  * @file
@@ -30,7 +30,7 @@ function ldapgroups_menu() {
 
   $items['admin/settings/ldap/ldapgroups'] = array(
     'title' => 'Groups',
-    'description' => 'Configure LDAP Groups Settings',
+    'description' => 'Configure LDAP groups to Drupal roles mapping settings.',
     'page callback' => 'ldapgroups_admin_list',
     'access arguments' => array('administer ldap modules'),
     'file' => 'ldapgroups.admin.inc',

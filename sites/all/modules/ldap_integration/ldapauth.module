@@ -1,5 +1,5 @@
 <?php
-// $Id: ldapauth.module,v 1.32.2.19 2008/10/12 19:22:29 miglius Exp $
+// $Id: ldapauth.module,v 1.32.2.20 2009/02/12 13:55:08 miglius Exp $
 
 /**
  * @file
@@ -56,15 +56,16 @@ function ldapauth_menu() {
 
   $items['admin/settings/ldap'] = array(
     'title' => 'LDAP',
+    'description' => 'Configure LDAP integration settings.',
     'page callback' => 'ldapauth_admin_menu_block_page',
     'access arguments' => array('administer ldap modules'),
     'file' => 'ldapauth.admin.inc',
   );
   $items['admin/settings/ldap/ldapauth'] = array(
     'title' => 'Authentication',
+    'description' => 'Configure LDAP authentication settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ldapauth_admin_settings'),
-    'description' => 'Configure LDAP settings',
     'access arguments' => array('administer ldap modules'),
     'file' => 'ldapauth.admin.inc',
   );

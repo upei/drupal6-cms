@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto_node.inc,v 1.47 2008/06/10 21:41:53 freso Exp $
+// $Id: pathauto_node.inc,v 1.48 2008/06/28 15:41:15 freso Exp $
 
 /**
  * @file
@@ -112,7 +112,7 @@ function node_pathauto_bulkupdate() {
       }
       $placeholders = pathauto_get_placeholders('node', $node);
       $src = "node/$node->nid";
-      if ($alias = pathauto_create_alias('node', 'bulkupdate', $placeholders, $src, $node->nid, $node->type, $node->language)) {
+      if (pathauto_create_alias('node', 'bulkupdate', $placeholders, $src, $node->nid, $node->type, $node->language)) {
         $count++;
       }
     }

@@ -1,5 +1,5 @@
 <?php
-// $Id: ldapdata.module,v 1.15.2.18 2008/10/12 19:22:29 miglius Exp $
+// $Id: ldapdata.module,v 1.15.2.20 2009/02/12 13:55:08 miglius Exp $
 
 /**
  * @file
@@ -61,7 +61,7 @@ function ldapdata_menu() {
 
   $items['admin/settings/ldap/ldapdata'] = array(
     'title' => 'Data',
-    'description' => 'Configure LDAP Data',
+    'description' => 'Configure LDAP data to Drupal profiles synchronization settings.',
     'page callback' => 'ldapdata_admin_list',
     'access arguments' => array('administer ldap modules'),
     'file' => 'ldapdata.admin.inc',
@@ -152,7 +152,7 @@ function ldapdata_category_access($account) {
 function _ldapdata_user_form(&$user, $category) {
   global $_ldapdata_ldap;
   $mapping_type = _ldapdata_ldap_info($user, 'mapping_type');
-  $attributes = _ldapdata_ldap_info($user, 'ldapdata_rwattrs');
+  $attributes = (array) _ldapdata_ldap_info($user, 'ldapdata_rwattrs');
 
   if (!isset($user->ldap_dn) || $category != LDAPDATA_USER_DATA || $mapping_type != LDAPDATA_MAP_ATTRIBUTES || !$attributes)
     return;
@@ -258,6 +258,7 @@ function _ldapdata_user_login(&$user) {
     $mail = $entry[$mail_attr][0];
     if ($mail != $user->mail) {
       user_save($user, array('mail' => $mail));
+      $user->mail = $mail;
     }
   }
 }
@@ -284,7 +285,7 @@ function _ldapdata_user_submit(&$edit, &$user, $category) {
   //   4. User logged on and editing his profile.module fields ($category == *any*).
   $writeout = array();
 
-  $editables = _ldapdata_ldap_info($user, 'ldapdata_rwattrs');
+  $editables = (array) _ldapdata_ldap_info($user, 'ldapdata_rwattrs');
   if ($category == LDAPDATA_USER_DATA && $editables) {
     // Case 1:
     $writeout = array_merge($writeout, _ldapdata_user_update_ldap_attributes($edit, $user));
@@ -329,7 +330,7 @@ function _ldapdata_user_view(&$user) {
 
   $entry = $_ldapdata_ldap->retrieveAttributes($user->ldap_dn);
   $ldapdata_attributes = ldapdata_attributes();
-  $allowed_attrs = _ldapdata_ldap_info($user, 'ldapdata_roattrs');
+  $allowed_attrs = (array) _ldapdata_ldap_info($user, 'ldapdata_roattrs');
   $items = array();
   $i = 0;
   foreach ($ldapdata_attributes as $attr_name => $attr_info) {
@@ -411,7 +412,7 @@ function _ldapdata_user_profile_load(&$user) {
  */
 function _ldapdata_user_update_ldap_attributes(&$edit, &$user) {
   $writeout = array();
-  $editables = _ldapdata_ldap_info($user, 'ldapdata_rwattrs');
+  $editables = (array) _ldapdata_ldap_info($user, 'ldapdata_rwattrs');
 
   foreach ($edit as $edit_attr => $edit_val) {
     // Preventing a POST data injection: we check allowance to write value.

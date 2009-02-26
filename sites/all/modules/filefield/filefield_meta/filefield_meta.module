@@ -1,10 +1,13 @@
 <?php
-// $Id: filefield_meta.module,v 1.5 2008/07/31 12:22:55 drewish Exp $
+// $Id: filefield_meta.module,v 1.8 2009/02/04 10:19:38 dopry Exp $
 /**
  * @file
  * FileField Meta: Add Video Support to File Field.
  */
 
+/**
+ * Implementation of hook_theme().
+ */
 function filefield_meta_theme() {
   return array(
     'filefield_meta_duration' => array(
@@ -14,9 +17,20 @@ function filefield_meta_theme() {
 }
 
 /**
+ * Implementation of hook_cron(). 
+ */
+function filefield_meta_cron() {
+  $result = db_query('SELECT fm.fid FROM {filefield_meta} fm LEFT JOIN {files} f ON fm.fid=f.fid WHERE f.fid IS NULL');
+  while ($file = db_fetch_object($result)) {
+    db_query('DELETE FROM {filefield_meta} WHERE fid = %d', $file->fid);
+  }
+}
+
+
+/**
  * Implementation of filefield's hook_file_insert().
  */
-function filefield_meta_file_insert($file) {
+function filefield_meta_file_insert(&$file) {
   filefield_meta($file);
   $record = array_merge(array('fid' => $file->fid), $file->data);
   drupal_write_record('filefield_meta', $record);
@@ -25,11 +39,9 @@ function filefield_meta_file_insert($file) {
 /**
  * Implementation of filefield's hook_file_update().
  */
-function filefield_meta_file_update($file) {
+function filefield_meta_file_update(&$file) {
   filefield_meta_file_delete($file);
-  filefield_meta($file);
-  $record = array_merge(array('fid' => $file->fid), $file->data);
-  drupal_write_record('filefield_meta', $record);
+  filefield_meta_file_insert($file);
 }
 
 /**
@@ -40,17 +52,8 @@ function filefield_meta_file_delete($file) {
 }
 
 /**
- * Implementation of filefield's hook_file_load().
+ * Adds the width, height and duration to the file's data property.
  */
-function filefield_meta_file_load(&$file) {
-  if ($meta = db_fetch_array(db_query('SELECT * FROM {filefield_meta} WHERE fid = %d', $file->fid))) {
-    $file->data = is_array($file->data) ? array_merge($meta, $file->data) : $meta;
-  }
-  else {
-    filefield_meta($file);
-  }
-}
-
 function filefield_meta(&$file) {
   $info = getid3_analyze($file->filepath);
   $file->data['width'] = $file->data['height'] = $file->data['duration'] = 0;
@@ -81,3 +84,4 @@ function theme_filefield_meta_duration($duration) {
   }
   return intval($minutes).':'.str_pad($seconds, 2, 0, STR_PAD_LEFT);
 }
+

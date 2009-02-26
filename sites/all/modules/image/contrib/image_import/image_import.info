@@ -6,9 +6,9 @@ dependencies[] = image
 core = 6.x
 
 
-; Information added by drupal.org packaging script on 2009-01-27
+; Information added by drupal.org packaging script on 2009-02-11
 version = "6.x-1.x-dev"
 core = "6.x"
 project = "image"
-datestamp = "1233058099"
+datestamp = "1234354182"
 

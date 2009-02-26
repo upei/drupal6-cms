@@ -1,5 +1,5 @@
 <?php
-// $Id: filefield_widget.inc,v 1.39 2008/09/13 00:43:27 drewish Exp $
+// $Id: filefield_widget.inc,v 1.49 2009/01/31 17:51:12 dopry Exp $
 /**
  * @file
  * FileField: Defines a CCK file field type.
@@ -61,7 +61,7 @@ function filefield_widget_settings_form($widget) {
     '#default_value' => is_string($widget['max_filesize_per_file'])
                         ? $widget['max_filesize_per_file']
                          : '',
-    '#description' => t('Specify the size limit that applies to each file separately. Enter a value like "512" (bytes), "80K" (kilobytes) or "50M" (megabytes) in order to restrict the allowed file size. If you leave this this empty the file sizes will be limited only by PHP\'s maximum post and file upload sizes.'),
+    '#description' => t('Specify the size limit that applies to each file separately. Enter a value like "512" (bytes), "80K" (kilobytes) or "50M" (megabytes) in order to restrict the allowed file size. If you leave this this empty the file sizes will be limited only by PHP\'s maximum post and file upload sizes (current limit <strong>%limit</strong>).', array('%limit' => format_size(file_upload_max_size()))),
     '#element_validate' => array('_filefield_widget_settings_max_filesize_per_file_validate'),
   );
 
@@ -134,13 +134,13 @@ function filefield_save_upload($element) {
 
   $dest = filefield_widget_file_path($field_instance);
   if (!field_file_check_directory($dest, FILE_CREATE_DIRECTORY)) {
-    watchdog('imagefield', 'The upload directory %directory for the file field %field (content type %type) could not be created or is not accessible. A newly uploaded file could not be saved in this directory as a consequence, and the upload was canceled.', array('%directory' => $dest, '%field' => $element['#field_name'], '%type' => $element['#type_name']));
+    watchdog('filefield', 'The upload directory %directory for the file field %field (content type %type) could not be created or is not accessible. A newly uploaded file could not be saved in this directory as a consequence, and the upload was canceled.', array('%directory' => $dest, '%field' => $element['#field_name'], '%type' => $element['#type_name']));
     form_set_error($upload_name, t('The file could not be uploaded.'));
     return 0;
   }
 
   if (!$file = field_file_save_upload($upload_name, $element['#upload_validators'], $dest)) {
-    watchdog('imagefield', 'The file upload failed. %upload', array('%upload' => $upload_name));
+    watchdog('filefield', 'The file upload failed. %upload', array('%upload' => $upload_name));
     form_set_error($upload_name, t('The Image upload failed.'));
     return 0;
   }
@@ -182,6 +182,8 @@ function filefield_widget_value($element, $edit = FALSE) {
 }
 
 function filefield_widget_process($element, $edit, &$form_state, $form) {
+  // The widget is being presented, so apply the JavaScript.
+  drupal_add_js(drupal_get_path('module', 'filefield') .'/filefield.js');
 
   $item = $element['#value'];
   $field_name = $element['#field_name'];
@@ -192,7 +194,7 @@ function filefield_widget_process($element, $edit, &$form_state, $form) {
   // check remove buttons...
   $remove_name = $element['#field_name'] .'_'. $element['#delta'] .'_remove_btn';
   if (isset($form_state['clicked_button']) && $form_state['clicked_button']['#name'] == $remove_name) {
-    $item = _filefield_default_value($field);
+    $item = array('fid' => 0, 'list' => $field['list_default'], 'data' => array('description' => ''));
   }
 
   // figute out our fid...
@@ -250,7 +252,9 @@ function filefield_widget_process($element, $edit, &$form_state, $form) {
     $element['upload']['#title'] = t('Replace');
   }
 
-  $element['#prefix'] = '<div id="'. $element['#id'] .'-ahah-wrapper" class="filefield-ahah-wrapper">';
+  $element['#attributes']['id'] = $element['#id'] .'-ahah-wrapper';
+  $element['#attributes']['class'] = (isset($element['#attributes']['class']) ? $element['#attributes']['class'] : '') .' filefield-ahah-wrapper';
+  $element['#prefix'] = '<div '. drupal_attributes($element['#attributes']) .'>';
   $element['#suffix'] = '</div>';
   $element['upload_btn'] = array(
     '#type' => 'submit',
@@ -316,7 +320,7 @@ function theme_filefield_widget_preview($item) {
 function theme_filefield_widget_item($element) {
   return '<div class="filefield-row clear-block">'.
               '<div class="filefield-filename clear-block">'. drupal_render($element['preview']) . '</div>'.
-              '<div class="fielfield-edit clear-block">'.
+              '<div class="fllefield-edit clear-block">'.
                 '<div class="filefield-list">'. drupal_render($element['list']) . '</div>' .
                 '<div class="filefield-description">'. drupal_render($element['description']) . '</div>' .
                 '<div class="filefield-stuff">'. drupal_render($element) .'</div>'.
@@ -331,7 +335,7 @@ function theme_filefield_widget_item($element) {
 function filefield_node_form_validate($form, &$form_state) {
   $type = content_types($form['type']['#value']);
   foreach ($type['fields'] as $field_name => $field) {
-    if (!(in_array($field['module'], array('imagefield', 'filefield'))) || !$field['required']) continue;
+    if (!(in_array($field['module'], array('imagefield', 'filefield')))) continue;
     $empty = $field['module'] .'_content_is_empty';
     $valid = false;
     $total_filesize = 0;
@@ -341,7 +345,7 @@ function filefield_node_form_validate($form, &$form_state) {
       $total_filesize += (int)$item['filesize'];
     }
 
-    if (!$valid) {
+    if (!$valid && $field['required']) {
       form_set_error($field_name, t('%title field is required.', array('%title' => $field['widget']['label'])));
     }
     $max_filesize = parse_size($field['widget']['max_filesize_per_node']);
@@ -357,7 +361,7 @@ function filefield_node_form_validate($form, &$form_state) {
   }
 }
 
-function filefield_node_form_submit($form, $form_state) {
+function filefield_node_form_submit($form, &$form_state) {
   // we ignore all but the save button here.
   if ($form_state['values']['op'] != t('Save')) {
     return;

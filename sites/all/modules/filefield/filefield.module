@@ -1,4 +1,4 @@
-<?php  // $Id: filefield.module,v 1.150 2008/09/15 20:58:53 drewish Exp $
+<?php  // $Id: filefield.module,v 1.162 2009/02/04 03:04:25 dopry Exp $
 
 /**
  * @file
@@ -8,19 +8,14 @@
  * and Drupal's {files} table to store the actual file data.
  */
 
+include_once('field_file.inc');
+
 /**
  * Implementation of hook_init().
  */
 function filefield_init() {
-  // field hooks and callbacks.
-  module_load_include('inc', 'filefield', 'filefield_field');
-  // widget hooks and callbacks.
-  module_load_include('inc', 'filefield', 'filefield_widget');
   // file hooks and callbacks.
-  module_load_include('inc', 'filefield', 'filefield_file');
-  module_load_include('inc', 'filefield', 'field_file');
-
-  drupal_add_js(drupal_get_path('module', 'filefield') .'/filefield.js');
+  module_load_include('inc', 'filefield', 'filefield_widget');
   drupal_add_css(drupal_get_path('module', 'filefield') .'/filefield.css');
 }
 
@@ -36,7 +31,6 @@ function filefield_menu() {
     'access callback' => 'filefield_edit_access',
     'access arguments' => array(3),
     'type' => MENU_CALLBACK,
-    'file' => 'filefield_widget.inc',
   );
   return $items;
 }
@@ -126,7 +120,7 @@ function filefield_file_download($file) {
   // and node it belongs to. Required for later access checking.
   $cck_files = array();
   foreach (content_fields() as $field) {
-    if ($field['type'] == 'filefield') {
+    if ($field['type'] == 'filefield' || $field['type'] == 'image') {
       $db_info = content_database_info($field);
       $table = $db_info['table'];
       $fid_column = $db_info['columns']['fid']['column'];
@@ -213,12 +207,15 @@ function filefield_field_info() {
 function filefield_field_settings($op, $field) {
   $return = array();
 
-  module_load_include('inc','filefield','filefield_field');
+  module_load_include('inc', 'filefield', 'filefield_field');
   $op = str_replace(' ', '_', $op);
   // add filefield specific handlers...
   $function = 'filefield_field_settings_'. $op;
   if (function_exists($function)) {
-    $return = $function($field);
+    $result = $function($field);
+    if (isset($result) && is_array($result)) {
+      $return = $result;
+    }
   }
 
   // dynamically load widgets file and callbacks for other fields utilizing
@@ -226,7 +223,10 @@ function filefield_field_settings($op, $field) {
   module_load_include('inc', $field['module'], $field['type'] .'_field');
   $function = $field['module'] .'_'. $field['type'] .'_field_settings_'. $op;
   if (function_exists($function)) {
-    $return = array_merge($return, $function($field));
+    $result = $function($field);
+    if (isset($result) && is_array($result)) {
+      $return = array_merge($return, $result);
+    }
   }
 
   return $return;
@@ -237,7 +237,7 @@ function filefield_field_settings($op, $field) {
  * Implementtation of CCK's hook_field().
  */
 function filefield_field($op, $node, $field, &$items, $teaser, $page) {
-  module_load_include('inc','filefield','filefield_field');
+  module_load_include('inc', 'filefield', 'filefield_field');
   $op = str_replace(' ', '_', $op);
   // add filefield specific handlers...
   $function = 'filefield_field_'. $op;
@@ -252,11 +252,13 @@ function filefield_field($op, $node, $field, &$items, $teaser, $page) {
 function filefield_widget_settings($op, $widget) {
   $return = array();
   // load our widget settings callbacks..
-  module_load_include('inc','filefield','filefield_widget');
   $op =  str_replace(' ', '_', $op);
   $function = 'filefield_widget_settings_'. $op;
   if (function_exists($function)) {
-    $return = $function($widget);
+    $result = $function($widget);
+    if (isset($result) && is_array($result)) {
+      $return = $result;
+    }
   }
 
   // sometimes widget_settings is called with widget, sometimes with field.
@@ -270,7 +272,10 @@ function filefield_widget_settings($op, $widget) {
 
   $function = $widget_type .'_widget_settings_'. $op;
   if (function_exists($function)) {
-    $return = array_merge($return, $function($widget));
+    $result = $function($widget);
+    if (isset($result) && is_array($result)) {
+      $return = array_merge($return, $result);
+    }
   }
 
   return $return;
@@ -289,24 +294,22 @@ function filefield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   if (empty($form['#submit']) || !in_array('filefield_node_form_submit', $form['#submit'])) {
     $form['#submit'][] = 'filefield_node_form_submit';
   }
-
-
-
-  $default =  array('fid' => 0, 'list' => 0, 'data' => array('description' => ''));
-  // assign defaults..
-  if (empty($items[$delta])) $items[$delta] = $default;
-
-  module_load_include('inc', 'filefield', 'field_widget');
-
   $form['#attributes'] = array('enctype' => 'multipart/form-data');
 
+  module_load_include('inc', 'filefield', 'field_widget');
+  module_load_include('inc', $field['widget']['module'], $field['widget']['module'] .'_widget');
+
+  $item = array('fid' => 0, 'list' => $field['list_default'], 'data' => array('description' => ''));
+  if (isset($items[$delta])) {
+    $item = array_merge($item, $items[$delta]);
+  }
   $element = array(
     '#title' => $field['widget']['label'],
     '#type' => $field['widget']['type'],
-    '#default_value' => array_merge($default, $items[$delta]),
+    '#default_value' => $item,
     '#upload_validators' => filefield_widget_upload_validators($field),
   );
-  module_load_include('inc', $field['widget']['module'], $field['widget']['module'] .'_widget');
+
   return $element;
 }
 
@@ -474,9 +477,6 @@ function filefield_js($type_name, $field_name, $delta) {
     $form[$field_name][$delta] = $delta_element;
   }
 
-  // Write the (unbuilt, updated) form back to the form cache.
-  form_set_cache($form_build_id, $form, $form_state);
-
   // Render the form for output.
   $form += array(
     '#post' => $_POST,
@@ -522,7 +522,7 @@ function filefield_default_value(&$form, &$form_state, $field, $delta) {
       $max = 1;
       break;
     case 1:
-      $max =  isset($form_state['item_count'][$field_name]) ? $form_state['item_count'][$field_name] : 2;
+      $max =  isset($form_state['item_count'][$field_name]) ? $form_state['item_count'][$field_name] : 1;
       break;
     default:
       $max = $field['multiple'];
@@ -530,14 +530,35 @@ function filefield_default_value(&$form, &$form_state, $field, $delta) {
   }
 
   for ($delta = 0; $delta < $max; $delta++) {
-    $items[$delta] = _filefield_default_value($field);
+    $items[$delta] = array('fid' => 0, 'list' => $field['list_default'], 'data' => array('description' => ''));
   }
   return $items;
 }
 
-function _filefield_default_value($field) {
-  return array('fid' => 0, 'list' => $field['list_default'], 'data' => array('description' => ''));
+
+
+/**
+ * Implementation of hook_file_references().
+ */
+function filefield_file_references($file) {
+  $references = 0;
+  foreach(content_fields() as $field) {
+    if ($field['type'] != 'file') {
+      continue;
+    }
+    $references += field_file_references($file, $field);
+  }
+  return array('filefield' => $references);
 }
+
+/**
+ * Implementation of hook_file_delete().
+ */
+function filefield_file_delete($file) {
+  // foreach  field... remove items referencing $file.
+}
+
+
 
 /**
  * Check that the filename ends with an allowed extension. This check is
@@ -672,6 +693,6 @@ function filefield_validate_is_image(&$file) {
 }
 
 
-function filefield_validate_is_image_help() {
+function filefield_validate_is_image_help($arguments = null) {
   return t('Must be a JPEG, PNG or GIF image');
 }

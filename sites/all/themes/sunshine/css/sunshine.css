@@ -35,6 +35,8 @@ div.admin-panel .description {
   color: #336299;
 }
 
+.node img { margin: 6px; }
+
 #section2 .title,
 #section2 .title a {
    color: #666;
@@ -50,9 +52,11 @@ div.admin-panel .description {
   background: #336299 url(../images/market/MastBG.png) 0 0 repeat-x;
 }
 
-#sidebar-left, #sidebar-right {
-  background-color: #EEF4F9;
-}
+#sidebar-left, #sidebar-right { z-index: 1000 !important; position: fixed; background-color: #EEF4F9; top: 120px; max-width: 250px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; background-color: #fff; overflow: hidden; font-size: 11px; line-height: 18px; }
+#sidebar-left { left: 0; border-right: 1px solid #ccc; -webkit-border-top-right-radius: 4px; -webkit-border-bottom-right-radius: 4px; -moz-border-radius-topright: 4px; -moz-border-radius-bottomright: 4px; }
+#sidebar-right { position: absolute; right: 0; border-left: 1px solid #ccc; -webkit-border-top-left-radius: 4px; -webkit-border-bottom-left-radius: 4px; -moz-border-radius-topleft: 4px; -moz-border-radius-bottomleft: 4px; }
+#sidebar-left .hidden, #sidebar-right .hidden { display: none; }
+#sidebar-left li, #sidebar-right li { list-style: disc inside; }
 
 #mission,
 div.admin-panel h3 {
@@ -99,22 +103,14 @@ h1.title
 .links6-width16 { width: 160px; }
 
 /* sunshine sections for second.tpl.php */
-#section2 .section {
-  height: 350px;
-  overflow: hidden;
-}
-.user4n-width33 {
-  width: 380px;
-  margin: 0 10px;
-}
-.user5n-width33 {
-  width: 290px;
-  margin: 0 5px;
-}
-.user6n-width33 {
-  width: 290px;
-  margin: 0 5px;
-}
+#section1 .section { height: 285px; overflow: hidden; }
+.user1n-width49 { width: 432px; margin: 0; border-right: 1px solid #e0e0e0; padding-right: 7px; }
+.user2n-width49 { width: 530px; margin: 0; padding-left: 5px;}
+#section2 { border-top: 1px solid #e0e0e0;}
+#section2 .section { height: 350px; overflow: hidden; padding-top: 10px; }
+.user4n-width33 { width: 390px; margin: 0; padding-right: 10px; border-right: 1px solid #e0e0e0; }
+.user5n-width33 { width: 284px; margin: 0; padding: 0 5px 0 10px; }
+.user6n-width33 { width: 284px; margin: 0; padding: 0 0 0 5px; }
 
 /* sunshine specific story topics */
 .front-page-story-tabs {
@@ -122,7 +118,6 @@ h1.title
   height: 280px;
   overflow: hidden;
   padding-right: 5px;
-  border-right: 1px solid #eee;
 }
 .front-page-story-tabs ul.topic-list {
   float: left;
@@ -235,8 +230,8 @@ h1.title
 }
 .front-page-news-tabs .tab-list {
   display: block;
-  padding: 0 5px 0 5px;
-  margin: 5px 5px 5px 5px;
+  padding: 0 1em;
+  margin: 0;
   border-bottom: 1px solid #808080;
 }
 .front-page-news-tabs .tab-list li {

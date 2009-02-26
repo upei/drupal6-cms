@@ -1,5 +1,5 @@
 <?php
-// $Id: image_attach.install,v 1.14 2009/01/17 23:42:14 sun Exp $
+// $Id: image_attach.install,v 1.15 2009/02/01 00:36:43 sun Exp $
 
 /**
  * Implementation of hook_schema().
@@ -100,7 +100,9 @@ function image_attach_update_6100() {
     'not null' => TRUE,
     'default' => 0,
   ));
+  db_drop_primary_key($ret, 'image_attach');
   db_add_primary_key($ret, 'image_attach', array('nid'));
+  db_drop_index($ret, 'image_attach', 'iid');
   db_add_index($ret, 'image_attach', 'iid', array('iid'));
   return $ret;
 }

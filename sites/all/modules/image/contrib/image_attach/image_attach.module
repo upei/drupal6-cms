@@ -1,5 +1,5 @@
 <?php
-// $Id: image_attach.module,v 1.45 2009/01/16 23:00:28 sun Exp $
+// $Id: image_attach.module,v 1.46 2009/02/11 01:38:11 sun Exp $
 
 /**
  * @file image_attach.module
@@ -320,7 +320,7 @@ function image_attach_nodeapi(&$node, $op, $teaser, $page) {
  */
 function _image_attach_get_image_nodes() {
   $result = db_query(db_rewrite_sql("SELECT n.nid, n.title, n.sticky FROM {node} n WHERE n.status = 1 AND n.type = 'image' ORDER BY n.sticky DESC, n.title ASC"));
-  $result_count = db_result(db_query("SELECT COUNT(*) FROM {node} n WHERE n.status=1 AND type='image'"));
+  $result_count = db_result(db_query("SELECT COUNT(*) FROM {node} n WHERE n.status = 1 AND n.type = 'image'"));
   $rows = array(0 => t('None'));
   while ($node = db_fetch_object($result)) {
     $rows[$node->nid] = $node->title;
