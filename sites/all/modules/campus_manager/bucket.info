@@ -1,0 +1,9 @@
+; Yuxing Huang <yxh@twofathomsdeep.com>
+
+name = Bucket management
+description = multisite management 
+package = "Campus manager"
+core = 6.x
+version = 0.1
+dependencies[] = jquery_update
+dependencies[] = jquery_ui

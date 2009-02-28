@@ -1,0 +1,79 @@
+<?php
+
+function bucket_perm() {
+  return array('administer bucket');
+}
+
+function bucket_menu() {
+  $menu['admin/build/bucket'] = array (
+    'title' => t('Buckets'),
+    'page callback' => 'system_admin_menu_block_page',
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'access arguments' => array('administer bucket'),
+    'type' => MENU_NORMAL_ITEM
+  );
+
+  $menu['admin/build/bucket/updates'] = array (
+    'title' => t('Bucket updates'),
+    'page callback' => '_bucket_updates',
+    'access arguments' => array('administer bucket'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  
+  return $menu;
+}
+
+function _bucket_updates() {
+  $content = '';
+  // list all databases
+  $res = db_query('show databases;');
+  $dbs = array();
+  while($row = db_fetch_object($res)) {
+    $dbs[] = $row->Database;
+  }
+
+  // list update links for all buckets
+  $links = array();
+  foreach ($dbs as $db) {
+    $links[] = "<a href='/$db/update.php' target='_update_frame'>$db</a>";
+  }
+
+  // wrap links
+  $content .= "<div id='bucketlist'>";
+  foreach ($links as $link) {
+    $content .= "<span style='float:left;width:100px;padding:0 10px;'>$link</span>";
+  }
+  $content .= "<span style='clear:both;'></span></div>";
+  $content .= "<div id='bucketdialog'><iframe height='700' width='1050' name='_update_frame'></iframe></div>";
+  // add iframe
+  $content .= <<<EOF
+<script type="text/javascript">
+  var _current_item = 0;
+  $('#bucketdialog').dialog({
+    width: 1100,
+    height: 800,
+    autoOpen: false,
+    modal: true,
+    buttons: {
+      'Next': function() {
+        var e = $(_current_item).next('span').find('a');
+        e.click();
+        $('#bucketdialog iframe').attr('src', e.attr('href'));
+      },
+      'Close': function() { $(this).dialog("close"); }
+    }
+  });
+  $('#bucketlist a').click(function() {
+    _current_item = $(this).parent();
+    $('#bucketdialog').dialog('option', 'title', $(this).text());
+    $('#bucketdialog').dialog('open');
+    return true;
+  });
+</script>
+EOF;
+
+  return $content;
+}
+
+?>
