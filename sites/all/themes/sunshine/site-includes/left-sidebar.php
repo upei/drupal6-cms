@@ -9,6 +9,9 @@
           <div id="sidebar-left-close" title="Toggle Left Sidebar" style="display: inline-block; width: 18px; height: 18px;" class="ui-state-default ui-corner-all"><span style="display: block;" class="ui-icon ui-icon-arrowthickstop-1-e"></span></div>
           </div>
           <div id="sidebar-left-content" class="hidden">
+          <?php global $user; if (in_array('authenticated user', $user->roles)): ?>
+          <a href="<?=url($_GET['q'], array('query'=>'_nocache=1'))?>">Flush AJAX Cache</a><br />
+          <?php endif; ?>
           <?php print $sidebar_left ?>
           </div>
           <script type="text/javascript">

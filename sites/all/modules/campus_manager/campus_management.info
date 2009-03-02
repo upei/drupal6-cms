@@ -7,4 +7,3 @@ package = "Campus manager"
 core = 6.x
 version = 0.52
 dependencies[] = views
-dependencies[] = views_bulk_operations

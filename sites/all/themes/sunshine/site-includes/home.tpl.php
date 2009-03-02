@@ -10,9 +10,7 @@
 
 
 <?php //include "mods/google.php";?>
-<?php if ($sidebar_left) { ?>
-        <div id="sidebar-left"><?php print $sidebar_left ?> </div>
-      <?php } ?>
+<?php include 'left-sidebar.php'; ?>
       <div id="main">
         <div id="squeeze">
           <?php if (theme_get_setting('sunshine_breadcrumb')): ?>
@@ -94,9 +92,7 @@
           </div><!-- /squeeze-content -->
         </div><!-- /squeeze -->
       </div><!-- /main -->
-      <?php if ($sidebar_right) { ?>
-        <div id="sidebar-right"><?php print $sidebar_right ?> </div>
-      <?php } ?>
+    <? include 'right-sidebar.php'; ?>
     </div><!-- /middle-container -->
     <div style="clear:both"></div>
      </div> <!-- /page -->

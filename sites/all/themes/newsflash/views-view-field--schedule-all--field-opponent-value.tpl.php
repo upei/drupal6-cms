@@ -16,6 +16,7 @@ if($row->node_data_field_game_date_field_championship_label_value){
 		
 	}
 }
+	
 	echo $output;
 ?>
 

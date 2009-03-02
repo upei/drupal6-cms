@@ -10,39 +10,8 @@
 
 
 <?php //include "mods/google.php";?>
-<?php if ($sidebar_left) { ?>
-        <div id="sidebar-left" style="width:20px;height:120px;">
-          <div id="sidebar-left-bar" class="ui-widget ui-helper-clearfix" style="display: block; float: right;">
-          <div id="sidebar-left-close" title="Toggle Left Sidebar" style="display: inline-block; width: 18px; height: 18px;" class="ui-state-default ui-corner-all"><span style="display: block;" class="ui-icon ui-icon-arrowthickstop-1-e"></span></div>
-          </div>
-          <div id="sidebar-left-content" class="hidden">
-          <?php print $sidebar_left ?>
-          </div>
-          <script type="text/javascript">
-            $('#sidebar-left-bar div').hover(
-              function() { $(this).addClass('ui-state-hover'); },
-              function() { $(this).removeClass('ui-state-hover'); }
-            );
-            $('#sidebar-left-bar').click(function() {
-              if ($('#sidebar-left-content').hasClass('hidden')) {
-                $('#sidebar-left-content').removeClass('hidden');
-                $('#sidebar-left-close span').toggleClass('ui-icon-arrowthickstop-1-e');
-                $('#sidebar-left-close span').toggleClass('ui-icon-arrowthickstop-1-w');
-                $('#sidebar-left').css('width', '200px');
-                $('#sidebar-left').css('height', 'auto');
-              }
-              else {
-                $('#sidebar-left-content').addClass('hidden');
-                $('#sidebar-left-close span').toggleClass('ui-icon-arrowthickstop-1-e');
-                $('#sidebar-left-close span').toggleClass('ui-icon-arrowthickstop-1-w');
-                $('#sidebar-left').css('width', '20px');
-                $('#sidebar-left').css('height', '120px');
-              }
-            });
-          </script>
-        </div>
-      <?php } ?>
-      <div id="main">
+<?php include 'left-sidebar.php'; ?>
+     <div id="main">
         <div id="squeeze">
           <?php if (theme_get_setting('sunshine_breadcrumb')): ?>
             <?php if ($breadcrumb): ?>
@@ -155,40 +124,8 @@
           </div><!-- /squeeze-content -->
         </div><!-- /squeeze -->
       </div><!-- /main -->
-      <?php if ($sidebar_right) { ?>
-        <div id="sidebar-right">
-          <div id="sidebar-right-bar" class="ui-widget ui-helper-clearfix" style="display: block; float: left;">
-          <div id="sidebar-right-close" title="Toggle Right Sidebar" style="display: inline-block; width: 18px; height: 18px;" class="ui-state-default ui-corner-all"><span style="display: block;" class="ui-icon ui-icon-arrowthickstop-1-e"></span></div>
-          </div>
-          <div id="sidebar-right-content">
-          <?php print $sidebar_right ?>
-          </div>
-          <script type="text/javascript">
-            $('#sidebar-right-bar div').hover(
-              function() { $(this).addClass('ui-state-hover'); },
-              function() { $(this).removeClass('ui-state-hover'); }
-            );
-            $('#sidebar-right-bar').click(function() {
-              if ($('#sidebar-right-content').hasClass('hidden')) {
-                $('#sidebar-right-content').removeClass('hidden');
-                $('#sidebar-right-close span').toggleClass('ui-icon-arrowthickstop-1-e');
-                $('#sidebar-right-close span').toggleClass('ui-icon-arrowthickstop-1-w');
-                $('#sidebar-right').css('width', '200px');
-                $('#sidebar-right').css('height', 'auto');
-              }
-              else {
-                $('#sidebar-right-content').addClass('hidden');
-                $('#sidebar-right-close span').toggleClass('ui-icon-arrowthickstop-1-e');
-                $('#sidebar-right-close span').toggleClass('ui-icon-arrowthickstop-1-w');
-                $('#sidebar-right').css('width', '20px');
-                $('#sidebar-right').css('height', '120px');
-              }
-            });
-          </script>
-        </div>
- 
-      <?php } ?>
-    </div><!-- /middle-container -->
+   <? include 'right-sidebar.php'; ?>
+   </div><!-- /middle-container -->
     <div style="clear:both"></div>
      </div> <!-- /page -->
 

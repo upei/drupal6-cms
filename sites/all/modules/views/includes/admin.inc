@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.inc,v 1.151 2009/01/30 00:20:34 merlinofchaos Exp $
+// $Id: admin.inc,v 1.149 2008/12/02 16:04:59 merlinofchaos Exp $
 /**
  * @file admin.inc
  * Provides the Views' administrative interface.
@@ -49,22 +49,6 @@ function template_preprocess_views_ui_list_views(&$vars) {
   $sorts = array();
 
   $views = views_get_all_views();
-
-  // Respond to a reset command by clearing session and doing a drupal goto
-  // back to the base URL.
-  if (isset($_GET['op']) && $_GET['op'] == t('Reset')) {
-    unset($_SESSION['views']['#admin']);
-    drupal_goto('admin/build/views');
-  }
-  if (count($_GET) <= 1) {
-    if (isset($_SESSION['views']['#admin']) && is_array($_SESSION['views']['#admin'])) {
-      $_GET += $_SESSION['views']['#admin'];
-    }
-  }
-  else {
-    $_SESSION['views']['#admin'] = $_GET;
-    unset($_SESSION['views']['#admin']['q']);
-  }
 
   $form_state = array(
     'views' => $views,
@@ -166,7 +150,7 @@ function template_preprocess_views_ui_list_views(&$vars) {
         $sort .= strtolower($view->name);
         break;
       case 'title':
-        $sort .= strtolower($item->title);
+        $sort .= strtolower($title);
         break;
       case 'path':
         $sort .= strtolower($raw_path); // $path;
@@ -310,14 +294,6 @@ function views_ui_list_views_form(&$form_state) {
     '#id' => 'edit-views-apply',
     '#value' => t('Apply'),
   );
-
-  if (!empty($_SESSION['views']['#admin'])) {
-    $form['reset'] = array(
-      '#type' => 'submit',
-      '#id' => 'edit-views-reset',
-      '#value' => t('Reset'),
-    );
-  }
 
   $form['#theme'] = array('views_ui_list_views_form');
   return $form;
@@ -645,19 +621,17 @@ function views_ui_delete_confirm(&$form_state, $view) {
   if ($view->type == t('Overridden')) {
     $title = t('Are you sure you want to revert the view %name?', array('%name' => $view->name));
     $desc = t('Reverting the view will delete the view that is in the database, reverting it to the original default view. Any changes you have made will be lost and cannot be recovered.');
-    $button = t('Revert');
   }
   else {
     $title = t('Are you sure you want to delete the view %name?', array('%name' => $view->name));
     $desc = t('Deleting a view cannot be undone.');
-    $button = t('Delete');
   }
 
   return confirm_form($form,
                   $title,
                   $cancel,
                   $desc,
-                  $button,
+                  t('Delete'),
                   t('Cancel'));
 }
 

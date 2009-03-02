@@ -51,14 +51,15 @@ function campus_management_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
   );
-  /*
-  $items['content/view'] = array(
-    'title' => t('Content View'),
-    'page callback' => '_campus_management_content_view',
-    'access arguments' => array('administer menu'),
-    'type' => MENU_NORMAL_ITEM,
+
+  $items['views/embed/%/%'] = array(
+    'title' => t('Show views embeded'),
+    'page callback' => '_campus_maangement_views_embed',
+    'page arguments' => array(2,3),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
   );
-  */
+
   $items['campus_management/menu'] = array(
     'title' => t('Menus'),
     'description' => "Control your site's navigation menu, primary links and secondary links. as well as rename and reorganize menu items.",
@@ -113,6 +114,12 @@ function _campus_management_updateable_content() {
   $page_content .= "</table>";
   return $page_content;
 }
+
+function _campus_maangement_views_embed($name, $display) {
+  $args = array_slice(arg(), 2);
+  print call_user_func_array('views_embed_view', $args);
+}
+
 
 function _campus_management_content_view() {
   return '';

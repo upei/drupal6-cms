@@ -15,3 +15,14 @@ function _get_sections() {
   }
 }
 
+function wicache_get_contents($url) {
+  static $cache = NULL;
+  if (!$cache) $cache= new WIFileCache(UPEI_CACHE_DIR);
+  $cache->setExpiryTime(UPEI_CACHE_EXPIRE);
+  $content = $cache->get(sha1($url));
+  if (!$content) {
+    $content = file_get_contents($url);
+    $cache->put(sha1($url), $content);
+  }
+  return $content;
+}

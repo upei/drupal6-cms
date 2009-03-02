@@ -1,5 +1,5 @@
 <?php
-// $Id: views_handler_argument_string.inc,v 1.4 2009/01/07 21:30:31 merlinofchaos Exp $
+// $Id: views_handler_argument_string.inc,v 1.3 2008/11/19 20:10:07 merlinofchaos Exp $
 
 /**
  * Basic argument handler to implement string arguments that may have length
@@ -179,23 +179,17 @@ class views_handler_argument_string extends views_handler_argument {
   }
 
   function case_transform($string, $option) {
-		global $multibyte;
-		
     switch ($this->options[$option]) {
       default:
         return $string;
       case 'upper':
-        return drupal_strtoupper($string);
+        return mb_strtoupper($string);
       case 'lower':
-        return drupal_strtolower($string);
+        return mb_strtolower($string);
       case 'ucfirst':
-        return drupal_strtoupper(drupal_substr($string, 0, 1)) . drupal_substr($string, 1);
+        return mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
       case 'ucwords':
-        if ($multibyte == UNICODE_MULTIBYTE) {
-          return mb_convert_case($string, MB_CASE_TITLE);
-        } else {
-          return ucwords($string);
-        }
+        return mb_convert_case($string, MB_CASE_TITLE);
     }
   }
 

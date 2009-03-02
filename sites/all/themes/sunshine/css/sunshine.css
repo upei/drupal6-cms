@@ -89,8 +89,8 @@ h1.title
 
 /* sunshine specific link sections */
 
-#links-section { font-size: 11px; line-height: 18px; font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif; padding: 10px; border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color: #fefefe; font-variant: normal; font-weight: normal; }
-#links-section h2 { font-size: 11px !important; line-height: 18px; font-weight: bold; }
+#links-section { font-size: 11px; line-height: 18px; font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif; margin-top: 10px; padding: 10px; border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color: #fefefe; font-variant: normal; font-weight: normal; }
+#links-section h2 { font-size: 11px !important; line-height: 18px; margin-top: 4px; margin-bottom: 0; font-weight: bold; }
 #links-section ul { margin: 0; padding: 0; }
 #links-section li { list-style: none; padding: 0; margin: 0; }
 #links-section a { text-decoration: none; color: #888; }
@@ -103,14 +103,25 @@ h1.title
 .links6-width16 { width: 160px; }
 
 /* sunshine sections for second.tpl.php */
-#section1 .section { height: 285px; overflow: hidden; }
-.user1n-width49 { width: 432px; margin: 0; border-right: 1px solid #e0e0e0; padding-right: 7px; }
-.user2n-width49 { width: 530px; margin: 0; padding-left: 5px;}
-#section2 { border-top: 1px solid #e0e0e0;}
-#section2 .section { height: 350px; overflow: hidden; padding-top: 10px; }
-.user4n-width33 { width: 390px; margin: 0; padding-right: 10px; border-right: 1px solid #e0e0e0; }
-.user5n-width33 { width: 284px; margin: 0; padding: 0 5px 0 10px; }
-.user6n-width33 { width: 284px; margin: 0; padding: 0 0 0 5px; }
+#section1 .section { overflow: hidden; padding-bottom: 10px; }
+.user1n-width49 { width: 432px; margin: 0; border-right: 0px solid #e0e0e0; padding-right: 20px; }
+.user2n-width49 { width: 520px; margin: 0; padding-left: 20px;}
+/*#section2 { border-top: 1px solid #e0e0e0;}*/
+#section2 .section { overflow: hidden; padding-top: 20px; }
+.user4n-width33 { width: 450px; margin: 0; padding-right: 20px; border-right: 0px solid #e0e0e0; }
+.user5n-width33 { width: 240px; margin: 0; padding: 0 20px 0 10px; }
+.user6n-width33 { width: 240px; margin: 0; padding: 0 0 0 0; }
+.home-page-story-ajax hr { display: none; }
+.home-page-story-ajax h2 { font-weight: normal; padding: 0; margin: 0; line-height: 17px; margin-top: -1px;}
+.home-page-story-ajax a { font-weight: normal !important; font-size: 13px !important; padding: 0 !important; margin: 0 !important; line-height:17px; }
+
+/* block fine tuning for sunshine on currenstudents */
+#internal-news {
+margin-top: 200px;
+}
+
+#block-views-buttons-block_2{margin-bottom:10px;}
+
 
 /* sunshine specific story topics */
 .front-page-story-tabs {
@@ -177,9 +188,9 @@ h1.title
   display: block;
 }
 .front-page-story-tabs .first-topic {
-  height: 228px;
+/*  height: 228px;
   overflow: hidden;
-}
+*/}
 .front-page-story-tabs .first-topic img {
   border: 0; margin: 0; display: block;
 }
@@ -208,6 +219,7 @@ h1.title
   background-color: #fcfcfc;
   height: 51px;
   overflow: hidden;
+  display: none;
 }
 .front-page-story-tabs .title-list li {
   list-style: disc inside;
@@ -227,6 +239,10 @@ h1.title
   font-size: 12px;
   line-height: 18px;
   overflow: hidden;
+  border: 1px solid #ccc;
+  padding: 10px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
 }
 .front-page-news-tabs .tab-list {
   display: block;
@@ -237,13 +253,13 @@ h1.title
 .front-page-news-tabs .tab-list li {
   list-style: none;
   list-style-image: none;
-  display: inline-block;
+  display: inline;
   position: relative;
   padding: 0;
   margin: 0;
 }
 .front-page-news-tabs .tab-list li a {
-  display: block;
+  display: inline;
   line-height: 15px;
   padding: 3px 5px 3px 5px;
 }
@@ -256,6 +272,18 @@ h1.title
   display: none;
   overflow: hidden;
 }
+.front-page-news-tabs .tabs-detail .more {
+  margin: 10px;
+  padding: 5px;
+  float:right;
+  border-left: 1px solid #6c1c00;
+  border-bottom: 1px solid #6c1c00;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+}
+.front-page-news-tabs .tabs-detail .more a {
+  font-weight: bold;
+}
 .front-page-news-tabs div.selected {
   display: block;
 }
@@ -265,4 +293,4 @@ h1.title
 .front-page-news-tabs .tabs-detail li {
   list-style: disc inside;
 }
-
+#footer img{margin-bottom:10px; padding:0px;}

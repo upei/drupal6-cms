@@ -172,7 +172,7 @@ else {
 		<?php 
 		$bucket = _get_bucket();
 		if($bucket != "home" && $bucket != "avc"){
-			print "<img style=\"position:relative;top:16px;\" src=\"/css/images/leaf_rust_gold.jpg\">";
+			//print "<img style=\"position:relative;top:16px;\" src=\"/css/images/leaf_rust_gold.jpg\">";
 		}
 		print $footer_message;
 		$date = date('Y');

@@ -18,7 +18,7 @@ ErrorDocument 404 /index.php
 
 # Force simple error message for requests for non-existent favicon.ico.
 <Files favicon.ico>
-  ErrorDocument 404 "The requested file favicon.ico was not found."
+  ErrorDocument 404 "The requested file favicon.ico was not found.
 </Files>
 
 # Set the default handler.
@@ -93,11 +93,45 @@ DirectoryIndex index.php
   # VirtualDocumentRoot and the rewrite rules are not working properly.
   # For example if your site is at http://example.com/drupal uncomment and
   # modify the following line:
-  # RewriteBase /currentstudents6
+  # RewriteBase /drupal
   #
   # If your site is running in a VirtualDocumentRoot at http://example.com/,
   # uncomment the following line:
   # RewriteBase /
+
+  # Rewrite rules for static page caching provided by the Boost module:
+  # BOOST START
+  <IfModule mod_headers.c>
+    Header add Expires "Sun, 19 Nov 1978 05:00:00 GMT"
+    Header add Cache-Control "store, no-cache, must-revalidate, post-check=0, pre-check=0"
+  </IfModule>
+  <IfModule mod_mime.c>
+    AddCharset utf-8 .html
+  </IfModule>
+  RewriteCond %{REQUEST_METHOD} ^GET$
+  RewriteCond %{REQUEST_URI} ^/$
+  RewriteCond %{QUERY_STRING} ^$
+  RewriteCond %{HTTP_COOKIE} !DRUPAL_UID
+  RewriteCond /var/www-d6/current/cache/%{SERVER_NAME}/index.html -f
+  RewriteRule ^(.*)$ cache/%{SERVER_NAME}/index.html [L]
+  RewriteCond %{REQUEST_METHOD} ^GET$
+  RewriteCond %{REQUEST_URI} !^/cache
+  RewriteCond %{REQUEST_URI} !^/user/login
+  RewriteCond %{REQUEST_URI} !^/admin
+  RewriteCond %{QUERY_STRING} ^$
+  RewriteCond %{HTTP_COOKIE} !DRUPAL_UID
+  RewriteCond /var/www-d6/current/cache/%{SERVER_NAME}%{REQUEST_URI} -d
+  RewriteCond /var/www-d6/current/cache/%{SERVER_NAME}%{REQUEST_URI}/index.html -f
+  RewriteRule ^(.*)$ cache/%{SERVER_NAME}%{REQUEST_URI}/index.html [L]
+  RewriteCond %{REQUEST_METHOD} ^GET$
+  RewriteCond %{REQUEST_URI} !^/cache
+  RewriteCond %{REQUEST_URI} !^/user/login
+  RewriteCond %{REQUEST_URI} !^/admin
+  RewriteCond %{QUERY_STRING} ^$
+  RewriteCond %{HTTP_COOKIE} !DRUPAL_UID
+  RewriteCond /var/www-d6/current/cache/%{SERVER_NAME}%{REQUEST_URI}.html -f
+  RewriteRule ^(.*)$ cache/%{SERVER_NAME}%{REQUEST_URI}.html [L]
+  # BOOST END
 
   # Rewrite URLs of the form 'x' to the form 'index.php?q=x'.
   RewriteCond %{REQUEST_FILENAME} !-f
@@ -106,4 +140,4 @@ DirectoryIndex index.php
   RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
 </IfModule>
 
-# $Id: .htaccess,v 1.90.2.1 2008/07/08 09:33:14 goba Exp $
+# $Id: boosted1.txt,v 1.1.2.1 2008/10/25 15:29:26 arto Exp $
