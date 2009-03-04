@@ -37,6 +37,7 @@ a:hover,
 div.admin-panel .description {
   color: #43590E;
   border-bottom:0px;
+  border-bottom-color:transparent;
 }
 
 

@@ -36,6 +36,17 @@ function views_ajax_endpoint_views_plugins() {
 		'uses options' => true,
         'type' => 'ajax',
       ),
+      
+      'views_ajax_download' => array(
+      'title' => t('AJAX Download'),
+      'theme' => 'views_view_ajax_download',
+      'help' => t('Direct download a FileField object'),
+      'handler' => 'views_plugin_style_ajax_download',
+      'uses row plugin' => true,
+      'uses fields' => true,
+	'uses options' => true,
+      'type' => 'ajax',
+    ),
     ),
     
     'row' => array(

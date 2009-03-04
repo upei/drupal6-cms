@@ -1,0 +1,14 @@
+<?php
+function campus_notice_schema() {
+  $schema['campus_notice_table'] = array(
+  );
+  return $schema;
+}
+
+function campus_notice_install() {
+  // drupal_install_schema('campus_notice');
+}
+
+function campus_notice_uninstall() {
+  // drupal_uninstall_schema('campus_notice');
+}

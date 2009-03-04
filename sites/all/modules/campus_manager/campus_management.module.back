@@ -1,0 +1,116 @@
+<?php
+/**
+ * $Id: campus_management.module Shawn Arsenault Exp $
+ */
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@		 First list all the hooks used in this module		@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+// listing of blocks
+// These are an initiations and not an override. 
+// The blocks will be created ready to go, but once
+// changed in drupal, will not hold their values.
+function campus_management_block($op='list', $delta=0) {
+  //Prepare variables to use throughout the block function
+  $site = explode("/", request_uri()); //Get the Bucket Name
+  $path = drupal_get_path('module', 'campus_management'); //get the modules path
+
+  if ($op == "list") {
+	
+    $block[0]["info"] = t('Website Maintenance');
+    
+    return $block;
+    
+  } else if ($op == 'view') {
+
+    switch ($delta) {
+
+      case 0:
+        // $block['subject'] = "WEBSITE MAINTENANCE";
+        // $block['content'] = "<div style=\"padding:10px;background-color:#6C1C00;color:#ffffff;\">We are currently doing maintenance on your website. Sorry for any Inconvenience</div>";
+
+    	break;
+    }
+    return $block;
+    drupal_load('module', 'block');
+  }
+  
+}
+// End Hook_BLOCK()**********************************************************
+
+//***********************
+// Implement hook_menu	*
+//***********************
+function campus_management_menu() {
+  $items = array();
+
+  $items['content/update'] = array(
+    'title' => t('Content'),
+    'page callback' => '_campus_management_updateable_content',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+  $items['campus_management/menu'] = array(
+    'title' => t('Menus'),
+    'description' => "Control your site's navigation menu, primary links and secondary links. as well as rename and reorganize menu items.",
+    'page callback' => '_campus_management_menu_overview_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $path = drupal_get_path('module', 'campus_management');
+  drupal_add_css($path .'/campus_management.css');
+  
+  return $items;
+}
+
+function _campus_management_menu_overview_page() {
+  include  '/var/www-d6/current/modules/menu/menu.admin.inc';
+  return menu_overview_page();
+}
+
+//End Hook_MENU()*********************************************************
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@					END OF HOOKS					@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@		 		Create Functions needed in this module 		@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+//*******************************************************
+//Generate a page with only the content a user can edit	*
+//*******************************************************
+function _campus_management_updateable_content() {
+  $site = explode("/", request_uri());
+  $bucket = $site[1];
+  $page_content = "<table>\n";
+  $page_content .= "<tr><th>Title</th><th width=\"75\">Type</th><th  width=\"75\" style=\"text-align:center;\">Published?</th><th width=\"75\" >Edit</th></tr>\n";
+  $sSQL = "SELECT * FROM {node} ORDER BY changed DESC";
+  $result =  pager_query($sSQL, 100, 0);
+    while ($node = db_fetch_object($result)) {
+    $node_object = node_load($node->nid);
+        $node_access = node_access("update", $node_object);
+    if($node_access){
+      if($node->status){$status = "yes";}else{$status = "no";}
+      if($bgcolor=="ffffff"){$bgcolor="eef2e3";}else{$bgcolor="ffffff";}
+      $page_content .= "<tr style=\"background-color:#" . $bgcolor ."\"><td>" .l($node->title, 'node/'.$node->nid). "</td><td>". $node->type ."</td><td style=\"text-align:center;\">". $status ."</td><td>". l("edit", "node/" . $node->nid . "/edit") ."</td>" . "</tr>";
+      }
+    }
+  $page_content .= "</table>";
+  $page_content .= theme('pager', NULL, 100, 0);
+  return $page_content;
+}
+// END UpdatableContent()*************************
+
+//******************************************************************************
+// The original SQL by Ryan found the current Node, Revisions, and Content Type information and merged		*
+// them using the SQL JOIN operator. I removed all this and found just the node ID							*
+// and used the node_load($nid) function																	*
+// Added the code to get the variable to change the number of posts to list									*
+//******************************************************************************
+

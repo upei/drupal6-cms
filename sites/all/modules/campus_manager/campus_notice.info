@@ -1,0 +1,7 @@
+name = Campus notice
+description = The dedicated module for campus notices.
+package = Campus manager
+core = 6.x
+version = 0.10
+php = 5.1
+dependencies[] = views

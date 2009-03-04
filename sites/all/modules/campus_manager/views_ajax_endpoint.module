@@ -33,3 +33,51 @@ EOL;
   
   return $content;
 }
+
+function views_ajax_endpoint_field_formatter_info() {
+  $formatters = array();
+  if (module_exists('filefield')) {
+    $formatters['url_raw'] = array(
+      'label' => t('Raw URL to file'),
+      'field types' => array('filefield', 'image'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+    );
+    $formatters['path_raw'] = array(
+      'label' => t('Raw path to file'),
+      'field types' => array('filefield', 'image'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+    );
+  }
+  return $formatters;
+}
+
+function theme_views_ajax_endpoint_formatter_url_raw($element) {
+  if (empty($element['#item'])) {
+    return '';
+  }
+  
+  $item = $element['#item'];
+  $original_image_url = file_create_url($item['filepath']);
+  
+  return $original_image_url;
+}
+
+function theme_views_ajax_endpoint_formatter_path_raw($element) {
+  if (empty($element['#item'])) {
+    return '';
+  }
+  
+  $item = $element['#item'];
+  return $item['filepath'];
+}
+
+function views_ajax_endpoint_theme($existing, $type, $theme, $path) {
+  return array(
+    'views_ajax_endpoint_formatter_url_raw' => array(
+      'arguments' => array('element' => NULL),
+      ),
+    'views_ajax_endpoint_formatter_path_raw' => array(
+      'arguments' => array('element' => NULL),
+      )
+    );
+}

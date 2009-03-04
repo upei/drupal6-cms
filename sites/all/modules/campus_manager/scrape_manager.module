@@ -306,6 +306,7 @@ final class ScrapeBlock extends DrupalBlockBase {
           $block_content .= $page_scrape_content;
         }
       }
+      /*
       else {
         $alias = str_replace("/{$site[1]}/", '', request_uri());
         // if this is a view and the current user has permission to administer this view
@@ -316,6 +317,7 @@ final class ScrapeBlock extends DrupalBlockBase {
           }
         }
       }
+      */
     }
  
  // get the last access date
@@ -396,7 +398,7 @@ final class ScrapeBlock extends DrupalBlockBase {
   // **********************************************************************************
   function checkView($uri){
   	$iFlag = 0;
-  	$sSQL = "SELECT name, url FROM {view_view} WHERE url = '" . $uri ."'";
+  	$sSQL = "SELECT name, url FROM {views_view} WHERE url = '" . $uri ."'";
   	$result =  db_query($sSQL);
     	$node = db_fetch_object($result); 		
   	$ViewName = $node->name;

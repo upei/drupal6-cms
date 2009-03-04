@@ -113,7 +113,7 @@
 <div style="width:100%;height:52px;">
 	<div style="width:1000px;margin:5px auto;">
 	<a href="/home"><img style="float:left;margin-left:10px;margin-top:2px;" src="/banner/other/UPEI-Horizontal-Logo_200.jpg" alt="UPEI Logo" /></a>
-	<div style="float:right;padding:0px 10px 0px 0px;">
+	<div style="float:right;padding:0px 0px 0px 6px;">
 	
 	<ul class="links-menu links" id="navlist">
 <!--<li class=" first"><a href="http://www.upei.ca">UPEI Home</a></li>-->
