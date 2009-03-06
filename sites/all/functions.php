@@ -15,9 +15,11 @@ function _get_sections() {
   }
 }
 
+$GLOBALS['wi_cache'] = new WIFileCache(UPEI_CACHE_DIR);
+
 function wicache_get_contents($url) {
-  static $cache = NULL;
-  if (!$cache) $cache= new WIFileCache(UPEI_CACHE_DIR);
+  global $wi_cache;
+  $cache =& $wi_cache;
   $cache->setExpiryTime(UPEI_CACHE_EXPIRE);
   $content = $cache->get(sha1($url));
   if (!$content) {

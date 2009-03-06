@@ -1,0 +1,29 @@
+<?php
+
+function d_bucket_field_formatter_info() {
+  return array(
+    'd_bucket' => array(
+      'label' => t('D bucket download'),
+      'field types' => array('text'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+    ),
+  );
+}
+
+function theme_d_bucket_formatter_d_bucket($element) {
+  $node = node_load($element['#node']->nid);
+  $item = $element['#item'];
+  $type = $element['#type_name'];
+  $department = $node->taxonomy[1]->name;
+
+  return '<a href="' . url("$type/download/$department/" . $item['safe']) . '">' . t('Download') . '</a>';
+}
+
+function d_bucket_theme($existing, $type, $theme, $path) {
+  return array(
+    'd_bucket_formatter_d_bucket' => array(
+      'arguments' => array('element' => NULL),
+      ),
+    );
+}
+

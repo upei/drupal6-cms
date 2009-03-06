@@ -1,0 +1,7 @@
+name = D bucket
+description = "misc functions for d bucket."
+package = "Campus manager"
+core = 6.x
+version = 0.1
+dependencies[] = text
+dependencies[] = taxonomy

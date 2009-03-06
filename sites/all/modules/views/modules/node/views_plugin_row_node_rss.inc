@@ -62,7 +62,7 @@ class views_plugin_row_node_rss extends views_plugin_row {
 
     $item = new stdClass();
     $item->title = $node->title;
-    $item->link = url("node/$row->nid", array('absolute' => TRUE));
+    $item->link = isset($node->feedapi_node->url) ? $node->feedapi_node->url : url("node/$row->nid", array('absolute' => TRUE));
 
     // Allow modules to add additional item fields and/or modify $item
     $extra = node_invoke_nodeapi($node, 'rss item');

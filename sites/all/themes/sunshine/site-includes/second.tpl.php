@@ -59,6 +59,7 @@
         <div style="clear:both"></div>
       </div><!-- /section1 -->
 <?php endif; ?>
+<?php print $content; ?>			 
               <?php print $feed_icons; ?>
               
 			  <?php
@@ -84,7 +85,6 @@
         <div style="clear:both"></div>
       </div><!-- /section2 -->
     <?php endif; ?>
-<?php print $content; ?>			 
 <?php if ($content_bottom): ?>
                 <div id="content-bottom"><?php print $content_bottom; ?></div>
               <?php endif; ?>

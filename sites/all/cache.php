@@ -109,7 +109,7 @@ class WIFileCache extends WICache {
 	public function invalidate($key) {
 		$filename = $this->getCacheFilename($key);
 		$this->obtainLock($filename, LOCK_EX);
-		unlink($filename);
+		@unlink($filename);
 		$this->releaseLock($filename);
 	}
 	

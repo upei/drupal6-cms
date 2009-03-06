@@ -58,14 +58,13 @@ class views_plugin_style_ajax_download extends views_plugin_style_ajax {
       case 'drupal':
         drupal_set_header('Content-disposition: attachment; filename="' . str_replace('"', '\"', basename($row[$options['field']])) . '"');
         $__output = file_get_contents($row[$options['field']]);
-        print $__output;
         break;
       case 'sendfile':
         drupal_set_header('X-Sendfile: '. realpath($row[$options['field']]));
+        exit;
         break;
     }
-
-    exit;
+    return $__output;
   }
 }
 

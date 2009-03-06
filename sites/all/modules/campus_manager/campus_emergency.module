@@ -377,10 +377,13 @@ EOF;
 class CampusEmergencyNode {
   
   var $node;
+  var $cache;
   
   static $TYPE = 'campus_emergency';
-  
+
   function CampusEmergencyNode(&$node) {
+    global $wi_cache;
+    $this->cache =& $wi_cache;
     $this->node =& $node;
   }
   
@@ -388,8 +391,17 @@ class CampusEmergencyNode {
    * List recent messages in a reverse order
    */
   static function &listRecentMessages($limit=1) {
+    global $wi_cache;
+    // check cache first
+    if ($c = $wi_cache->get(CampusEmergencyNode::$TYPE)) {
+      $ret = unserialize($c);
+      if ($ret != FALSE) {
+        return $ret;
+      }
+    }
+
     // select the latest message(s)
-   $sql = "SELECT nid FROM {node} WHERE type='%s' AND status=1 ORDER BY changed DESC LIMIT $limit";
+    $sql = "SELECT nid FROM {node} WHERE type='%s' AND status=1 ORDER BY changed DESC LIMIT $limit";
     $result = db_query($sql, CampusEmergencyNode::$TYPE);
     // build the node array
     $node_array = array();
@@ -399,6 +411,9 @@ class CampusEmergencyNode {
     // unset the result to save memory
     unset($result);
     
+    // set cache
+    $wi_cache->put(CampusEmergencyNode::$TYPE, serialize($node_array));
+    
     return $node_array;
   }
   
@@ -406,6 +421,7 @@ class CampusEmergencyNode {
   static function unpublishAllMessages() {
     $sql = "UPDATE {node} SET status=0 WHERE type='%s' AND status=1";
     db_query($sql, CampusEmergencyNode::$TYPE);
+    $this->cache->invalidate(CampusEmergencyNode::$TYPE);
   }
   
   function form() {
@@ -507,6 +523,7 @@ class CampusEmergencyNode {
         db_query("UPDATE {node} SET status=%d WHERE vid=%d", $this->node->published, $this->node->vid);
         break;
     }
+    $this->cache->invalidate(CampusEmergencyNode::$TYPE);
   }
   
   function access($op) {
@@ -521,6 +538,7 @@ class CampusEmergencyNode {
         db_query('DELETE FROM {campus_emergency} WHERE nid=%d', $this->node->nid);
         break;
     }
+    $this->cache->invalidate(CampusEmergencyNode::$TYPE);
   }
   
   function load() {
@@ -563,6 +581,7 @@ class CampusEmergencyNode {
         }
         break;
     }
+    $this->cache->invalidate(CampusEmergencyNode::$TYPE);
   }
   
   function &view($teaser, $page) {
