@@ -81,7 +81,7 @@ class WIFileCache extends WICache {
 			error_log('Unable to release lock: ' . $filename);
 		}
 		
-		unlink($filename);
+		@unlink($filename);
 	}
 	
 	public function put($key, $value) {

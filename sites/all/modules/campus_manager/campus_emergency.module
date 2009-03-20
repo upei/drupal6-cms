@@ -675,12 +675,10 @@ function campus_emergency_footer($main = 0) {
 //  
 // }
 
-function _campus_emergency_run() {
+function campus_emergency_init() {
   $receiver__ = new CampusEmergencyReceiver();
   if (user_access(CampusEmergencyReceiver::$RECEIVER_PERM)) {
     $receiver__->attachCSS();
     $receiver__->attachJavascript();
   }
 }
-
-_campus_emergency_run();

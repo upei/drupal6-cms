@@ -96,16 +96,15 @@ function _campus_log_viewer_ajax_recent() {
   }
   // parse db url
   $comp = parse_url($db_url['default']);
-  // get the list of dbs
   $db_list = variable_get('campus_log_viewer_monitored_databases', join("\n", _campus_log_viewer_list_databases()));
   // convert it into an array
-  $db_list = explode("\r\n", $db_list);
+  $db_list = split("\n", $db_list);
   // filter empty items
   $db_list = array_filter($db_list, create_function('$a', 'return !empty($a);'));
-
+  $db_list = array_map(create_function('$a', 'return trim($a);'), $db_list);
   // generate db urls
   foreach ($db_list as $db) {
-    $db_url[$db] = "{$comp['scheme']}://{$comp['user']}:{$comp['pass']}@{$comp['host']}:3307/$db";
+    $db_url[$db] = "{$comp['scheme']}://{$comp['user']}:{$comp['pass']}@{$comp['host']}/$db";
   }
 
   drupal_set_header('Content-type: text/html; charset=UTF-8');
@@ -115,6 +114,7 @@ function _campus_log_viewer_ajax_recent() {
     db_set_active($db);
     $result = db_query("SELECT * FROM {watchdog} WHERE timestamp > %d ORDER BY wid DESC LIMIT 50", $last_execution_timestamp);
     db_set_active('default');
+
     while ($log = db_fetch_object($result)) {
       $log->variables = unserialize($log->variables);
       if ($log->variables) {

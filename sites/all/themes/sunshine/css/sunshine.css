@@ -3,6 +3,28 @@ body {
   background-color: #8596AA;
 }
 
+#bannerimg img{
+margin: 0px;
+}
+
+.googlesearcharea{margin-top:14px;width:350px;float:right;border:0px solid #cccccc;}
+
+.site-title {
+  width: 400px;
+  font-family: "Times New Roman", "Times", serif;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: normal;
+  color: #980000;
+  display: block;
+  float: left;
+  padding: 0 0 0 4px;
+  margin: 14px 0 0 0;
+}
+.site-title a {
+  color: #980000 !important;
+}
+
 #page {
    background-color: #fff;
 }
@@ -85,8 +107,23 @@ h1.title
 	border-style:solid;
 	border-width:1px;
 	}
-	
 
+
+#sidebar-inner-left {
+    float:left; width:200px; border:1px solid #ccc; -webkit-border-radius: 4px; -moz-border-radius: 4px; background-color: #fff; margin: 6px 6px 6px 0; padding: 6px; font-size: 12px; line-height: 19px;
+  }
+
+#sidebar-inner-right {
+  float:right; width:200px; border:1px solid #ccc; -webkit-border-radius: 4px; -moz-border-radius: 4px; background-color: #fff; margin: 6px 0 6px 6px; padding: 6px; font-size: 12px; line-height: 19px;
+}
+
+#sidebar-inner-right h2 {
+  font-size: 12px;
+}
+
+#real-content.wide {}
+#real-content.normal { float: left; width: 770px; }
+#real-content.narrow { float: left; width: 550px; }
 /* sunshine specific link sections */
 
 #links-section { font-size: 11px; line-height: 18px; font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif; margin-top: 10px; padding: 10px; border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color: #fefefe; font-variant: normal; font-weight: normal; }
@@ -271,9 +308,10 @@ margin-top: 200px;
   color: #fff !important;
 }
 .front-page-news-tabs .tabs-detail {
-  margin: 5px;
+  margin: 4px;
   display: none;
   overflow: hidden;
+  /*background: url(../images/fade_ededed.gif) repeat-x center bottom;*/
 }
 .front-page-news-tabs .tabs-detail .more {
   margin: 10px;
@@ -313,6 +351,4 @@ float: left;
 margin: 10px;
 margin-top: 20px;
 }
-
-.field-field-pull-quote {
 

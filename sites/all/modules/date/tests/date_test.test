@@ -1,0 +1,140 @@
+<?php
+// $Id: date_test.test,v 1.4.6.1 2008/06/30 17:12:52 karens Exp $
+/**
+ * Test Date Library
+ */
+class DatePHP4LibTest extends DrupalTestCase {
+  function get_info() {
+    return array('name' => t('PHP 4 date library'), 'desc' => t('Test ability to create valid dates for years from 100 to 4000 with PHP 4 date library.') , 'group' => 'Date tests');
+  }
+
+  function testPHP4DateLibrary() {
+
+  include_once('./'. drupal_get_path('module', 'date_php4') .'/date_php4.inc');
+  include_once('./'. drupal_get_path('module', 'date_php4') .'/date_php4_lib.inc');
+  
+	@set_time_limit(0);
+	$fail = false;
+
+	$t = date_mktime(0, 0, 0);
+	$this->assertEqual(date_date('Y-m-d', $t), date('Y-m-d', $t), 'Input date_mktime(0, 0, 0), date() and date_date() should match');
+
+	$t =   date_mktime(0, 0, 0, 6, 1, 2102);
+	$this->assertEqual(date_date('Y-m-d', $t), '2102-06-01', 'Input   date_mktime(0, 0, 0, 6, 1, 2102), result '. date_date('Y-m-d', $t));
+
+	$t =   date_mktime(0, 0, 0, 2, 1, 2102);
+	$this->assertEqual(date_date('Y-m-d', $t), '2102-02-01', 'Input   date_mktime(0, 0, 0, 2, 1, 2102), result '. date_date('Y-m-d', $t));
+
+	$t =   date_mktime(0, 0, 0, 10, 11, 1492);
+	$this->assertEqual(date_date('D Y-m-d', $t), 'Fri 1492-10-11', 'Columbus landing Fri 1492-10-11 returned '. date_date('D Y-m-d', $t));
+
+	$t =   date_mktime(0, 0, 0, 2, 29, 1500);
+	$this->assertEqual(date_date('Y-m-d', $t), '1500-02-29', 'julian leap years 1500-02-29 returned '. date_date('Y-m-d', $t));
+
+	$t =   date_mktime(0, 0, 0, 2, 29, 1700);
+	$this->assertEqual(date_date('Y-m-d', $t), '1700-03-01', 'gregorian leap years 1700-03-01 returned '. date_date('Y-m-d', $t));
+
+	$diff = (  date_mktime(0, 0, 0, 10, 15, 1582) -   date_mktime(0, 0, 0, 10, 4, 1582));
+	$this->assertEqual($diff, (3600*24), 'gregorian correction = '.($diff/3600/24).' days');
+
+	$this->assertEqual(date_dow(15, 10, 1582), 5, "15 Oct 1582, dow should be 5, was ".date_dow(15, 10, 1582));
+	$this->assertEqual(date_dow(4, 10, 1582), 4, "4 Oct 1582, dow should be 4, was ".date_dow(4, 10, 1582));
+
+	//Testing overflow;
+  $errors = array();
+	$t =   date_mktime(0, 0, 0, 3, 33, 1965);
+	if (date_date('Y-m-d', $t) != '1965-04-02') $errors[] = 'day overflow 1 '.date_date('Y-m-d', $t);
+	$t =   date_mktime(0, 0, 0, 4, 33, 1971);
+	if (date_date('Y-m-d', $t) != '1971-05-03') $errors[] = 'day overflow 2 '.date_date('Y-m-d', $t);
+	$t =   date_mktime(0, 0, 0, 1, 60, 1965);
+	if (date_date('Y-m-d', $t) != '1965-03-01') $errors[] = 'day overflow 3 '.date_date('Y-m-d', $t);
+	$t =   date_mktime(0, 0, 0, 12, 32, 1965);
+	if (date_date('Y-m-d', $t) != '1966-01-01') $errors[] = 'day overflow 4 '.date_date('Y-m-d', $t);
+	$t =   date_mktime(0, 0, 0, 12, 63, 1965);
+	if (date_date('Y-m-d', $t) != '1966-02-01') $errors[] = 'day overflow 5 '.date_date('Y-m-d', $t);
+	$t =   date_mktime(0, 0, 0, 13, 3, 1965);
+	if (date_date('Y-m-d', $t) != '1966-01-03') $errors[] = 'mth overflow 1 '.date_date('Y-m-d', $t);
+  $this->assertEqual(sizeof($errors), 0, 'Testing day overflow to following month, '. sizeof($errors) .' failed');
+  //dsm($errors);
+  
+	//Testing 2-digit => 4-digit year conversion;
+	$errors = array();
+	if (date_year_digit_check(00) != 2000) $errors[] = "2-digit 2000";
+	if (date_year_digit_check(10) != 2010) $errors[] = "2-digit 2010";
+	if (date_year_digit_check(20) != 2020) $errors[] ="2-digit 2020";
+	if (date_year_digit_check(30) != 2030) $errors[] ="2-digit 2030";
+	if (date_year_digit_check(40) != 1940) $errors[] ="2-digit 1940";
+	if (date_year_digit_check(50) != 1950) $errors[] ="2-digit 1950";
+	if (date_year_digit_check(90) != 1990) $errors[] ="2-digit 1990";
+
+	$this->assertEqual(sizeof($errors), 0, "Testing 2-digit to 4 digit year conversions, ". sizeof($errors) .' failed');
+
+	// Test string formating
+	$fmt = '\d\a\t\e T Y-m-d H:i:s a A d D F g G h H i j l L m M n O \R\F\C822 r s t U w y Y z Z 2003';
+	$s1 = date($fmt, 0);
+	$s2 = date_date($fmt, 0);
+	$this->assertEqual($s1, $s2, "Comparing all format strings between date() and date_date() for a zero timestamp");
+	flush();
+  
+	// Test generation of dates outside 1901-2038
+	$errors = array();
+	$error = date_test_date(100, 1);
+	if (!empty($error)) $errors[] = $error;
+	for ($i = 100; --$i >= 0;) {
+		$y1 = 100+rand(0, 1970-100);
+		$m = rand(1, 12);
+		$error = date_test_date($y1, $m);
+    if (!empty($error)) $errors[] = $error;
+
+		$y1 = 3000-rand(0, 3000-1970);
+		$error = date_test_date($y1, $m);
+		if (!empty($error)) $errors[] = $error;
+
+	}
+	$passed = 201 - sizeof($errors);
+	$this->assertEqual(sizeof($errors), 0, 'Tested 201 random dates outside 1901-2038 between 100 and 4000, '. $passed .' passed, '. sizeof($errors) .' failed');
+
+	//dsm($errors);
+
+	$start = 1960+rand(0, 10);
+	$yrs = 12;
+	$i = 365.25*86400*($start-1970);
+	$offset = 36000+rand(10000, 60000);
+	$max = 365*$yrs*86400;
+	$lastyear = 0;
+
+	// we generate a timestamp, convert it to a date, and convert it back to a timestamp
+	// and check if the roundtrip broke the original timestamp value.
+	$cnt = 0;
+	$fail_roundtrip = 0;
+	for ($max += $i; $i < $max; $i += $offset) {
+		$ret = date_gmdate('m,d,Y,H,i,s', $i);
+		$arr = explode(',', $ret);
+		if ($lastyear != $arr[2]) {
+			$lastyear = $arr[2];
+			flush();
+		}
+		$newi =   date_mktime($arr[3], $arr[4], $arr[5], $arr[0], $arr[1], $arr[2], 'UTC');
+
+		if ($i != $newi) {
+		  $fail_roundtrip = 1;
+		  $except_roundtrip[] = "$i (". date_date('m,d,Y,H,i,s', $newi) ."), returned $newi ($ret)" .date_date('m,d,Y,H,i,s', $newi);
+		}
+		$cnt += 1;
+	}
+	$passed = $cnt - sizeof($except_roundtrip);
+	//print_r($except_roundtrip);
+	$this->assertEqual($fail_roundtrip, 0, "Tested ". number_format($cnt) ." random timestamps from ". $start ." to ".($start+$yrs) ." for roundtrip from timestamp to date and back, ". number_format($passed) ." passed, ". number_format(sizeof($except_roundtrip)) ." failed");
+
+  }
+}
+
+function date_test_date($y1, $m, $d = 13) {
+	$t =   date_gmmktime(0, 0, 0, $m, $d, $y1);
+	$rez = date_gmdate('Y-n-j H:i:s', $t);
+	$y1 = date_pad($y1, 4);
+	if ("$y1-$m-$d 00:00:00" != $rez) {
+		return "$y1 error, expected=$y1-$m-$d 00:00:00, date=$rez<";
+	}
+	return "";
+}

@@ -4,7 +4,6 @@
  WARNING: clear browser's cache after you modify this file.
  If you don't do this, you may notice that browser is ignoring all your changes.
 */
-
 /*
  Define as many toolbars as you need, you can change toolbar names
  DrupalBasic will be forced on some smaller textareas (if enabled)
@@ -111,3 +110,5 @@ FCKConfig.JustifyClasses = ['rteleft','rtecenter','rteright','rtejustify'] ;
 //Set to 'encode' if you want to obfuscate emails with javascript
 FCKConfig.EMailProtection = 'none' ;
 FCKConfig.SpellChecker = 'SpellerPages' ;
+FCKConfig.CleanWordKeepsStructure = true ;
+

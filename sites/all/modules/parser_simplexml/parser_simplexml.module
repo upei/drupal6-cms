@@ -99,6 +99,7 @@ function parser_simplexml_feedapi_after_refresh($feed) {
 		$node = node_load($item->nid);
 		db_query('DELETE FROM {node} WHERE nid = %d', $node->nid);
 		db_query('DELETE FROM {node_revisions} WHERE nid = %d', $node->nid);
+		db_query("DELETE FROM {url_alias} WHERE src IN ('node/%d', 'node/%d/feed')", $node->nid);
 
 		// Call the node-specific callback (if any):
 		node_invoke($node, 'delete');

@@ -16,7 +16,16 @@ function bucket_menu() {
 
   $menu['admin/build/bucket/updates'] = array (
     'title' => t('Bucket updates'),
+    'description' => t('Centrally update all buckets'),
     'page callback' => '_bucket_updates',
+    'access arguments' => array('administer bucket'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  
+  $menu['admin/build/bucket/bucket-names'] = array(
+    'title' => t('Bucket names'),
+    'description' => t('Bucket name controller'),
+    'page callback' => '_bucket_name_controller',
     'access arguments' => array('administer bucket'),
     'type' => MENU_NORMAL_ITEM
   );

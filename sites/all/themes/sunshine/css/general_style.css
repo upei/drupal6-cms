@@ -1,13 +1,18 @@
 body {
   margin: 0;
   padding: 0;
-  padding-top: 1px;
+  padding-top: 0;
   padding-bottom: 20px;
+  background: url(../images/frontback.gif) repeat-x center top;
 }
 
 /* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
 /* vertical-align: middle --> vertical-align: top */
 /* This moves the 'inside banner menu' to the top right corner of the banner */
+
+#headerstyle {
+background: url(../images/frontback.gif) repeat-x center top;
+}
 
 #menu {
   padding: 0 0.5em 0 0.5em;
@@ -67,7 +72,7 @@ img {
 }
 #footer-message img{padding:0px; margin:0px;}
 .view img {margin-left:0px;}
-
+.bannerimg img {margin-left:0px;}
 /*
 Remmed out to allow h1.title on sub-theme style sheets
 h1.title

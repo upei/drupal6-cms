@@ -1,20 +1,18 @@
 <?php include 'mods/doctype.php'; ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:u="http://upei.ca/xml/extensions" lang="<?php print $language->language ?>" xml:lang="<?php print $language->language ?>">
 <head>
-  <title><?= $_SERVER['REQUEST_URI']=='/home/' ? "University of Prince Edward Island" : $head_title ?></title>
+  <title><?= $_SERVER['REQUEST_URI']=='/home/' ? "University of Prince Edward Island" : $head_title . " | University of Prince Edward Island" ?></title>
   <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
   
   <?php print $head ?>
   <?php print $scripts ?>
   <?php print $styles ?>
-<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_style.css";</style>
+<style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/general_style.css");</style>
 <?php /* includes the sub-banner code */ include 'mods/subbanners.php'; ?>
-<style type="text/css">@import "/css/sunshine.css";</style>
+<style type="text/css">@import url("/css/sunshine.css");</style>
 <?php print _import_override_css_files(); ?>
 <script type="text/javascript" src="/misc/swfobject.js"></script>
 
-
-  
   <script type="text/javascript"><?php /* Needed to avoid Flash of Unstyle Content in IE */ ?> </script>
   <?php if (theme_get_setting('sunshine_width')) { ?>
     <style type="text/css">
@@ -110,50 +108,33 @@
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
 <!-- Added January 22nd 2009 by shawn to add the new full cross section to the top of the page-->
+<div style="text-align:right;width:1000px;margin:5px auto;padding:0px 0px 0px 6px;">
+			<ul class="links-menu links" id="navlist">
+			<!--<li class=" first"><a href="http://www.upei.ca">UPEI Home</a></li>-->
+			<li class=""><a href="http://www.upei.ca/futurestudents">Future Students</a></li>
+			<li class=""><a href="http://www.upei.ca/currentstudents">Current Students</a></li>
+			<li class=""><a href="http://www.upei.ca/alumni">Alumni &amp; Friends</a></li>
+			<li class=""><a href="http://www.upei.ca/futurestudents/parentsandfamily">Parents &amp; Family</a></li>
+			<li class=""><a href="http://www.upei.ca/staff_faculty">Staff &amp; Faculty</a></li>
+			<li class=" last"><a href="http://www.upei.ca/home/contactpage">Contacts</a></li>
+			</ul>
+	</div>
+<div id="headerstyle">
 <div style="width:100%;height:52px;">
 	<div style="width:1000px;margin:5px auto;">
-	<a href="/home"><img style="float:left;margin-left:10px;margin-top:2px;" src="/banner/other/UPEI-Horizontal-Logo_200.jpg" alt="UPEI Logo" /></a>
-	<div style="float:right;padding:0px 0px 0px 6px;">
-	
-	<ul class="links-menu links" id="navlist">
-<!--<li class=" first"><a href="http://www.upei.ca">UPEI Home</a></li>-->
-<li class=""><a href="http://www.upei.ca/futurestudents">Future Students</a></li>
-<li class=""><a href="http://www.upei.ca/currentstudents">Current Students</a></li>
-<li class=""><a href="http://www.upei.ca/alumni">Alumni &amp; Friends</a></li>
-<li class=""><a href="http://www.upei.ca/futurestudents/parentsandfamily">Parents &amp; Family</a></li>
-<li class=""><a href="http://www.upei.ca/staff_faculty">Staff &amp; Faculty</a></li>
-<li class=" last"><a href="http://www.upei.ca/home/contactpage">Contacts</a></li>
-</ul>     
+		<div id="bannerimg">
+			<a href="/home"><img style="float:left;margin-left:10px;margin-top:2px;" src="/banner/other/UPEI-Horizontal-Logo_200.jpg" alt="UPEI Logo" /></a>
+		</div>
+		
+		<div class="googlesearcharea">
+			<?php include "mods/google.php";?>
+		</div>
+			<?php if (_get_bucket()!='homey'):?><h1 class="site-title"><a href="<?=base_path()?>"><?=strtoupper(variable_get('site_name', ''))?></a></h1><? endif; ?>
 	</div>
-	
-<div style="margin-top:5px;width:706px;float:right;border:0px solid #cccccc;">
-<?php include "mods/google.php";?>
-
-<!--
-<script language="javascript">
-function ExecuteQuickLink(){
-	window.location.href = document.frmQuickLinks.sltURL.value;
-}
-</script>
-<form style="float:left;font-size:1.1em;margin:2px 0px 0px 0px;" name="frmQuickLinks">
-<select name="sltURL" onchange="ExecuteQuickLink();">
-	<option value="http://upei.ca/home"> - Campus Links - </option>
-	<option value="https://secure.upei.ca/cls/dropbox/SpringTime.html">Second Semester 2008-09 Timetable</option>
-	<option value="http://welcome.upei.ca/news/">News &amp; Events</option>
-	<option value="http://upei.ca/staff_faculty/search">Search Faculty &amp; Staff</option>
-	<option value="http://www.upei.ca/registrar/">Registrar's Office</option>
-	<option value="http://www.upei.ca/futurestudents/tuition">Tuition</option>
-	<option value="http://www.upei.ca/bookstore">Bookstore</option>
-	<option value="http://www.upei.ca/residence">Residences</option>
-	<option value="http://cms.upei.ca/home/research_institutes_and_centres">Institutes &amp; Centres</option>
-	<option value="http://cms.upei.ca/home/safety">Campus Safety</option>
-</select>
-</form>
--->
-</div>
-</div>
-</div>
+	<div style="clear:both;"></div>
+</div></div>
 <!-- End Top Section-->
+
 <?
 if (_get_bucket() == 'home') {
   include ('site-includes/home.tpl.php');

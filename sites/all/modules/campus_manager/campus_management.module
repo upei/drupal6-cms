@@ -6,36 +6,55 @@
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@		 First list all the hooks used in this module		@@@@@@@@@@@@@
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+require_once (dirname(__FILE__) . '/management_support.inc');
+
+class SiteLocalSearchBlock extends DrupalBlockBase {
+  
+  function __construct() {
+    parent::__construct(
+      t('Site Local Search'),
+      "0",
+      'sidebar_right',
+      0
+      );
+  }
+  
+  function view() {
+    $s = array();
+    $bucket = _get_bucket();
+    $s['content'] = <<<END
+<script type="text/javascript">
+function LocalSearchFormSubmit() {
+  if (!document.forms['LocalSearchForm'].q.value.match(/site:/g)) {
+    document.forms['LocalSearchForm'].q.value = document.forms['LocalSearchForm'].q.value + ' site:www.upei.ca/$bucket';
+  }
+  return true;
+}
+</script>
+<form name="LocalSearchForm" method="get" target="FlyFrame" action="http://websearch.cs.upei.ca/search" onsubmit="return LocalSearchFormSubmit();">
+  <input type="text" name="q" size="20" maxlength="256" value="" /><br/>
+  <input type="submit" name="btnG" value="Search This Site" />
+</form>
+END;
+    return $s;
+  }
+}
 
 // listing of blocks
 // These are an initiations and not an override. 
 // The blocks will be created ready to go, but once
 // changed in drupal, will not hold their values.
-function campus_management_block($op='list', $delta=0) {
+function campus_management_block($op='list', $delta='default', $edit = array()) {
   //Prepare variables to use throughout the block function
-  $site = explode("/", request_uri()); //Get the Bucket Name
-  $path = drupal_get_path('module', 'campus_management'); //get the modules path
-
-  if ($op == "list") {
-	
-    $block[0]["info"] = t('Website Maintenance');
-    
-    return $block;
-    
-  } else if ($op == 'view') {
-
-    switch ($delta) {
-
-      case 0:
-        // $block['subject'] = "WEBSITE MAINTENANCE";
-        // $block['content'] = "<div style=\"padding:10px;background-color:#6C1C00;color:#ffffff;\">We are currently doing maintenance on your website. Sorry for any Inconvenience</div>";
-
-    	break;
-    }
-    return $block;
-    drupal_load('module', 'block');
+  DrupalBlockBase::register('default', new SiteLocalSearchBlock());
+  switch($op) {
+    case 'list':
+      return DrupalBlockBase::listBlocks();
+    case 'view':
+    case 'configure':
+    case 'save':
+      return DrupalBlockBase::dispatch($delta, $op, $edit);
   }
-  
 }
 // End Hook_BLOCK()**********************************************************
 
@@ -63,7 +82,9 @@ function campus_management_menu() {
   $items['campus_management/menu'] = array(
     'title' => t('Menus'),
     'description' => "Control your site's navigation menu, primary links and secondary links. as well as rename and reorganize menu items.",
-    'page callback' => '_campus_management_menu_overview_page',
+    'file' => 'menu.admin.inc',
+    'file path' => drupal_get_path('module', 'menu'),
+    'page callback' => 'menu_overview_page',
     'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
   );
@@ -227,3 +248,18 @@ function _campus_management_content_view() {
 //******************************************************************************
 
 
+function campus_management_init($main = 0) {
+  drupal_add_js('misc/jquery.flash.min.js', 'module', 'header', false, true);
+  drupal_add_js('misc/sifr/jquery.sifr.min.js', 'module', 'header', false, true);
+  $javascript = <<<END
+  $(function () {
+    $('.site-title').sifr({
+      offsetTop: 3,
+      textColor: '#7A2424',
+      font:'minionpro',
+      path:'/misc/sifr'
+    });
+  });
+END;
+  drupal_add_js($javascript, 'inline', 'header', false, false);
+}

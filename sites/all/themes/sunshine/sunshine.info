@@ -5,6 +5,8 @@ engine = phptemplate
 
 regions[sidebar_left] = Left Sidebar
 regions[sidebar_right] = Right Sidebar
+regions[sidebar_inner_left] = Inner Left Sidebar
+regions[sidebar_inner_right] = Inner Right Sidebar
 regions[header] = Header
 regions[suckerfish] = Suckerfish Menu
 regions[content_top] = Content Top

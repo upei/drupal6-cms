@@ -8,7 +8,6 @@
     <div id="middlecontainer">
 <!-- dave did this and he's very sorry--> 
 
-
 <?php //include "mods/google.php";?>
 <?php include 'left-sidebar.php'; ?>
      <div id="main">
@@ -59,7 +58,19 @@
         <div style="clear:both"></div>
       </div><!-- /section1 -->
 <?php endif; ?>
-<?php print $content; ?>			 
+<?php if ($sidebar_inner_left): ?>
+<div id="sidebar-inner-left">
+  <? print $sidebar_inner_left; ?>
+</div>
+<?php endif; ?>
+<?php if ($sidebar_inner_right): ?>
+<div id="sidebar-inner-right">
+  <? print $sidebar_inner_right; ?>
+</div>
+<?php endif; ?>
+<div id="real-content" class="<? if ($sidebar_inner_left && $sidebar_inner_right) { print 'narrow'; } else if ( $sidebar_inner_left || $sidebar_inner_right) { print 'normal'; } else { print 'wide'; }?>">
+<?php print $content; ?>
+</div>
               <?php print $feed_icons; ?>
               
 			  <?php
