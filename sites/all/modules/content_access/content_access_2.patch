@@ -1,0 +1,20 @@
+--- content_access.admin.inc.orig	2009-02-26 19:43:45.943030200 +0000
++++ content_access.admin.inc	2009-02-26 19:44:20.993032871 +0000
+@@ -68,7 +68,7 @@
+   $node = $form_state['node'];
+   foreach (_content_access_get_operations() as $op) {
+     // Set the settings so that further calls will return this settings.
+-    $settings[$op] = array_filter($form_state['values'][$op]);
++    $settings[$op] = array_keys(array_filter($form_state['values'][$op]));
+   }
+   // Save per-node settings.
+   content_access_save_per_node_settings($node, $settings);
+@@ -156,7 +156,7 @@
+   foreach (content_access_available_settings() as $setting) {
+     unset($settings[$setting][$form_state['type']]);
+     if (isset($form_state['values'][$setting])) {
+-      $settings[$setting][$form_state['type']] = is_array($form_state['values'][$setting]) ? array_filter($form_state['values'][$setting]) : $form_state['values'][$setting];
++      $settings[$setting][$form_state['type']] = is_array($form_state['values'][$setting]) ? array_keys(array_filter($form_state['values'][$setting])) : $form_state['values'][$setting];
+     }
+   }
+   content_access_set_settings($settings);
