@@ -1,9 +1,8 @@
 <?php include 'mods/doctype.php'; ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:u="http://upei.ca/xml/extensions" lang="<?php print $language->language ?>" xml:lang="<?php print $language->language ?>">
 <head>
-  <title><?= $_SERVER['REQUEST_URI']=='/home/' ? "University of Prince Edward Island" : $head_title . " | University of Prince Edward Island" ?></title>
+  <title><?= $_SERVER['REQUEST_URI']=='/home/' ? "University of Prince Edward Island" : variable_get('site_name', '') . ' ' . variable_get('site_slogan', '') . " | University of Prince Edward Island" ?></title>
   <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
-  
   <?php print $head ?>
   <?php print $scripts ?>
   <?php print $styles ?>

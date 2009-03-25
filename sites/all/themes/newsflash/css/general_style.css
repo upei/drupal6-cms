@@ -393,3 +393,16 @@ border-bottom: 1px solid #ccc;
 font-style: italic;
 font-size: 85%;
 }
+
+/* The next 2 styles are used to create a tab like section using divs. First used on athletics for Summercamps - S.A. March 2009*/
+#tabcontainer{margin:0px padding:0px;border-bottom:1px solid #e8e8e8;}
+.inlinemenu{position:relative;top:0px;display:inline;padding:1px 10px 1px 10px;background-color:#e8e8e8;margin:3px;
+  border-top:1px solid #e8e8e8;
+  border-left:1px solid #e8e8e8;
+  border-right:1px solid #e8e8e8;
+  }
+.inlinemenua{position:relative;top:0px;display:inline;padding:1px 10px 1px 10px;background-color:#ffffff;margin:3px;
+  border-top:1px solid #e8e8e8;
+  border-left:1px solid #e8e8e8;
+  border-right:1px solid #e8e8e8;
+}
