@@ -99,38 +99,11 @@
 <?php if ($content_bottom): ?>
                 <div id="content-bottom"><?php print $content_bottom; ?></div>
               <?php endif; ?>
-          			  <?php
-                $section3count = 6;
-                // if ($user4)  { $section2count++; }
-                // if ($user5)  { $section2count++; }
-                // if ($user6)  { $section2count++; }
-              ?>
-              <?php if ($section3count): ?>
-                <?php $section3width = 'width' . floor(99 / $section3count); ?>
                 <div class="clear-block clr" id="links-section">
                   <div class="sections">
-                    <?php if ($links1): ?>
-                      <div class="section links1-<?php echo $section3width ?>"><?php print $links1; ?></div>
-                    <?php endif; ?>
-                    <?php if ($links2): ?>
-                      <div class="section links2-<?php echo $section3width ?>"><?php print $links2; ?></div>
-                    <?php endif; ?>
-                    <?php if ($links3): ?>
-                      <div class="section links3-<?php echo $section3width ?>"><?php print $links3; ?></div>
-                    <?php endif; ?>
-                    <?php if ($links4): ?>
-                      <div class="section links4-<?php echo $section3width ?>"><?php print $links4; ?></div>
-                    <?php endif; ?>
-                    <?php if ($links5): ?>
-                      <div class="section links5-<?php echo $section3width ?>"><?php print $links5; ?></div>
-                    <?php endif; ?>
-                    <?php if ($links6): ?>
-                      <div class="section links6-<?php echo $section3width ?>"><?php print $links6; ?></div>
-                    <?php endif; ?>
-                  </div>
+                    <?php include 'bottom-links.php'; ?>
                   <div style="clear:both"></div>
-                </div><!-- /section2 -->
-              <?php endif; ?>
+                </div><!-- /bottom links -->
             </div><!-- /inner-content -->
           </div><!-- /squeeze-content -->
         </div><!-- /squeeze -->

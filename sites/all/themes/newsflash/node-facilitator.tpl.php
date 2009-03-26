@@ -17,7 +17,32 @@
 	echo "<p>" . $node->body ."</p>";
 	// This will show the list of courses taught by that facilitator.
 	echo "<h3>ProfitLearn PEI Workshops that ". $node->title ." delivers:</h3><ul>";
-	$sSQL = "SELECT * FROM {content_field_facilitator} WHERE field_facilitator_nid = ". $node->nid;
+  echo "<ul>";
+ 
+    $sSQL = "SELECT * FROM {node} WHERE type = 'course'";
+    $all_courses =  db_query($sSQL);
+
+    while($anode = db_fetch_object($all_courses)){
+        $node_object = node_load($anode->nid);
+        $myArray = $node_object->field_facilitator;
+        $count = 0;
+        foreach($myArray as $value){
+          if($node->nid == $node_object->field_facilitator[$count][nid]){
+            echo "<li>" . $node_object->title . "</li>";
+          }
+          $count++;
+        }
+
+    }
+  echo "</ul>";
+
+    
+    
+
+
+    //if (in_array()){}
+ /* 
+	$sSQL = "SELECT * FROM {content_field_facilitator} WHERE field_facilitator_nid = ". $node->vid;
 	$ci = db_query($sSQL);
 	
 	while($anode = db_fetch_object($ci)){
@@ -25,7 +50,7 @@
 		echo "<li>" . $node_object->title . "</li>";
 		//db_query("INSERT INTO {blocks_roles} (module, delta, rid)VALUES('%s', '%s', %d)", $block_module, $menu->mid, $roles->rid);
 	}
-	
+	*/
 	echo "</ul>";
   ?>
   </div>

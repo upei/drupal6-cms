@@ -8,7 +8,7 @@
   <?php }; ?>
 
   <?php if ($terms) { ?>
-    <span class="submitted"><?php print $submitted?></span> <span class="taxonomy"><?php print $terms?></span>
+    <span class="submitted"><?php print $submitted?></span> <!--<span class="taxonomy"><?php print $terms?></span>-->
   <?php }; ?>
 <!--<h2 class="title"><?php print $title?></h2>-->
 <span class="medianode">Posted on <?php print date('j F Y', $node->created);?></span>

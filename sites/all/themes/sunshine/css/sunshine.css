@@ -141,6 +141,7 @@ h1.title
 .links4-width16 { width: 160px; }
 .links5-width16 { width: 160px; }
 .links6-width16 { width: 160px; }
+.bottom-links { width: 160px; }
 
 /* sunshine sections for second.tpl.php */
 #section1 .section { overflow: hidden; padding-bottom: 10px; }
