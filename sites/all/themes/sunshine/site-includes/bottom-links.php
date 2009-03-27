@@ -1,6 +1,6 @@
-    <div class="section bottom-links"><?php print $links1; ?></div>
-    <div class="section bottom-links"><?php print $links2; ?></div>
-    <div class="section bottom-links"><?php print $links3; ?></div>
+    <div class="section bottom-links"><?php print $links1; ?>&nbsp;</div>
+    <div class="section bottom-links"><?php print $links2; ?>&nbsp;</div>
+    <div class="section bottom-links"><?php print $links3; ?>&nbsp;</div>
     <div class="section bottom-links">
        <h2 class="title">Quick UPEI Links</h2>
        

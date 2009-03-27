@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_mapper.module,v 1.1.2.7.2.13 2009/01/06 16:49:21 alexb Exp $
+// $Id: feedapi_mapper.module,v 1.1.2.7.2.22 2009/03/26 15:22:18 alexb Exp $
 
 /**
  * Implementation of hook_help().
@@ -23,8 +23,8 @@ function feedapi_mapper_menu() {
     'page callback' => 'feedapi_mapper_page',
     'page arguments' => array(1),
     'type' => MENU_LOCAL_TASK,
-    'access callback' => 'user_access',
-    'access arguments' => array('administer feedapi'),
+    'access callback' => 'feedapi_mapper_access_mapper',
+    'access arguments' => array(1),
   );
   foreach (node_get_types() as $type) {
     $type_url_str = str_replace('_', '-', $type->type);
@@ -89,15 +89,25 @@ function theme_feedapi_mapper_descriptions($descriptions) {
  * Determine whether current user can map on a given content type.
  * Primarily used as menu acess callback. @see feedapi_mapper_menu()
  * 
- * @param $node_type
- *   String that defines a content type.
+ * @param $node
+ *   String that defines a content type or node object.
  * @return 
  *   TRUE if current user can map feed elements AND content type is feed enabled.
  *   FALSE otherwise.
  */
-function feedapi_mapper_access_mapper($node_type) {
+function feedapi_mapper_access_mapper($node) {
   if (user_access('administer feedapi')) {
-    $settings = feedapi_get_settings(str_replace('-', '_', $node_type));
+    if (is_string($node)) {
+      // String comes from directly from path, substitute - with _.
+      $node_type = str_replace('-', '_', $node);
+    }
+    elseif (is_string($node->type)) {
+      $node_type = $node->type;
+    }
+    else {
+      return FALSE;
+    }
+    $settings = feedapi_get_settings($node_type);
     if (!empty($settings['processors']['feedapi_node']['enabled'])) {
       return TRUE;
     }
@@ -155,7 +165,7 @@ function feedapi_mapper_page($node) {
     $node->type = str_replace('-', '_', $node_type);
   }
   $names = node_get_types('names');
-  drupal_set_title($node->title ? $node->title : $names[$node->type]);
+  drupal_set_title(check_plain($node->title ? $node->title : $names[$node->type]));
   $output = t('Map feed item elements to feed item node fields.');
   $output .= drupal_get_form('feedapi_mapper_form', $node);
   return $output;
@@ -174,7 +184,7 @@ function feedapi_mapper_form($form_state, $node) {
   }
   $feed_item_type = $settings['processors']['feedapi_node']['content_type'];
   $field_mappers = _feedapi_mapper_get_field_mappers($feed_item_type);
-
+  
   // Get elements of feed items.
   if ($merged_item = _feedapi_mapper_get_items_merged($node)) {
     $merged_item = _feedapi_mapper_simplify_raw($merged_item, $node->feed->parsers);
@@ -378,14 +388,28 @@ function _feedapi_mapper_get_items_merged($node) {
  * Sister function of _feedapi_mapper_get_feed_elements().
  * Returns array in same format. Only difference: does not take
  * a real feed that it analyzes, but returns some standard elements.
- * @todo: probably create hook for extending modules.
+ * 
+ * Implement hook_feedapi_mapper_elements() to add custom standard
+ * elements.
+ * 
  * @return: Array in the format array('pathname' => 'serializedpath')
  */
 function _feedapi_mapper_get_standard_elements() {
+  $paths = array();
   $paths[] = array('options', 'original_author', 'name');
   $paths[] = array('options', 'original_author', 'picture');
   $paths[] = array('options', 'original_author');
   $paths[] = array('options', 'tags');
+  // hook_feedapi_mapper_elements() - allow other modules to add paths.
+  // These should be in the exact same format as the paths above, i.e.:
+  // array(array('foo', 'bar'), array('fnargle', 'bargle'),);
+  foreach (module_implements('feedapi_mapper_elements') as $module) {
+    $result = call_user_func($module .'_feedapi_mapper_elements');
+    if (is_array($result)) {
+      $paths = array_merge($paths, $result);
+    }
+  }
+
   foreach ($paths as $path) {
     $elements[implode('->', $path)] = serialize($path);
   }
@@ -486,6 +510,7 @@ function _feedapi_mapper_truncate_array($array) {
  * Argument 1 always has to be an array.
  */
 function _feedapi_mapper_array_merge_recursive($array1, $array2) {
+  $result = NULL;
   foreach ($array1 as $k => $v) {
     if (is_array($array1[$k])) {
       $result[$k] = _feedapi_mapper_array_merge_recursive($array1[$k], isset($array2[$k]) ? $array2[$k] : NULL);
@@ -608,8 +633,14 @@ function _feedapi_mapper_get_field_names($node_type) {
     $node = (array)$form['#node'];
     $node['taxonomy'] = array();
     $fields = array_merge($form, $node);
-
     $field_names[$node_type] = _feedapi_mapper_extract_names($fields);
+    
+    // Make sure CCK fields in unexpected locations get added.
+    if (function_exists('content_types')) {
+      $node_fields = content_types($node_type);
+      $cck_fields = array_keys($node_fields['fields']);
+      $field_names[$node_type] = array_merge($field_names[$node_type], $cck_fields);
+    }
     sort($field_names[$node_type]);
   }
   return $field_names[$node_type];
@@ -622,8 +653,10 @@ function _feedapi_mapper_extract_names($fields) {
   $names = array();
   foreach ($fields as $k => $v ) {
     if (strpos($k, '#') === FALSE) {
-      if ($v['#type'] == 'fieldset') {
-        $names = array_merge($names, _feedapi_mapper_extract_names($v));
+      if (isset($v['#type'])) {
+        if ($v['#type'] == 'fieldset') {
+          $names = array_merge($names, _feedapi_mapper_extract_names($v));
+        }
       }
       else {
         $names[] = $k;
