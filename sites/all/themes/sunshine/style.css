@@ -6,11 +6,12 @@ body {
   min-width: 750px;      
   padding-top: 20px;
   padding-bottom: 20px;
+  font-family : Arial, Verdana, sans-serif;
 }
 
 #page {
    margin: 0 auto;
-   width: 95%;
+   width: 1000px;
    background:#fff;   
    padding: 3px;
 }
@@ -46,35 +47,35 @@ width:100%;
 }
 
 body.sidebar-left #main {
-	margin-left: -210px;
 	margin-right: 0;
+	margin-left: -1px;
 }
 
 body.sidebar-right #main {
-	margin-right: -210px;
+	margin-right: -1px;
 	margin-left: 0;
 }
 
 body.sidebars #main {
-	margin-left: -210px;
-	margin-right: -210px;
+	margin-right: -1px;
+	margin-left: -1px;
 }
 
 body.sidebar-left #squeeze {
-	margin-left: 210px;
+	margin-left: 1px;
 	margin-right: 0;
 	padding-left: 4px;
 }
 
 body.sidebar-right #squeeze {
-	margin-right: 210px;
+	margin-right: 1px;
 	margin-left: 0;
 	padding-right: 4px;
 }
 
 body.sidebars #squeeze {
-	margin-left: 210px;
-	margin-right: 210px;
+	margin-left: 1px;
+	margin-right: 1px;
 	padding: 0 4px;
 }
 

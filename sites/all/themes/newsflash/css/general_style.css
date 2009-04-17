@@ -292,10 +292,11 @@ border-bottom: 1px solid #ccc;
 /**********************************/
 #primarymenu{padding-top:0px;}
 
-.view-faculty .views-field-title, .view-Faculty .views-field-title , .view-staff .views-field-title {border-bottom:1px solid #cccccc;margin-bottom:10px;}
+.view-faculty .views-field-title, .view-Faculty .views-field-title , .view-staff .views-field-title 
+{border-bottom:1px solid #cccccc;padding-bottom:10px;}
 .view-faculty .views-field-title a, .view-Faculty .views-field-title a, .view-staff .views-field-title a
-{margin-bottom:5px;padding:3px;font-size:16px;border-bottom:1px solid #aaa;font-weight:bold;text-decoration:underline;}
-
+{margin-bottom:0px;padding:3px;font-size:16px;border-bottom:0px solid #aaa;font-weight:bold;text-decoration:underline;}
+.view-faculty .imagefield-field_faculty_photo{margin-top:3px;}
 
 
 .view-faculty .views-field-teaser, .view-Faculty .views-field-teaser, .view-staff .views-field-teaser

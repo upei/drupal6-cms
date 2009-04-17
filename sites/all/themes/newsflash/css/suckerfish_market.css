@@ -9,6 +9,7 @@ http://www.alistapart.com/articles/horizdropdowns
 #suckerfishmenu	.block {
   margin-bottom: 0;
   padding-bottom: 0;
+  background-color:#6c1c00;
 }
 #suckerfishmenu	.block, #suckerfishmenu	.box {
   padding: 0;

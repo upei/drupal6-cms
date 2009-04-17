@@ -21,14 +21,14 @@
  
     $sSQL = "SELECT * FROM {node} WHERE type = 'course'";
     $all_courses =  db_query($sSQL);
-
+    $site = explode("/", request_uri() );
     while($anode = db_fetch_object($all_courses)){
         $node_object = node_load($anode->nid);
         $myArray = $node_object->field_facilitator;
         $count = 0;
         foreach($myArray as $value){
           if($node->nid == $node_object->field_facilitator[$count][nid]){
-            echo "<li>" . $node_object->title . "</li>";
+            echo "<li><a href=\"/" . $site[1] ."/node/" . $node_object->nid  . "\">" . $node_object->title . "</a></li>";
           }
           $count++;
         }

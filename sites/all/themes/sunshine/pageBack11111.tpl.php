@@ -9,32 +9,27 @@
 <style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/general_style.css");</style>
 <style type="text/css">@import url("/css/sunshine.css");</style>
 <?php print _import_override_css_files(); ?>
-<script type="text/javascript" src="/misc/swfobject.js"></script>
-<script type="text/javascript"><?php /* Needed to avoid Flash of Unstyle Content in IE */ ?> </script>
-<!--[if lte IE 6]>
-<script type="text/javascript"> 
-    $(document).ready(function(){ 
-        $(document).pngFix(); 
-    }); 
-</script> 
-<![endif]-->
+
+<?php include "site-includes/page-setup-scripts.php";?>
 
 <!--[if IE]>
 <style type="text/css" media="all">@import "<?php print base_path() . path_to_theme() ?>/css/ie.css";</style>
 <![endif]-->
-<style type="text/css">@import url('/misc/ui-theme/ui.generated.css');</style>
+
+    <style type="text/css">@import url('/misc/ui-theme/ui.generated.css');</style>
 <?php if ($suckerfish) { ?>
     <?php if (theme_get_setting('sunshine_suckerfish')) { ?>
 <!--[if lte IE 6]>
 <script type="text/javascript" src="<?php print $GLOBALS['base_url']."/"; print $directory; ?>/js/suckerfish.js"></script>
 <![endif]-->
-	<?php }  ?>
-<?php } ?>
+    <?php }  ?>
+  <?php } ?>
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
 
 <?php include "site-includes/00-primarynav.php"; ?>
 <?php include "site-includes/01-topsection.php"; ?>
+
 <?
 	if (_get_bucket() == 'home') {
 		include ('site-includes/02-home.tpl.php');
@@ -53,5 +48,8 @@
 	} 
 	include ('site-includes/04-quantcast.php');
 ?>
+
+
+
 </body>
 </html>

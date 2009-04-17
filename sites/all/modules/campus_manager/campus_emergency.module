@@ -419,9 +419,10 @@ class CampusEmergencyNode {
   
   // this is the last resort to retract from STUPIDITY
   static function unpublishAllMessages() {
+    global $wi_cache;
     $sql = "UPDATE {node} SET status=0 WHERE type='%s' AND status=1";
     db_query($sql, CampusEmergencyNode::$TYPE);
-    $this->cache->invalidate(CampusEmergencyNode::$TYPE);
+    $wi_cache->invalidate(CampusEmergencyNode::$TYPE);
   }
   
   function form() {

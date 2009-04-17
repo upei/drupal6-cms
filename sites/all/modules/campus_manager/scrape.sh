@@ -107,7 +107,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 		# we need to go upstairs, but only direct links. old pages are not removed.
 		httrack -* http://${source_site}/$1/$2 \
 		  +${source_site}/$1/$2* \
-			$HTTRACK_OPTIONS -r2 -X0 \
+			$HTTRACK_OPTIONS -r3 -X0 \
 			+*.jpg +*.png +*.gif +*.js +*.css
 	fi
 

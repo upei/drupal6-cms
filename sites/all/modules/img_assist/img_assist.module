@@ -372,7 +372,7 @@ function img_assist_admin_settings() {
     '#type' => 'select',
     '#title' => t('Default link behavior'),
     '#default_value' => variable_get('img_assist_default_link_behavior', 'none'),
-    '#options' => array('none' => t('Not a link'), 'node' => t('Link to image page'), 'popup' => t('Open in popup window'), 'url' => t('Go to URL')),
+    '#options' => array('none' => t('Not a link'), 'node' => t('Link to image page'), /*'popup' => t('Open in popup window'), */'url' => t('Go to URL')),
     '#description' => t('The link behavior can be overridden when inserting images by users with the proper permissions, but these defaults will still be used for everyone else.'),
   );
   $form['properties']['img_assist_default_link_url'] = array(
@@ -1050,7 +1050,7 @@ function img_assist_properties_form($form_state, $node, $update) {
       '#type' => 'select',
       '#title' => t('Link'),
       '#default_value' => variable_get('img_assist_default_link_behavior', 'none'),
-      '#options' => array('none' => t('Not a link'), 'node' => t('Link to image page'), 'popup' => t('Open in popup window'), 'url' => t('Go to URL')),
+      '#options' => array('none' => t('Not a link'), 'node' => t('Link to image page'), /*'popup' => t('Open in popup window'), */'url' => t('Go to URL')),
       '#attributes' => array('onchange' => 'parent.onChangeLink()'),
     );
     $form['url'] = array(
