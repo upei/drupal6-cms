@@ -917,7 +917,7 @@ function user_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'user.pages.inc',
   );
-
+/*
   $items['user/password'] = array(
     'title' => 'Request new password',
     'page callback' => 'drupal_get_form',
@@ -926,6 +926,7 @@ function user_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'user.pages.inc',
   );
+  */
   $items['user/reset/%/%/%'] = array(
     'title' => 'Reset password',
     'page callback' => 'drupal_get_form',

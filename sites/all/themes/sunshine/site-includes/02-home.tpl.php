@@ -29,7 +29,7 @@
 
 <?
 	$aURI = explode("/", request_uri());
-	if($aURI[1] == "home" && !$aURI[2]){$DisplayTitle = "<a style=\"font-weight:normal;color:#666666;text-decoration:underline;\" href=\"http://www.upei.ca/news\">". $title ."</a>";}else{$DisplayTitle = $title;}
+	if($aURI[1] == "home" && !$aURI[2]){$DisplayTitle = "<a class=\"homenewstitle\" href=\"http://www.upei.ca/news\">". $title ."</a>";}else{$DisplayTitle = $title;}
 ?>		  
 <h1 class="title"><?php print $DisplayTitle ?></h1>
               

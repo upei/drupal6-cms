@@ -3,6 +3,10 @@ body {
   background-color: #8596AA;
 }
 
+/* default button styles */
+input[type="submit"] { background-image: url("/misc/i/buttonback25.png"); background-repeat: repeat-x; border: 1px outset #ccc; padding-left: 15px; padding-right: 15px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; overflow: visible;}
+
+input[type="submit"]:active { border-style: inset; background-image: url("/misc/i/buttonbackactive25.png"); }
 
 .googlesearcharea{margin-top:14px;width:350px;float:right;border:0px solid #cccccc;}
 

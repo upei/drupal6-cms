@@ -64,7 +64,7 @@ body.sidebars #main {
 body.sidebar-left #squeeze {
 	margin-left: 1px;
 	margin-right: 0;
-	padding-left: 4px;
+	padding-left: 0;
 }
 
 body.sidebar-right #squeeze {

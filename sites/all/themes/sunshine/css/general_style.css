@@ -449,5 +449,16 @@ padding: 0px;
 
 .v-id, .v-default, .v-image, .v-title, .v-description { display: none; }
 
-
+/*styles for the buttons links at the top of the page*/
+.view-buttons img{margin:0px;padding:0px;float:left;}
+.view-buttons .views-field-field-buttonimage-fid{float:left;margin-right:5px;}
+.view-buttons .views-field-field-buttonlink-url{text-decoration:underline;font-size:0.8em;font-weight:bold;margin-top:5px;}
+.view-buttons .views-row-odd,.view-buttons .views-row-even{
+    padding:5px;
+    margin:5px 1px 0px 4px;
+    float:left;
+    display:inline;
+    width:115px;
+    background-image: url(/css/images/buttonback.png)
+ }
 
