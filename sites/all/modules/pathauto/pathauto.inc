@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto.inc,v 1.50 2008/08/26 04:55:19 freso Exp $
+// $Id: pathauto.inc,v 1.51 2009/03/21 00:24:28 freso Exp $
 
 /**
  * @file
@@ -119,7 +119,7 @@ function _pathauto_alias_exists($alias, $src, $language = '') {
   $alias_pid = db_result(db_query_range("SELECT pid FROM {url_alias} WHERE dst = '%s' AND src <> '%s' AND language = '%s'", array($alias, $src, $language), 0, 1));
   if (function_exists('path_redirect_delete')) {
     // Delete from path_redirect the exact same alias to the same node.
-    path_redirect_delete($alias, $src);
+    path_redirect_delete(array('path' => $alias, 'redirect' => $src));
 
     // If there still is this alias used in path_redirect, then create a different alias
     $redirect_rid = db_result(db_query_range("SELECT rid FROM {path_redirect} WHERE path = '%s'", $alias, 0, 1));
@@ -444,11 +444,11 @@ function _pathauto_set_alias($src, $dst, $entity_type, $entity_id, $pid = NULL, 
     if (variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE) == PATHAUTO_UPDATE_ACTION_REDIRECT
         && function_exists('path_redirect_save')) {
       if (!empty($old_alias)) {
-        $save['path'] = $old_alias;
-        $save['redirect'] = $src;
-        $save['type'] = 301; //moved permanently
-        path_redirect_save($save);
-        $redirect = TRUE;
+        $redirect = array(
+          'path' => $old_alias,
+          'redirect' => $src,
+        );
+        path_redirect_save($redirect);
       }
     }
     if ($verbose && user_access('notify of path changes')) {

@@ -1,6 +1,6 @@
-$Id: README.txt,v 1.18 2008/12/08 01:26:54 thierrygd Exp $
+$Id: README.txt,v 1.19 2009/03/08 00:04:26 thierrygd Exp $
 
-Copyright 2008 http://www.arvoriad.com
+Copyright 2009 http://www.arvoriad.com
 
 
 Description
@@ -13,6 +13,7 @@ Features:
 	+ French, 
 	+ British, 
 	+ Italian, 
+	+ Dutch, 
 	+ Russian, 
 	+ Australian
 	+ Spanish,

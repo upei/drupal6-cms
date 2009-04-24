@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.cs.inc,v 1.13 2008/12/08 01:26:54 thierrygd Exp $
+// $Id: phone.cs.inc,v 1.14 2009/03/08 00:04:26 thierrygd Exp $
 
 /**
  * @file
@@ -37,7 +37,14 @@ function format_cs_phone_number($phonenumber) {
   // get digits of phone number
   preg_match($regex, $phonenumber, $matches);
   
-  $phonenumber = '+420 '. $matches[3] .' '. $matches[4] .' '. $matches[5];
-
+  if ($field['phone_country_code']) {
+        if ($matches[1] != "+420") {
+    	$phonenumber = "+420" . " " . $matches[3] .' '. $matches[4] .' '. $matches[5]; 
+        }
+   }   
+  else { 
+  	$phonenumber = $matches[3] .' '. $matches[4] .' '. $matches[5];
+  }
+ 
   return $phonenumber;
 }

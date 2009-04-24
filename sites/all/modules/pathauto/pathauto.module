@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto.module,v 1.120 2008/08/26 04:55:19 freso Exp $
+// $Id: pathauto.module,v 1.124 2009/04/20 22:52:37 greggles Exp $
 
 /**
  * @defgroup pathauto Pathauto: Automatically generates aliases for content
@@ -70,11 +70,10 @@ function pathauto_menu() {
  * Include all Pathauto include files.
  */
 function _pathauto_include() {
-  $pathauto_path = drupal_get_path('module', 'pathauto');
-  require_once("$pathauto_path/pathauto.inc");
-  require_once("$pathauto_path/pathauto_node.inc");
-  require_once("$pathauto_path/pathauto_taxonomy.inc");
-  require_once("$pathauto_path/pathauto_user.inc");
+  module_load_include('inc', 'pathauto');
+  module_load_include('inc', 'pathauto', 'pathauto_node');
+  module_load_include('inc', 'pathauto', 'pathauto_taxonomy');
+  module_load_include('inc', 'pathauto', 'pathauto_user');
 }
 
 /**
@@ -101,7 +100,7 @@ function pathauto_token_values($type, $object = NULL) {
           }
 
           // Get taxonomy related data.
-          $vid = db_result(db_query_range("SELECT t.vid FROM {term_node} r INNER JOIN {term_data} t ON r.tid = t.tid INNER JOIN {vocabulary} v ON t.vid = v.vid WHERE r.nid = %d ORDER BY v.weight, t.weight, t.name", $object->nid, 0, 1));
+          $vid = db_result(db_query_range("SELECT t.vid FROM {term_node} r INNER JOIN {term_data} t ON r.tid = t.tid INNER JOIN {vocabulary} v ON t.vid = v.vid WHERE r.vid = %d ORDER BY v.weight, t.weight, t.name", $object->vid, 0, 1));
           $category = db_fetch_object(db_query_range("SELECT t.tid, t.name FROM {term_data} t INNER JOIN {term_node} r ON r.tid = t.tid WHERE t.vid = %d AND r.nid = %d ORDER BY weight", $vid, $object->nid, 0, 1));
           $category->vid = $vid;
           // In the realm of nodes these are terms, in the realm of Taxonomy, cats
@@ -198,7 +197,6 @@ function pathauto_path_alias_types() {
  * Implementation of hook_nodeapi().
  */
 function pathauto_nodeapi(&$node, $op, $teaser, $page) {
-  _pathauto_include();
   if (module_exists('path')) {
     switch ($op) {
       case 'presave':
@@ -216,6 +214,7 @@ function pathauto_nodeapi(&$node, $op, $teaser, $page) {
         break;
       case 'insert':
       case 'update':
+        _pathauto_include();
         // Get the specific pattern or the default
         if (variable_get('language_content_type_'. $node->type, 0)) {
           $pattern = trim(variable_get('pathauto_node_'. $node->type .'_'. $node->language .'_pattern', FALSE));
@@ -320,6 +319,7 @@ function pathauto_node_operations() {
  *   Array of node nid's.
  */
 function pathauto_node_operations_update($nodes) {
+  _pathauto_include();
   foreach ($nodes as $nid) {
     $node = node_load($nid);
     $placeholders = pathauto_get_placeholders('node', $node);
@@ -334,12 +334,12 @@ function pathauto_node_operations_update($nodes) {
  * Implementation of hook_taxonomy().
  */
 function pathauto_taxonomy($op, $type, $object = NULL) {
-  _pathauto_include();
   switch ($type) {
     case 'term':
       switch ($op) {
         case 'insert':
         case 'update':
+          _pathauto_include();
           // Use the category info to automatically create an alias
           $category = (object) $object;
           if ($category->name) {
@@ -376,10 +376,10 @@ function pathauto_taxonomy($op, $type, $object = NULL) {
  * Implementation of hook_user() for users, trackers, and blogs.
  */
 function pathauto_user($op, &$edit, &$user, $category = FALSE) {
-  _pathauto_include();
   switch ($op) {
     case 'insert':
     case 'update':
+      _pathauto_include();
       // Use the username to automatically create an alias
       $pathauto_user = (object) array_merge((array) $user, $edit);
       if ($user->name) {

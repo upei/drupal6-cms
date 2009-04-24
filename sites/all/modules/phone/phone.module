@@ -1,7 +1,7 @@
 <?php
-// $Id: phone.module,v 1.22 2008/12/08 01:26:54 thierrygd Exp $
+// $Id: phone.module,v 1.23 2009/03/08 00:04:26 thierrygd Exp $
 
-// Copyright 2008 Thierry GUEGAN http://www.arvoriad.com 
+// Copyright 2009 Thierry GUEGAN http://www.arvoriad.com 
 
 /**
  * @file
@@ -37,7 +37,8 @@ function phone_field_info() {
     'es_phone' => array('label' => t('Spanish Phone Numbers')),
     'au_phone' => array('label' => t('Australian Phone Numbers')),
     'cs_phone' => array('label' => t('Czech Phone Numbers')), 
-    'hu_phone' => array('label' => t('Hungarian Phone Numbers'))
+    'hu_phone' => array('label' => t('Hungarian Phone Numbers')),
+    'nl_phone' => array('label' => t('Dutch Phone Numbers'))    
    );
 }
 
@@ -134,6 +135,7 @@ function phone_field_settings($op, $field) {
        || $field['type'] == 'au_phone'
        || $field['type'] == 'cs_phone'
        || $field['type'] == 'hu_phone'       
+       || $field['type'] == 'nl_phone'              
        ) { 
       	$columns = array(
         	'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE),
@@ -213,6 +215,9 @@ function phone_field($op, &$node, $field, &$node_field, $teaser, $page) {
           if ($field['type'] == 'hu_phone' && !valid_phone_number('hu', $item['value'])) {
             form_set_error($field['field_name'], t('"%value" is not a valid Hungarian phone number!<br>Hungarian phone numbers should contain only numbers and spaces be like 70 999 9999 with an optional prefix of "+36" or "06".', array('%value' => $item['value'])));
           }                  
+          if ($field['type'] == 'nl_phone' && !valid_phone_number('nl', $item['value'])) {
+            form_set_error($field['field_name'], t('"%value" is not a valid Dutch phone number!<br>Dutch phone numbers should contain only numbers and spaces and - and be like 099-9999999 with an optional prefix of "+31".', array('%value' => $item['value'])));
+          }            
         }
       }
       break;
@@ -250,7 +255,10 @@ function phone_field($op, &$node, $field, &$node_field, $teaser, $page) {
           }
           if ($field['type'] == 'hu_phone') {
             $node_field[$delta]['value'] = format_phone_number('hu', $node_field[$delta]['value'], $field);
-          }          
+          }  
+          if ($field['type'] == 'nl_phone') {
+            $node_field[$delta]['value'] = format_phone_number('nl', $node_field[$delta]['value'], $field);
+          }            
         }
       }
       break;
@@ -350,7 +358,8 @@ function phone_field_formatter_info() {
       			'es_phone',
       			'au_phone',
       			'cs_phone', 
-      			'hu_phone'      			      			
+      			'hu_phone',
+      			'nl_phone'      			
       			),
       'multiple values' => CONTENT_HANDLE_CORE,		
     ),
@@ -427,7 +436,8 @@ function phone_widget_info() {
       			'es_phone',
       			'au_phone',
       			'cs_phone',
-      			'hu_phone'      			      			
+      			'hu_phone',
+      			'nl_phone'      			
       			),
       'multiple values' => CONTENT_HANDLE_CORE,
       'callbacks' => array(
@@ -634,7 +644,8 @@ function valid_phone_number($countrycode, $phonenumber) {
   	|| $countrycode == 'es'
   	|| $countrycode == 'au'
   	|| $countrycode == 'cs'  	
-  	|| $countrycode == 'hu'  	  	
+  	|| $countrycode == 'hu' 
+  	|| $countrycode == 'nl'   	
   	) { 
 	
         //drupal_set_message('langue = ' . $countrycode, 'error');
@@ -677,6 +688,7 @@ function format_phone_number($countrycode, $phonenumber, $field) {
   	|| $countrycode == 'au'
    	|| $countrycode == 'cs' 	
    	|| $countrycode == 'hu' 	   	
+   	|| $countrycode == 'nl' 	   	   	
   	) { 
 	
         //drupal_set_message('langue = ' . $countrycode, 'error');       
@@ -720,3 +732,11 @@ function phone_token_values($type, $object = NULL, $options = array()) {
   }
 }
 
+/**
+ * Implementation of hook_simpletest().
+ */
+function phone_simpletest() {
+  $dir = drupal_get_path('module', 'phone'). '/tests';
+  $tests = file_scan_directory($dir, '\.test$');
+  return array_keys($tests);
+}
