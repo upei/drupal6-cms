@@ -1,0 +1,12 @@
+; $Id: tableofcontents.info,v 1.1.2.1.2.1.2.1 2008/02/17 18:49:31 deviantintegral Exp $
+name = Table of Contents
+description = "Adds a filter that generates Tables of Contents for pages marked with  '&lt;!--tableofcontents--&gt;'."
+package = Filters
+dependencies[] = headinganchors
+core = 6.x
+; Information added by drupal.org packaging script on 2008-08-18
+version = "6.x-2.2"
+core = "6.x"
+project = "tableofcontents"
+datestamp = "1219077628"
+

@@ -1,5 +1,5 @@
 <?php
-// $Id: handlers.inc,v 1.101 2008/12/02 16:04:59 merlinofchaos Exp $
+// $Id: handlers.inc,v 1.109 2009/04/10 20:22:54 merlinofchaos Exp $
 /**
  * @file handlers.inc
  * Defines the various handler objects to help build and display views.
@@ -473,6 +473,19 @@ class views_handler extends views_object {
   }
 
   /**
+   * Validates the handler against the complete View.
+   *
+   * This is called when the complete View is being validated. For validating
+   * the handler options form use options_validate().
+   *
+   * @see views_handler::options_validate()
+   *
+   * @return
+   *   Empty array if the handler is valid; an array of error strings if it is not.
+   */
+  function validate() { return array(); }
+
+  /**
    * Determine if the handler is considered 'broken', meaning it's a
    * a placeholder used when a handler can't be found.
    */
@@ -562,7 +575,7 @@ class views_many_to_one_helper {
 
     // If we found that there are tables in between, add the relationship.
     if ($r_join->table != $join->table) {
-      $relationship = $this->handler->query->add_relationship(NULL, $r_join, $r_join->table, $this->handler->relationship);
+      $relationship = $this->handler->query->add_relationship($this->handler->table, $r_join, $r_join->table, $this->handler->relationship);
     }
 
     // And now add our table, using the new relationship if one was used.
@@ -680,10 +693,10 @@ class views_many_to_one_helper {
           // The table alias needs to be unique to this value across the
           // multiple times the filter or argument is called by the view.
           if (!isset($this->handler->view->many_to_one_aliases[$field][$value])) {
-            if (!isset($this->handler->view->many_to_one_count[$field])) {
-              $this->handler->view->many_to_one_count[$field] = 0;
+            if (!isset($this->handler->view->many_to_one_count[$this->handler->table])) {
+              $this->handler->view->many_to_one_count[$this->handler->table] = 0;
             }
-            $this->handler->view->many_to_one_aliases[$field][$value] = $this->handler->table . '_value_' . ($this->handler->view->many_to_one_count[$field]++);
+            $this->handler->view->many_to_one_aliases[$field][$value] = $this->handler->table . '_value_' . ($this->handler->view->many_to_one_count[$this->handler->table]++);
           }
           $alias = $this->handler->table_aliases[$value] = $this->add_table($join, $this->handler->view->many_to_one_aliases[$field][$value]);
 
@@ -907,7 +920,7 @@ function views_date_sql_format($format, $field, $field_type = 'int', $set_offset
       return "DATE_FORMAT($field, '$format')";
     case 'pgsql':
       $replace = array(
-        'Y' => 'YY',
+        'Y' => 'YYYY',
         'm' => 'MM',
         'd' => 'DD',
         'H' => 'HH24',
@@ -1049,6 +1062,9 @@ function views_views_handlers() {
       'views_handler_field_numeric' => array(
         'parent' => 'views_handler_field',
       ),
+      'views_handler_field_custom' => array(
+        'parent' => 'views_handler_field',
+      ),
 
       // filter handlers
       'views_handler_filter' => array(
@@ -1071,6 +1087,9 @@ function views_views_handlers() {
       ),
       'views_handler_filter_numeric' => array(
         'parent' => 'views_handler_filter',
+      ),
+      'views_handler_filter_float' => array(
+        'parent' => 'views_handler_filter_numeric',
       ),
       'views_handler_filter_date' => array(
         'parent' => 'views_handler_filter_numeric',
@@ -1300,9 +1319,13 @@ function views_views_api() {
   );
 }
 
+function aggregator_views_api() { return views_views_api(); }
+
 function book_views_api() { return views_views_api(); }
 
 function comment_views_api() { return views_views_api(); }
+
+function locale_views_api() { return views_views_api(); }
 
 function node_views_api() { return views_views_api(); }
 

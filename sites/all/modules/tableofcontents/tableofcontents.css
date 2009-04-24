@@ -1,0 +1,26 @@
+.toc {
+  max-width: 45%;
+  _width: 50%;
+  background-color: #F9F9F9;
+  border: 1px solid #B5C9D8;
+  font-size: 95%;
+  text-align: left;
+}
+
+.toc-title {
+  text-align: center;
+  font-weight: bold;
+}
+  
+.toc-list {
+  padding: 0;
+}
+  
+.toc ul {
+  list-style-image: none;
+  list-style-type: none;
+}
+
+.toc li a {
+  color: blue;
+}

@@ -1,5 +1,5 @@
 <?php
-// $Id: views.module,v 1.322 2008/12/16 18:52:04 merlinofchaos Exp $
+// $Id: views.module,v 1.332 2009/04/08 16:11:51 merlinofchaos Exp $
 /**
  * @file
  * Primarily Drupal hooks and global API functions to manipulate views.
@@ -23,7 +23,7 @@ function views_theme() {
   $path = drupal_get_path('module', 'views');
   require_once "./$path/theme/theme.inc";
 
-    // Some quasi clever array merging here.
+  // Some quasi clever array merging here.
   $base = array(
     'file' => 'theme.inc',
     'path' => "$path/theme",
@@ -38,7 +38,7 @@ function views_theme() {
   $arguments = array(
     'display' => array('view' => NULL),
     'style' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
-    'row' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+    'row' => array('view' => NULL, 'options' => NULL, 'row' => NULL, 'field_alias' => NULL),
   );
 
   // Default view themes
@@ -59,6 +59,12 @@ function views_theme() {
           'path' => $def['theme path'],
           'arguments' => $arguments[$type],
         );
+
+        $include = './' . $def['theme path'] . '/' . $def['theme file'];
+        if (file_exists($include)) {
+          require_once $include;
+        }
+
         if (!function_exists('theme_' . $def['theme'])) {
           $hooks[$def['theme']]['template'] = views_css_safe($def['theme']);
         }
@@ -76,6 +82,7 @@ function views_theme() {
             'path' => $def['theme path'],
             'arguments' => $arguments[$theme_type],
           );
+
           if (!function_exists('theme_' . $theme)) {
             $hooks[$theme]['template'] = views_css_safe($theme);
           }
@@ -295,6 +302,11 @@ function views_block($op = 'list', $delta = 0, $edit = array()) {
       $items = array();
       $views = views_get_all_views();
       foreach ($views as $view) {
+        // disabled views get nothing.
+        if (!empty($view->disabled)) {
+          continue;
+        }
+
         $view->init_display();
         foreach ($view->display as $display_id => $display) {
 
@@ -507,7 +519,6 @@ function views_include($file) {
  * Load views files on behalf of modules.
  */
 function views_module_include($file) {
-  $views_path = drupal_get_path('module', 'views') . '/modules';
   foreach (views_get_module_apis() as $module => $info) {
     if (file_exists("./$info[path]/$module.$file")) {
       require_once "./$info[path]/$module.$file";
@@ -541,7 +552,11 @@ function views_get_module_apis() {
  * Include views .css files.
  */
 function views_add_css($file) {
-  drupal_add_css(drupal_get_path('module', 'views') . "/css/$file.css");
+  // We set preprocess to FALSE because we are adding the files conditionally,
+  // and we don't want to generate duplicate cache files.
+  // TODO: at some point investigate adding some files unconditionally and
+  // allowing preprocess.
+  drupal_add_css(drupal_get_path('module', 'views') . "/css/$file.css", 'module', 'all', FALSE);
 }
 
 /**
@@ -771,11 +786,16 @@ function views_get_applicable_views($type) {
 
 /**
  * Return an array of all views as fully loaded $view objects.
+ *
+ * @param $reset
+ *   If TRUE, reset the static cache forcing views to be reloaded.
  */
-function views_get_all_views() {
+function views_get_all_views($reset = FALSE) {
   static $views = array();
 
-  if (empty($views)) {
+  if (empty($views) || $reset) {
+    $views = array();
+
     // First, get all applicable views.
     views_include('view');
     $views = view::load_views();
@@ -899,6 +919,15 @@ function vpr_trace() {
  * Be sure that $view and $display are references.
  */
 function views_exposed_form(&$form_state) {
+  // Don't show the form when batch operations are in progress.
+  $batch =& batch_get();
+  if (!empty($batch)) {
+    return array(
+      // Set the theme callback to be nothing to avoid errors in template_preprocess_views_exposed_form().
+      '#theme' => '',
+    );
+  }
+
   // Make sure that we validate because this form might be submitted
   // multiple times per page.
   $form_state['must_validate'] = TRUE;
@@ -1014,6 +1043,7 @@ function drupal_build_form($form_id, &$form_state) {
 function views_views_query_substitutions($view) {
   global $language;
   return array(
+    '***CURRENT_VERSION***' => VERSION,
     '***CURRENT_TIME***' => time(),
     '***CURRENT_LANGUAGE***' => $language->language,
     '***DEFAULT_LANGUAGE***' => language_default('language'),
@@ -1119,6 +1149,9 @@ function views_views_exportables($op = 'list', $views = NULL, $name = 'foo') {
     $code .= " */\n";
     $code .= "function " . $name . "_views_default_views() {\n";
     foreach ($views as $view => $truth) {
+      $code .= "  /*\n";
+      $code .= "   * View ". var_export($all_views[$view]->name, TRUE) ."\n";
+      $code .= "   */\n";
       $code .= $all_views[$view]->export('  ');
       $code .= '  $views[$view->name] = $view;' . "\n\n";
     }

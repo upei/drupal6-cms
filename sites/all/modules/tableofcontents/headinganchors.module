@@ -1,0 +1,118 @@
+<?php
+//$Id: headinganchors.module,v 1.2.4.2.2.2.2.1 2008/06/21 18:19:19 deviantintegral Exp $
+
+/**
+ * @file
+ * This is a module which takes headings and adds id attributes to them
+ * to allow them to be linked to in a URL. The following rules are used to create an
+ * attribute:
+ * - All non alphanumerics are removed
+ * - Case is preserved to allow for some measure of readability
+ * - HTML tags are stripped from in the middle of heading tags for the anchors
+ * - Existing id's are left aline
+ *
+ * Example: <h2>I Link To <a href="http://www.csaonline.ca/">csaonline.ca</a></h2>
+ * becomes:
+ * <h2 id="ILinkTocsaonline.ca">I Link To <a href="http://www.csaonline.ca/">csaonline.ca</a></h2>
+ * and can be referenced with /url#ILinkTocsaonline.ca
+ *
+ * This module was built from the filter example on the Drupal website.
+ */
+
+/**
+ * Implementation of hook_help().
+ *
+ */
+function headinganchors_help($section) {
+  switch ($section) {
+    case 'admin/modules#description':
+      // This description is shown in the listing at admin/modules.
+      return t('A module to create named anchors based on HTML headings.');
+  }
+}
+
+/**
+ * Implementation of hook_filter_tips().
+ */
+function headinganchors_filter_tips($format, $long = FALSE) {
+  if ($long) {
+    return t('Every instance heading tags will be modified to include an id attribute for anchor linking.');
+  }
+  else {
+    return t('Insert heading anchors automatically.');
+  }
+}
+
+/**
+ * Implementation of hook_filter().
+ *
+ * The bulk of filtering work is done here.
+ */
+function headinganchors_filter($op, $delta = 0, $format = -1, $text = '') {
+  if ($op == 'list') {
+    return array(
+      0 => t('Headings to Anchors')
+    );
+  }
+  // We currently only define one filter, so we don't need to switch on $delta
+  switch ($op) {
+    // Admin interface description
+    case 'description':
+      return t('Inserts named anchors for heading tags automatically.');
+
+    case 'no cache':
+      return FALSE;
+
+      // Need to find out if this is required
+    case 'prepare':
+      return $text;
+
+      // Here, we pull out the required information and add the anchor
+    case 'process':
+      // transform headers into anchors, max <h6>, case insensitive
+      $matches = array();
+      preg_match_all("/<h([1-6])([^>]*)>(.*?)<\/h[1-6]>/is", $text, $matches, PREG_PATTERN_ORDER);
+      $count = 0;
+      $anchors = array();
+      foreach ($matches[0] as $match) {
+
+        // get level and heading
+        $level = $matches[1][$count];
+        $attributes = $matches[2][$count];
+        $heading = $matches[3][$count];
+
+        // check for existing id and use that if found
+        if (preg_match('/id="(.*?)"/i', $attributes, $existing_id)) {
+          $anchor = $existing_id[1];
+          // if no id found, create one
+        }
+        else {
+          // sanitize ID text & remove leading digits (invalid on IDs)
+          $anchor = preg_replace("/&amp;/", "", strip_tags($matches[3][$count]));
+          $anchor = preg_replace("/[^A-Za-z0-9]/", "", $anchor);
+          $anchor = preg_replace("/^[0-9]+/", "", $anchor);
+        }
+
+        // Look for duplicate ID's, and add -number to make them unique
+        if (array_key_exists($anchor, $anchors)) {
+          $anchors[$anchor]++;
+        }
+        else {
+          $anchors[$anchor] = 0;
+        }
+        if ($anchors[$anchor] > 0) {
+          $anchor .= "-" . $anchors[$anchor];
+        }
+        $pattern = "/<h".$level.$attributes.">".preg_quote($heading, '/')."<\/h".$level.">/i";
+
+        // append everything together to create the new heading
+        $replacement = "<h".$level.$attributes." id=\"".$anchor."\">".$heading."</h".$level.">";
+        // replace the header in the text
+        // Limit of one so that identical headers are only replaced one at a time
+        $text = preg_replace($pattern, $replacement, $text, 1);
+
+        $count++;
+      }
+      return $text;
+  }
+}

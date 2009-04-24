@@ -1,0 +1,284 @@
+<?php
+// $Id: tableofcontents.module,v 1.2.4.2.2.2.2.8 2008/08/18 15:47:25 deviantintegral Exp $
+
+/**
+ * @file
+ * This is a filter module to generate a collapsible jquery enabled mediawiki-style table of contents based on <h[1-5]>  tags. Transforms header tags into named anchors.
+ *
+ * It is a complete rewrite of the original non-jquery enabled tableofcontents filter module as follows:
+ *    +incorporates the code from the headingsanchors filter module removing dependency on a separate filter
+ *    +added jquery to make ToC collapsible
+ *    +optimizes the code so that nothing is done, including loading the jquery & css files,  if the <!--tableofcontents--> marker does not appear in the text
+ *    +preserves attributes on the header tags
+ *    +checks for existing ID on headers and uses that if found (if none, creates one)
+ *    +extends the minimum header level to 1
+ *    +header conversion is case insensitive
+ *    +made the regex match for options on the <!--tableofcontents--> marker tolerant of spaces
+ *    +added a more explanatory error message for invalid options & concatenated it into one string to prevent duplicates from being displayed
+ *    +added several divs to make ToC themable via CSS
+ *    +provided basic CSS
+ *
+ * TO DO:
+ *    +make module themable
+ *    +limit heading anchors created to minlevel and maxlevel instead of always 1-5
+ */
+
+/**
+ * Implementation of hook_init()
+ * 
+ * We have to load the JS here since we are now caching the filter results
+ */
+
+function tableofcontents_init() {
+  drupal_add_js(drupal_get_path('module', 'tableofcontents') . '/tableofcontents.js');
+  drupal_add_css(drupal_get_path('module', 'tableofcontents') . '/tableofcontents.css');
+}
+
+/**
+ * Implementation of hook_help().
+ */
+function tableofcontents_help($section) {
+  switch ($section) {
+    case 'admin/modules#description':
+      return t('A module to create a table of contents based on HTML header tags. Changes headers to anchors for processing so it may be incompatible with other filters that process header tags. It does use existing IDs on the header tags if already present and only operates on header levels 1 - 6.');
+  }
+}
+
+/**
+ * Implementation of hook_filter_tips().
+ */
+function tableofcontents_filter_tips($format, $long = FALSE) {
+  if ($long) {
+    return t('Every instance of "&lt;!--tableofcontents--&gt;" in the input text will be replaced with a collapsible mediawiki-style table of contents. Accepts options for title, list style, minimum heading level, and maximum heading level as follows: &lt;!--tableofcontents list: ol; title: Table of Contents; minlevel: 1; maxlevel: 3;--&gt;. All arguments are optional and defaults are shown.');
+  }
+  else {
+    return t('Insert &lt;!--tableofcontents [list: ol; title: Table of Contents; minlevel: 1; maxlevel: 3;]--&gt; to insert a mediawiki style collapsible table of contents. Arguments within [] are optional (defaults are shown).');
+  }
+}
+
+/**
+ * Implementation of hook_filter().
+ */
+function tableofcontents_filter($op, $delta = 0, $format = -1, $text = '') {
+  if ($op == 'list') {
+    return array(
+      0 => t('Table of Contents')
+    );
+  }
+
+  global $toc_options;
+  switch ($op) {
+    case 'description':
+      return t('Inserts a table of contents in the place of &lt;!--tableofcontents--&gt; tags.');
+
+    case 'no cache':
+      return FALSE;
+
+    case 'prepare':
+
+      // get all toc markers and options
+      preg_match_all('!<\!-- ?tableofcontents(.*)-->!', $text, $options_str, PREG_PATTERN_ORDER);
+
+      // to optimize performance enclose preparation in conditional that tests for presence of ToC marker
+      if ($options_str[0][0] != "") {
+
+        // set defaults
+        $toc_options = array();
+        
+        // We save a translate call and only translate this when we process the options
+        $toc_options["title"] = "Table of Contents";
+        $toc_options["list"] = "ol";
+        $toc_options["minlevel"] = "1";
+        $toc_options["maxlevel"] = "3";
+        $toc_options["attachments"] = "yes";
+
+        //only process options if user arguments were specified
+        if (count($options_str,1) > 2) {
+
+          // parse separate options
+          preg_match_all('/([A-z]+): ?([A-z0-9 ]+);/', $options_str[1][0], $options, PREG_PATTERN_ORDER);
+
+          // make sure arguments contain valid option identifiers
+          $allowed_options = array_keys($toc_options);
+          for($i = 0; $i < sizeof($options[1]); $i++) {
+            if (!in_array($options[1][$i], $allowed_options)) {
+              form_set_error("Table of Contents", t("Table of Contents Error: ".$options[1][$i]." is an invalid option."));
+            } else {
+              $toc_options[$options[1][$i]] = $options[2][$i];
+            }
+          }
+
+          // validate option values, use defaults for invalid values, build & display error message
+          $error_status = false;
+          if (($toc_options["list"] != "ol") && ($toc_options["list"] != "ul")) {
+            $error_message[] = $toc_options["list"]." is an invalid list type. The only valid values for list are 'ol' or 'ul'. Using default value of ol.\n";
+            $error_status = true;
+            $toc_options["list"]="ol";
+          }
+          if (!($toc_options["minlevel"] >= 1 && $toc_options["minlevel"] < 6)) {
+            $error_message[] = $toc_options["minlevel"]." is an invalid minimum level option. You must use a number between 1 and 4. Using default value of 1.\n";
+            $error_status = true;
+            $toc_options["minlevel"] = 1;
+          }
+          if (!($toc_options["maxlevel"] >= $toc_options["minlevel"] && $toc_options["maxlevel"] <= 6)) {
+            $error_message[] = $toc_options["maxlevel"]." is an invalid maximum depth option. You must use a number between ".$toc_options["minlevel"]." and 5. Using default value of 3.";
+            $error_status = true;
+            $toc_options["maxlevel"] = 3;
+          }
+          if (!($toc_options["attachments"] == "yes" || $toc_options["attachments"] == "no")) {
+            $error_message[] = t("!attachments is an invalid attachments option. Attachments option must be set to yes or no.", array('!attachments' => $toc_options["attachments"]));
+            $error_status = true;
+          }
+          if ($error_status) {
+            // According to IRC, there can be issues with translations when you use dynamic variables
+            // As well, t() should only be on single paragraphs with no newlines.
+            // within t().
+            foreach($error_message as $message) {
+              form_set_error("Table of Contents", t('%error', array('%error' => $message)));
+            }
+          }
+        }
+
+        //translate title
+        $toc_options["title"] = t($toc_options["title"]);
+      }
+
+      return $text;
+
+    case 'process':
+      // to optimize performance enclose processing in conditional that tests for the presence of the toc marker options
+      if (isset($toc_options)) {
+
+        //build the toc
+        // toc(array('level' => 1, 'heading' => $text))
+        $toc = array();
+
+        // $i = index of header level being processed
+        // $matches[0][$i] -> Whole string matched
+        // $matches[1][$i] -> First heading level
+        // $matches[2][$i] -> Whole string of attributes
+        // $matches[3][$i] -> id attibute, used for anchor
+        // $matches[4][$i] -> Text of id attribute
+        // $matches[5][$i] -> Text inside of h tag
+        // $matches[6][$i] -> Close heading level, should be equal to open level
+        $matches = array();
+
+        //get all headers of current level, case insensitive
+        $pattern = '/<h([' .
+        $toc_options["minlevel"] . '-' .
+        $toc_options["maxlevel"] . '])( .*?(id="([^"]+)" ?.*?))?>(.*?)<\/h([' .
+        $toc_options["minlevel"] . '-' .
+        $toc_options["maxlevel"] . '])>/is';
+        
+        preg_match('!<\!-- ?tableofcontents(.*)-->!', $text, $matches, PREG_OFFSET_CAPTURE);
+        $heading_search_text = substr($text, $matches[0][1]);
+        
+        $matches = array();
+        preg_match_all($pattern, $heading_search_text, $matches, PREG_PATTERN_ORDER);
+        
+        $anchors = array();
+        for ($i = 0; $i < sizeof($matches[0]); $i++) {
+
+          // Strip HTML and non alphanumerics
+          $level = $matches[1][$i];
+          $heading = strip_tags($matches[5][$i]);
+          $anchor = $matches[4][$i];
+          array_push($toc, array(
+            'level' => $level, 
+            'heading' => $heading, 
+            'anchor' => $anchor)
+          );
+        }
+        // Build HTML for the Table of Contents
+        $toc_html = "<div class=\"toc\">\n<div class=\"toc-title\">" .
+        $toc_options["title"] . " [<a href=\"#\" class=\"toc-toggle\">" . t('hide') . "</a>]</div>\n<div class=\"toc-list\">\n<" .
+        $toc_options["list"] . ">\n";
+
+        $depth = $toc_options["minlevel"];
+        foreach ($toc as $index=>$title) {
+
+          // process nested lists
+          $curdepth = $title['level'];
+          if ($curdepth <= $toc_options["maxlevel"]) {
+            // Close list items but not before no items have been added
+            if ($curdepth == $depth && $index != 0) $toc_html .= "</li>\n";
+            // Be sure to deal with skipping between non-adjacent h levels
+            while ($curdepth != $depth) {
+              if ($curdepth > $depth) {
+                $toc_html .= "\n<" . $toc_options["list"] . ">\n";
+                $depth++;
+              }
+              else if ($curdepth < $depth) {
+                $toc_html .= "</li>\n</" . $toc_options["list"] . ">\n";
+                $depth--;
+                if ($curdepth == $depth) $toc_html .= "</li>\n";
+              }
+            }
+
+            // insert the li element
+            $toc_html .= "\t<li><a href=\"#".$title['anchor']."\">".$title['heading']."</a>";
+          }
+        }
+        // Did we recurse back out? If not, close open lists.
+        while ($depth > $toc_options["minlevel"]) {
+          $toc_html .= "</li>\n</" . $toc_options["list"] . ">\n";
+          $depth = $depth -1;
+        }
+        $toc_html .= "</li>\n";
+        
+        if ($toc_options["attachments"] == "yes") {
+          $nid = explode('/', $_GET['q']);
+          if (isset($nid[0]) && $nid[0] == 'node' && isset($nid[1]) && is_numeric($nid[1])) {
+            $nid = $nid[1];
+            $node = node_load($nid);
+          }
+          if (!empty($node->files)) {
+            $toc_html .= '<li><a href="#attachments">' . t("Attachments") . "</a>";
+            $toc_html .= "<" . $toc_options["list"] . ">";
+            foreach($node->files as $file) {
+              if ($file->list && !$file->remove) {
+                $toc_html .= '<li>';
+
+                // If there is no function providing phptemplate_file_icon in template.php or similar
+                // then this will fail gracefully.
+                $toc_html .= theme('file_icon', $file);
+
+                $file_href = $href = file_create_url((strpos($file->fid, 'upload') === FALSE ? $file->filepath : file_create_filename($file->filename, file_create_path())));
+                $file_text = $file->description ? $file->description : $file->filename;
+
+                $toc_html .= l($file_text, $file_href) . "</li>\n";
+              }
+            }
+          }
+        }
+        $toc_html .= "</".$toc_options["list"].">\n</div>\n</div>";
+
+        // replace all tableofcontents markers with generated ToC html
+        return preg_replace('!<\!-- ?tableofcontents(.*)-->!', $toc_html, $text);
+      }
+      else {
+        return $text;
+      }
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi
+ *
+ * We need to clear the cache to cover the case where file attachments have changed, but
+ * the body hasn't. This might be a little aggressive, in that we clear the cache for any node
+ * with attachments, but since this only occurs during editing or creating the load should be
+ * pretty minimal.
+ */
+
+function tableofcontents_nodeapi (&$node, $op, $a3 = NULL, $a4 = NULL) {
+  switch ($op) {
+    case 'prepare':
+      if (isset($node->files)) {
+        // Remove the cached version if there attachments on this node
+        $cid = $node->format . ':' . md5($node->body);
+        cache_clear_all($cid, 'cache_filter');
+      }
+      break;
+  }
+}

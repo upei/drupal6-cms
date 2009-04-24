@@ -1,0 +1,11 @@
+; $Id: headinganchors.info,v 1.1.2.1.4.1 2008/02/17 18:49:31 deviantintegral Exp $
+name = Headings anchors
+description = "Filter that marks H2 and H3 headings with id anchors from which Tables of Contents can be generated."
+package = Filters
+core = 6.x
+; Information added by drupal.org packaging script on 2008-08-18
+version = "6.x-2.2"
+core = "6.x"
+project = "tableofcontents"
+datestamp = "1219077628"
+
