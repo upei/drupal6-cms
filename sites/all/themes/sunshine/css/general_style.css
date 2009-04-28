@@ -462,3 +462,13 @@ padding: 0px;
     background-image: url(/css/images/buttonback.png)
  }
 
+/*Add the styles for the faq page and block!!! April 28, 2009 S.A.*/
+#block-views-faqs-block_1 .view-faqs .views-row-odd, #block-views-faqs-block_1 .view-faqs .views-row-even{padding:5px 5px 0px 5px;border:1px solid #cccccc;background-image:url(/css/images/backgrade.jpg);background-repeat:repeat-x;margin-bottom:20px;padding:5px;height:300px;}
+.block .view-faqs .views-row-odd, .block .view-faqs .views-row-even { display: none; }
+.block .view-faqs .views-row-first { display: block; }
+.view-faqs .views-field-title{font-size:1.2em;font-weight:bold;}
+.view-faqs .views-field-body{margin-left:20px;}
+.block-views .view-faqs .views-field-title{font-size:1.0em;font-weight:bold;}
+.view-faqs-anchor .views-field-title{margin-bottom:2px;font-size:0.9em;}
+.view-faqs .view-footer{position:relative;top:-10px;}
+

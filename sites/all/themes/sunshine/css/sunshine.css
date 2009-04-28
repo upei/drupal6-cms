@@ -167,7 +167,7 @@ margin-top: 200px;
 
 /* sunshine specific story topics */
 .front-page-story-tabs {
-  width: 432px;
+  width: 447px;
   height: 280px;
   overflow: hidden;
   padding-right: 5px;
@@ -178,7 +178,7 @@ margin-top: 200px;
   margin: 0;
 }
 .front-page-story-tabs li.topic-list {
-  width: 150px;
+  width: 165px;
   list-style: none;
   list-style-image: none;
   display: block;
@@ -361,8 +361,8 @@ margin-top: 20px;
 
 /* views left and right button */
 .views-left-bar { position: relative;}
-.views-left-button { position: absolute; width:24px; height:57px; background-image:url('/misc/i/views-direction.png'); background-repeat: no-repeat; background-position: -2px -2px; cursor: pointer; cursor: hand; z-index: 99; }
+.views-left-button { position: absolute; width:24px; height:57px; background-image:url('/misc/i/views-direction.png'); background-repeat: no-repeat; background-position: -2px -2px; cursor: pointer; cursor: hand; }
 .views-left-button:hover { background-position: -2px -72px; }
 .views-right-bar { position: relative; }
-.views-right-button { position: absolute; width:23px; height:57px; background-image:url('/misc/i/views-direction.png'); background-repeat: no-repeat; background-position: -33px -2px; cursor: pointer; cursor: hand; z-index: 99; }
+.views-right-button { position: absolute; width:23px; height:57px; background-image:url('/misc/i/views-direction.png'); background-repeat: no-repeat; background-position: -33px -2px; cursor: pointer; cursor: hand; }
 .views-right-button:hover { background-position: -33px -72px; }

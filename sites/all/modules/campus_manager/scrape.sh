@@ -158,7 +158,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 		-exec sed -r -i \
 			-e "/(href|img.*src)=/ {
 				s/href=\"([^?]+)\?page=([[:digit:]]+)[^\"]*\"/href=\"\1-\2\"/g
-        s/src=\"([^?]+)\?.*\"/src=\"\1\"/g
+        s/src=\"([^?]+)\?[^\"]*\"/src=\"\1\"/g
 			}" {} \;
 
 # 2007-08-25 -- Don't think these next two sections are required now that symlinks are being created -- BV

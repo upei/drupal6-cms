@@ -292,9 +292,9 @@ border-bottom: 1px solid #ccc;
 /**********************************/
 #primarymenu{padding-top:0px;}
 
-.view-faculty .views-field-title, .view-Faculty .views-field-title , .view-staff .views-field-title 
+.view-faculty .views-field-title, .view-Faculty .views-field-title , .view-staff .views-field-title, .view-Staff .views-field-title 
 {border-bottom:1px solid #cccccc;padding-bottom:10px;}
-.view-faculty .views-field-title a, .view-Faculty .views-field-title a, .view-staff .views-field-title a
+.view-faculty .views-field-title a, .view-Faculty .views-field-title a, .view-staff .views-field-title a, .view-Staff .views-field-title a
 {margin-bottom:0px;padding:3px;font-size:16px;border-bottom:0px solid #aaa;font-weight:bold;text-decoration:underline;}
 .view-faculty .imagefield-field_faculty_photo{margin-top:3px;}
 
@@ -303,7 +303,7 @@ border-bottom: 1px solid #ccc;
 {}
 
 
-.view-faculty .views-field-field-faculty-photo-fid, .view-Faculty .views-field-field-faculty-photo-fid, .view-staff .views-field-field-faculty-photo-fid{
+.view-faculty .views-field-field-faculty-photo-fid, .view-Faculty .views-field-field-faculty-photo-fid, .view-staff .views-field-field-faculty-photo-fid, .view-Staff .views-field-field-faculty-photo-fid{
 	width:155px;float:right;margin-left:10px;
 }
 
@@ -311,8 +311,9 @@ border-bottom: 1px solid #ccc;
 
 .view-faculty .views-row-odd, .view-faculty .views-row-even,
 .view-Faculty .views-row-odd, .view-Faculty .views-row-even,
-.view-staff .views-row-odd, .view-staff .views-row-even
-{width:100%;float:left;padding:5px;border:1px solid #cccccc;margin-bottom:5px;}
+.view-staff .views-row-odd, .view-staff .views-row-even,
+.view-Staff .views-row-odd, .view-Staff .views-row-even
+{overflow:hidden;width:100%;float:left;padding:5px;border:1px solid #cccccc;margin-bottom:5px;}
 
 #footer{border:none;color:#6c1c00;}
 
