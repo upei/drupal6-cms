@@ -17,6 +17,7 @@ class views_plugin_style_ajax_html extends views_plugin_style_ajax {
       '#cols' => 80,
       '#default_value' => $this->options['template'],
     );
+    drupal_rebuild_theme_registry();
   }
 
   function render() {
@@ -27,14 +28,14 @@ class views_plugin_style_ajax_html extends views_plugin_style_ajax {
       $rows = $group['rows'];
       $view =& $this->view;
       $options =& $this->options;
-      if (!empty($this->options['template'])) {
+      if (!empty($options['template'])) {
         ob_start();
-        print eval('?>' . $this->options['template']);
+        print eval('?>' . $options['template']);
         $__output .= ob_get_contents();
         ob_end_clean();
       }
       else {
-        $__output .= theme($this->theme_functions(), $this->view, $this->options, $rows, $title);
+        $__output .= theme($this->theme_functions(), $view, $options, $rows, $title);
       }
     }
     drupal_set_header('Content-type: text/html; charset=utf-8');
