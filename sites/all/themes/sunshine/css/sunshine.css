@@ -339,6 +339,40 @@ margin-top: 200px;
 .front-page-news-tabs .tabs-detail li {
   list-style: disc inside;
 }
+
+/* front page gallery / one line gallery */
+.front-page-gallery {
+  padding: 4px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  height: 79px;
+}
+.front-page-gallery ul {
+  padding: 2px 0 2px 3px;
+  margin: 0;
+}
+.front-page-gallery li {
+  display: block;
+  list-style-type: none;
+  list-style-image: none;
+  padding: 0 3px 0 0;
+  margin: 0;
+  float: left;
+  overflow: hidden;
+}
+.front-page-gallery li.hidden {
+  display: none;
+}
+.front-page-gallery li img {
+  margin: 0;
+}
+.front-page-gallery div img {
+  margin: auto;
+}
+
 #footer img{margin-bottom:10px; padding:0px;}
 
 /*News page media sources formatting*/

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simpleviewergallery maxImageWidth="480" maxImageHeight="480" textColor="0xFFFFFF" frameColor="0xFFFFFF" frameWidth="20" stagePadding="40" navPadding="40" thumbnailColumns="3" thumbnailRows="3" navPosition="left" vAlign="center" hAlign="center" title="SimpleViewer Gallery" enableRightClickOpen="true" backgroundImagePath="" imagePath="" thumbPath="">
+<image>
+	<filename>wide.jpg</filename>
+	<caption><![CDATA[Captions can be HTML formatted. Supported tags are <b>bold</b>, <u>underline</u>, <i>italics</i>, <u><a href="http://www.google.com" target="_blank">hyperlinks</a></u>, linebreaks<br> and <font color="#ffff00" size="30">font tags</font>.]]></caption>	
+</image>
+<image>
+	<filename>tall.jpg</filename>
+	<caption>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.</caption>	
+</image>
+<image>
+	<filename>wide.jpg</filename>
+	<caption>The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me? " he thought. It wasn't a dream.</caption>	
+</image>
+<image>
+	<filename>tall.jpg</filename>
+	<caption>Caption 4</caption>	
+</image>
+<image>
+	<filename>wide.jpg</filename>
+	<caption>Caption 5</caption>	
+</image>
+<image>
+	<filename>tall.jpg</filename>
+	<caption>Caption 6</caption>	
+</image>
+<image>
+	<filename>wide.jpg</filename>
+	<caption>Caption 7</caption>	
+</image>
+<image>
+	<filename>tall.jpg</filename>
+	<caption>Caption 8</caption>	
+</image>
+<image>
+	<filename>wide.jpg</filename>
+	<caption>Caption 9</caption>	
+</image>
+<image>
+	<filename>tall.jpg</filename>
+	<caption>Caption 10</caption>	
+</image>
+<image>
+	<filename>wide.jpg</filename>
+	<caption>Caption 11</caption>	
+</image>
+<image>
+	<filename>tall.jpg</filename>
+	<caption>Caption 12</caption>	
+</image>
+</simpleviewergallery>

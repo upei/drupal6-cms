@@ -26,6 +26,7 @@ class views_plugin_style_ajax_html extends views_plugin_style_ajax {
     foreach ($__parsed as $group) {
       $title = $group['title'];
       $rows = $group['rows'];
+      $nodes = $group['nodes'];
       $view =& $this->view;
       $options =& $this->options;
       if (!empty($options['template'])) {
@@ -35,7 +36,7 @@ class views_plugin_style_ajax_html extends views_plugin_style_ajax {
         ob_end_clean();
       }
       else {
-        $__output .= theme($this->theme_functions(), $view, $options, $rows, $title);
+        $__output .= theme($this->theme_functions(), $view, $options, $rows, $title, $nodes);
       }
     }
     drupal_set_header('Content-type: text/html; charset=utf-8');

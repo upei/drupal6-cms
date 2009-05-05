@@ -1,37 +1,3 @@
-<style type="text/css">
-.front-page-gallery {
-  padding: 4px;
-  margin: 6px 0;
-  border: 1px solid #ccc;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  height: 79px;
-}
-.front-page-gallery ul {
-  padding: 2px 0 2px 3px;
-  margin: 0;
-}
-.front-page-gallery li {
-  display: block;
-  list-style-type: none;
-  list-style-image: none;
-  padding: 0 3px 0 0;
-  margin: 0;
-  float: left;
-  overflow: hidden;
-}
-.front-page-gallery li.hidden {
-  display: none;
-}
-.front-page-gallery li img {
-  margin: 0;
-}
-.front-page-gallery div img {
-  margin: auto;
-}
-</style>
-
 <div class="front-page-gallery">
 <div class="views-left-bar">
   <span id="onelinegallery-left" class="views-left-button" style="left:-5px;top:12px;"></span>
@@ -117,7 +83,10 @@ var deans_right_click = function () {
   
   var elems = $('#onelinegallery-gallery li');
   var new_current = jQuery._current_dean + jQuery._dean_step;
-  if (new_current > jQuery._dean_total - jQuery._dean_step)
+  if (jQuery._dean_total < jQuery._dean_step) {
+    new_current = 0;
+  }
+  else if (new_current > jQuery._dean_total - jQuery._dean_step)
     new_current = jQuery._dean_total - jQuery._dean_step;
 
   gallery_item_fadeout(elems, jQuery._current_dean, 0, jQuery._dean_step, function () {

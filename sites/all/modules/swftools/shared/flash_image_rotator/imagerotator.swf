@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+
+  <head>
+    <title>
+      /tags/imagerotator-3.17/imagerotator.swf –
+      JW Player – Trac
+    </title>
+        <link rel="search" href="/trac/search" />
+        <link rel="help" href="/trac/wiki/TracGuide" />
+        <link rel="alternate" href="/trac/export/209/tags/imagerotator-3.17/imagerotator.swf" type="application/x-shockwave-flash; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="/trac/browser/tags/imagerotator-3.17" title="Parent directory" />
+        <link rel="start" href="/trac/wiki" />
+        <link rel="stylesheet" href="/trac/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/trac/chrome/common/css/code.css" type="text/css" /><link rel="stylesheet" href="/trac/chrome/common/css/browser.css" type="text/css" />
+        <link rel="shortcut icon" href="http://www.longtailvideo.com/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="http://www.longtailvideo.com/favicon.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="/trac/search/opensearch" title="Search JW Player" />
+    <script type="text/javascript" src="/trac/chrome/common/js/jquery.js"></script><script type="text/javascript" src="/trac/chrome/common/js/trac.js"></script><script type="text/javascript" src="/trac/chrome/common/js/search.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="/trac/chrome/common/js/ie_pre7_hacks.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#jumploc input").hide();
+        $("#jumploc select").change(function () {
+          this.parentNode.parentNode.submit();
+        })
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="/trac/chrome/site/style.css" />
+    <script type="text/javascript" src="/trac/chrome/site/swfobject.js"></script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://www.longtailvideo.com/"><img src="/trac/chrome/site/logo.gif" alt="" /></a>
+      </div>
+      <form id="search" action="/trac/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="last first"><a href="/trac/login">Login</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="/trac/wiki">Wiki</a></li><li><a href="/trac/roadmap">Roadmap</a></li><li class="active"><a href="/trac/browser">Browse Source</a></li><li><a href="/trac/report/3">View Tickets</a></li><li class="last"><a href="/trac/testing">Testing</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+          <ul>
+            <li class="first "><a href="/trac/changeset/90/tags/imagerotator-3.17/imagerotator.swf">Last Change</a></li><li><a href="/trac/browser/tags/imagerotator-3.17/imagerotator.swf?annotate=blame&amp;rev=90" title="Annotate each line with the last changed revision (this can be time consuming...)">Annotate</a></li><li class="last"><a href="/trac/log/tags/imagerotator-3.17/imagerotator.swf">Revision Log</a></li>
+          </ul>
+        <hr />
+      </div>
+    <div id="content" class="browser">
+      <h1>
+    <a class="pathentry first" title="Go to root directory" href="/trac/browser">root</a><span class="pathentry sep">/</span><a class="pathentry" title="View tags" href="/trac/browser/tags">tags</a><span class="pathentry sep">/</span><a class="pathentry" title="View imagerotator-3.17" href="/trac/browser/tags/imagerotator-3.17">imagerotator-3.17</a><span class="pathentry sep">/</span><a class="pathentry" title="View imagerotator.swf" href="/trac/browser/tags/imagerotator-3.17/imagerotator.swf">imagerotator.swf</a>
+    <br style="clear: both" />
+  </h1>
+      <div id="jumprev">
+        <form action="" method="get">
+          <div>
+            <label for="rev">
+              View revision:</label>
+            <input type="text" id="rev" name="rev" size="6" />
+          </div>
+        </form>
+      </div>
+      <div id="jumploc">
+        <form action="" method="get">
+          <div class="buttons">
+            <label for="preselected">Visit:</label>
+            <select id="preselected" name="preselected">
+              <option selected="selected"></option>
+              <optgroup label="branches">
+                <option value="/trac/browser/trunk">trunk</option>
+              </optgroup><optgroup label="tags">
+                <option value="/trac/browser/tags/desktopplayer-1.0?rev=151">tags/desktopplayer-1.0</option><option value="/trac/browser/tags/flvplayer-2.5?rev=90">tags/flvplayer-2.5</option><option value="/trac/browser/tags/imagerotator-3.2?rev=90">tags/imagerotator-3.2</option><option value="/trac/browser/tags/imagerotator-3.8?rev=90">tags/imagerotator-3.8</option><option value="/trac/browser/tags/imagerotator-3.14?rev=90">tags/imagerotator-3.14</option><option value="/trac/browser/tags/imagerotator-3.15?rev=90">tags/imagerotator-3.15</option><option value="/trac/browser/tags/imagerotator-3.16?rev=90">tags/imagerotator-3.16</option><option value="/trac/browser/tags/imagerotator-3.17?rev=90">tags/imagerotator-3.17</option><option value="/trac/browser/tags/jpgrotator-2.1?rev=90">tags/jpgrotator-2.1</option><option value="/trac/browser/tags/mediaplayer-3.2?rev=90">tags/mediaplayer-3.2</option><option value="/trac/browser/tags/mediaplayer-3.4?rev=90">tags/mediaplayer-3.4</option><option value="/trac/browser/tags/mediaplayer-3.6?rev=90">tags/mediaplayer-3.6</option><option value="/trac/browser/tags/mediaplayer-3.8?rev=90">tags/mediaplayer-3.8</option><option value="/trac/browser/tags/mediaplayer-3.10?rev=90">tags/mediaplayer-3.10</option><option value="/trac/browser/tags/mediaplayer-3.12?rev=90">tags/mediaplayer-3.12</option><option value="/trac/browser/tags/mediaplayer-3.14?rev=90">tags/mediaplayer-3.14</option><option value="/trac/browser/tags/mediaplayer-3.15?rev=90">tags/mediaplayer-3.15</option><option value="/trac/browser/tags/mediaplayer-3.16?rev=90">tags/mediaplayer-3.16</option><option value="/trac/browser/tags/mediaplayer-3.17?rev=92">tags/mediaplayer-3.17</option><option value="/trac/browser/tags/mediaplayer-4.0?rev=90">tags/mediaplayer-4.0</option><option value="/trac/browser/tags/mediaplayer-4.1?rev=90">tags/mediaplayer-4.1</option><option value="/trac/browser/tags/mediaplayer-4.2?rev=98">tags/mediaplayer-4.2</option><option value="/trac/browser/tags/mediaplayer-4.3?rev=160">tags/mediaplayer-4.3</option><option value="/trac/browser/tags/mediaplayer-4.4?rev=200">tags/mediaplayer-4.4</option><option value="/trac/browser/tags/mp3player-2.3?rev=90">tags/mp3player-2.3</option><option value="/trac/browser/tags/wmvplayer-1.0?rev=90">tags/wmvplayer-1.0</option><option value="/trac/browser/tags/wmvplayer-1.1?rev=90">tags/wmvplayer-1.1</option>
+              </optgroup>
+            </select>
+            <input type="submit" value="Go!" title="Jump to the chosen preselected path" />
+          </div>
+        </form>
+      </div>
+      <table id="info" summary="Revision info">
+        <tr>
+          <th scope="col">
+            Revision <a href="/trac/changeset/90">90</a>, <span title="42753 bytes">41.8 kB</span>
+            (checked in by jeroen, <a class="timeline" href="/trac/timeline?from=2008-10-20T06%3A12%3A59Z-0700&amp;precision=second" title="2008-10-20T06:12:59Z-0700 in Timeline">7 months</a> ago)
+          </th>
+        </tr>
+        <tr>
+          <td class="message searchable">
+              <p>
+tagged 4.2 mediaplayer and 1.0 desktopplayer and removed 4.2 branch <br />
+</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <ul class="props">
+              <li>
+                  Property <strong>svn:mime-type</strong> set to
+                    <em><code>application/octet-stream</code></em>
+              </li><li>
+                  Property <strong>svn:executable</strong> set to
+                    <em><code>*</code></em>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      <div id="preview" class="searchable">
+      <p>
+        <strong>HTML preview not available</strong>,
+            since no preview renderer could handle it.
+        Try <a href="/trac/export/209/tags/imagerotator-3.17/imagerotator.swf">downloading</a> the file instead.
+      </p>
+      </div>
+      <div id="help">
+        <strong>Note:</strong> See <a href="/trac/wiki/TracBrowser">TracBrowser</a>
+        for help on using the browser.
+      </div>
+      <div id="anydiff">
+        <form action="/trac/diff" method="get">
+          <div class="buttons">
+            <input type="hidden" name="new_path" value="/tags/imagerotator-3.17/imagerotator.swf" />
+            <input type="hidden" name="old_path" value="/tags/imagerotator-3.17/imagerotator.swf" />
+            <input type="hidden" name="new_rev" value="90" />
+            <input type="hidden" name="old_rev" value="90" />
+            <input type="submit" value="View changes..." title="Select paths and revs for Diff" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/trac/export/209/tags/imagerotator-3.17/imagerotator.swf">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/trac/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">
+        Powered by <a href="/trac/about"><strong>Trac 0.11</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.
+      </p>
+      <p class="right"></p>
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4011032-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+  </body>
+</html>

@@ -270,7 +270,7 @@ final class ScrapeBlock extends DrupalBlockBase {
     }
     
     // scrape section
-    if (user_access(ScrapeManager::$PERM_SECTION) && count($site) == 3) {
+    if (user_access(ScrapeManager::$PERM_SECTION) && ((count($site) == 3 && !empty($site[2])) || (count($site) == 4 && empty($site[3])))) {
      $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/minegolive.jpg\" alt=\"Scrape Section\"/>";
       // make sure section scrape does not appear when it is under admin
      if ($site[2] != 'admin') {

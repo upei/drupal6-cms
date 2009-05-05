@@ -9,8 +9,8 @@
 <style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/general_style.css");</style>
 <style type="text/css">@import url("/css/sunshine.css");</style>
 <?php print _import_override_css_files(); ?>
-<script type="text/javascript" src="/misc/swfobject.js"></script>
 <script type="text/javascript"><?php /* Needed to avoid Flash of Unstyle Content in IE */ ?> </script>
+<script type="text/javascript" src="/misc/swfobject.js"></script>
 <!--[if lte IE 6]>
 <script type="text/javascript"> 
     $(document).ready(function(){ 

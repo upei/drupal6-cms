@@ -13,9 +13,11 @@ class views_plugin_style_ajax extends views_plugin_style {
     $output = array();
     foreach ($sets as $title => $records) {
       $rows = array();
+      $nodes = array();
       foreach ($records as $label => $row) {
         $rendered_row = $this->row_plugin->render($row);
         $fields = array();
+        $nodes[] = $row;
         foreach ($rendered_row as $field) {
           $fields[$field->label] = $field->content;
         }
@@ -24,6 +26,7 @@ class views_plugin_style_ajax extends views_plugin_style {
       $output[] = array(
         'title' => $title,
         'rows' => $rows,
+        'nodes' => $nodes,
       );
     }
     return $output;

@@ -1,0 +1,1 @@
+views-view-ajax-html--one-line-gallery.tpl.php
