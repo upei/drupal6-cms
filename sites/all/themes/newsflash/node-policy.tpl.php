@@ -7,9 +7,11 @@
     <?php }; ?>
   <?php }; ?>
 
+  <? /* ?>
   <?php if ($terms) { ?>
     <!--<span class="submitted"><?php print $submitted?></span>--> <span class="taxonomy"><?php print $terms?></span>
   <?php }; ?>
+  <? */ ?>
 
   <div class="content">
  <?

@@ -59,9 +59,16 @@
         <div style="clear:both"></div>
       </div><!-- /section1 -->
 <?php endif; ?>
-              <?php print $feed_icons; ?>
-              
-			  <?php
+<?php print $feed_icons; ?>
+
+<div id="real-content" class="<? if ($sidebar_inner_left && $sidebar_inner_right) { print 'narrow'; } else if ( $sidebar_inner_left || $sidebar_inner_right) { print 'normal'; } else { print 'wide'; }?>">
+<?php print $content; ?>
+</div>
+  <?php print $feed_icons; ?>
+  <?php if ($content_bottom): ?>
+<div id="content-bottom" style="clear:both;"><?php print $content_bottom; ?></div>
+<?php endif; ?>              
+	  <?php
       $section2count = 2;
       // if ($user4)  { $section2count++; }
       // if ($user5)  { $section2count++; }
@@ -94,13 +101,6 @@
       <? print $sidebar_inner_right; ?>
     </div>
     <?php endif; ?>
-    <div id="real-content" class="<? if ($sidebar_inner_left && $sidebar_inner_right) { print 'narrow'; } else if ( $sidebar_inner_left || $sidebar_inner_right) { print 'normal'; } else { print 'wide'; }?>">
-    <?php print $content; ?>
-    </div>
-    <div style="clear:both;"></div>
-<?php if ($content_bottom): ?>
-                <div id="content-bottom"><?php print $content_bottom; ?></div>
-              <?php endif; ?>
             </div><!-- /inner-content -->
           </div><!-- /squeeze-content -->
         </div><!-- /squeeze -->

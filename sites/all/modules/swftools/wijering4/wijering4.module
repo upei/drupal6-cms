@@ -285,10 +285,11 @@ function wijering4_wijering4_mediaplayer_swftools_playlist($xml_data, &$method, 
     }
     $xml .= "<track>\n";
     $xml .= "<title>". $details['title'] ."</title>\n";
-    $xml .= "<creator></creator>\n";
+    $xml .= "<creator>" . $details['author'] . "</creator>\n";
     $xml .= "<location>". $details['fileurl'] ."</location>\n";
-    $xml .= "<image>". $details['background'] ."</image>\n";
-    $xml .= "<info>". $details['fileurl'] ."</info>\n";
+    $xml .= "<image>". $details['imageurl'] ."</image>\n";
+    $xml .= "<info>". $details['abouturl'] ."</info>\n";
+    $xml .= '<annotation>' . $details['description'] . "</annotation>\n";
     $xml .= "</track>\n";
   }
   $xml .= '</trackList>

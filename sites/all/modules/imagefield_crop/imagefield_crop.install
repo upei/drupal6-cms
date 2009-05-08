@@ -1,0 +1,22 @@
+<?php
+// $Id: imagefield_crop.install,v 1.1.2.1 2009/01/29 10:12:10 yhager Exp $
+
+/**
+ * Upgrade to Drupal 6.
+ */
+function imagefield_crop_update_6000() {
+  // Make sure CCK's been updated first.
+  if ($abort = content_check_update('imagefield_crop')) {
+    return $abort;
+  }
+
+  module_load_include('inc', 'content', 'includes/content.admin');
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $ret[] = update_sql("UPDATE {". content_instance_tablename() ."} SET widget_type = 'imagefield_crop_widget' WHERE widget_type = 'image crop'");
+  content_associate_fields('imagefield_crop');
+
+  content_clear_type_cache(TRUE);
+
+  return $ret;
+}

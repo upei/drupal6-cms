@@ -1,0 +1,129 @@
+<?php
+
+// $Id: imagefield_crop.module,v 1.1.2.11.2.4 2009/03/12 11:32:12 yhager Exp $
+
+// remove this for Drupal 7. see http://drupal.org/node/305645
+defined('REQUEST_TIME') or define ('REQUEST_TIME', $_SERVER['REQUEST_TIME']);
+
+/**
+ * Implementation of hook_init().
+ *
+ *
+ Load required includes and css files.
+ */
+function imagefield_crop_init() {
+  // field_file hooks and callbacks.
+  module_load_include('inc', 'imagefield_crop', 'imagefield_crop_file');
+
+  module_load_include('inc', 'imagefield_crop', 'imagefield_crop_widget');
+//  drupal_add_css(drupal_get_path('module', 'imagefield_crop') .'/imagefield_crop.css');
+}
+
+/**
+ * Implementation of CCK's hook_widget_info().
+ */
+function imagefield_crop_widget_info() {
+  $module_path = drupal_get_path('module', 'imagefield_crop');
+  return array(
+    'imagefield_crop_widget' => array(
+      'label' => t('Image with cropping'),
+      'field types' => array('image', 'filefield'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array('default value' => CONTENT_CALLBACK_CUSTOM),
+      // callback for dynamic filefield widgets to determine
+      // if this widget is appropriate for a file type.
+      'suitability callback' => 'imagefield_handles_file',
+      // description to use on forms to describe this widget.
+      'description' => t('An edit widget for image files, including a crop interface.'),
+    ),
+  );
+}
+
+/**
+ * Implementation of CCK's hook_widget_settings().
+ *
+ * Delegated to filefield.
+ */
+function imagefield_crop_widget_settings($op, $widget) {
+  switch ($op) {
+    case 'form':
+      return imagefield_crop_widget_settings_form($widget);
+    case 'validate':
+      return imagefield_crop_widget_settings_validate($widget);
+    case 'save':
+      return imagefield_crop_widget_settings_save($widget);
+  }
+}
+
+/**
+ * Implementation of hook_widget().
+ */
+function imagefield_crop_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+  $element = imagefield_widget($form, $form_state, $field, $items, $delta);
+
+  return $element;
+}
+
+/**
+ * Implementation of hook_elements().
+ */
+function imagefield_crop_elements() {
+  $elements = array();
+  $elements['imagefield_crop_widget'] =  array(
+    // Indicate to FormAPI that this element needs processing and is not simply a render element.
+    '#input' => TRUE,
+    '#process' => array('filefield_widget_process', 'imagefield_widget_process', 'imagefield_crop_widget_process'),
+    '#value_callback' => 'imagefield_crop_widget_value',
+    '#element_validate' => array('filefield_widget_validate', 'imagefield_widget_validate', 'imagefield_crop_widget_validate'),
+    '#description' => t('Changes made to the attachments are not permanent until you save this post.'),
+  );
+  return $elements;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function imagefield_crop_theme() {
+  return array(
+    // imagefield_crop_widget form element type theme function.
+    'imagefield_crop_widget' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'imagefield_crop_widget.inc',
+    ),
+
+    // display dynamic preview
+    'imagefield_crop_dynamic_preview' => array(
+      'arguments' => array(
+        'file' => NULL,
+        'resolution' => 0,
+      ),
+    ),
+    // display admin preview
+    'imagefield_crop_widget_preview' => array(
+      'arguments' => array('item' => NULL),
+    ),
+    // display crop box
+    'imagefield_crop_cropbox' => array(
+      'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE),
+    ),
+    'imagefield_crop_edit_crop_image_row' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+function theme_imagefield_crop_widget_preview($item = NULL) {
+  if (is_null($item) || empty($item['filepath'])) {
+    return '<!-- link to default admin thumb -->';
+  }
+  $thumb_path = imagefield_file_admin_thumb_path($item);
+  // A dummy query-string is added to filenames, to gain control over
+  // browser-caching. The string changes on every update or full cache
+  // flush, forcing browsers to load a new copy of the files, as the
+  // URL changed.
+  // This technique was copied from common.inc, see css_js_query_string
+  // documentation
+  $query_string = '?' . variable_get('imagefield_crop_query_string', REQUEST_TIME);
+  return '<img src="'. file_create_url($thumb_path) . $query_string . '" />';
+}
+

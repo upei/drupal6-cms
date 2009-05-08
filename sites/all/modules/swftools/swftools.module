@@ -1098,6 +1098,12 @@ function swftools_prepare_playlist_data($files, $title = '', $get_action = TRUE,
       $path_parts = pathinfo($playlist_data['playlist'][$key]['fileurl']);
       $playlist_data['playlist'][$key]['filename'] = $path_parts['basename'];
     }
+    
+    $playlist_data['playlist'][$key]['imageurl'] = $data['thumbnail'];
+    $playlist_data['playlist'][$key]['abouturl'] = $data['abouturl'];
+    $playlist_data['playlist'][$key]['author'] = strip_tags(html_entity_decode($data['author'], ENT_QUOTES, "utf-8"));
+    $playlist_data['playlist'][$key]['description'] = strip_tags(html_entity_decode($data['description'], ENT_QUOTES, "utf-8"));
+    
 
     if (!isset($data['title'])) {
       $playlist_data['playlist'][$key]['title'] = $playlist_data['playlist'][$key]['filename'];

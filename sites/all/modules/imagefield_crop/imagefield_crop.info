@@ -1,0 +1,15 @@
+; $Id: imagefield_crop.info,v 1.1.4.2 2009/02/06 06:01:41 yhager Exp $
+name= Image crop
+description = Add cropping ability to images using javascript
+core = 6.x
+dependencies[] = imagefield
+dependencies[] = imageapi
+package = CCK
+
+
+; Information added by drupal.org packaging script on 2009-03-19
+version = "6.x-1.0-beta3"
+core = "6.x"
+project = "imagefield_crop"
+datestamp = "1237449322"
+

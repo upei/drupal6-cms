@@ -16,7 +16,7 @@ foreach ($rows as $row): ?>
 <?
 $index = 0;
 foreach ($rows as $row): ?>
-<div style="display:none; max-width: 640px;"  id="onelinegallery-<?=$index++?>">
+<div style="display:none; max-width: 500px;"  id="onelinegallery-<?=$index++?>">
 <?=$row['image']?>
 <h2><?=$row['title']?></h2>
 <div><?=$row['description']?></div>
@@ -64,6 +64,7 @@ var gallery_item_fadein = function(elems, base, start, stop, callback) {
 
 var deans_left_click = function () {
   $('#onelinegallery-left').unbind('click');
+  $('#onelinegallery-right').unbind('click');
   
   var elems = $('#onelinegallery-gallery li');
 
@@ -71,14 +72,22 @@ var deans_left_click = function () {
   if (new_current < 0) new_current = 0;
 
   gallery_item_fadeout(elems, jQuery._current_dean, 0, jQuery._dean_step, function () {
-    gallery_item_fadein(elems, new_current, 0, jQuery._dean_step);
+    gallery_item_fadein(elems, new_current, 0, jQuery._dean_step, function () {
+      $('#onelinegallery-left').click(deans_left_click);
+      $('#onelinegallery-right').click(deans_right_click);
+    });
   });
+  // elems.hide();
+  // for (var i=new_current; i < new_current + jQuery._dean_step && i < elems.size(); i++)
+  //   $(elems[i]).show();
+  
   jQuery._current_dean = new_current;
   
-  $('#onelinegallery-left').click(deans_left_click);
+
 };
 
 var deans_right_click = function () {
+  $('#onelinegallery-left').unbind('click');
   $('#onelinegallery-right').unbind('click');
   
   var elems = $('#onelinegallery-gallery li');
@@ -90,12 +99,17 @@ var deans_right_click = function () {
     new_current = jQuery._dean_total - jQuery._dean_step;
 
   gallery_item_fadeout(elems, jQuery._current_dean, 0, jQuery._dean_step, function () {
-    gallery_item_fadein(elems, jQuery._current_dean, 0, jQuery._dean_step);
+    gallery_item_fadein(elems, jQuery._current_dean, 0, jQuery._dean_step, function () {
+      $('#onelinegallery-left').click(deans_left_click);
+      $('#onelinegallery-right').click(deans_right_click);
+    });
   });
+  // elems.hide();
+  // for (var i=new_current; i < new_current + jQuery._dean_step && i < elems.size(); i++)
+  //   $(elems[i]).show();
   
   jQuery._current_dean = new_current;
-  
-  $('#onelinegallery-right').click(deans_right_click);
+
 };
 
 

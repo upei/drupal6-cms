@@ -349,6 +349,7 @@ margin-top: 200px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   height: 79px;
+  overflow: hidden;
 }
 .front-page-gallery ul {
   padding: 2px 0 2px 3px;

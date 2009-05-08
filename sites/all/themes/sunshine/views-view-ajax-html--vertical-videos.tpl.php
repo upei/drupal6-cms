@@ -22,7 +22,7 @@
 <div class="vertical-video-detail-items">
   <? $index = 0; foreach ($rows as $row): ?>
     <div id="vertical-video-<?=$index?>" class="vertical-video-detail-item">
-    <div id="vertical-video-swf-<?=$index++?>"><?=$row['video']?></div>
+    <div id="vertical-video-swf-<?=$index++?>"><?= swf($row['video'], array('flashvars' => array('width' => '200', 'height'=> '355')))?></div>
     <h3><?=$row['title']?></h3>
     <div class="vertical-video-item-body"><?=$row['body']?></div>
     </div>
@@ -90,6 +90,6 @@ $('#vertical-video-item-<?=$index?> a').each(function() {
 <? $r = rand(0, count($rows)-1); ?>
 <!--[if IE]>
 <div class="vertical-video-single">
-  <?=$rows[$r]['video']?>
+  <? print swf($rows[$r]['video'], array('flashvars' => array('width' => '200', 'height' => '355'))); ?>
 </div>
 <![endif]-->
