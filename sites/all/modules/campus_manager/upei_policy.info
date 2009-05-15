@@ -1,0 +1,9 @@
+name = UPEI policy parser
+description = The module to handle cck policy content type. Automatically parse the policy_unique_id field into taxonomy terms under different vocabularies. 
+package = Campus manager
+version = 0.1
+
+; Information added by drupal.org packaging script on 2007-04-16
+project = "Other"
+
+core= 6.x

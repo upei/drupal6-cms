@@ -1,0 +1,257 @@
+<?php
+/**
+ * CCK policy miscellaneous jobs.
+ *
+ * CCK content type ``policy'' (with the exact same name) must be created.
+ * This content type must include a field named ``policy_unique_id''.
+ * A vocabulary named ``Policy'' must be created. The vocabulary must set to
+ * ``not required'', ''single hierarchy''.
+ *
+ * 2008-07-16 Yuxing Huang <gzfelix@gmail.com>
+ */
+
+/**
+ * event handler of cck policy nodes.
+ */
+
+function _upei_policy_codes() {
+
+	return array(
+		'adm' => 'Administration',
+		'adm/acc' => 'Accounting Office',
+		'adm/adv' => 'Advancement Services',
+		'adm/av_' => 'Audio Visual',
+		'adm/bst' => 'Bookstore',
+		'adm/cho' => 'Chaplain\'s Office',
+		'adm/cs_' => 'Computer Services',
+		'adm/fin' => 'Finance',
+			'fin/gnl' => 'General',
+			'fin/fin' => 'Finance',
+			'fin/bud' => 'Budget',
+			'fin/fac' => 'Facilities',
+		'adm/hc_' => 'Health Centre',
+		'adm/hrd' => 'Human Resources',
+			'hrd/rs_' => 'Recruitment and Selection',
+			'hrd/td_' => 'Training and Development',
+			'hrd/la_' => 'Leave and Attendance',
+			'hrd/emb' => 'Employee Benefits',
+			'hrd/dis' => 'Discipline',
+			'hrd/ter' => 'Termination and Employment',
+			'hrd/com' => 'Compensation',
+			'hrd/ohs' => 'Occupational Health and Safety',
+			'hrd/mis' => 'Miscellaneous',
+		'adm/int' => 'International Centre',
+		'adm/lib' => 'Library',
+		'adm/lll' => 'Life Long Learning',
+		'adm/pps' => 'Physical Plant/Security Services',
+		'adm/pur' => 'Purchasing',
+		'adm/reg' => 'Registrar\'s Office',
+			'reg/int' => 'International',
+			'reg/gnl' => 'General',
+		'adm/ord' => 'Research and Development',
+			'ord/gnl' => 'General',
+		'adm/rfc' => 'Residences Food Conference Service',
+			'rfc/rl_' => 'Residence Life',
+		'adm/ss_' => 'Student Services',
+			'ss_/gnl' => 'General',
+		'gov' => 'Governance',
+		'gov/brd' => 'Board',
+			'brd/acd' => 'Academic',
+			'brd/gnl' => 'General',
+			'brd/rmt' => 'Risk Management',
+		'gov/sen' => 'Senate',
+			'sen/acd' => 'Academic',
+			'sen/gnl' => 'General',
+			'sen/rmt' => 'Risk Management',
+		'avc' => 'AVC',
+		'art' => 'ART',
+		'art/art' => 'ART',
+		'art/cst' => 'Canadian Studies',
+		'art/cla' => 'Classics',
+		'art/eng' => 'English',
+		'art/fia' => 'Fine Arts',
+		'art/his' => 'History',
+		'art/mla' => 'Modern Languages',
+		'art/mus' => 'Music',
+		'art/phl' => 'Philosophy',
+		'art/pst' => 'Political Studies',
+		'art/psy' => 'Psychology',
+		'art/rel' => 'Religious Studies',
+		'art/soa' => 'Sociology and Authropology',
+		'edu' => 'Education',
+		'bus' => 'Business',
+		'nur' => 'Nursing',
+		'sci' => 'Science',
+		'sci/bio' => 'Biology',
+		'sci/chm' => 'Chemistry',
+		'sci/ecp' => 'Economics',
+		'sci/eng' => 'Engineering',
+		'sci/fns' => 'Family and Nutritional Sciences',
+		'sci/mcs' => 'Math and Computer Science',
+		'sci/phy' => 'Physics',
+		);
+}
+
+function upei_policy_perm() {
+	return array('policy alias');
+}
+
+function upei_policy_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+	// 0. check permission
+	if (!user_access('policy alias')) {
+		return;
+	}
+	
+	// 10. check if the node is a cck policy type
+	if ($node->type != 'policy') {
+		return;
+	}
+	// 15. check if it contains a cck policy_unique_id field
+	if (!isset($node->field_policy_unique_id)) {
+		return;
+	}
+	// 20. if it is cck policy type, go ahead
+	switch($op) {
+		// here we only deal with insert and update event
+		case 'insert':
+		case 'update':
+			// 30. get the cck policy_unique_id field
+			$policy_unique_id = $node->field_policy_unique_id[0]['value'];
+			$policy_revision_number = $node->field_policy_revision_number[0]['value'];
+
+			// 35. try to break down the unique id
+			$main = strtolower(substr($policy_unique_id, 0, 3));
+			$section = strtolower(substr($policy_unique_id, 3, 3));
+			if (preg_match("/^([a-z_]{2,3})/", substr($policy_unique_id, 6, 3), $matches)) {
+				if (strlen($matches[1]) == 2) {
+					$subsection = $matches[1] . "_";
+				}
+				else {
+					$subsection = $matches[1];
+				}
+				$id = strtolower(substr($policy_unique_id, 9));
+			}
+			else {
+				$subsection = NULL;
+				$id = strtolower(substr($policy_unique_id, 6));
+			}
+			
+			// 40. add terms
+			_upei_policy_node_save_terms($node, $main, $section, $subsection);
+			
+			// set path alias
+			$node->pathauto_perform_alias = 0;
+			path_set_alias("node/$node->nid", NULL);
+			if (!is_null($subsection)) {
+				path_set_alias("node/$node->nid", "$main/$section/$subsection/$id");
+			}
+			else {
+				path_set_alias("node/$node->nid", "$main/$section/$id");
+			}
+			
+			break;
+
+		case 'validate':
+			$policy_unique_id = $node->field_policy_unique_id[0]['value'];
+			// validate the policy unique id field
+			// 31. not going if the uid is shorter than 7 characters
+			if (strlen($policy_unique_id) < 7) {
+				form_set_error('policy_unique_id', 'Policy Unique ID must be at least 7 characters.');
+			}
+			// 32. not going if invalid characters are found
+			if (!preg_match('/^([a-z_]{3,3})([a-z_]{3,3})([a-z_]{2,3})?([0-9]+)$/', $policy_unique_id)) {
+				form_set_error('policy_unique_id', 'Policy Unique ID must have have the leading three characters as small letters, the following three characters as small letters or underscore, and the remaining characters as small letters or numbers.');
+			}
+			
+			break;
+	}
+}
+
+function _upei_policy_node_save_terms(&$node, $main, $section, $subsection) {
+	// 41. get the vocabulary ``Policy''.
+	$vocabularies = taxonomy_get_vocabularies();
+	$vocabularies = array_filter($vocabularies, '_upei_policy_filter_vocabulary');
+	if (count($vocabularies) > 0) {
+		$policy_vocabulary = array_pop($vocabularies);
+	}
+	// 42. get the main term
+	$main_term = _upei_policy_get_or_create_main_term($policy_vocabulary, $main);
+	
+	// 44. get the sub term if the term exists
+	$section_term = _upei_policy_get_or_create_child_term($policy_vocabulary, $main_term, $section);
+	if (!is_null($subsection)) {
+		$subsection_term = _upei_policy_get_or_create_child_term($policy_vocabulary, $section_term, $subsection);
+	}
+	
+	// 45. delete the association of a node's terms
+	taxonomy_node_delete($node->nid);
+	
+	// 46. reassign them
+	if (is_null($subsection)) {
+		taxonomy_node_save($node->nid, array($section_term->tid));
+	}
+	else {
+		taxonomy_node_save($node->nid, array($subsection_term->tid));
+	}
+	// var_dump($section_term);
+}
+
+function _upei_policy_get_or_create_main_term(&$vocabulary, $name) {
+	$codes = _upei_policy_codes();
+	
+	// get the terms of the vocabulary
+	$policy_terms = taxonomy_get_term_by_name($name);
+	// get the main term if the term exists in the vocabulary
+	$main_term = NULL;
+	foreach ($policy_terms as $term) {
+		if ($term->vid == $vocabulary->vid && $term->name == $name) {
+			$main_term = $term;
+		}
+	}
+	// create the term if it does not exist.
+	if (NULL == $main_term) {
+		$values = array(
+			'name' => $name,
+			'vid' => $vocabulary->vid,
+			'description' => isset($codes[$name]) ? $codes[$name] : '',
+			);
+		taxonomy_save_term($values);
+		$main_term = taxonomy_get_term($values['tid']);
+		watchdog('taxonomy', t('Created new term %term.', array('%term' => $values['name'])), WATCHDOG_NOTICE, l(t('edit'), 'admin/content/taxonomy/edit/term/'. $values['tid']));
+	}
+	return $main_term;
+}
+
+function _upei_policy_get_or_create_child_term(&$vocabulary, $parent_term, $name) {
+	$codes = _upei_policy_codes();
+	
+	$policy_terms = taxonomy_get_tree($vocabulary->vid, 0, -1, 3);
+	$child_term = NULL;
+	foreach ($policy_terms as $term) {
+		if ($term->vid == $vocabulary->vid &&
+				$term->name == $name && $term->parents[0] == $parent_term->tid) {
+			$child_term = $term;
+		}
+	}
+	if (NULL == $child_term) {
+		$values = array(
+			'name' => $name,
+			'parent' => $parent_term->tid,
+			'vid' => $vocabulary->vid,
+			'description' => isset($codes[$parent_term->name . '/' . $name]) ? $codes[$parent_term->name . '/' . $name] : '',
+			);
+		taxonomy_save_term($values);
+		$child_term = taxonomy_get_term($values['tid']);
+		watchdog('taxonomy', t('Created new term %term.', array('%term' => $values['name'])), WATCHDOG_NOTICE, l(t('edit'), 'admin/content/taxonomy/edit/term/'. $values['tid']));
+	}
+	return $child_term;
+}
+
+function _upei_policy_filter_vocabulary($item) {
+	if ($item->name == 'Policy') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
