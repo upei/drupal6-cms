@@ -1,0 +1,11 @@
+; $Id: konamicode.info,v 1.1 2009/05/11 14:25:32 robloach Exp $
+name = Konami Code
+description = Redirects the user to a special page when they enter the Konami Code.
+core = 6.x
+
+; Information added by drupal.org packaging script on 2009-05-12
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "konamicode"
+datestamp = "1242087080"
+

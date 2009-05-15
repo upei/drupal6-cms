@@ -1,0 +1,13 @@
+// $Id: CHANGELOG.txt,v 1.4.2.2 2008/06/12 20:39:02 smk Exp $
+
+Transliteration 6.x-2.0, 2008-06-12
+-----------------------------------
+#255646 by smk-ka: Added a language parameter to transliteration_get().
+#246875 by smk-ka: Added language-specific replacements for Danish letters.
+#253916 by Freso: Fixed typo in .info file.
+
+
+Transliteration 6.x-1.0, 2007-03-20
+-----------------------------------
+Initial release.
+

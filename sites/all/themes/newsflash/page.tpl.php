@@ -6,7 +6,7 @@
   
   <?php print $head ?>
   <?php print $styles ?>
-<style type="text/css">@import "<?php print base_path() . path_to_theme() ?>/css/general_style.css";</style>
+<link rel="stylesheet" type="text/css" href="<?php print base_path() . path_to_theme() ?>/css/general_style.css" />
 <?php  print _import_override_css_files(); ?>
 <script type="text/javascript" src="/misc/swfobject.js"></script>
 

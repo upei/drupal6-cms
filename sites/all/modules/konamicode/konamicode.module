@@ -1,0 +1,48 @@
+<?php
+// $Id: konamicode.module,v 1.1 2009/05/11 14:25:32 robloach Exp $
+
+/**
+ * Implementation of hook_help().
+ */
+function konamicode_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#konamicode':
+      return '<p>'. t('The <a href="@konamicode">Konami Code</a> is a cheat code that appeared in many Konami video games. The Konami Code module makes it so that when users enter the code on your website, it redirects them to a given page. This mimics the effects that exist on many other <a href="@konamicodesites">Konami Code sites</a>.', array('@konamicode' => 'http://en.wikipedia.org/wiki/Konami_code', '@konamicodesites' => 'http://konamicodesites.com')) .'</p>';
+    case 'admin/settings/konamicode':
+      return '<p>'. t('When the user enters the <a href="@konamicode">Konami Code</a>, have them redirected to the given URL.', array('@konamicode' => 'http://en.wikipedia.org/wiki/Konami_code')) .'</p>';
+  }
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function konamicode_init() {
+  $destination = variable_get('konamicode_destination', '');
+  if (!empty($destination)) {
+    $destination = url($destination, array('absolute' => TRUE));
+    drupal_add_js(drupal_get_path('module', 'konamicode') .'/konamicode.js');
+    drupal_add_js(array('konamicode' => $destination), 'setting');
+  }
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function konamicode_perm() {
+  return array('administer konamicode');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function konamicode_menu() {
+  $items['admin/settings/konamicode'] = array(
+    'title' => 'Konami Code',
+    'description' => 'Customize the effect that entering the Konami Code has on your site.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('konamicode_admin_settings'),
+    'access arguments' => array('administer konamicode'),
+    'file' => 'konamicode.admin.inc',
+  );
+  return $items;
+}

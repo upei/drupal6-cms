@@ -1,0 +1,49 @@
+// $Id: CHANGELOG.txt,v 1.1.2.1 2009/05/01 10:07:32 deciphered Exp $
+
+FileField Paths 6.x-1.x-dev, xxxx-xx-xx (development release)
+-----------------------------------
+
+
+FileField Paths 6.x-1.2, 2009-05-01
+-----------------------------------
+
+- Added CHANGELOG.txt and README.txt.
+- #447794: Updated ImageField thumbnail support.
+- Updated API Hooks - minor change, implemented one default value.
+- Changed default File name replacement value.
+- Fixed issue with new tokens when 'origname' field is empty.
+- Added original filename tokens.
+- Added original filename in {files} table.
+- #434038: Added Batch process for 'Retroactive updates' (previously 'Retroactive changes').
+- #311526: Fixed recursion error.
+- #428542 by k4ml: Fixed PostgreSQL issue.
+
+
+FileField Paths 6.x-1.1, 2009-04-07
+-----------------------------------
+
+- Changed 'Retroactive changes' warning.
+- Fixed issue with Tokens and FileField RC 1.
+- Changed hook_filefield_paths_process_file() to support changes on node update.
+- Added improved support for FileField tokens.
+- Changed UI element order slightly.
+- #399318: Fixed issue with ImageField module support.
+- #398754: Fixed issue with Transliteration module support.
+- Added improved support for unprocessed URL replacement.
+- #373735: Added ability to replace encoded unprocessed URLs.
+- Fixed undefined variable.
+- Added 'Retroactive changes' functionality.
+- Removed dependancy on FileField module.
+- #324736: Added temporary workaround for token values as array issue.
+- #360303: Fixed translation issues.
+- #363105: Fixed SQL error.
+- #366997: Fixed multiple PHP notices.
+- #331488 by Moonshine: Added error checking.
+- Added support for core Upload module.
+
+
+FileField Paths 6.x-1.0, 2008-11-03
+-----------------------------------
+
+- Initial 6.x release
+

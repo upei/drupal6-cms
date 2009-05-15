@@ -91,7 +91,6 @@ div.admin-panel h3 {
 
 h1.title
 {
-  font-size: 24px;
   background-color: #6c1c00;
   margin-left: 0px;
   padding-left: 15px;
@@ -401,3 +400,14 @@ margin-top: 20px;
 .views-right-bar { position: relative; }
 .views-right-button { position: absolute; width:23px; height:57px; background-image:url('/misc/i/views-direction.png'); background-repeat: no-repeat; background-position: -33px -2px; cursor: pointer; cursor: hand; }
 .views-right-button:hover { background-position: -33px -72px; }
+
+
+/* view faqs page */
+.view-faqs-anchor li { font-size: 1.4em; font-family: "Minion Pro Display", Georgia, "Times New Roman", serif ; margin-top: 1em; }
+
+.view-faqs-anchor a { text-decoration: none !important; color: rgb(108, 28, 0) !important;}
+.view-faqs-anchor a:hover { text-decoration: underline !important; }
+
+#real-content .view-faqs .views-field-title { font-size: 1.4em; font-family: "Minion Pro Display", Georgia, "Times New Roman", serif ; margin-top: 2em; }
+
+#real-content .view-faqs .views-field-body { font-size: 1.2em; font-family: Helvetica, Arial, sans-serif; line-height: 1.8em; }

@@ -1,6 +1,6 @@
 <?php
 
-// $Id: imagefield_crop_widget.inc,v 1.1.2.7 2009/03/12 11:32:12 yhager Exp $
+// $Id: imagefield_crop_widget.inc,v 1.1.2.9 2009/04/06 11:16:25 yhager Exp $
 
 // load imagefield widget, so we can extend it, and not fully replace it
 module_load_include('inc','imagefield', 'imagefield_widget');
@@ -97,6 +97,7 @@ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
   drupal_add_js($module_path . '/Jcrop/js/jquery.Jcrop.js');
   // We must define Drupal.behaviors for ahah to work, even if there is no file
   drupal_add_js($module_path . '/imagefield_crop.js');
+  drupal_add_css($module_path . '/imagefield_crop.css');
   drupal_add_css($module_path . '/Jcrop/css/jquery.Jcrop.css');
 
   $file = $element['#value'];
@@ -170,6 +171,10 @@ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
   
   $crop_display = $file;
   $crop_display['filepath'] = imagefield_crop_file_admin_crop_display_path($file);
+  if (!file_exists($crop_display['filepath'])) {
+    // crop_display_path might not exist if we were imagefield_crop is added to existing images
+    $crop_display['filepath'] = $file['filepath'];
+  }
   $element['data']['cropbox'] = array(
     '#type' => 'markup',
     '#value' => theme('imagefield_crop_cropbox', $crop_display, $crop_display['alt'], $crop_display['title'], NULL, FALSE),

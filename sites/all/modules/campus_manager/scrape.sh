@@ -86,11 +86,10 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	echo "Beginning copy of content in /$1.  This may take several minutes."
 
 	# Need to include fix-ie.css file explicitly
-	HTTRACK_OPTS="-O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
+	HTTRACK_OPTS="--sockets=10 --timeout=30 --retries=3 --host-control=1 --near -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
 	HTTRACK_OPTIONS="http://${source_site}/$bucket/hidden/links
       +${source_site}/$bucket/link/*
-			-${source_site}/$bucket/files/*
-			-${source_site}/*/scrape/*
+      -${source_site}/$bucket/files/*
 			+${photo_site}/d/*
 			${HTTRACK_OPTS}"
 
@@ -122,9 +121,9 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	fi
 
 	# Copy files from Drupal file store to cache directory
-	rsync -av --delete --exclude "tmp/" \
-		${sites_home}/upei.ca.$bucket/files/ \
-		${cache_directory}/$bucket/${source_site}/$bucket/files/$bucket
+  rsync -av --delete --exclude "tmp/" \
+    ${sites_home}/upei.ca.$bucket/files/ \
+    ${cache_directory}/$bucket/${source_site}/$bucket/files/$bucket
 
 	# Replace all instances of ${source_site} or cms-dev.upei.ca with www.upei.ca in captured HTML and XML files
 	find ${cache_directory}/$bucket/${source_site}/$1/ -name "*html" \

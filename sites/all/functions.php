@@ -50,7 +50,7 @@ function _import_override_css_files() {
 		$url = array_slice($url_part, 0, $len);
 		$file_name = '/css/' . join('_', $url) . '.css';
 		if (is_file($mypath . $file_name)) {
-			$output .= '<style type="text/css">@import url("' . $file_name . "\");</style>\n";
+			$output .= '<link rel="stylesheet" type="text/css" href="' . $file_name . "\" />\n";
 		}
 /*
     $file_name = '/css/' . join('_', $url) . '-ie.css';

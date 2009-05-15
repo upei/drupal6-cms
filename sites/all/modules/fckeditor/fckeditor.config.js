@@ -111,4 +111,4 @@ FCKConfig.JustifyClasses = ['rteleft','rtecenter','rteright','rtejustify'] ;
 FCKConfig.EMailProtection = 'none' ;
 FCKConfig.SpellChecker = 'SpellerPages' ;
 FCKConfig.CleanWordKeepsStructure = true ;
-
+FCKConfig.AutoDetectPasteFromWord = true ;

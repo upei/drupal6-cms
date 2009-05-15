@@ -1,4 +1,4 @@
-$Id: API.txt,v 1.6 2009/03/07 19:53:24 greggles Exp $
+$Id: API.txt,v 1.5.2.1 2009/03/07 19:52:05 greggles Exp $
 
 This document explains how to provide "Pathauto integration" in a
 module. You need this if you would like to provide additional tokens

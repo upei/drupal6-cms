@@ -22,9 +22,6 @@
           <?php } ?>
           <div id="squeeze-content">
             <div id="inner-content">
-             <?php if ($content_top):?>
-                <div id="content-top"><?php print $content_top; ?></div>
-              <?php endif; ?>
 
 <?
 	$aURI = explode("/", request_uri());
@@ -58,6 +55,9 @@
         <div style="clear:both"></div>
       </div><!-- /section1 -->
 <?php endif; ?>
+<?php if ($content_top):?>
+   <div id="content-top"><?php print $content_top; ?></div>
+ <?php endif; ?>
 <?php if ($sidebar_inner_left): ?>
 <div id="sidebar-inner-left">
   <? print $sidebar_inner_left; ?>

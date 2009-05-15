@@ -39,5 +39,10 @@ function imagefield_crop_file_admin_crop_display_path($file) {
 // Original file to crop from
 function imagefield_crop_file_admin_original_path($file) {
   // the displayed and original are the same. Yay Jcrop!
-  return imagefield_crop_file_admin_crop_display_path($file);
+  $original_path = imagefield_crop_file_admin_crop_display_path($file);
+  if (!file_exists($original_path)) {
+    // orig file does not exist, use what we have as original
+    file_copy($file['filepath'], $original_path);
+  }
+  return $original_path;
 }

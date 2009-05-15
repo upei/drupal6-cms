@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto.admin.inc,v 1.20 2008/09/13 08:54:06 freso Exp $
+// $Id: pathauto.admin.inc,v 1.10.2.1 2008/06/24 16:07:51 greggles Exp $
 
 /**
  * @file
@@ -60,11 +60,8 @@ function pathauto_admin_settings() {
   $form['general']['pathauto_case'] = array(
     '#type' => 'radios',
     '#title' => t('Character case'),
-    '#default_value' => variable_get('pathauto_case', PATHAUTO_CASE_LOWER),
-    '#options' => array(
-      t('Leave case the same as source token values.'),
-      t('Change to lower case'),
-    ),
+    '#default_value' => variable_get('pathauto_case', 1),
+    '#options' => array(t('Leave case the same as source token values.'), t('Change to lower case')),
   );
 
   $form['general']['pathauto_max_length'] = array(
@@ -97,33 +94,34 @@ function pathauto_admin_settings() {
   $actions = array(
     t('Do nothing. Leave the old alias intact.'),
     t('Create a new alias. Leave the existing alias functioning.'),
-    t('Create a new alias. Delete the old alias.'),
-  );
+    t('Create a new alias. Delete the old alias.'));
 
   if (function_exists('path_redirect_save')) {
     $actions[] = t('Create a new alias. Redirect from old alias.');
   }
-  elseif (variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE) == PATHAUTO_UPDATE_ACTION_REDIRECT) {
+  elseif (variable_get('pathauto_update_action', 2) == 3) {
     // the redirect action is selected, but path_redirect is not enabled
     // let's set the variable back to the default
-    variable_set('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
+    variable_set('pathauto_update_action', 2);
   }
 
   $form['general']['pathauto_update_action'] = array(
     '#type' => 'radios',
     '#title' => t('Update action'),
-    '#default_value' => variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE),
+    '#default_value' => variable_get('pathauto_update_action', 2),
     '#options' => $actions,
-    '#description' => t('What should Pathauto do when updating an existing content item which already has an alias?'),
+    '#description' => t('What should pathauto do when updating an existing content item which already has an alias?'),
   );
 
-  $disable_transliteration = FALSE;
+  $disable_transliteration = TRUE;
   $path = drupal_get_path('module', 'pathauto');
-  $transliteration_help = t('When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is handled by the Transliteration module.');
-  if (!module_exists('transliteration')) {
-    $disable_transliteration = TRUE;
-    $transliteration_help .= ' <strong>'. t("This option is disabled on your site because the Transliteration module either isn't installed, or isn't installed properly.") .'</strong>';
-    // Make sure we don't try to use Transliteration if it isn't available
+  $transliteration_help = t('When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt file in the Pathauto directory. <strong>This option is disabled on your site because you do not have an i18n-ascii.txt file in the Pathauto directory.</strong>');
+  if (is_file($path .'/i18n-ascii.txt')) {
+    $disable_transliteration = FALSE;
+    $transliteration_help = t('When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt file in the Pathauto directory.');
+  }
+  else {
+    // Perhaps they've removed the file, set the transliterate option to FALSE
     variable_set('pathauto_transliterate', FALSE);
   }
   $form['general']['pathauto_transliterate'] = array(
@@ -140,20 +138,16 @@ function pathauto_admin_settings() {
     '#description' => t('Filters the new alias to only letters and numbers found in the ASCII-96 set.'),
   );
 
-  $wysiwyg_warn = _pathauto_warn_wysiwygs();
-
   $form['general']['pathauto_ignore_words'] = array(
     '#type' => 'textarea',
-    '#title' => t('Strings to Remove'),
-    '#default_value' => variable_get('pathauto_ignore_words', implode(',', $ignore_words)),
-    '#description' => t('Words to strip out of the URL alias, separated by commas. Do not use this to remove punctuation.') . $wysiwyg_warn,
+    '#title' => t('Strings to Remove'), '#default_value' => variable_get('pathauto_ignore_words', implode(',', $ignore_words)),
+    '#description' => t('Words to strip out of the URL alias, separated by commas. Do not place punctuation in here and do not use WYSIWYG editors on this field.'),
   );
 
   $form['punctuation'] = array(
     '#type' => 'fieldset',
     '#weight' => $group_weight,
-    '#title' => t('Punctuation settings'),
-    '#collapsible' => TRUE,
+    '#title' => t('Punctuation settings'), '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
   $group_weight++;
@@ -163,12 +157,8 @@ function pathauto_admin_settings() {
     $form['punctuation']['pathauto_punctuation_'. $name ] = array(
       '#type' => 'select',
       '#title' => $details['name'],
-      '#default_value' => variable_get('pathauto_punctuation_'. $name, PATHAUTO_PUNCTUATION_REMOVE),
-      '#options' => array(
-        PATHAUTO_PUNCTUATION_REMOVE => t('Remove'),
-        PATHAUTO_PUNCTUATION_REPLACE => t('Replace by separator'),
-        PATHAUTO_PUNCTUATION_DO_NOTHING => t('No action (do not replace)'),
-      ),
+      '#default_value' => variable_get('pathauto_punctuation_'. $name, 0),
+      '#options' => array('0' => t('Remove'), '1' => t('Replace by separator'), '2' => t('No action (do not replace)')),
     );
   }
 
@@ -287,7 +277,7 @@ function pathauto_admin_settings() {
         '#size' => 65,
         '#maxlength' => 1280,
         '#default_value' => $current,
-        '#description' => t('The text to use for aliases for RSS feeds. Examples are "0/feed" (used throughout Drupal core) and "feed" (used by some contributed Drupal modules, like Views).'),
+        '#description' => t('The text to use for aliases for RSS feeds. Examples are "feed" and "0/feed".'),
       );
     }
 
@@ -360,10 +350,10 @@ function _pathauto_check_pattern($pattern, $type) {
   }
 
   if ($return) {
-    $return = t('NOTE: This field contains potentially incorrect patterns. %name %problems.', array(
-      '%name' => format_plural(count($return), 'Problem token:', 'Problem tokens:'),
-      '%problems' => implode(', ', $return),
-    ));
+    $description = t('NOTE: This field contains potentially incorrect patterns. ');
+    $description .= format_plural(count($return), 'Problem token: ', 'Problem tokens: ');
+    $description .= t('%problems', array('%problems' => implode(', ', $return)));
+    $return = $description;
   }
 
   return $return;
@@ -373,8 +363,6 @@ function _pathauto_check_pattern($pattern, $type) {
  * Validate pathauto_admin_settings form submissions.
  */
 function pathauto_admin_settings_validate($form, &$form_state) {
-  _pathauto_include();
-
   // Validate that the separator is not set to be removed per http://drupal.org/node/184119
   // This isn't really all that bad so warn, but still allow them to save the value.
   $separator = $form_state['values']['pathauto_separator'];
@@ -382,8 +370,8 @@ function pathauto_admin_settings_validate($form, &$form_state) {
   foreach ($punctuation as $name => $details) {
     if ($details['value'] == $separator) {
       $action = $form_state['values']['pathauto_punctuation_'. $name];
-      if ($action == PATHAUTO_PUNCTUATION_REMOVE) {
-        drupal_set_message(t('You have configured the @name to be the separator and to be removed when encountered in strings. This can cause problems with your patterns and especially with the catpath and termpath patterns. You should probably set the action for @name to be "replace by separator".', array('@name' => $details['name'])), 'error');
+      if ($action == 0) {
+        drupal_set_message(t('You have configured the @name to be the separator and to be removed when encountered in strings. This can cause problems with your patterns and especially with the catpath and termpath patterns. You should probably set the action for @name to be "replace by separator"', array('@name' => $details['name'])), 'error');
       }
     }
   }
@@ -408,7 +396,7 @@ function pathauto_admin_delete() {
   $form = array();
   $form['delete'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Choose aliases to delete'),
+    '#title' => t('Choose Aliases to Delete'),
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,
   );
@@ -417,7 +405,7 @@ function pathauto_admin_delete() {
   $total_count = db_result(db_query('SELECT count(1) FROM {url_alias}'));
   $form['delete']['all_aliases'] = array(
     '#type' => 'checkbox',
-    '#title' => t('All aliases'),
+    '#title' => t('all aliases'),
     '#default_value' => FALSE,
     '#description' => t('Delete all aliases. Number of aliases which will be deleted: %count.', array('%count' => $total_count)),
   );
@@ -435,7 +423,7 @@ function pathauto_admin_delete() {
   }
 
   // Warn them and give a button that shows we mean business
-  $form['warning'] = array('#value' => '<p>'. t('<strong>Note:</strong> there is no confirmation. Be sure of your action before clicking the "Delete aliases now!" button.<br />You may want to make a backup of the database and/or the url_alias table prior to using this feature.') .'</p>');
+  $form['warning'] = array('#value' => t('<p><strong>Note:</strong> there is no confirmation. Be sure of your action before clicking the "Delete aliases now!" button.<br />You may want to make a backup of the database and/or the url_alias table prior to using this feature.</p>'));
   $form['buttons']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Delete aliases now!'),
@@ -462,30 +450,4 @@ function pathauto_admin_delete_submit($form, &$form_state) {
     }
   }
   $form_state['redirect'] = 'admin/build/path/delete_bulk';
-}
-
-/**
- * Helper function for pathauto_admin_settings().
- *
- * Checks to see if they are using a known WYSIWYG editor and, if so, returns a
- * a warning string.
- *
- * @return
- *   A warning message if appropriate.
- */
-function _pathauto_warn_wysiwygs() {
-  $wysiwygs = array(
-    'bueditor', 'fckeditor', 'htmlarea', 'htmlbox', 'tinymce', 'whizzywig',
-    'widgeditor', 'wymeditor', 'wysiwyg', 'xstandard', 'yui_editor',
-  );
-
-  $wysiwyg_problem = FALSE;
-  foreach ($wysiwygs as $key => $wysiwyg) {
-    if (module_exists($wysiwyg)) {
-      $wysiwyg_problem = TRUE;
-    }
-  }
-  if ($wysiwyg_problem) {
-    return '<strong> '. t('You appear to be using a "WYSIWYG" editor which can cause problems if that editor runs on the Pathauto administrative settings page. Please be sure to disable these editors for all text boxes on this page. See the "WYSIWYG Conflicts" section of the README.txt file for more information.') .'</strong>';
-  }
 }

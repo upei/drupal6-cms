@@ -1,6 +1,50 @@
-    <div class="section bottom-links"><?php print $links1; ?>&nbsp;</div>
-    <div class="section bottom-links"><?php print $links2; ?>&nbsp;</div>
-    <div class="section bottom-links"><?php print $links3; ?>&nbsp;</div>
+    <div class="section bottom-links">
+      <h2 class="title">Quick Links</h2>
+      
+      <ul class="menu">
+        <li class="leaf first"><a href="https://secure.upei.ca/cls/login.html" title="">My Campus Login</a></li>
+        <li class="leaf"><a href="http://www.upei.ca/campuscard/" title="">My Campus Card</a></li>
+        <li class="leaf"><a href="http://mymail.upei.ca/" title="">My Mail</a></li>
+        <li class="leaf"><a href="http://moodle.upei.ca/" title="">My Moodle Courses</a></li>
+        <li class="leaf"><a href="https://secure.upei.ca/cls/dropbox/SummerTime.html " title="">2009 Summer Timetable</a></li>
+        <li class="leaf"><a href="http://www.upei.ca/registrar/important_dates" title="">Important Calendar Dates</a></li>
+        <li class="leaf"><a href="http://www.upei.ca/news" title="">Campus News and Events</a></li>
+        <li class="leaf"><a href="http://www.upei.ca/computerservices/panthernet" title="">Wireless Access</a></li>
+        <li class="leaf"><a href="http://thesemantic.blogspot.com/2009/03/issue-10.html" title="">The Semantic</a></li>
+        <li class="leaf"><a href="http://69.39.86.90/~upeisuc/cadre/index.php" title="">The Panther Post</a></li>
+        <li class="leaf last"><a href="http://upeisu.com" title="">UPEI Student Union</a></li>
+      </ul>
+    <?php print $links1; ?>&nbsp;
+    </div>
+    <div class="section bottom-links">
+      <h2 class="title">Transportation</h2>
+      <ul class="menu">
+        <li class="leaf first"><a href="http://thebus.ca/" title="">Route #1 Map</a></li>
+        <li class="leaf last"><a href="http://www.city.charlottetown.pe.ca/residents/transit_routes.cfm" title="">Transit Routes</a></li>
+      </ul>
+      <h2 class="title">Weather</h2>
+      <ul class="menu">
+        <li class="leaf first"><a href="http://www.weatheroffice.gc.ca/city/pages/pe-5_metric_e.html" title="">Weather Charlottetown</a></li>
+        <li class="leaf"><a href="http://www.weatheroffice.gc.ca/forecast/canada/index_e.html?id=PE" title="">Weather PEI</a></li>
+        <li class="leaf last"><a href="http://www.theweathernetwork.com/weather/cape0005" title="">The Weather Network</a></li>
+      </ul>
+      
+    <?php print $links2; ?>&nbsp;
+    </div>
+    <div class="section bottom-links">
+      <h2 class="title">Societies and Clubs</h2>
+      <ul class="menu">
+        <li class="leaf first"><a href="http://cms.upei.ca/currentstudents/gsa" title="">Grad Students&#039; Association</a></li>
+        <li class="leaf last"><a href="http://www.upei.ca/mapus" title="">MAPUS</a></li>
+      </ul>
+      <h2 class="title">Jobs</h2>
+      <ul class="menu">
+        <li class="leaf first"><a href="http://jobbank.gc.ca/Intro_en.aspx" title="">Jobbank Canada</a></li>
+        <li class="leaf"><a href="http://www.gov.pe.ca/jobs/" title="">Jobs PEI</a></li>
+        <li class="leaf last"><a href="http://www.upei.ca/humanres/competition/student" title="">Student Campus Jobs</a></li>
+      </ul>
+    <?php print $links3; ?>&nbsp;
+    </div>
     <div class="section bottom-links">
        <h2 class="title">Quick UPEI Links</h2>
        
@@ -15,6 +59,8 @@
            <li><a href="http://www.upei.ca/currentstudents/files/currentstudents/Campus_Directory_Dec_2007.pdf" title="">Telephone Directory</a></li>
            <li><a href="http://www.upei.ca/home/contactpage" title="">Contact UPEI</a></li>
        </ul>
+
+
     <?php print $links4; ?>
     </div>
     <div class="section bottom-links">

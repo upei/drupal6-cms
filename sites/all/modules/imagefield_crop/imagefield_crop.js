@@ -1,8 +1,8 @@
-/* $Id: imagefield_crop.js,v 1.1.2.3.2.5 2009/03/12 11:32:12 yhager Exp $ */
+/* $Id: imagefield_crop.js,v 1.1.2.3.2.7 2009/04/06 12:51:29 yhager Exp $ */
 
 Drupal.behaviors.imagefield_crop = function (context) { 
   // wait till 'fadeIn' effect ends (defined in filefield_widget.inc)
-  setTimeout(attachJcrop, 700, context);
+  setTimeout(attachJcrop, 1000, context);
 
   function attachJcrop(context) {
     if ($('#cropbox', context).length == 0) {
@@ -23,9 +23,11 @@ Drupal.behaviors.imagefield_crop = function (context) {
     // if images was scaled for display, scale the crop box. This should be given by Jcrop in future versions.
     var select = api.tellSelect();
     var scaled = api.tellScaled();
-    if (select.x > 0 && select.y > 0) {
-      var xscale = scaled.x/select.x;
-      var yscale = scaled.y/select.y;
+    var xdelta = select.x2-select.x;
+    var ydelta = select.y2-select.y;
+    if ((select.x2-select.x > 0) && (select.y2-select.y > 0)) {
+      var xscale = (scaled.x2-scaled.x)/(select.x2-select.x);
+      var yscale = (scaled.y2-scaled.y)/(select.y2-select.y);
       if (xscale != 1 || yscale != 1) {
         api.animateTo([dim[0]*xscale, dim[1]*yscale, dim[2]*xscale, dim[3]*yscale]);
       }
