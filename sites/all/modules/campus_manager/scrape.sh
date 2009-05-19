@@ -86,7 +86,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	echo "Beginning copy of content in /$1.  This may take several minutes."
 
 	# Need to include fix-ie.css file explicitly
-	HTTRACK_OPTS="--sockets=10 --timeout=30 --retries=3 --host-control=1 --near -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
+	HTTRACK_OPTS="--sockets=10 --timeout=90 --retries=5 --host-control=1 --near -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
 	HTTRACK_OPTIONS="http://${source_site}/$bucket/hidden/links
       +${source_site}/$bucket/link/*
       -${source_site}/$bucket/files/*
