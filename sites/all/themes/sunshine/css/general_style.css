@@ -135,9 +135,10 @@ li{
 tbody {
   border-top: 0px solid #fff;
 }
+
 /* Styles added to make the grouped section on the reseracher,faculty,staff etc pages float right*/
-.fieldgroup.group-faculty-member-informati .content, .fieldgroup.group-player-information .content,
-.fieldgroup.group-staff-member-informati .content,  .fieldgroup.group-staff-information .content
+.group-faculty-member-informati, .group-player-information,
+.group-staff-member-informati,  .group-staff-information 
 {
 float: right;
 position: relative;
