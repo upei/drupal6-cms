@@ -89,10 +89,12 @@
     <?php if ($page_bottom):?>
        <div id="page-bottom"><?php print $page_bottom; ?></div>
      <?php endif; ?>
+     <?php if (_get_bucket() != 'home'): ?>
                 <div class="clear-block clr" id="links-section">
                   <div class="sections">
                     <?php include 'bottom-links.php'; ?>
                   <div style="clear:both"></div>
+      <? endif; ?>
                 </div><!-- /bottom links -->
             </div><!-- /inner-content -->
           </div><!-- /squeeze-content -->
