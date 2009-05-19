@@ -312,49 +312,13 @@ padding: 5px;
 	float: left;
 }
 
-.user1-width99 { width: 100%; }
-.user1-width49 { width: 48%; }
-.user2-width49 { width: 52%; }
-.user1-width33 { width: 31%; }
-.user2-width33 { width: 31%; }
-.user3-width33 { width: 38%; }
-
-.user1n-width99 { width: 100%; }
-.user1n-width33 { width: 40%; }
-.user2n-width33 { width: 30%; }
-.user3n-width33 { width: 30%; }
-
-.user3n-width33 a {
-font-size: 85%;
-}
-
-.width99 {
-	width: 100%;
-}
-
-.width49 {
-	width: 50%;
-}
-
-.width33 {
-	width: 33%;
-}
-
-.width24 {
-	width: 25%;
-}
-
-.widthleft {
-       width: 20%;
-}
-
-.widthcenter {
-       width: 44%;
-}
-
-.widthright {
-       width: 36%;
-}
+/* width */
+.user1 { width: 460px; margin: 0; padding-right: 10px; }
+.user2 { width: 520px; margin: 0; padding-left: 10px; }
+.user3 { width: 0; padding-left: 20px; }
+.user4 { width: 450px; margin: 0; padding-right: 10px; }
+.user5 { width: 250px; margin: 0; padding: 0 10px; }
+.user6 { width: 250px; margin: 0; padding-left: 10px; }
 
 /* adjusted to fit in content for an attempt to get rid of panels */
 .sections {
@@ -379,6 +343,447 @@ font-size: 85%;
 
 /* carousel default style */
 			
+#mycarousel {
+  width: 682px;
+}
+#mycarousel .jcarousel-container-horizontal {
+    width: 682px;
+}
+
+#mycarousel .jcarousel-clip-horizontal {
+    width: 682px;
+    height: 252px;
+}
+
+#mycarousel .jcarousel-item,
+#mycarousel .jcarousel-item-placeholder {
+    width: 680px;
+    height: 250px;
+}
+
+#mycarousel .jcarousel-item li {
+  width: 680px;
+}
+
+#mycarousel .jcarousel-item-horizontal p {
+    margin: 5px;
+    text-align: center;
+    clear: both;
+    white-space: normal;
+}
+
+#mycarousel .jcarousel-item-placeholder {
+    background: transparent url(/js/jcarousel/images/loading.gif) 50% 50% no-repeat;
+}
+
+#mycarousel .jcarousel-next {
+    top: 125px;
+    right: 5px;
+}
+
+#mycarousel .jcarousel-prev {
+    top: 125px;
+    left: 5px;
+}
+
+#mycarousel form {
+    margin-top: 10px;
+}
+
+#mycarousel form label,
+#mycarousel form small {
+    display: block;
+}
+
+#section1 a, #section2 a{text-decoration: none;}
+#section1 a:hover, #section2 a:hover{text-decoration: underline;}
+
+#section1, #section2{background-image:none;background-color:transparent;color:#000000;}
+#section1 a:link, #section2 a:visited, #section2 a.hover,
+#section2 a:link, #section1 a:visited, #section1 a.hover
+{color: #6c1c00;}
+
+#section1 img, #section2 img{padding-bottom:5px;}
+
+#section1 h2 a, #section2 h2 a{font-size:14px;font-weight:bold;}
+#block-scrape_manager-0 img{margin-bottom:2px;}
+
+#inner-content {
+padding: 0px;
+}
+
+.v-id, .v-default, .v-image, .v-title, .v-description { display: none; }
+
+/*styles for the buttons links at the top of the page*/
+.view-buttons img{margin:0px;padding:0px;float:left;}
+.view-buttons .views-field-field-buttonimage-fid{float:left;margin-right:5px;}
+.view-buttons .views-field-field-buttonlink-url{text-decoration:underline;font-size:0.8em;font-weight:bold;margin-top:5px;}
+.view-buttons .views-row-odd,.view-buttons .views-row-even{
+    padding:5px 5px 1px 5px;
+    margin:5px 1px 0px 4px;
+    float:left;
+    display:inline;
+    width:115px;
+    height:29px;
+    background-image: url(/css/images/buttonback.png)
+ }
+
+/*Add the styles for the faq page and block!!! April 28, 2009 S.A.*/
+#block-views-faqs-block_1 .view-faqs .views-row-odd, #block-views-faqs-block_1 .view-faqs .views-row-even{padding:5px 5px 0px 5px;border:1px solid #cccccc;background-image:url(/css/images/backgrade.jpg);background-repeat:repeat-x;margin-bottom:20px;padding:5px;height:300px;}
+.block .view-faqs .views-row-odd, .block .view-faqs .views-row-even { display: none; }
+.block .view-faqs .views-row-first { display: block; }
+.view-faqs .views-field-title{font-size:1.2em;font-weight:bold;}
+.view-faqs .views-field-body{margin-left:20px;}
+.block-views .view-faqs .views-field-title{font-size:1.0em;font-weight:bold;}
+.view-faqs-anchor .views-field-title{margin-bottom:2px;font-size:0.9em;}
+.view-faqs .view-footer{position:relative;top:-10px;}
+
+=======
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 0;
+  padding-bottom: 20px;
+  background: url(../images/frontback.gif) repeat-x center top;
+}
+
+/* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
+/* vertical-align: middle --> vertical-align: top */
+/* This moves the 'inside banner menu' to the top right corner of the banner */
+
+#headerstyle {background: url(../images/frontback.gif) repeat-x center top;}
+
+#menu {
+  padding: 0 0.5em 0 0.5em;
+  text-align: right;
+  vertical-align: top;
+}
+
+body {
+  background-color: white;/*dave did this too #eff2e3;*/
+  }
+
+tr.even {
+    background: #e9ecd9;
+    }
+
+tr.odd{}
+
+a:link,
+a:visited,
+a:hover,
+.title, .title a,
+.submitted,
+.links,
+.node .taxonomy,
+#aggregator .news-item .categories, #aggregator .source, #aggregator .age,
+#forum td .name,
+div.admin-panel .description {
+  color: #43590E;
+  border-bottom:0px;
+}
+.fullwidthdiv{width:100%;}
+
+#header a{color: #43590E;}
+#header navlist a {color: #43590E;}
+
+.primenavstyle{text-align:right;width:1000px;margin: auto;padding:0px 0px 0px 6px;}
+
+#bannersection{width:1000px;margin:5px auto;}
+#bannerimg{width:215px;float:left;}
+#bannerimg img {margin-bottom:2px 0px 0px 10px; float:left;}
+
+#suckerfishmenu .block{background-color:#666666;}
+
+#sidebar-left .block, #sidebar-right .block {
+	/*background-color: #e9ecd9;*/
+	border-top: 0px;
+	border-right: 0px solid #ccc;
+	border-bottom: 0px solid #ccc;
+	border-left: 0px;
+}
+
+
+
+#mission,
+		  div.admin-panel h3 {
+		    background-color: #43590E;
+		    }
+img {
+  margin-bottom: 10px;
+}
+#footer-message img{padding:0px; margin:0px;}
+.view img {margin-left:0px;}
+
+
+
+/*
+Remmed out to allow h1.title on sub-theme style sheets
+h1.title
+{
+  font-size: 24px;
+  font-weight: none;
+  background-color: #e9ecd9;
+  margin-left: 25px;
+  padding-left: 15px;
+}
+*/
+
+/* Remmed out to allow h2.title style on individual sub-theme style sheets*/
+/*h2.title {
+  font-size: 13pt;
+  font-weight: normal;
+  color: black;
+}*/
+
+/*
+.panel-pane {
+  clear: both;
+  padding-left: 0px;
+}
+.panel-pane p {
+  padding-left:10px;
+}
+*/
+
+.content a{
+  text-decoration: underline;
+}
+
+li{
+  list-style-type: square;
+  padding: 0.2em 0.5em 0 0;
+  margin: 0;
+  }
+
+  /* added February 27 2008 S.A.*/
+  .smallgreyitalic{color:#666666;font-size:10px;font-style:italic;}
+  
+  /* added March 5th 2008 to make the Title bar not flush against the right side bar
+  h1.title{width:96%;}*/
+  /* #main{padding-right:10px;} */
+  
+  #content table{width:98%;}
+  /*div.content{padding-right:10px;}*/
+  .panel-col-first div.content{padding-right:0px;}
+
+/* added by shawn for table Theming Feb 14th 2008*/
+#tb{padding:4px;background-color:#d3d8b9;font-weight:bold;font-size:14px;border:1px solid #999999;}
+#tbc{background-color:#e9ecd9;font-weight:bold;text-align:center;}
+.outline{border:1px #d9d9d9 solid;padding:5px 5px 5px 5px;margin-bottom:5px;}
+#infobox{border:1px #cccccc solid;background-color:#eff2e3;width:100%;margin:0px 0px 14px 0px;padding:0px 0px 0px 7px;}
+
+tbody {
+  border-top: 0px solid #fff;
+}
+/* Styles added to make the grouped section on the reseracher,faculty,staff etc pages float right*/
+.fieldgroup.group-faculty-member-informati .content, .fieldgroup.group-player-information .content,
+.fieldgroup.group-staff-member-informati .content,  .fieldgroup.group-staff-information .content
+{
+float: right;
+position: relative;
+padding-top: 13px;
+padding-right: 3px;
+padding-bottom: 8px;
+padding-left: 18px;
+border-width: 1px;
+border-style: solid;
+border-color: #e9ecdd;
+background-color: #eef2e3;
+width: 210px;
+padding-left: 1em;
+margin-left:20px;
+margin-bottom:20px;
+}
+
+.view {padding-right:0px;}
+h1.title{font-size:18px;margin-bottom:5px;}
+
+/* Styles added to allow sub banners to appear in user2 area of sunshine*/
+#section1 td.section{padding:0px;background-color:#ffffff;}
+#section1 img{margin:0px;padding:0px;border:none;}
+#section1{border:none;}
+
+/* Style for the course schedule feel for the top menu*/
+#coursefeedtitle{padding:20px 0px 20px 0px;font-size:14px;font-weight:bold;width:98%;text-align:center;border:0px solid #999999;}
+#coursefeedtitle a{text-decoration:underline;padding:20px 12px 20px 12px;}
+
+/* Style for the new UPEI Administration Navigation Block */
+#block-upei-4 .content{padding-left:5px;}
+
+/* Style for the Content Manager Messaging System*/
+.cmms{border:2px solid #333333;padding:10px;background-color:#43590E;color:#ffffff;}
+
+#main .node h2.title{font-size:14px;}
+
+
+/* Added here March 10th 2009. Special Styles created by Ryan and Deb to allow more variety in text - S.A.*/
+.specialclass1 {
+font-weight: bold;
+font-size: 120%;
+color: #761f06;
+}
+
+.specialclass2 {
+font-weight: bold;
+font-size: 140%;
+color: #761f06;
+}
+
+.specialclass3 {
+background-color: #761f06;
+padding: 3px;
+font-weight: bold;
+font-size: 120%;
+color: #ffffff;
+}
+
+.specialclass4 {
+font-weight: bold;
+font-size: 120%;
+color: #2c4a00;
+}
+
+.specialclass5 {
+font-weight: bold;
+font-size: 140%;
+color: #2c4a00;
+}
+
+.specialclass6 {
+background-color: #e3e9ce;
+padding: 3px;
+font-weight: bold;
+font-size: 120%;
+color: #000000;
+}
+ul.images li{
+        list-style-type: none;
+	list-style-image: none;
+	border:1px #cccccc solid;
+	padding:0px 20px 0px 20px;
+	text-align:center;
+	margin:0px;
+	margin-bottom:0px;
+	background-color:#eff2e3;
+	width:100px;
+	height:100px;
+}
+ul.images li { padding:0px; margin:0px; }
+.content ol li{
+list-style-image:none;
+list-style-type:decimal;
+}
+
+/* This overrides the button images inside the editor to take away the spacing */
+.mceEditor img{margin:0px;}
+tr.odd{background-color:#efefef;}
+tr.even{background-color:#ffffff;}
+
+/*tr.even, tr.odd{border-bottom: 2px solid #ffffff;}*/
+tr.even td, tr.odd td{border: 2px solid #ffffff;}
+tr.even a, tr.odd a{color:#6C1C00}
+
+#sidebar-left h2.title, #sidebar-right h2.title {
+background-image: none;
+border: 0px;
+}
+
+#sidebar-left li a {
+text-decoration: none;
+color: black ;
+font-size: 88%;
+font-family: verdana; 
+font-weight: normal;
+}
+
+#sidebar-left div.content > ul > li {
+border-bottom: 1px dotted #ccc;
+}
+
+#sidebar-left div.content > ul li.active-trail > a {
+color: #5C8727;
+}
+
+#sidebar-left li li a {
+color: #8C8727;
+}
+
+
+h1.title {
+background-color: white;
+color: #333;
+font-size: 18px;
+padding: 5px;
+}
+
+
+/**********************************/
+/* New styles for layout things   */
+/* Shawn Arsenault - Dec 2008     */
+/**********************************/
+#primarymenu{padding-top:0px;}
+
+.view-faculty .views-field-title, .view-Faculty .views-field-title, .view-staff .views-field-title
+{padding:3px;font-size:16px;border:1px solid #aaa;font-weight:bold;text-decoration:underline;}
+
+
+
+
+.view-faculty .views-field-teaser, .view-Faculty .views-field-teaser, .view-staff .views-field-teaser
+{width:400px;}
+
+.view-faculty img, .view-Faculty img, .view-staff img
+{float:right;padding-top:5px;}
+
+.view-faculty .views-row-odd, .view-faculty .views-row-even,
+.view-Faculty .views-row-odd, .view-Faculty .views-row-even,
+.view-staff .views-row-odd, .view-staff .views-row-even
+{width:100%;float:left;padding:5px;border:1px solid #cccccc;margin-bottom:5px;}
+
+#footer{border:none;color:#6c1c00;background-color:#e8e8e8;}
+
+.sections {
+	width: 100%;
+	padding: 0;
+}
+
+.section {
+	float: left;
+}
+
+
+/* adjusted to fit in content for an attempt to get rid of panels */
+.sections {
+	width: 100%;
+}
+
+.sections .block {
+  padding: 5px;
+}
+
+#content-top .block {
+  padding: 0px;
+}
+
+.clearfix:after {
+   content: ".";
+   display: block;
+   height: 0;
+   clear: both;
+   visibility: hidden;
+}
+
+/* width */
+.user1 { width: 460px; margin: 0; padding-right: 10px; }
+.user2 { width: 520px; margin: 0; padding-left: 10px; }
+.user3 { width: 0; padding-left: 20px; }
+.user4 { width: 450px; margin: 0; padding-right: 10px; }
+.user5 { width: 250px; margin: 0; padding: 0 10px; }
+.user6 { width: 250px; margin: 0; padding-left: 10px; }
+
+/* carousel default style */
+
 #mycarousel {
   width: 682px;
 }
