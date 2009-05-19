@@ -23,8 +23,8 @@
           <?php } ?>
           <div id="squeeze-content">
             <div id="inner-content">
-             <?php if ($content_top):?>
-                <div id="content-top"><?php print $content_top; ?></div>
+             <?php if ($page_top):?>
+                <div id="page-top"><?php print $page_top; ?></div>
               <?php endif; ?>
 
 <?
@@ -59,8 +59,19 @@
         <div style="clear:both"></div>
       </div><!-- /section1 -->
 <?php endif; ?>
-<?php print $feed_icons; ?>
-
+<?php if ($content_top):?>
+   <div id="content-top"><?php print $content_top; ?></div>
+ <?php endif; ?>
+<?php if ($sidebar_inner_left): ?>
+<div id="sidebar-inner-left">
+  <? print $sidebar_inner_left; ?>
+</div>
+<?php endif; ?>
+<?php if ($sidebar_inner_right): ?>
+<div id="sidebar-inner-right">
+  <? print $sidebar_inner_right; ?>
+</div>
+<?php endif; ?>
 <div id="real-content" class="<? if ($sidebar_inner_left && $sidebar_inner_right) { print 'narrow'; } else if ( $sidebar_inner_left || $sidebar_inner_right) { print 'normal'; } else { print 'wide'; }?>">
 <?php print $content; ?>
 </div>
@@ -91,16 +102,9 @@
         <div style="clear:both"></div>
       </div><!-- /section2 -->
     <?php endif; ?>
-    <?php if ($sidebar_inner_left): ?>
-    <div id="sidebar-inner-left">
-      <? print $sidebar_inner_left; ?>
-    </div>
-    <?php endif; ?>
-    <?php if ($sidebar_inner_right): ?>
-    <div id="sidebar-inner-right">
-      <? print $sidebar_inner_right; ?>
-    </div>
-    <?php endif; ?>
+    <?php if ($page_bottom):?>
+       <div id="page-bottom"><?php print $page_bottom; ?></div>
+     <?php endif; ?>
             </div><!-- /inner-content -->
           </div><!-- /squeeze-content -->
         </div><!-- /squeeze -->

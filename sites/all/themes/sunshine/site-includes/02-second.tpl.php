@@ -22,6 +22,9 @@
           <?php } ?>
           <div id="squeeze-content">
             <div id="inner-content">
+              <?php if ($page_top):?>
+                 <div id="page-top"><?php print $page_top; ?></div>
+               <?php endif; ?>
 
 <?
 	$aURI = explode("/", request_uri());
@@ -98,7 +101,9 @@
         <div style="clear:both"></div>
       </div><!-- /section2 -->
     <?php endif; ?>
-
+    <?php if ($page_bottom):?>
+       <div id="page-bottom"><?php print $page_bottom; ?></div>
+     <?php endif; ?>
                 <div class="clear-block clr" id="links-section">
                   <div class="sections">
                     <?php include 'bottom-links.php'; ?>

@@ -33,7 +33,18 @@ function imagefield_crop_file_delete($file) {
 // create the path to the file to be used for displaying the crop interface.
 function imagefield_crop_file_admin_crop_display_path($file) {
   $file = (object)$file;
-  return $file->filepath .'.crop_display.jpg';
+  ob_start();
+  var_dump($file);
+  $m = ob_get_contents();
+  ob_end_clean();
+  // drupal_set_message($m);
+  $filename = $file->filepath .'.crop_display.jpg';
+  if (!file_exists($filename) && !empty($file->origname)) {
+    return dirname($file->filepath) . '/' . $file->origname . '.crop_display.jpg';
+  }
+  else {
+    return $filename;
+  }
 }
 
 // Original file to crop from

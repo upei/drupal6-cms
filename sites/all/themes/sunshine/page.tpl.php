@@ -32,7 +32,9 @@
 <?php } ?>
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
-
+<? if (function_exists('_print_additional_info')) {
+  _print_additional_info();
+}?>
 <?php include "site-includes/00-primarynav.php"; ?>
 <?php include "site-includes/01-topsection.php"; ?>
 <?
