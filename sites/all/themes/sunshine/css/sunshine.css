@@ -147,9 +147,6 @@ h1.title
 #section1 .section { overflow: hidden; padding-bottom: 10px; }
 /*#section2 { border-top: 1px solid #e0e0e0;}*/
 #section2 .section { overflow: hidden; padding-top: 20px; }
-.user4 { margin: 0; padding-right: 20px; }
-.user5 { margin: 0; padding: 0 20px 0 10px; }
-.user6 { margin: 0; padding: 0 0 0 15px; }
 .home-page-story-ajax hr { display: none; }
 .home-page-story-ajax h2 { font-weight: normal; padding: 0; margin: 0; line-height: 17px; margin-top: -1px;}
 .home-page-story-ajax a { font-weight: normal !important; font-size: 13px !important; padding: 0 !important; margin: 0 !important; line-height:17px; }
