@@ -86,25 +86,21 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	echo "Beginning copy of content in /$1.  This may take several minutes."
 
 	# Need to include fix-ie.css file explicitly
-	HTTRACK_OPTS="--sockets=10 --timeout=90 --retries=5 --host-control=1 --near -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
-	HTTRACK_OPTIONS="http://${source_site}/$bucket/hidden/links
-      +${source_site}/$bucket/link/*
+	HTTRACK_OPTS="--sockets=10 --timeout=90 --retries=5 --host-control=1 -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
+	HTTRACK_OPTIONS="+${source_site}/$bucket/link/*
       -${source_site}/$bucket/files/*
 			+${photo_site}/d/*
 			${HTTRACK_OPTS}"
 
 	# Scrape the bucket
 	if [ x$2 == x ]; then
-		httrack -* http://${source_site}/$1 \
+		httrack http://${source_site}/$1 \
+	    http://${source_site}/$bucket/hidden/links -* \
 		  +${source_site}/$1* \
 			$HTTRACK_OPTIONS
-	elif [ x$2 == xtimetable ]; then
-		httrack -* http://${source_site}/$1/$2 \
-	    +${source_site}/$1/timetable* \
-			$HTTRACK_OPTIONS -X0
 	else
 		# we need to go upstairs, but only direct links. old pages are not removed.
-		httrack -* http://${source_site}/$1/$2 \
+		httrack http://${source_site}/$1/$2 -* \
 		  +${source_site}/$1/$2* \
 			$HTTRACK_OPTIONS -r3 -X0 \
 			+*.jpg +*.png +*.gif +*.js +*.css

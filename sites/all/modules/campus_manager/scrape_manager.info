@@ -2,5 +2,5 @@ name = Scrape manager
 description = Scrape your site to static HTML files.
 package = Campus manager
 core = 6.x
-version = 0.52
+version = 0.58
 php = 5.1
