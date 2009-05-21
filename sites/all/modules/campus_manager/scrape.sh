@@ -105,6 +105,14 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 			$HTTRACK_OPTIONS -r3 -X0 \
 			+*.jpg +*.png +*.gif +*.js +*.css
 	fi
+	
+  # check if index.html exists. if not, do a site scrape
+	if [ ! -f ${cache_directory}/$bucket/${source_site}/$bucket/index.html ] ; then
+	  httrack http://${source_site}/$bucket \
+	    http://${source_site}/$bucket/hidden/links -* \
+		  +${source_site}/$bucket* \
+			$HTTRACK_OPTIONS
+	fi
 
 	echo `date` $1 mirror finished >> ${log_filename}
 
