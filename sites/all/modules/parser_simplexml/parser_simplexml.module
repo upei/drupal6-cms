@@ -93,20 +93,18 @@ function parser_simplexml_feedapi_after_refresh($feed) {
 	$condition = 'f.guid NOT IN ("' . implode('", "', $new) . '")';
 	$sql = "SELECT f.nid FROM {feedapi_node_item_feed} n, {feedapi_node_item} f WHERE n.feed_nid = $feed->nid AND n.feed_item_nid = f.nid AND $condition";
 	$result = db_query($sql);
+	
 	while ($item = db_fetch_object($result)) {
 		// this is a hack from the drupal original node_delete function, which avoids permission check
 
 		$node = node_load($item->nid);
 		db_query('DELETE FROM {node} WHERE nid = %d', $node->nid);
 		db_query('DELETE FROM {node_revisions} WHERE nid = %d', $node->nid);
-		db_query("DELETE FROM {url_alias} WHERE src IN ('node/%d', 'node/%d/feed')", $node->nid);
+		db_query("DELETE FROM {url_alias} WHERE src IN ('node/%d', 'node/%d/feed')", $node->nid, $node->nid);
 
 		// Call the node-specific callback (if any):
 		node_invoke($node, 'delete');
 		node_invoke_nodeapi($node, 'delete');
-
-		// Clear the cache so an anonymous poster can see the node being deleted.
-		cache_clear_all();
 
 		// Remove this node from the search index if needed.
 		if (function_exists('search_wipe')) {
@@ -116,6 +114,10 @@ function parser_simplexml_feedapi_after_refresh($feed) {
 		watchdog('content', t('@type: deleted %title.', array('@type' => t($node->type), '%title' => $node->title)));
 
 	}
+
+	// Clear the cache so an anonymous poster can see the node being deleted.
+	cache_clear_all();
+
 	unset($result);
 }
 
