@@ -1,0 +1,9 @@
+#administration-panel {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  width: 1000px;
+  margin: auto;
+}

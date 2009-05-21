@@ -4,7 +4,8 @@ core = 6.x
 engine = phptemplate
 
 regions[header] = Header
-regions[suckerfish] = Suckerfish Menu
+regions[administration_panel] = Administration panel
+regions[suckerfish] = Suckerfish menu
 regions[sidebar_left] = Left Sidebar
 regions[sidebar_right] = Right Sidebar
 regions[page_top] = Page top
