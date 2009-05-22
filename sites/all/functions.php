@@ -41,27 +41,3 @@ function _get_banner() {
 	}
 	return "/banner/default.jpg";
 }
-
-function _import_override_css_files() {
-	$url_part = _get_sections();
-	$mypath = "/var/www-d6/docroot";
-  $output = '';
-	for($len = 1; $len <= count($url_part); $len++) {
-		$url = array_slice($url_part, 0, $len);
-		$file_name = '/css/' . join('_', $url) . '.css';
-		if (is_file($mypath . $file_name)) {
-			$output .= '<link rel="stylesheet" type="text/css" href="' . $file_name . "\" />\n";
-		}
-/*
-    $file_name = '/css/' . join('_', $url) . '-ie.css';
-    if (is_file($mypath . $file_name)) {
-      $output .= <<<EOF
-<!--[if lte IE 6]>
-<style type="text/css">@import url("$file_name");</style>
-<![endif]-->
-EOF;
-    }
-*/
-  } 
-	return $output;
-}

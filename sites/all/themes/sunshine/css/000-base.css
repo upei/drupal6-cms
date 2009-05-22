@@ -1,109 +1,24 @@
 body {
-  margin: 0;
   padding: 0;
-  padding-top: 0;
-  padding-bottom: 20px;
-  background: url(../images/frontback.gif) repeat-x center top;
+  width: 1000px;
+  margin: 0 auto 0 auto;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+
+h1 { font-size: 1.8em; }
+h2 {
+  font-family: "Minion Display Pro", "Times New Roman", Times, serif;
+  font-size: 1.5em;
 }
 
 /* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
 /* vertical-align: middle --> vertical-align: top */
 /* This moves the 'inside banner menu' to the top right corner of the banner */
 
-#headerstyle {background: url(../images/frontback.gif) repeat-x center top; width: 1000px; margin: auto; }
 
-#menu {
-  padding: 0 0.5em 0 0.5em;
-  text-align: right;
-  vertical-align: top;
-}
-
-body {
-  background-color: white;/*dave did this too #eff2e3;*/
-  }
-
-tr.even {
-    background: #e9ecd9;
-    }
-
-tr.odd{}
-
-a:link,
-a:visited,
-a:hover,
-.title, .title a,
-.submitted,
-.links,
-.node .taxonomy,
-#aggregator .news-item .categories, #aggregator .source, #aggregator .age,
-#forum td .name,
-div.admin-panel .description {
-  color: #43590E;
-  border-bottom:0px;
-}
-.fullwidthdiv{width:100%;}
-
-#header a{color: #43590E;}
-#header navlist a {color: #43590E;}
-
-.primenavstyle{text-align:right;width:1000px;margin: auto;padding:0px 0px 0px 6px;}
-
-#bannersection{width:1000px;margin:5px auto;}
-#bannerimg{width:215px;float:left;}
-#bannerimg img {margin-bottom:2px 0px 0px 10px; float:left;}
-
-#suckerfishmenu .block{background-color:#666666;}
-
-#sidebar-left .block, #sidebar-right .block {
-	/*background-color: #e9ecd9;*/
-	border-top: 0px;
-	border-right: 0px solid #ccc;
-	border-bottom: 0px solid #ccc;
-	border-left: 0px;
-}
-
-
-
-#mission,
-		  div.admin-panel h3 {
-		    background-color: #43590E;
-		    }
-img {
-  margin-bottom: 10px;
-}
 #footer-message img{padding:0px; margin:0px;}
 .view img {margin-left:0px;}
-
-
-
-/*
-Remmed out to allow h1.title on sub-theme style sheets
-h1.title
-{
-  font-size: 24px;
-  font-weight: none;
-  background-color: #e9ecd9;
-  margin-left: 25px;
-  padding-left: 15px;
-}
-*/
-
-/* Remmed out to allow h2.title style on individual sub-theme style sheets*/
-/*h2.title {
-  font-size: 13pt;
-  font-weight: normal;
-  color: black;
-}*/
-
-/*
-.panel-pane {
-  clear: both;
-  padding-left: 0px;
-}
-.panel-pane p {
-  padding-left:10px;
-}
-*/
 
 .content a{
   text-decoration: underline;
@@ -116,10 +31,9 @@ li{
   }
 
   /* added February 27 2008 S.A.*/
-  .smallgreyitalic{color:#666666;font-size:10px;font-style:italic;}
+  .smallgreyitalic{font-size:10px;font-style:italic;}
   
   /* added March 5th 2008 to make the Title bar not flush against the right side bar
-  h1.title{width:96%;}*/
   /* #main{padding-right:10px;} */
   
   #content table{width:98%;}
@@ -127,10 +41,10 @@ li{
   .panel-col-first div.content{padding-right:0px;}
 
 /* added by shawn for table Theming Feb 14th 2008*/
-#tb{padding:4px;background-color:#d3d8b9;font-weight:bold;font-size:14px;border:1px solid #999999;}
-#tbc{background-color:#e9ecd9;font-weight:bold;text-align:center;}
+#tb{padding:4px;font-weight:bold;font-size:14px;border:1px solid #999999;}
+#tbc{font-weight:bold;text-align:center;}
 .outline{border:1px #d9d9d9 solid;padding:5px 5px 5px 5px;margin-bottom:5px;}
-#infobox{border:1px #cccccc solid;background-color:#eff2e3;width:100%;margin:0px 0px 14px 0px;padding:0px 0px 0px 7px;}
+#infobox{border:1px #cccccc solid;width:100%;margin:0px 0px 14px 0px;padding:0px 0px 0px 7px;}
 
 tbody {
   border-top: 0px solid #fff;
@@ -148,8 +62,6 @@ padding-bottom: 8px;
 padding-left: 18px;
 border-width: 1px;
 border-style: solid;
-border-color: #e9ecdd;
-background-color: #eef2e3;
 width: 210px;
 padding-left: 1em;
 margin-left:20px;
@@ -157,10 +69,9 @@ margin-bottom:20px;
 }
 
 .view {padding-right:0px;}
-h1.title{font-size:18px;margin-bottom:5px;}
 
 /* Styles added to allow sub banners to appear in user2 area of sunshine*/
-#section1 td.section{padding:0px;background-color:#ffffff;}
+#section1 td.section{padding:0px;}
 #section1 img{margin:0px;padding:0px;border:none;}
 #section1{border:none;}
 
@@ -171,9 +82,6 @@ h1.title{font-size:18px;margin-bottom:5px;}
 /* Style for the new UPEI Administration Navigation Block */
 #block-upei-4 .content{padding-left:5px;}
 
-/* Style for the Content Manager Messaging System*/
-.cmms{border:2px solid #333333;padding:10px;background-color:#43590E;color:#ffffff;}
-
 #main .node h2.title{font-size:14px;}
 
 
@@ -181,41 +89,33 @@ h1.title{font-size:18px;margin-bottom:5px;}
 .specialclass1 {
 font-weight: bold;
 font-size: 120%;
-color: #761f06;
 }
 
 .specialclass2 {
 font-weight: bold;
 font-size: 140%;
-color: #761f06;
 }
 
 .specialclass3 {
-background-color: #761f06;
 padding: 3px;
 font-weight: bold;
 font-size: 120%;
-color: #ffffff;
 }
 
 .specialclass4 {
 font-weight: bold;
 font-size: 120%;
-color: #2c4a00;
 }
 
 .specialclass5 {
 font-weight: bold;
 font-size: 140%;
-color: #2c4a00;
 }
 
 .specialclass6 {
-background-color: #e3e9ce;
 padding: 3px;
 font-weight: bold;
 font-size: 120%;
-color: #000000;
 }
 ul.images li{
         list-style-type: none;
@@ -225,7 +125,6 @@ ul.images li{
 	text-align:center;
 	margin:0px;
 	margin-bottom:0px;
-	background-color:#eff2e3;
 	width:100px;
 	height:100px;
 }
@@ -237,12 +136,9 @@ list-style-type:decimal;
 
 /* This overrides the button images inside the editor to take away the spacing */
 .mceEditor img{margin:0px;}
-tr.odd{background-color:#efefef;}
-tr.even{background-color:#ffffff;}
 
 /*tr.even, tr.odd{border-bottom: 2px solid #ffffff;}*/
 tr.even td, tr.odd td{border: 2px solid #ffffff;}
-tr.even a, tr.odd a{color:#6C1C00}
 
 #sidebar-left h2.title, #sidebar-right h2.title {
 background-image: none;
@@ -251,7 +147,6 @@ border: 0px;
 
 #sidebar-left li a {
 text-decoration: none;
-color: black ;
 font-size: 88%;
 font-family: verdana; 
 font-weight: normal;
@@ -262,19 +157,9 @@ border-bottom: 1px dotted #ccc;
 }
 
 #sidebar-left div.content > ul li.active-trail > a {
-color: #5C8727;
 }
 
 #sidebar-left li li a {
-color: #8C8727;
-}
-
-
-h1.title {
-background-color: white;
-color: #333;
-font-size: 18px;
-padding: 5px;
 }
 
 
@@ -300,8 +185,6 @@ padding: 5px;
 .view-Faculty .views-row-odd, .view-Faculty .views-row-even,
 .view-staff .views-row-odd, .view-staff .views-row-even
 {width:100%;float:left;padding:5px;border:1px solid #cccccc;margin-bottom:5px;}
-
-#footer{border:none;color:#6c1c00;background-color:#e8e8e8;}
 
 .sections {
 	width: 100%;
@@ -344,10 +227,7 @@ padding: 5px;
 #section1 a, #section2 a{text-decoration: none;}
 #section1 a:hover, #section2 a:hover{text-decoration: underline;}
 
-#section1, #section2{background-image:none;background-color:transparent;color:#000000;}
-#section1 a:link, #section2 a:visited, #section2 a.hover,
-#section2 a:link, #section1 a:visited, #section1 a.hover
-{color: #6c1c00;}
+#section1, #section2{background-image:none;}
 
 #section1 img, #section2 img{padding-bottom:5px;}
 

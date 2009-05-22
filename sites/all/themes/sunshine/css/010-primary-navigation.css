@@ -1,0 +1,8 @@
+#primary-navigation {
+  text-align: right;
+  width:1000px;
+  margin: auto;
+  padding:0px 0px 0px 6px;
+}
+
+#primary-navigation li { display: inline; list-style-type: none; }

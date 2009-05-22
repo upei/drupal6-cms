@@ -1,51 +1,24 @@
 body {
-  color: #000;
-  background-color: #8596AA;
 }
 
 /* default button styles */
 input[type="submit"] { background-image: url("/misc/i/buttonback25.png"); background-repeat: repeat-x; border: 1px outset #ccc; padding-left: 15px; padding-right: 15px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; overflow: visible;}
 
-input[type="submit"]:active { border-style: inset; background-image: url("/misc/i/buttonbackactive25.png"); }
+input[type="submit"]:active { border-style: inset; }
 
-.googlesearcharea{margin-top:14px;width:350px;float:right;border:0px solid #cccccc;}
-
-.site-title {
-  width: 400px;
-  font-family: "Times New Roman", "Times", serif;
-  font-size: 18px;
-  line-height: 18px;
-  font-weight: normal;
-  color: #980000;
-  display: block;
-  float: left;
-  padding: 0 0 0 4px;
-  margin: 13px 0 0 0;
-}
-.site-title-two {
-  margin: 2px 0 0 0;
-}
-.site-title a {
-  color: #980000 !important;
-}
 
 #page {
-   background-color: #fff;
 }
 
 
 #section1 {
-   background: #F5F5E9;
 }
 
 #section2 {
-   background: #336299 url(../images/market/BottomBG.png) 0 0 repeat-x;
-   color: #fff;
 }
 
 #navlist a.active,
 #subnavlist a.active {
-  color: #CDCD8F;
 }
 
 a:link,
@@ -58,66 +31,32 @@ a:hover,
 #aggregator .news-item .categories, #aggregator .source, #aggregator .age,
 #forum td .name,
 div.admin-panel .description {
-  color: #336299;
 }
 
 .node img { margin: 6px; }
 
 #section2 .title,
 #section2 .title a {
-   color: #666;
 }
 
 #section2 a:link,
 #section2 a:visited,
 #section2 a.hover {
-   color: #EEC193;
 }
 
 #header {
-  background: #336299 url(../images/market/MastBG.png) 0 0 repeat-x;
 }
-
-#sidebar-left, #sidebar-right { z-index: 1000 !important; position: fixed; background-color: #EEF4F9; top: 120px; max-width: 250px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; background-color: #fff; overflow: hidden; font-size: 11px; line-height: 18px; }
-#sidebar-left { left: 0; border-right: 1px solid #ccc; -webkit-border-top-right-radius: 4px; -webkit-border-bottom-right-radius: 4px; -moz-border-radius-topright: 4px; -moz-border-radius-bottomright: 4px; }
-#sidebar-right { position: absolute; right: 0; border-left: 1px solid #ccc; -webkit-border-top-left-radius: 4px; -webkit-border-bottom-left-radius: 4px; -moz-border-radius-topleft: 4px; -moz-border-radius-bottomleft: 4px; }
-#sidebar-left .hidden, #sidebar-right .hidden { display: none; }
-#sidebar-left li, #sidebar-right li { list-style: disc inside; }
 
 #mission,
 div.admin-panel h3 {
-  background-color: #336299;
 }
-
-h1.title
-{
-  background-color: #6c1c00;
-  margin-left: 0px;
-  padding-left: 15px;
-  color:#ffffff;
-}
-
-
-#sidebar-left h2.title, #sidebar-right h2.title {
-	background: #ffffff url(../images/market/menu_cap.png) 0 0 no-repeat;
-	background-position: top right;
-	padding-left:10px;
-	font-size:13px;
-	font-family:helvetica;
-	font-weight:bold;
-	color:#000000;padding:2px;
-	border-color:#6C1C00;
-	border-style:solid;
-	border-width:1px;
-	}
-
 
 #sidebar-inner-left {
-    float:left; width:200px; border:1px solid #ccc; -webkit-border-radius: 4px; -moz-border-radius: 4px; background-color: #fff; margin: 6px 6px 6px 0; padding: 6px; font-size: 12px; line-height: 19px;
+    float:left; width:200px; border:1px solid #ccc; -webkit-border-radius: 4px; -moz-border-radius: 4px; margin: 6px 6px 6px 0; padding: 6px; font-size: 12px; line-height: 19px;
   }
 
 #sidebar-inner-right {
-  float:right; width:200px; border:1px solid #ccc; -webkit-border-radius: 4px; -moz-border-radius: 4px; background-color: #fff; margin: 6px 0 6px 6px; padding: 6px; font-size: 12px; line-height: 19px;
+  float:right; width:200px; border:1px solid #ccc; -webkit-border-radius: 4px; -moz-border-radius: 4px; margin: 6px 0 6px 6px; padding: 6px; font-size: 12px; line-height: 19px;
 }
 
 #sidebar-inner-right h2 {
@@ -129,12 +68,12 @@ h1.title
 #real-content.narrow { float: left; width: 550px; }
 /* sunshine specific link sections */
 
-#links-section { font-size: 11px; line-height: 18px; font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif; margin-top: 10px; padding: 10px; border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color: #fefefe; font-variant: normal; font-weight: normal; }
+#links-section { font-size: 11px; line-height: 18px; font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif; margin-top: 10px; padding: 10px; border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; font-variant: normal; font-weight: normal; }
 #links-section h2 { font-size: 11px !important; line-height: 18px; margin-top: 4px; margin-bottom: 0; font-weight: bold; }
 #links-section ul { margin: 0; padding: 0; }
 #links-section li { list-style: none; padding: 0; margin: 0; }
-#links-section a { text-decoration: none; color: #888; }
-#links-section a:hover { color: #000; }
+#links-section a { text-decoration: none; }
+#links-section a:hover { }
 .links1-width16 { width: 160px; }
 .links2-width16 { width: 160px; }
 .links3-width16 { width: 160px; }
@@ -183,7 +122,6 @@ margin-top: 200px;
   cursor: hand;
 }
 .front-page-story-tabs li.topic-list:hover {
-  background-color: #e8e8e8;
   border: 1px solid #808080;
 }
 .front-page-story-tabs li.topic-list .v-id {
@@ -201,7 +139,6 @@ margin-top: 200px;
   display: block;
   font-size: 10px;
   font-weight: bold;
-  color: #611c00;
   line-height: 13px;
   width: 94px;
 }
@@ -212,7 +149,6 @@ margin-top: 200px;
   font-size: 10px;
   line-height: 12px;
   font-weight: normal;
-  color: #808080;
   width: 94px;
 }
 .front-page-story-tabs .topic-detail {
@@ -234,7 +170,6 @@ margin-top: 200px;
   padding-top: 6px;
 }
 .front-page-story-tabs .one-line-title a {
-  color: #611c00;
   font-weight: bold;
   font-size: 13px;
   line-height: 16px;
@@ -252,7 +187,6 @@ margin-top: 200px;
   list-style: disc inside;
   padding-left: 6px;
   border-top: 1px solid #f0f0f0;
-  background-color: #fcfcfc;
   height: 51px;
   overflow: hidden;
   display: none;
@@ -303,8 +237,6 @@ margin-top: 200px;
   padding: 3px 5px 3px 5px;
 }
 .front-page-news-tabs .tab-list li.selected a {
-  background-color: #808080;
-  color: #fff !important;
 }
 .front-page-news-tabs .tabs-detail {
   margin: 4px;

@@ -5,23 +5,23 @@
   <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
   <?php print $head ?>
   <?php print $scripts ?>
+  <style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/reset.css");</style>
+  <!--[if IE]><style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/ie.css");</style><![endif]-->
   <?php print $styles ?>
-<style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/general_style.css");</style>
-<style type="text/css">@import url("/css/sunshine.css");</style>
-<?php print _import_override_css_files(); ?>
-<?php include 'site-includes/page-setup-scripts.php'; ?>
-<style type="text/css">@import url('/misc/ui-theme/ui.generated.css');</style>
+  <?php include 'site-includes/page-setup-scripts.php'; ?>
+  <?php print _import_override_css_files(array("/css/sunshine.css", "/misc/ui-theme/ui.generated.css")); ?>
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
 <? if (function_exists('_print_additional_info')) {
   _print_additional_info();
 }?>
-<div class="primenavstyle">
+<?php include 'site-includes/00.010-administration-panel.php'; ?>
+<div id="primary-navigation">
   <?php include "site-includes/00-primarynav.php"; ?>
 </div>
 <!-- Start Top Section -->
-<div id="headerstyle">
-  <?php include "site-includes/01-topsection.php"; ?>
+<div id="header">
+  <?php include "site-includes/01-header.php"; ?>
   <div style="clear:both"></div>
 </div>
 <?php include 'site-includes/02.100-suckerfish.php'; ?>

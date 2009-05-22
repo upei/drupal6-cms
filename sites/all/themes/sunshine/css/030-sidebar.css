@@ -1,0 +1,51 @@
+#sidebar-left { width: 20px; height: 120px; }
+#sidebar-left-bar { display: block; float: right; }
+#sidebar-left-close { display: inline-block; width: 18px; height: 18px; }
+
+#sidebar-left, #sidebar-right {
+  z-index: 1000 !important;
+  position: fixed;
+  top: 120px;
+  max-width: 250px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  overflow: hidden;
+  font-size: 0.9em;
+  line-height: 1.8em;
+}
+#sidebar-left {
+  left: 0;
+  border-right: 1px solid #ccc;
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+}
+#sidebar-right {
+  position: absolute;
+  right: 0;
+  border-left: 1px solid #ccc;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-bottomleft: 4px;
+}
+
+#sidebar-left li, #sidebar-right li { list-style: disc inside; }
+#sidebar-left .hidden, #sidebar-right .hidden { display: none; }
+#sidebar-left .block, #sidebar-right .block {
+	border-top: 0px;
+	border-right: 0px solid #ccc;
+	border-bottom: 0px solid #ccc;
+	border-left: 0px;
+}
+
+#sidebar-left h2.title, #sidebar-right h2.title {
+	background-position: top right;
+	padding-left:10px;
+	font-size:1em;
+	padding:2px;
+	border-style:solid;
+	border-width:1px;
+}

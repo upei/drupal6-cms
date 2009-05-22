@@ -22,7 +22,6 @@ http://www.alistapart.com/articles/horizdropdowns
   line-height: 20px;
   width: 1000px;
   margin: auto;
-  background-color: #666;
 	border-top: 1px solid #fff;
 }
 
@@ -37,9 +36,7 @@ http://www.alistapart.com/articles/horizdropdowns
 }
 
 #suckerfishmenu	 a {
-  background: #666;
 	/*url(../images/upei-news/MenuDiv.png) 100% 0 repeat-y;*/
-  color: #FFF;
   display: block;
   padding: 1px 7px; /* padding between menu elements */
   margin: 0;
@@ -50,7 +47,6 @@ http://www.alistapart.com/articles/horizdropdowns
 
 #suckerfishmenu	 a:active,
 #suckerfishmenu	 a:hover {
-  background: #585858;
   text-decoration: none;
 }
 
@@ -87,10 +83,8 @@ http://www.alistapart.com/articles/horizdropdowns
 /* Affects the initial appearance of the drop down navigation */
 #suckerfishmenu	 ul.menu li li a:link,
 #suckerfishmenu	 ul.menu li li a:visited {
-  color: #ffffff;
 	font-weight: normal;
 	font-style: italic;
-	background: #6B8827;
   width: 170px;
   border-top: 1px solid #43590e;
   border-bottom: 1px solid #fff;
@@ -99,43 +93,35 @@ http://www.alistapart.com/articles/horizdropdowns
 }
 
 #suckerfishmenu	 ul.menu li li.expanded a {
-	background: #43590E url(../images/menu_arrow.png) 100% 50% no-repeat;
 }
 
 #suckerfishmenu	 ul.menu li li.expanded a:active,
 #suckerfishmenu	 ul.menu li li.expanded a:hover {
-	background: #43590E url(../images/menu_arrow.png) 100% 50% no-repeat;
 }
 
 #suckerfishmenu	 ul.menu li ul a:active,
 #suckerfishmenu	 ul.menu li ul a:hover {
-  background: #43590E;
   text-decoration: none;
 }
 
 #suckerfishmenu	 ul.menu li li.expanded ul.menu a {
-  background: #577218;
 }
 
 #suckerfishmenu	 ul.menu li li.expanded ul.menu a:active,
 #suckerfishmenu	 ul.menu li li.expanded ul.menu a:hover {
-  background: #43590E;
 }
 
 #suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a {
-	background: #577218 url(../images/menu_arrow.png) 100% 50% no-repeat;
 }
 
 #suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a:active,
 #suckerfishmenu	 ul.menu li li.expanded ul.menu li.expanded a:hover {
-	background: #43590E url(../images/menu_arrow.png) 100% 50% no-repeat;
 }
 
 #suckerfishmenu	 ul.menu li li {
 }
 
 #suckerfishmenu	 ul.menu li ul a {
-  color: #fff;
   width: 200px;
   line-height: 30px;
   font-size: 95%;
@@ -144,8 +130,6 @@ http://www.alistapart.com/articles/horizdropdowns
 /* Affects the rollover appearance of the drop down navigation */
 #suckerfishmenu	 ul.menu li ul a:active,
 #suckerfishmenu	 ul.menu li ul a:hover {
-  background: #6C1C00;
-	color: #ffffff;
 	font-style: italic;
   text-decoration: none;
 }
