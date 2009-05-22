@@ -1,5 +1,3 @@
-<div id="page">
-<?php include '02.100-suckerfish.php'; ?>
 
 <?php include '02.050-left-sidebar.php'; ?>
 <div id="middlecontainer">
@@ -37,6 +35,3 @@
   </div><!-- /main -->
 </div><!-- /middle-container -->
 <? include '02.450-right-sidebar.php'; ?>
-<div style="clear:both"></div>
-</div> <!-- /page -->
-

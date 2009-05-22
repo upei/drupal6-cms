@@ -47,13 +47,13 @@ class WIFileCache extends WICache {
     #$this->obtainLock($filename, LOCK_SH);
     
     // read the file
-    $content = file_get_contents($filename);
+    $content = drupal_http_request($filename);
     
     // unlock the file
     #$this->releaseLock($filename);
     
     // return the content
-    return $content;
+    return $content->data;
   }
   
   private function obtainLock($filename, $type) {

@@ -10,7 +10,7 @@ body {
 /* vertical-align: middle --> vertical-align: top */
 /* This moves the 'inside banner menu' to the top right corner of the banner */
 
-#headerstyle {background: url(../images/frontback.gif) repeat-x center top;}
+#headerstyle {background: url(../images/frontback.gif) repeat-x center top; width: 1000px; margin: auto; }
 
 #menu {
   padding: 0 0.5em 0 0.5em;
