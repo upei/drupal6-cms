@@ -476,6 +476,11 @@ function pathauto_punctuation_chars() {
   // Handle " ' ` , . - _ : ; | { [ } ] + = * & % ^ $ # @ ! ~ ( ) ? < > \
   $punctuation['double_quotes']      = array('value' => '"', 'name' => t('Double quotes "'));
   $punctuation['quotes']             = array('value' => "'", 'name' => t("Single quotes (apostrophe) '"));
+  $punctuation['left_double_quotes'] = array('value' => pack('ccc', 0xe2, 0x80, 0x9c), 'name' => t('Left double quotes “'));
+  $punctuation['right_double_quotes'] = array('value' => pack('ccc', 0xe2, 0x80, 0x9d), 'name' => t('Right double quotes ”'));
+  $punctuation['quotes'] = array('value' => "'", 'name' => t("Single quotes (apostrophe) '"));
+  $punctuation['left_quotes'] = array('value' => pack('ccc', 0xe2, 0x80, 0x98), 'name' => t('Left single quotes ‘'));
+  $punctuation['right_quotes'] = array('value' => pack('ccc', 0xe2, 0x80, 0x99), 'name' => t('Right single quotes ’'));
   $punctuation['backtick']           = array('value' => '`', 'name' => t('Back tick `'));
   $punctuation['comma']              = array('value' => ',', 'name' => t('Comma ,'));
   $punctuation['period']             = array('value' => '.', 'name' => t('Period .'));
