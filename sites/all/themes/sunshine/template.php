@@ -87,8 +87,6 @@ function get_sunshine_style() {
   return $style;
 }
 
-
-
 function phptemplate_menu_links($links, $attributes = array()) {
 
   if (!count($links)) {
@@ -141,11 +139,23 @@ $style = get_sunshine_style();
 /* order is important here */
 
 $css_files = array(
+  // base
   '000-base.css',
+  // header and sidebars
   '005-admin-navigation.css',
   '010-primary-navigation.css',
   '020-header.css',
   '030-sidebar.css',
+  
+  // sections
+  '100-sections.css',
+  
+  // special css
+  '900-member.css',
+  '901-faqs.css',
+  '902-buttons.css',
+  '903-home-page-selector.css',
+  '990-misc.css',
   );
 
 foreach ($css_files as $css) {

@@ -1,0 +1,26 @@
+/* adjusted to fit in content for an attempt to get rid of panels */
+.sections {
+	width: 100%;
+}
+
+.sections .block {
+  padding: 5px;
+}
+
+
+/* width */
+.user1 { width: 460px; margin: 0; padding-right: 10px; }
+.user2 { width: 520px; margin: 0; padding-left: 10px; }
+.user3 { width: 0; padding-left: 20px; }
+.user4 { width: 450px; margin: 0; padding: 10px 10px 10px 0;}
+.user5 { width: 255px; margin: 0; padding: 10px; }
+.user6 { width: 255px; margin: 0; padding: 10px 0 10px 10px; }
+
+#section1 a, #section2 a{text-decoration: none;}
+#section1 a:hover, #section2 a:hover{text-decoration: underline;}
+
+#section1, #section2{background-image:none;}
+
+#section1 img, #section2 img{padding-bottom:5px;}
+
+#section1 h2 a, #section2 h2 a{font-size:14px;font-weight:bold;}

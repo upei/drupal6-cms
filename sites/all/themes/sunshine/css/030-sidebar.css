@@ -49,3 +49,26 @@
 	border-style:solid;
 	border-width:1px;
 }
+
+
+#sidebar-left h2.title, #sidebar-right h2.title {
+background-image: none;
+border: 0px;
+}
+
+#sidebar-left li a {
+text-decoration: none;
+font-size: 88%;
+font-family: verdana; 
+font-weight: normal;
+}
+
+#sidebar-left div.content > ul > li {
+border-bottom: 1px dotted #ccc;
+}
+
+#sidebar-left div.content > ul li.active-trail > a {
+}
+
+#sidebar-left li li a {
+}
