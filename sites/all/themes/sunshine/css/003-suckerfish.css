@@ -21,8 +21,7 @@ http://www.alistapart.com/articles/horizdropdowns
 #suckerfishmenu	 {
   line-height: 20px;
   width: 1000px;
-  margin: auto;
-	border-top: 1px solid #fff;
+  margin: 10px auto;
 }
 
 #suckerfishmenu	 ul.menu { /* top level ul */
@@ -41,7 +40,6 @@ http://www.alistapart.com/articles/horizdropdowns
   padding: 1px 7px; /* padding between menu elements */
   margin: 0;
   text-decoration: none;
-  font-size: 95%;
   font-weight: bold;
 }
 
@@ -86,10 +84,6 @@ http://www.alistapart.com/articles/horizdropdowns
 	font-weight: normal;
 	font-style: italic;
   width: 170px;
-  border-top: 1px solid #43590e;
-  border-bottom: 1px solid #fff;
-  border-left: 1px solid #fff;
-  border-right: 1px solid #fff;
 }
 
 #suckerfishmenu	 ul.menu li li.expanded a {
