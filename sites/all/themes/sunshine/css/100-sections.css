@@ -23,4 +23,5 @@
 
 #section1 img, #section2 img{padding-bottom:5px;}
 
-#section1 h2 a, #section2 h2 a{font-size:14px;font-weight:bold;}
+#section1 h2 a, #section2 h2 a{ font-weight:bold; }
+

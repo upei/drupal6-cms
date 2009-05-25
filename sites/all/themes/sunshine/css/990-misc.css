@@ -40,3 +40,28 @@ font-size: 120%;
 
 /*tr.even, tr.odd{border-bottom: 2px solid #ffffff;}*/
 tr.even td, tr.odd td{border: 2px solid #ffffff;}
+
+
+.home-page-story-ajax hr { display: none; }
+.home-page-story-ajax h2 { font-weight: normal; padding: 0; margin: 0; line-height: 17px; margin-top: -1px;}
+.home-page-story-ajax a { font-weight: normal !important; font-size: 13px !important; padding: 0 !important; margin: 0 !important; line-height:17px; }
+
+#block-views-buttons-block_2{margin-bottom:10px;}
+
+
+/*News page media sources formatting*/
+.imagecache-media_release_image_default {
+  float: right;
+  padding: 15px;
+}
+
+.field-field-pull-quote {
+font-style: italic;
+font-size: 145%;
+width: 350px;
+padding: 15px;
+float: left;
+margin: 10px;
+margin-top: 20px;
+}
+

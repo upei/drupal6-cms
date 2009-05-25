@@ -1,0 +1,35 @@
+
+/* sunshine specific link sections */
+
+#links-section {
+  font-size: 0.9em;
+  line-height: 1.8em;
+  font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-variant: normal;
+  font-weight: normal;
+}
+#links-section h2 {
+  font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif;
+  font-size: 0.9em;
+  line-height: 1.8em;
+  margin-top: 4px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+#links-section ul { margin: 0; padding: 0; }
+#links-section li { list-style: none; padding: 0; margin: 0; }
+#links-section a { text-decoration: none; }
+#links-section a:hover { }
+.links1-width16 { width: 160px; }
+.links2-width16 { width: 160px; }
+.links3-width16 { width: 160px; }
+.links4-width16 { width: 160px; }
+.links5-width16 { width: 160px; }
+.links6-width16 { width: 160px; }
+.bottom-links { width: 160px; }

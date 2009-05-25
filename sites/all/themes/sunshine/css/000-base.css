@@ -12,33 +12,34 @@ body {
   font-size: 12px;
 }
 
-h1 { font-size: 1.8em; }
-h2 { font-family: "Minion Pro", "Times New Roman", Times, serif; font-size: 1.5em; }
-h3 { font-size: 1.5em; font-weight: bold; }
+/* headings */ 
+h1, h2, h3 { font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif; }
+h1 { font-size: 1.8em; line-height: 1.8em; }
+h2 { font-size: 1.5em; line-height: 1.8em; }
+h3 { font-size: 1.3em; line-height: 1.8em; }
 
 li{ list-style-type: square; padding: 0.2em 0.5em 0 0; margin: 0; }
 
-a { color: #7a2424; }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* default button styles */
+input[type="submit"] {
+  background-image: url("/misc/i/buttonback25.png");
+  background-repeat: repeat-x;
+  border: 1px outset #ccc;
+  padding-left: 15px;
+  padding-right: 15px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  overflow: visible;
+}
+input[type="submit"]:active { border-style: inset; }
 
 /* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
 /* vertical-align: middle --> vertical-align: top */
 /* This moves the 'inside banner menu' to the top right corner of the banner */
-
-#footer-message img{padding:0px; margin:0px;}
-.view img {margin-left:0px;}
-
-.content a {
-  text-decoration: underline;
-}
-
-/* adjusted to fit in content for an attempt to get rid of panels */
-.sections {
-	width: 100%;
-}
-
-.sections .block {
-  padding: 5px;
-}
 
 #content-top .block {
   padding: 0px;
@@ -55,6 +56,5 @@ a { color: #7a2424; }
 #inner-content {
 padding: 0px;
 }
-
 
 

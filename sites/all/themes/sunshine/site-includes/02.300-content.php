@@ -1,6 +1,6 @@
 <?php if ($content_top):?>
    <div id="content-top"><?php print $content_top; ?></div>
- <?php endif; ?>
+<?php endif; ?>
 <?php if ($sidebar_inner_left): ?>
 <div id="sidebar-inner-left">
   <? print $sidebar_inner_left; ?>

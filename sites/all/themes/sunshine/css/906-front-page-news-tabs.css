@@ -1,0 +1,62 @@
+/* sunshine specific news tabs */
+.front-page-news-tabs {
+  font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, Verdana, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  padding: 10px 10px 10px 10px; 
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+}
+
+#block-block-10 .front-page-news-tabs{width:493px;margin-left:4px;}
+
+.front-page-news-tabs .tab-list {
+  display: block;
+  padding: 0 1em;
+  margin: 0;
+  border-bottom: 1px solid #808080;
+}
+.front-page-news-tabs .tab-list li {
+  list-style: none;
+  list-style-image: none;
+  display: inline;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+.front-page-news-tabs .tab-list li a {
+  display: inline;
+  line-height: 15px;
+  padding: 3px 5px 3px 5px;
+}
+.front-page-news-tabs .tab-list li.selected a {
+}
+.front-page-news-tabs .tabs-detail {
+  margin: 4px;
+  display: none;
+  overflow: hidden;
+  /*background: url(../images/fade_ededed.gif) repeat-x center bottom;*/
+}
+.front-page-news-tabs .tabs-detail .more {
+  margin: 10px;
+  padding: 5px;
+  float:right;
+  border-left: 1px solid #6c1c00;
+  border-bottom: 1px solid #6c1c00;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+}
+.front-page-news-tabs .tabs-detail .more a {
+  font-weight: bold;
+}
+.front-page-news-tabs div.selected {
+  display: block;
+}
+.front-page-news-tabs .tabs-detail ul {
+  list-style: disc inside;
+}
+.front-page-news-tabs .tabs-detail li {
+  list-style: disc inside;
+}

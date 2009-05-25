@@ -1,7 +1,6 @@
 <?php
 // $Id$
 
-
 function _get_override_css_files() {
 	$url_part = _get_sections();
 	$mypath = "/var/www-d6/docroot";
@@ -133,7 +132,6 @@ function phptemplate_imagefield_admin_thumbnail($item = null) {
   return '<img class="imagefield-admin-thumb" width="150" src="'. file_create_url($item['filepath']) .'" />';
 }
 
-
 $style = get_sunshine_style();
 
 /* order is important here */
@@ -141,7 +139,9 @@ $style = get_sunshine_style();
 $css_files = array(
   // base
   '000-base.css',
+  
   // header and sidebars
+  '003-suckerfish.css',
   '005-admin-navigation.css',
   '010-primary-navigation.css',
   '020-header.css',
@@ -150,11 +150,29 @@ $css_files = array(
   // sections
   '100-sections.css',
   
+  // pages
+  '200-pages.css',
+  '210-page-top.css',
+  '220-content-top.css',
+  '230-content.css',
+  '240-inner-sidebars.css',
+  '250-content-bottom.css',
+  '260-page-bottom.css',
+  
+  // links and footer
+  '300-bottom-links.css',
+  '310-footer.css',
+  
   // special css
   '900-member.css',
   '901-faqs.css',
   '902-buttons.css',
   '903-home-page-selector.css',
+  '904-front-page-story.css',
+  '905-front-page-gallery.css',
+  '906-front-page-news-tabs.css',
+  '907-views-nav-buttons.css',
+  '908-zoom.css',
   '990-misc.css',
   );
 
@@ -162,14 +180,12 @@ foreach ($css_files as $css) {
   drupal_add_css(drupal_get_path('theme', 'sunshine') . '/css/' . $css, 'theme');
 }
 
+unset($css_files);
+
 drupal_add_css(drupal_get_path('theme', 'sunshine') . '/css/' . $style . '.css', 'theme');
 
 if (theme_get_setting('sunshine_iepngfix')) {
    drupal_add_js(drupal_get_path('theme', 'sunshine') . '/js/jquery.pngFix.js', 'theme');
-}
-
-if (theme_get_setting('sunshine_suckerfish')) {
-   drupal_add_css(drupal_get_path('theme', 'sunshine') . '/css/suckerfish_'  . $style . '.css', 'theme');
 }
 
 if (theme_get_setting('sunshine_uselocalcontent'))
