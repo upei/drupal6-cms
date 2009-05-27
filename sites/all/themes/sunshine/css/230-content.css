@@ -3,3 +3,4 @@
 #real-content.narrow { float: left; width: 550px; }
 
 #real-content .node a { text-decoration: underline; }
+#real-content .node img { margin: 12px; }

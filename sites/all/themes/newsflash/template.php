@@ -1,6 +1,33 @@
 <?php
 // $Id$
 
+
+function _get_override_css_files() {
+	$url_part = _get_sections();
+	$mypath = "/var/www-d6/docroot";
+  $files = array();
+	for($len = 1; $len <= count($url_part); $len++) {
+		$url = array_slice($url_part, 0, $len);
+		$file_name = '/css/' . join('_', $url) . '.css';
+		if (is_file($mypath . $file_name)) {
+      $output .= '<link rel="stylesheet" type="text/css" href="' . $file_name . "\" />\n";
+			$files[] = $file_name;
+		}
+  }
+	return $files;
+}
+
+function _import_override_css_files($merge = array()) {
+  $files = array_merge($merge, _get_override_css_files());
+  $output = '<style type="text/css">' . "\n";
+  foreach ($files as $filename) {
+    $output .= "\t@import url(\"$filename\");\n";
+  }
+  $output .= "</style>\n";
+  return $output;
+}
+
+
 function phptemplate_body_class($sidebar_left, $sidebar_right) {
    if ($sidebar_left != '' && $sidebar_right != '') {
      $class = 'sidebars';
