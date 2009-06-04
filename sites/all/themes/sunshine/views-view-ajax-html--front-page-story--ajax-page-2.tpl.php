@@ -8,10 +8,12 @@
       <div class="one-line-title"><a href="<?=$row['title_link']?>"><?=$row['one_line_title']?></a></div>
       <div class="one-line-summary"><?=$row['one_line_summary']?></div>
       <div class="push"></div>
-    </div>
+	</div>
+<? if (count($rows)>0): ?>
     <ul class="title-list">
     <? foreach ($rows as $row):?>
       <li><a href="<?=$row['title_link']?>"><?=$row['one_line_title']?></a></li>
     <? endforeach; ?>
-    </ul>
+	</ul>
+<? endif; ?>
   </div>

@@ -18,6 +18,6 @@ print "<br />University of Prince Edward Island, 550 University Avenue, Charlott
 ?>		
 
 </div>
-  <?php $logo_path = base_path() . path_to_theme() . "/images/" . get_sunshine_style(); ?>
-</div><!-- /footer -->
+
+<?php $logo_path = base_path() . path_to_theme() . "/images/" . get_sunshine_style(); ?>
 

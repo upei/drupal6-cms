@@ -1,6 +1,42 @@
 <?php
 // $Id$
 
+function sunshine_build_css_cache($css_files) {
+  $data = '';
+
+  // Create the css/ within the files folder.
+  $csspath = file_create_path('sunshine-css');
+  $orgpath = drupal_get_path('theme', 'sunshine') . '/css/';
+  
+  file_check_directory($csspath, FILE_CREATE_DIRECTORY);
+
+  // Build aggregate CSS file.
+  foreach ($css_files as $key => $file) {
+    $contents = drupal_load_stylesheet($orgpath . $file, TRUE);
+    // Return the path to where this CSS file originated from.
+    $base = base_path() . $orgpath;
+    _drupal_build_css_path(NULL, $base);
+    // Prefix all paths within this CSS file, ignoring external and absolute paths.
+    $data .= preg_replace_callback('/url\([\'"]?(?![a-z]+:|\/+)([^\'")]+)[\'"]?\)/i', '_drupal_build_css_path', $contents);
+  }
+
+  // Per the W3C specification at http://www.w3.org/TR/REC-CSS2/cascade.html#at-import,
+  // @import rules must proceed any other style, so we move those to the top.
+  $regexp = '/@import[^;]+;/i';
+  preg_match_all($regexp, $data, $matches);
+  $data = preg_replace($regexp, '', $data);
+  $data = implode('', $matches[0]) . $data;
+  
+  $filename = 'sunshine.' . md5($data) . '.css';
+  
+  // Create the CSS file.
+  if (!file_exists($csspath . '/' . $filename)) {
+    file_save_data($data, $csspath .'/'. $filename, FILE_EXISTS_REPLACE);
+  }
+
+  return $csspath .'/'. $filename;
+}
+
 function _get_override_css_files() {
 	$url_part = _get_sections();
 	$mypath = "/var/www-d6/docroot";
@@ -174,15 +210,14 @@ $css_files = array(
   '907-views-nav-buttons.css',
   '908-zoom.css',
   '990-misc.css',
+  
+  // style
+  "$style.css",
   );
 
-foreach ($css_files as $css) {
-  drupal_add_css(drupal_get_path('theme', 'sunshine') . '/css/' . $css, 'theme');
-}
-
-unset($css_files);
-
-drupal_add_css(drupal_get_path('theme', 'sunshine') . '/css/' . $style . '.css', 'theme');
+// aggregate sunshine css files
+$base_css = sunshine_build_css_cache($css_files);
+drupal_add_css($base_css, 'theme', 'all', false);
 
 if (theme_get_setting('sunshine_iepngfix')) {
    drupal_add_js(drupal_get_path('theme', 'sunshine') . '/js/jquery.pngFix.js', 'theme');

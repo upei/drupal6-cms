@@ -1,6 +1,6 @@
 /* Style for the course schedule feel for the top menu*/
-#coursefeedtitle{padding:20px 0px 20px 0px;font-size:14px;font-weight:bold;width:98%;text-align:center;border:0px solid #999999;}
-#coursefeedtitle a{text-decoration:underline;padding:20px 12px 20px 12px;}
+#coursefeedtitle { padding:20px 0px 20px 0px;font-size:14px;font-weight:bold;width:98%;text-align:center;border:0px solid #999999; }
+#coursefeedtitle a{ text-decoration:underline;padding:20px 12px 20px 12px; }
 
 /* Added here March 10th 2009. Special Styles created by Ryan and Deb to allow more variety in text - S.A.*/
 .specialclass1 {
