@@ -1,3 +1,4 @@
+<div id="footer-background"></div>
 
 <?php if ($footer) { ?>
   <div id="footer-region"><?php print $footer?></div>

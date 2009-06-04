@@ -13,7 +13,7 @@ body {
 }
 
 /* headings */ 
-h1, h2, h3 { font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif; }
+h1, h2, h3 { font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif; font-weight: bold; }
 h1 { font-size: 1.8em; line-height: 1.8em; }
 h2 { font-size: 1.5em; line-height: 1.8em; }
 h3 { font-size: 1.3em; line-height: 1.8em; }

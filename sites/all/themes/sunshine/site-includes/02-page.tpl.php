@@ -15,11 +15,9 @@
 <?php include '02.300-content.php'; ?>
 <?php include '02.400-sections.php'; ?>
 <?php include '02.410-page-bottom.php'; ?>
-<?php if (_get_bucket() != 'home'): ?>
-  <div class="clear-block clr" id="links-section">
-  <div class="sections">
-    <?php include '02.420-bottom-links.php'; ?>
-  </div><!-- /bottom links -->
-  <div style="clear:both"></div>
-<? endif; ?>
+<div class="clear-block clr" id="links-section">
+<div class="sections">
+  <?php include '02.420-bottom-links.php'; ?>
+</div><!-- /bottom links -->
+<div style="clear:both"></div>
 <? include '02.450-right-sidebar.php'; ?>

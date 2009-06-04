@@ -1,0 +1,8 @@
+#footer { position: relative; }
+#footer-message { text-align: center; }
+#footer-background {
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: -999;
+  width: 1000px;
+}
