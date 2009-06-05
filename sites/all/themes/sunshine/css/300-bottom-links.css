@@ -7,10 +7,16 @@
   font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif;
   margin-top: 10px;
   padding: 10px;
-  border: 1px solid #ccc;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  border-top: 1px;
+  border-left: 1px;
+  border-right: 1px;
+  border-style: solid;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   font-variant: normal;
   font-weight: normal;
 }
@@ -23,7 +29,7 @@
   font-weight: bold;
 }
 #links-section ul { margin: 0; padding: 0; }
-#links-section li { list-style: none; padding: 0; margin: 0; }
+#links-section li { list-style-type: none; padding: 0; margin: 0; list-style-image: none; }
 #links-section a { text-decoration: none; }
 #links-section a:hover { }
 .links1-width16 { width: 160px; }

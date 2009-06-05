@@ -5,7 +5,7 @@ function sunshine_build_css_cache($css_files) {
   $data = '';
 
   // Create the css/ within the files folder.
-  $csspath = file_create_path('sunshine-css');
+  $csspath = file_create_path('css');
   $orgpath = drupal_get_path('theme', 'sunshine') . '/css/';
   
   file_check_directory($csspath, FILE_CREATE_DIRECTORY);

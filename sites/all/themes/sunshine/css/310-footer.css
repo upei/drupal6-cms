@@ -1,8 +1,26 @@
-#footer { position: relative; }
-#footer-message { text-align: center; }
-#footer-background {
-  background-repeat: no-repeat;
+#footer {
+  position: relative;
+  padding-top: 30px;
+}
+#footer-message {
+  text-align: center;
+}
+#footer-absolute {
   position: absolute;
   z-index: -999;
-  width: 1000px;
 }
+#footer-background {
+  background-repeat: no-repeat;
+  width: 998px;
+  border-left: 1px;
+  border-right: 1px;
+  border-bottom: 1px;
+  border-style: solid;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  border-radius-bottom-left: 5px;
+  border-radius-bottom-right: 5px;
+}
+#footer-placeholder { height: 20px; width: 1000px; }

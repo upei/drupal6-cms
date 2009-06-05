@@ -14,17 +14,21 @@ h1, h2, h3, h4, h5, h6 { color: #000; }
 /* 010 primary navigation */
 #primary-navigation a { color: #6b6f2a; }
 /* 300 bottom links */
+#links-section { border-color: #ccc; }
 .bottom-links a { color: #888; }
 .bottom-links a:hover { color: #000; }
 .bottom-links h2 { color: #6b6f2a; }
 
 /* 310 footer */
-#footer { padding: 30px 0 20px 0; }
-#footer-background {
-  background-image: url("/misc/i/swoosh-footer.png");
-  height: 307px;
+
+#footer-absolute {
   top: -200px;
-  opacity: 0.2;
+  left: 0;
+}
+#footer-background {
+  height: 307px;
+  background-image: url("/misc/i/swoosh-footer.png");
+  border-color: #ccc;
 }
 
 /* 903 home page selector */
