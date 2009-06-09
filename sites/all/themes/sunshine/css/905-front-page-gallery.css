@@ -1,33 +1,53 @@
 /* front page gallery / one line gallery */
-.front-page-gallery {
-  padding: 4px;
-  margin: 6px 0;
-  border: 1px solid #ccc;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  height: 79px;
-  overflow: hidden;
-}
-.front-page-gallery ul {
-  padding: 2px 0 2px 3px;
-  margin: 0;
-}
-.front-page-gallery li {
+.front-page-gallery { padding: 0; margin: 0 auto; height: 64px; width: 896px; overflow: hidden; position: relative; }
+.front-page-gallery .items { padding: 0; margin: 0; width: 20000em; position: absolute; }
+.front-page-gallery .items > div {
   display: block;
   list-style-type: none;
   list-style-image: none;
-  padding: 0 3px 0 0;
-  margin: 0;
+  margin: 0 5px;
   float: left;
   overflow: hidden;
+  border: 1px solid #666;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
-.front-page-gallery li.hidden {
-  display: none;
+.scrollable-container {
+  position: relative;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  padding: 1em;
 }
-.front-page-gallery li img {
-  margin: 0;
+.scrollable-container a.prev, .scrollable-container a.next, .scrollable-container a.prevPage, .scrollable-container a.nextPage {
+  display: block;
+  width: 27px;
+  height: 27px;
+  background: url("/misc/i/arrow/apple-left.png") no-repeat;
+  float: left;
+  cursor: pointer;
+  position: absolute;
+  top: 48px;
+  left: 25px;
+  z-index: 10;
 }
-.front-page-gallery div img {
-  margin: auto;
+.scrollable-container a.prev:hover, .scrollable-container a.next:hover {
+  background-position: 0px -27px;
 }
+.scrollable-container a.disabled {
+  visibility: hidden !important;
+}
+.scrollable-container a.next, .scrollable-container a.nextPage {
+  background-image: url("/misc/i/arrow/apple-right.png");
+  right: 25px;
+  left: auto;
+  clear: right;
+}
+/* navigator */
+.scrollable-container .navi { width: 42px; margin: 0 auto; height: 20px; }
+.scrollable-container .navi a {
+  width: 8px; height: 8px; float: left; margin: 0 3px;
+  background: url("/misc/i/arrow/navigator.png") 0 0 no-repeat;
+  cursor: pointer;
+}
+.scrollable-container .navi a:hover { background-position: 0 -8px; }
+.scrollable-container .navi a.active { background-position: 0 -16px; }

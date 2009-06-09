@@ -219,6 +219,15 @@ $css_files = array(
 $base_css = sunshine_build_css_cache($css_files);
 drupal_add_css($base_css, 'theme', 'all', false);
 
+// scripts that are added to theme
+$scripts = array(
+  'js/tools.scrollable.min.js',
+  'js/tools.overlay.min.js',
+  'js/tools.expose.min.js',
+);
+
+foreach ($scripts as $script) drupal_add_js( path_to_theme('sunshine') . '/' . $script, 'theme', 'footer');
+
 if (theme_get_setting('sunshine_iepngfix')) {
    drupal_add_js(drupal_get_path('theme', 'sunshine') . '/js/jquery.pngFix.js', 'theme');
 }

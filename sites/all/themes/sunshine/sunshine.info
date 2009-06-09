@@ -27,4 +27,5 @@ regions[links4] = Links 4
 regions[links5] = Links 5
 regions[links6] = Links 6
 regions[footer] = Footer
+
 version = "6.2"
