@@ -1,3 +1,7 @@
+<div id="footer-absolute">
+<div id="footer-background"></div>
+<div id="footer-placeholder"></div>
+</div>
 
 <?php if ($footer) { ?>
   <div id="footer-region"><?php print $footer?></div>
@@ -17,6 +21,4 @@ print "<br />University of Prince Edward Island, 550 University Avenue, Charlott
 ?>		
 
 </div>
-  <?php $logo_path = base_path() . path_to_theme() . "/images/" . get_sunshine_style(); ?>
-</div><!-- /footer -->
 

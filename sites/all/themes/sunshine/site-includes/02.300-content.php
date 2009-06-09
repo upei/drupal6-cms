@@ -1,6 +1,6 @@
 <?php if ($content_top):?>
    <div id="content-top"><?php print $content_top; ?></div>
- <?php endif; ?>
+<?php endif; ?>
 <?php if ($sidebar_inner_left): ?>
 <div id="sidebar-inner-left">
   <? print $sidebar_inner_left; ?>
@@ -13,7 +13,11 @@
 <?php endif; ?>
 <div id="real-content" class="<? if ($sidebar_inner_left && $sidebar_inner_right) { print 'narrow'; } else if ( $sidebar_inner_left || $sidebar_inner_right) { print 'normal'; } else { print 'wide'; }?>">
 <div class="tabs"><?php print $tabs ?></div>
-<?php print $content; ?>
+<?php if ($content): ?>
+<div id="content">
+  <?php print $content; ?>
+</div>
+<?php endif; ?>
 </div>
 <?php print $feed_icons; ?>
 <?php if ($content_bottom): ?>

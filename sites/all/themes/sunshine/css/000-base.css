@@ -1,0 +1,62 @@
+/* fontface */
+@font-face {
+  font-family: "Minion Pro";
+  src: url("/css/fonts/MinionPro-Medium.otf");
+}
+
+body {
+  padding: 0;
+  width: 1000px;
+  margin: 0 auto 0 auto;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+
+/* headings */ 
+h1, h2, h3 { font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif; font-weight: bold; }
+h1 { font-size: 1.8em; line-height: 1; margin-bottom: 0.75em; }
+h2 { font-size: 1.5em; line-height: 1.25; margin-bottom: 1em; }
+h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 1.25em; }
+h4 { font-size: 1em; font-weight: bold; margin-bottom: 1.5em; }
+h5 { font-size: 1em; font-weight: bold; }
+
+li{ list-style-type: square; padding: 0.2em 0.5em 0 0; margin: 0; }
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* default button styles */
+input[type="submit"] {
+  background-image: url("/misc/i/buttonback25.png");
+  background-repeat: repeat-x;
+  border: 1px outset #ccc;
+  padding-left: 15px;
+  padding-right: 15px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  overflow: visible;
+}
+input[type="submit"]:active { border-style: inset; }
+
+/* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
+/* vertical-align: middle --> vertical-align: top */
+/* This moves the 'inside banner menu' to the top right corner of the banner */
+
+#content-top .block {
+  padding: 0px;
+}
+
+.clearfix:after {
+   content: ".";
+   display: block;
+   height: 0;
+   clear: both;
+   visibility: hidden;
+}
+
+#inner-content {
+padding: 0px;
+}
+
+

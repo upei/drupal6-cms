@@ -1,0 +1,104 @@
+/* sunshine specific story topics */
+.front-page-story-tabs {
+  width: 447px;
+  height: 280px;
+  overflow: hidden;
+  padding-right: 5px;
+}
+.front-page-story-tabs ul.topic-list {
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+.front-page-story-tabs li.topic-list {
+  width: 165px;
+  list-style: none;
+  list-style-image: none;
+  display: block;
+  padding: 6px;
+  margin: 0;
+  border: 1px solid #fff;
+  cursor: pointer;
+  cursor: hand;
+}
+.front-page-story-tabs li.topic-list:hover {
+  border: 1px solid #808080;
+}
+.front-page-story-tabs li.topic-list .v-id {
+  display: none;
+}
+.front-page-story-tabs li.topic-list img {
+  float: left;
+  border: 1px solid #808080;
+  margin: 0;
+  padding: 0 !important;
+}
+.front-page-story-tabs .one-word-title {
+  text-decoration: none;
+  float: right;
+  display: block;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 13px;
+  width: 94px;
+}
+.front-page-story-tabs .four-word-summary {
+  text-decoration: none;
+  float: right;
+  display: block;
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: normal;
+  width: 94px;
+}
+.front-page-story-tabs .topic-detail {
+  float: right;
+  width: 262px;
+  display: none;
+}
+#front-page-topic-detail-row-1 {
+  display: block;
+}
+.front-page-story-tabs .first-topic {
+/*  height: 228px;
+  overflow: hidden;
+*/}
+.front-page-story-tabs .first-topic img {
+  border: 0; margin: 0; display: block;
+}
+.front-page-story-tabs .one-line-title {
+  padding-top: 6px;
+}
+.front-page-story-tabs .one-line-title a {
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 16px;
+  text-decoration: none;
+}
+.front-page-story-tabs .one-line-title a:hover {
+  text-decoration: underline;
+}
+.front-page-story-tabs .one-line-summary {
+  font-size: 12px;
+}
+.front-page-story-tabs .push {
+}
+.front-page-story-tabs .title-list {
+  list-style: disc inside;
+  padding-left: 6px;
+  border-top: 1px solid #f0f0f0;
+  height: 51px;
+  overflow: hidden;
+  display: none;
+}
+.front-page-story-tabs .title-list li {
+  list-style: disc inside;
+  font-size: 11px;
+  padding: 0;
+}
+.front-page-story-tabs .title-list a {
+  text-decoration: none;
+}
+.front-page-story-tabs .title-list a:hover {
+  text-decoration: underline;
+}

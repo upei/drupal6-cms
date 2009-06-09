@@ -252,20 +252,7 @@ function campus_management_init($main = 0) {
   // add flash and sifr
   drupal_add_js('misc/jquery.flash.min.js', 'module', 'footer', false, true);
   drupal_add_js('misc/sifr/jquery.sifr.min.js', 'module', 'footer', false, true);
-  $javascript = <<<END
-  $(function () {
-    if ($(document).flash.hasFlash(7,0,0)) {
-      $('.site-title').sifr({
-        offsetTop: 3,
-        textColor: '#7A2424',
-        font:'minionpro',
-        path:'/misc/sifr',
-        expressInstall: true
-      });
-    }
-  });
-END;
-  drupal_add_js($javascript, 'inline', 'footer', false, false);
+
   
   // add fancyzoom
   drupal_add_js('misc/fancyzoom.min.js', 'module', 'header', false, true);
