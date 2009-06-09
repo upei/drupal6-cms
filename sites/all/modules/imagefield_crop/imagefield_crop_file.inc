@@ -39,12 +39,7 @@ function imagefield_crop_file_admin_crop_display_path($file) {
   ob_end_clean();
   // drupal_set_message($m);
   $filename = $file->filepath .'.crop_display.jpg';
-  if (!file_exists($filename) && !empty($file->origname)) {
-    return dirname($file->filepath) . '/' . $file->origname . '.crop_display.jpg';
-  }
-  else {
-    return $filename;
-  }
+  return $filename;
 }
 
 // Original file to crop from

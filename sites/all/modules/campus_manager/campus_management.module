@@ -270,3 +270,4 @@ END;
   // add fancyzoom
   drupal_add_js('misc/fancyzoom.min.js', 'module', 'header', false, true);
 }
+
