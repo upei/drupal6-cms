@@ -1,3 +1,4 @@
+<?php if ($user1 || $user2 || $user3): ?>
 <div class="clear-block clr" id="section1">
   <div class="sections">
     <?php if ($user1): ?>
@@ -10,5 +11,5 @@
       <div class="section user3"><?php print $user3; ?></div>
     <?php endif; ?>
   </div>
-  <div style="clear:both"></div>
 </div><!-- /section1 -->
+<?php endif; ?>

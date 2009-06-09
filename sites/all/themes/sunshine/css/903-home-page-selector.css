@@ -1,0 +1,78 @@
+.v-id, .v-default, .v-image, .v-title, .v-description { display: none; }
+.front-image-text { color: #fff; }
+
+/* selector */
+
+#main-selector {
+  margin: 0;
+  padding: 15px 0 10px 0;
+/*  border-bottom: 1px #808080 dotted; */
+}
+#main-selector a {
+  text-decoration: none;
+  font-size: 1.3em;
+}
+
+#main-selector a:hover {
+text-decoration: underline;
+}
+
+.front-image {
+  margin: 0px 0px 0px 300px;
+  background-image: url(/home/files/home/hbi/studentcentregroup700.jpg);
+  background-repeat: no-repeat;
+  width: 700px;
+  height: 375px;
+  cursor: pointer;
+}
+.front-image-hover {
+  top: 0px;
+  left: 0px;
+  width: 700px;
+  padding: 0px;;
+  height: 375px;
+  background-image: none;
+  position: relative;
+  color: white;
+  
+}
+.front-image-content {
+  position: relative;
+  top: 290px;
+  left: 40px;
+  width: 555px;
+}
+.front-image-text {
+  font-family: "Trebuchet MS", "Lucida Grande","Lucida Sans","Lucida Sans Unicode",Tahoma,Helvetica,sans-serif;
+  font-weight: normal;
+  font-size: 28px !important;
+  line-height: 32px;
+  padding: 0;
+  margin: 0;
+}
+.front-image-description {
+  font-family: "Trebuchet MS", "Lucida Grande","Lucida Sans","Lucida Sans Unicode",Tahoma,Helvetica,sans-serif;
+  padding-top: 5px;
+  font-size: 14px;
+  line-height: 14px;
+}
+ul.front-image-selector-list {
+  float: left;
+  padding: 0;
+  margin: 1px 0 0 0;
+}
+li.front-image-selector {
+  border-top: 1px #808080 dotted;
+  background-repeat: no-repeat;
+  width: 240px;
+  padding: 9px;
+  margin: 0px 1px;
+  height: 18px;
+  display: block;
+  list-style: none;
+  cursor: pointer;
+}
+
+
+ul.front-image-selector-list {
+}
