@@ -65,3 +65,4 @@ margin: 10px;
 margin-top: 20px;
 }
 
+.sections .block .views-field-title a, .sections .block .views-field-field-news-link-url { font-weight: bold; }

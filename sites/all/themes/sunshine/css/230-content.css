@@ -2,5 +2,8 @@
 #real-content.normal { float: left; width: 770px; }
 #real-content.narrow { float: left; width: 550px; }
 
+#real-content .node { margin-bottom: 10px; }
 #real-content .node a { text-decoration: underline; }
 #real-content .node img { margin: 12px; }
+
+#content { margin-bottom: 10px; }

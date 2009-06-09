@@ -14,9 +14,11 @@ body {
 
 /* headings */ 
 h1, h2, h3 { font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif; font-weight: bold; }
-h1 { font-size: 1.8em; line-height: 1.8em; }
-h2 { font-size: 1.5em; line-height: 1.8em; }
-h3 { font-size: 1.3em; line-height: 1.8em; }
+h1 { font-size: 1.8em; line-height: 1; margin-bottom: 0.75em; }
+h2 { font-size: 1.5em; line-height: 1.25; margin-bottom: 1em; }
+h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 1.25em; }
+h4 { font-size: 1em; font-weight: bold; margin-bottom: 1.5em; }
+h5 { font-size: 1em; font-weight: bold; }
 
 li{ list-style-type: square; padding: 0.2em 0.5em 0 0; margin: 0; }
 

@@ -7,8 +7,8 @@ http://www.alistapart.com/articles/horizdropdowns
 */
 
 #suckerfishmenu	.block {
-  margin-bottom: 0;
-  padding-bottom: 0;
+  display: block;
+  margin: 0 auto;
 }
 #suckerfishmenu	.block, #suckerfishmenu	.box {
   padding: 0;
@@ -24,18 +24,18 @@ http://www.alistapart.com/articles/horizdropdowns
   margin: 10px auto;
 }
 
+#suckerfishmenu .content {
+}
+
 #suckerfishmenu	 ul.menu { /* top level ul */
   padding: 0;
   list-style: none;
   z-index: 100;
-  text-align: center;
   display: table;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
 #suckerfishmenu	 a {
-	/*url(../images/upei-news/MenuDiv.png) 100% 0 repeat-y;*/
   display: block;
   padding: 1px 7px; /* padding between menu elements */
   margin: 0;
@@ -52,8 +52,14 @@ http://www.alistapart.com/articles/horizdropdowns
   display: inline;
   float: left;
   margin: 0;
+  list-style-type: none;
+  list-style-image: none;
   padding: 0;
 }
+
+#suckerfish ul.menu > li { display: table-cell; float: left; }
+* html ul.menu > li { display: inline; float: right; } /* ie hack */
+
 
 
 /* second-level lists */

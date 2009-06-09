@@ -8,8 +8,10 @@ h1, h2, h3, h4, h5, h6 { color: #000; }
 
 /* 003 suckerfish */
 #suckerfishmenu { background-color: #666; }
-#suckerfishmenu a { color: #fff; }
-#suckerfishmenu a:hover { color: #fff; background-color: #333; }
+#suckerfishmenu a { color: #fff; cursor: pointer; }
+#suckerfishmenu ul.menu ul li a { background-color: #666; }
+#suckerfishmenu ul.menu ul { opacity: 0.9; }
+#suckerfishmenu a:hover, #suckerfishmenu ul.menu ul li a:hover { color: #fff; background-color: #333; }
 
 /* 010 primary navigation */
 #primary-navigation a { color: #6b6f2a; }
@@ -38,3 +40,6 @@ li.front-image-selector:hover {
   background: #fff url(images/frontback.gif) repeat-x center top;
   border-right: #f7f7f7;
 }
+
+/* 906 front page news tabs */
+.front-page-news-tabs .tab-list li.selected a { background-color: #666; color: #fff; }
