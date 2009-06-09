@@ -1,7 +1,15 @@
 #sidebar-left { width: 20px; height: 120px; }
-#sidebar-left-bar { display: block; float: right; }
-#sidebar-left-close { display: inline-block; width: 18px; height: 18px; }
-
+#sidebar-left-bar { display: block; float: right; position: relative; }
+#sidebar-left-close {
+  display: block; width: 18px; height: 18px; position: absolute; top: 0; right: 2px;
+}
+#sidebar-left-close {
+  background-image: url("/misc/i/arrow/right.png"); background-repeat: no-repeat;
+}
+#sidebar-left-close:hover { background-position: 0 -18px; }
+#sidebar-left-close.enabled {
+  background-image: url("/misc/i/arrow/left.png"); background-repeat: no-repeat;
+}
 #sidebar-left, #sidebar-right {
   z-index: 1000 !important;
   position: fixed;
@@ -31,6 +39,17 @@
   -moz-border-radius-topleft: 4px;
   -moz-border-radius-bottomleft: 4px;
 }
+#sidebar-right-close {
+  display: block; width: 18px; height: 18px; position: absolute; top: 0; left: 0;
+}
+#sidebar-right-close {
+  background-image: url("/misc/i/arrow/left.png"); background-repeat: no-repeat;
+}
+#sidebar-right-close:hover { background-position: 0 -18px; }
+#sidebar-right-close.enabled {
+  background-image: url("/misc/i/arrow/right.png"); background-repeat: no-repeat;
+}
+
 
 #sidebar-left li, #sidebar-right li { list-style: disc inside; }
 #sidebar-left .hidden, #sidebar-right .hidden { display: none; }
