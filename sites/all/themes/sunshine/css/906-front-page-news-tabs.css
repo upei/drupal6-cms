@@ -6,11 +6,9 @@
   overflow: hidden;
   border: 1px solid #ccc;
   padding: 10px 10px 10px 10px; 
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
 }
-
-#block-block-10 .front-page-news-tabs{width:493px;margin-left:4px;}
 
 .front-page-news-tabs .tab-list {
   display: block;

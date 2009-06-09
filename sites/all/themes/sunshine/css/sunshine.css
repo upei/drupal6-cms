@@ -40,3 +40,9 @@ li.front-image-selector:hover {
   background: #fff url(images/frontback.gif) repeat-x center top;
   border-right: #f7f7f7;
 }
+
+/* 904 front page story */
+.front-page-story-tabs li.topic-list:hover { background: #eee url('images/frontback.gif') repeat-x center top; }
+
+/* 906 news tabs */
+.front-page-news-tabs li.selected a{ background-color: #666; color: #fff; }

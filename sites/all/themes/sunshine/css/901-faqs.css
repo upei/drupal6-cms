@@ -10,7 +10,7 @@
 .view-faqs .view-footer{position:relative;top:-10px;}
 
 /* view faqs page */
-.view-faqs-anchor li { font-size: 1.4em; font-family: "Minion Pro Display", Georgia, "Times New Roman", serif ; margin-top: 1em; }
+.view-faqs-anchor li { font-size: 1.4em; font-family: "Minion Pro Display", Georgia, "Times New Roman", serif ; margin-top: 1em; list-style-type: decimal; list-style: decimal inside; }
 
 .view-faqs-anchor a { text-decoration: none !important; color: rgb(108, 28, 0) !important;}
 .view-faqs-anchor a:hover { text-decoration: underline !important; }
