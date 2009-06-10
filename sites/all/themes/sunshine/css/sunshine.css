@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 { color: #000; }
 #main-selector a { color: #666; }
 
 li.front-image-selector:hover {
-  background: #fff url(images/frontback.gif) repeat-x center top;
+  background: #fff url(../images/frontback.gif) repeat-x center top;
   border-right: #f7f7f7;
 }
 

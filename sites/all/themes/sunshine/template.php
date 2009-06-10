@@ -213,6 +213,12 @@ $css_files = array(
   
   // style
   "$style.css",
+
+  // jquery-ui
+  'ui-theme/ui.core.css',
+  'ui-theme/ui.theme.css',
+  'ui-theme/ui.resizable.css',
+  'ui-theme/ui.dialog.css',
   );
 
 // aggregate sunshine css files

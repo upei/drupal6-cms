@@ -16,7 +16,7 @@
   position: relative;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  padding: 1em;
+  margin-bottom: 1em;
 }
 .scrollable-container a.prev, .scrollable-container a.next, .scrollable-container a.prevPage, .scrollable-container a.nextPage {
   display: block;
@@ -26,7 +26,7 @@
   float: left;
   cursor: pointer;
   position: absolute;
-  top: 48px;
+  top: 40px;
   left: 25px;
   z-index: 10;
 }
