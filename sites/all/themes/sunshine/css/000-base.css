@@ -20,7 +20,8 @@ h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 1.25em; }
 h4 { font-size: 1em; font-weight: bold; margin-bottom: 1.5em; }
 h5 { font-size: 1em; font-weight: bold; }
 
-li{ list-style-type: square; padding: 0.2em 0.5em 0 0; margin: 0; }
+li { list-style: disc outside url("../images/bullet.png"); margin-left: 2em;}
+ol li { list-style-type: decimal; list-style-image: none; }
 
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -37,7 +38,7 @@ input[type="submit"] {
   border-radius: 3px;
   overflow: visible;
 }
-input[type="submit"]:active { border-style: inset; }
+input[type="submit"]:active { border-style: inset; background-image: url("/misc/i/buttonbackactive25.png"); }
 
 /* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
 /* vertical-align: middle --> vertical-align: top */
@@ -59,4 +60,21 @@ input[type="submit"]:active { border-style: inset; }
 padding: 0px;
 }
 
+/* error */
+div.error, div.help, div.status {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 1em;
+  margin-bottom: 1em;
+}
 
+div.help {
+  background-color: #cdecff;
+  border: 1px solid #58a7ff;
+}
+
+div.status {
+  background-color: #fffbcd;
+  border: 1px solid #ffbf54;
+}
