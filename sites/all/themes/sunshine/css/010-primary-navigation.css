@@ -9,4 +9,5 @@
 #primary-navigation li {
   display: inline;
   list-style-type: none; padding: 0 5px;
+  margin: 0;
 }

@@ -1,7 +1,19 @@
 /*Add the styles for the faq page and block!!! April 28, 2009 S.A.*/
-#block-views-faqs-block_1 .view-faqs .views-row-odd, #block-views-faqs-block_1 .view-faqs .views-row-even{padding:5px 5px 0px 5px;border:1px solid #cccccc;background-image:url(/css/images/backgrade.jpg);background-repeat:repeat-x;margin-bottom:20px;padding:5px;height:300px;}
+#block-views-faqs-block_1 .view-faqs .views-row-odd, #block-views-faqs-block_1 .view-faqs .views-row-even {
+  padding: 5px 5px 0px 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  background-image: url(/css/images/backgrade.jpg);
+  background-repeat: repeat-x;
+  margin-bottom: 20px;
+  padding: 5px;
+  height: 300px;
+}
 .block .view-faqs .views-row-odd, .block .view-faqs .views-row-even { display: none; overflow: hidden; }
 .block .view-faqs ol { padding: 0; }
+.block .view-faqs li { margin: 0; }
 .block .view-faqs .views-row-first { display: block; }
 .view-faqs .views-field-title{font-size:1.2em;font-weight:bold;}
 .view-faqs .views-field-body{margin-left:20px;}

@@ -15,12 +15,12 @@ body {
 /* headings */ 
 h1, h2, h3 { font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif; font-weight: bold; }
 h1 { font-size: 1.8em; line-height: 1; margin-bottom: 0.75em; }
-h2 { font-size: 1.5em; line-height: 1.25; margin-bottom: 1em; }
-h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 1.25em; }
+h2 { font-size: 1.5em; line-height: 1.25; margin-bottom: 0.75em; }
+h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 0.75em; }
 h4 { font-size: 1em; font-weight: bold; margin-bottom: 1.5em; }
 h5 { font-size: 1em; font-weight: bold; }
 
-li { list-style: disc outside url("../images/bullet.png"); margin-left: 2em;}
+li { list-style: disc outside; margin-left: 2em;}
 ol li { list-style-type: decimal; list-style-image: none; }
 
 a { text-decoration: none; }

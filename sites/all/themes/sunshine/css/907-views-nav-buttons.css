@@ -1,7 +1,7 @@
 /* views left and right button */
 .views-left-bar { position: relative;}
-.views-left-button { position: absolute; width:18px; height:18px; background-image:url('/misc/i/arrow/left.png'); background-repeat: no-repeat; cursor: pointer; cursor: hand; }
+.views-left-button { position: absolute; width:18px; height:18px; background-image:url('../images/arrow/left.png'); background-repeat: no-repeat; cursor: pointer; cursor: hand; }
 .views-left-button:hover { background-position: 0 -18px; }
 .views-right-bar { position: relative; }
-.views-right-button { position: absolute; width:18px; height:18px; background-image:url('/misc/i/arrow/right.png'); background-repeat: no-repeat; cursor: pointer; cursor: hand; }
+.views-right-button { position: absolute; width:18px; height:18px; background-image:url('../images/arrow/right.png'); background-repeat: no-repeat; cursor: pointer; cursor: hand; }
 .views-right-button:hover { background-position: 0 -18px; }

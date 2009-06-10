@@ -1,5 +1,5 @@
 /* front page gallery / one line gallery */
-.front-page-gallery { padding: 0; margin: 0 auto; height: 64px; width: 896px; overflow: hidden; position: relative; }
+.front-page-gallery { padding: 0; margin: 0 auto; height: 64px; width: 880px; overflow: hidden; position: relative; }
 .front-page-gallery .items { padding: 0; margin: 0; width: 20000em; position: absolute; }
 .front-page-gallery .items > div {
   display: block;
@@ -8,7 +8,6 @@
   margin: 0 5px;
   float: left;
   overflow: hidden;
-  border: 1px solid #666;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
 }
@@ -22,7 +21,7 @@
   display: block;
   width: 27px;
   height: 27px;
-  background: url("/misc/i/arrow/apple-left.png") no-repeat;
+  background: url("../images/arrow/apple-left.png") no-repeat;
   float: left;
   cursor: pointer;
   position: absolute;
@@ -37,7 +36,7 @@
   visibility: hidden !important;
 }
 .scrollable-container a.next, .scrollable-container a.nextPage {
-  background-image: url("/misc/i/arrow/apple-right.png");
+  background-image: url("../images/arrow/apple-right.png");
   right: 25px;
   left: auto;
   clear: right;
@@ -46,7 +45,7 @@
 .scrollable-container .navi { width: 42px; margin: 0 auto; height: 20px; }
 .scrollable-container .navi a {
   width: 8px; height: 8px; float: left; margin: 0 3px;
-  background: url("/misc/i/arrow/navigator.png") 0 0 no-repeat;
+  background: url("../images/arrow/navigator.png") 0 0 no-repeat;
   cursor: pointer;
 }
 .scrollable-container .navi a:hover { background-position: 0 -8px; }

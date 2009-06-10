@@ -7,11 +7,32 @@ a { color: #7a2424; }
 h1, h2, h3, h4, h5, h6 { color: #000; }
 
 /* 003 suckerfish */
-#suckerfishmenu { background-color: #666; }
-#suckerfishmenu a { color: #fff; cursor: pointer; }
-#suckerfishmenu ul.menu ul li a { background-color: #666; }
-#suckerfishmenu ul.menu ul { opacity: 0.9; }
-#suckerfishmenu a:hover, #suckerfishmenu ul.menu ul li a:hover { color: #fff; background-color: #333; }
+#suckerfishmenu { background-color: #ddd; -webkit-border-radius: 5px; -moz-border-radius: 5px; }
+#suckerfishmenu a { color: #000; }
+#suckerfishmenu a:hover { background-color: transparent; text-decoration: underline; }
+#suckerfishmenu .content > ul.menu ul { border: 1px solid #333; }
+#suckerfishmenu .content > ul.menu ul li { background-color: #fff; }
+#suckerfishmenu .content > ul.menu ul { opacity: 0.9; }
+#suckerfishmenu .content > ul.menu li:hover { background-color: #ddd; }
+#suckerfishmenu .content > ul.menu li li.expanded {
+  background: #fff url("../images/navbullet.png") 185px 0 no-repeat;
+}
+#suckerfishmenu .content > ul.menu ul li.expanded:hover { background-color: #ccc; background-position: 185px -30px; }
+#suckerfishmenu .content > ul.menu > li {
+  background-repeat: no-repeat;
+}
+#suckerfishmenu .content > ul.menu > li:hover {
+  -webkit-border-radius: 5px; -moz-border-radius: 5px;
+}
+#suckerfishmenu .content > ul.menu > li.expanded {
+  background-image: url("../images/navbullet.png");
+  background-position: right -3px;
+  padding-right: 7px;
+}
+#suckerfishmenu .content > ul.menu > li.expanded:hover {
+  background-image: url("../images/navbullet.png");
+  background-position: right -33px;
+}
 
 /* 010 primary navigation */
 #primary-navigation a { color: #6b6f2a; }

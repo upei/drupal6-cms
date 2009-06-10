@@ -6,8 +6,8 @@
   overflow: hidden;
   border: 1px solid #ccc;
   padding: 10px 10px 10px 10px; 
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 .front-page-news-tabs .tab-list {
@@ -43,8 +43,8 @@
   float:right;
   border-left: 1px solid #6c1c00;
   border-bottom: 1px solid #6c1c00;
-  -webkit-border-bottom-left-radius: 4px;
-  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
 }
 .front-page-news-tabs .tabs-detail .more a {
   font-weight: bold;
@@ -52,9 +52,7 @@
 .front-page-news-tabs div.selected {
   display: block;
 }
-.front-page-news-tabs .tabs-detail ul {
-  list-style: disc inside;
-}
 .front-page-news-tabs .tabs-detail li {
-  list-style: disc inside;
+  list-style-position: inside;
+  margin-left: 0;
 }
