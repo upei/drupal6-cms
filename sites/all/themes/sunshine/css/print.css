@@ -1,0 +1,9 @@
+/*.all-content{padding:50px 0px 50px 30px;margin-left:60px;border-left:1px solid #000000;width:800px;}*/
+.all-content{padding:10px 0px 0px 0px;margin-left:0px;border-left:0px solid #000000;width:800px;}
+.print-title{font-size:1.4em;margin:0px;padding:0px;}
+.print-info{overflow:hidden;margin-left:3px;}
+.print-submitted{float:left;margin-right:15px;}
+.print-created{float:left;}
+.print-content{margin:10px 0px 0px 30px;padding:30px;font-size:0.9em;}
+
+.field-field-image{float:right;}
