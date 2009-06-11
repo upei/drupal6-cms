@@ -35,6 +35,7 @@ function ldapdata_attribute_filter(&$attributes) {
  */
 function ldapdata_attributes() {
   return array(
+    'fullName' => array('text', 'textfield', t('Full Name'), 64, 64),
     'givenName' => array('text', 'textfield', t('First Name'), 64, 64),
     'sn'        => array('text', 'textfield', t('Last Name'), 64, 64), // aka Surname.
     'cn'        => array('text', 'textfield', t('Common Name'), 64, 64),

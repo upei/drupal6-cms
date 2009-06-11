@@ -24,3 +24,4 @@
   border-radius-bottom-right: 5px;
 }
 #footer-placeholder { height: 20px; width: 1000px; }
+#footer p { padding: 0; margin: 0; }

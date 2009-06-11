@@ -13,6 +13,6 @@
   right: 0;
 }
 /* fix scrollable container issue */
-.scrollable-container { display: none; }
+/*.scrollable-container { display: none; }*/
 /* fix footer */
 #footer-background { background-image: none; }

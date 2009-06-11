@@ -6,9 +6,9 @@
   <?php print $head ?>
   <?php print $scripts ?>
   <style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/reset.css");</style>
-  <!--[if IE]><style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/ie.css");</style><![endif]-->
+<!--[if IE]><link rel="stylesheet" type="text/css"<?php print base_path() . path_to_theme() ?>/css/ie.css" /><![endif]-->
   <?php print $styles ?>
-  <!--[if IE 6]><style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/ie6fix.css");</style><![endif]-->
+<!--[if IE 6]><link rel="stylesheet" type="text/css" href="<?php print base_path() . path_to_theme() ?>/css/ie6fix.css" /><![endif]-->
   <?php include 'site-includes/page-setup-scripts.php'; ?>
   <?php print _import_override_css_files(array("/css/sunshine.css"/*, "/misc/ui-theme/ui.generated.css"*/)); ?>
 </head>

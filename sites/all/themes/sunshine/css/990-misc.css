@@ -50,10 +50,6 @@ tr.even td, tr.odd td{border: 2px solid #ffffff;}
 
 
 /*News page media sources formatting*/
-.imagecache-media_release_image_default {
-  float: right;
-  padding: 15px;
-}
 
 .field-field-pull-quote {
 font-style: italic;

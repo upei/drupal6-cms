@@ -1,12 +1,13 @@
 <div class="scrollable-container">
   <div class="navi"></div>
   <a class="prevPage"></a>
+  <a class="nextPage"></a>
   <div class="scrollable">
     <div class="front-page-gallery">
     <div class="items">
       <?
       foreach ($rows as $row): ?>
-      <div><a href="#onelinegallery-<?=$row['nid']?>"><?=$row['thumbnail']?></a></div>
+      <div class="item"><a href="#onelinegallery-<?=$row['nid']?>"><?=$row['thumbnail']?></a></div>
       <? endforeach; ?>
       </div>
     <div>
@@ -30,5 +31,4 @@
       });
     </script>
   </div>
-  <a class="nextPage"></a>
 </div>
