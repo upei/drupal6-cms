@@ -9,6 +9,7 @@ div.tooltip {
 	font-size:1.1em;
 	display:none;
 	color:#fff;
+  z-index: 999;
 }
 
 /* tooltip title element (h3) */
