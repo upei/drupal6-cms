@@ -15,6 +15,6 @@
 </form>
 <div class="tooltip">
   <h3>Search Box</h3>
-  <p>Put anything you want to search at UPEI, such as names of staff or faculty, registration dates, timetables, etc.</p>
-  <p>Then press Enter key on the keyboard or click the Search UPEI button.</p>
+  <p>Search UPEI for faculty and staff, programs and offices, registration information, timetables, important dates, news and events.</p>
+  <p>Click on the SEARCH button or press Enter.
 </div>
