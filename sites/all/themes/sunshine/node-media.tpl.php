@@ -7,6 +7,13 @@
     <?php if ($links): ?>
     <fieldset>
       <legend>Useful Links</legend>
+      <div class="links">
+        <ul class="links">
+          <li class="first last">
+          <a href="<?=base_path()?>media">Return to Media Releases</a>
+          </li>
+        </ul>
+      </div>
       <div class="links"><?php print $links; ?></div>
     </fieldset>
     <?php endif; ?>

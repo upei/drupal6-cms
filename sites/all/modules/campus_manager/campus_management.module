@@ -257,3 +257,29 @@ function campus_management_init($main = 0) {
   // add fancyzoom
   drupal_add_js('misc/fancyzoom.min.js', 'module', 'header', false, true);
 }
+
+function campus_management_filter($op, $delta = 0, $format = -1, $text = '', $cache_id = 0) {
+  if ($op == 'list') {
+    return array(0 => t('Empty paragraph filter'));
+  }
+  switch ($delta) {
+    case 0:
+    switch ($op) {
+      case 'description':
+        return t('Filter all empty paragraph tags');
+      case 'prepare':
+        return $text;
+      case 'process':
+        return preg_replace(
+          array(
+            '/<p>(&nbsp;| )*<\/p>/',
+          ),
+          array(
+            '',
+          ),
+          $text
+          );
+    }
+    break;
+  }
+}

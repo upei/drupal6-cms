@@ -116,7 +116,7 @@ function blog_view($node, $teaser = FALSE, $page = FALSE) {
  */
 function blog_link($type, $node = NULL, $teaser = FALSE) {
   $links = array();
-
+/*
   if ($type == 'node' && $node->type == 'blog') {
     if (arg(0) != 'blog' || arg(1) != $node->uid) {
       // This goes to l() and therefore escapes !username in both the title and attributes.
@@ -127,7 +127,7 @@ function blog_link($type, $node = NULL, $teaser = FALSE) {
       );
     }
   }
-
+*/
   return $links;
 }
 

@@ -89,6 +89,12 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	HTTRACK_OPTS="--sockets=10 --timeout=90 --retries=5 --host-control=1 -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
 	HTTRACK_OPTIONS="+${source_site}/$bucket/link/*
       -${source_site}/$bucket/files/*
+      +${source_site}/$bucket/files/imagecache/*.jpg
+      +${source_site}/$bucket/files/imagecache/*.JPG
+      +${source_site}/$bucket/files/imagecache/*.PNG
+      +${source_site}/$bucket/files/imagecache/*.png
+      +${source_site}/$bucket/files/imagecache/*.gif
+      +${source_site}/$bucket/files/imagecache/*.GIF
 			+${photo_site}/d/*
 			${HTTRACK_OPTS}"
 
