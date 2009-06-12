@@ -1,8 +1,8 @@
 
 /* tooltip styling. uses a background image (a black box with an arrow) */
 div.tooltip {
-	background:transparent url(../images/tooltip/black_arrow_up_big.png) no-repeat scroll 0 0;
-	height:153px;
+	background: transparent url(../images/tooltip/black_arrow_up_big.png) no-repeat scroll 0 0;
+	height:133px;
 	padding: 30px;
   padding-top: 50px;
 	width:310px;
@@ -13,7 +13,7 @@ div.tooltip {
 
 /* tooltip title element (h3) */
 div.tooltip h3 {
-	font-size:1.5em;
+	font-size:1.3em;
 	margin: 0 0 0.5em 0;
 	color:#fff;
 }
