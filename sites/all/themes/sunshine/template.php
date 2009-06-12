@@ -209,6 +209,7 @@ $css_files = array(
   '906-front-page-news-tabs.css',
   '907-views-nav-buttons.css',
   '908-zoom.css',
+  '910-tooltip.css',
   '990-misc.css',
   
   // style
@@ -228,8 +229,9 @@ drupal_add_css($base_css, 'theme', 'all', false);
 // scripts that are added to theme
 $scripts = array(
   'js/tools.scrollable.min.js',
-  'js/tools.overlay.min.js',
+  'js/tools.tooltip.min.js',
   'js/tools.expose.min.js',
+  'js/sunshine.js',
 );
 
 foreach ($scripts as $script) drupal_add_js( path_to_theme('sunshine') . '/' . $script, 'theme', 'footer');
