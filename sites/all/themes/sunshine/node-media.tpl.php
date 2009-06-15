@@ -37,7 +37,7 @@
     <? if ($page == 0): ?>
     <h2 class="title"><a href="<?=$node_url?>"><?=$title?></a></h2>
     <? endif; ?>
-    <div class="date">Posted on <?php print date('l, j F, Y'); ?></div>
+    <div class="date">Posted on <?php print date('l, j F, Y', $created); ?></div>
     <div class="body">
     <?php
       // filter out unneccessary p tags
