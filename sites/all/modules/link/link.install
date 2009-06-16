@@ -1,5 +1,10 @@
 <?php
-// $Id: link.install,v 1.5.2.3 2008/09/22 05:23:16 quicksketch Exp $
+// $Id: link.install,v 1.5.2.6 2009/04/20 04:09:18 jcfiala Exp $
+
+/**
+ * @file
+ * Install file for the link module.
+ */
 
 /**
  * Implementation of hook_install().
@@ -38,4 +43,46 @@ function link_disable() {
  */
 function link_update_last_removed() {
   return 1;
+}
+
+/**
+ * Ensure that content.module is updated before link module.
+ */
+function link_update_6000() {
+  if ($abort = content_check_update('link')) {
+    return $abort;
+  }
+  return array();
+}
+
+/**
+ * Change the database schema to allow NULL values.
+ */
+function link_update_6001() {
+  $ret = array();
+  
+  // Build a list of fields that need updating.
+  $update_fields = array();
+  foreach (content_types_install() as $type_name => $fields) {
+    foreach ($fields as $field) {
+      if ($field['type'] == 'link') {
+        // We only process a given field once.
+        $update_fields[$field['field_name']] = $field;
+      }
+    }
+  }
+  
+  // Update each field's storage to match the current definition.
+  foreach ($update_fields as $field) {
+    $db_info = content_database_info($field);
+    foreach ($db_info['columns'] as $column) {
+      db_change_field($ret, $db_info['table'], $column['column'], $column['column'], $column);
+      $ret[] = update_sql("UPDATE {". $db_info['table'] ."} SET ". $column['column'] ." = NULL WHERE ". $column['column'] ." = '' OR ". $column['column'] ." = 'N;'");
+    }
+  }
+  
+  // Let CCK re-associate link fields with Link module and activate the fields.
+  content_associate_fields('link');
+  
+  return $ret;
 }

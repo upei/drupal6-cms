@@ -1,4 +1,9 @@
 <?php
+// $Id: link.views.inc,v 1.1.2.3 2009/04/20 04:09:18 jcfiala Exp $
+/**
+ * @file
+ * Contains functions handling views integration.
+ */
 
 /**
  * Implementation of hook_views_handlers().
@@ -6,7 +11,7 @@
 function link_views_handlers() {
   return array(
     'info' => array(
-      'path' => drupal_get_path('module', 'link') . '/views',
+      'path' => drupal_get_path('module', 'link') .'/views',
     ),
     'handlers' => array(
       'link_views_handler_argument_target' => array(
@@ -40,7 +45,7 @@ function link_views_content_field_data($field) {
   // Build out additional views data for the link "title" field.
   $data[$table_alias][$field['field_name'] .'_title'] = array(
     'group' => t('Content'),
-    'title' => t('@label title', array('@label' => t($field_types[$field['type']]['label']))) .': '. t($field['widget']['label']) . ' ('. $field['field_name'] .')',
+    'title' => t('@label title', array('@label' => t($field_types[$field['type']]['label']))) .': '. t($field['widget']['label']) .' ('. $field['field_name'] .')',
     'help' =>  $data[$table_alias][$field['field_name'] .'_url']['help'],
     'argument' => array(
       'field' => $db_info['columns']['title']['column'],
@@ -73,7 +78,7 @@ function link_views_content_field_data($field) {
   // TODO: Add a protocol argument.
   $data[$table_alias][$field['field_name'] .'_protocol'] = array(
     'group' => t('Content'),
-    'title' => t('@label protocol', array('@label' => t($field_types[$field['type']]['label']))) .': '. t($field['widget']['label']) . ' ('. $field['field_name'] .')',
+    'title' => t('@label protocol', array('@label' => t($field_types[$field['type']]['label']))) .': '. t($field['widget']['label']) .' ('. $field['field_name'] .')',
     'help' =>  $data[$table_alias][$field['field_name'] .'_url']['help'],
     'filter' => array(
       'field' => $db_info['columns']['url']['column'],
@@ -90,11 +95,11 @@ function link_views_content_field_data($field) {
   // TODO: Add a target filter.
   $data[$table_alias][$field['field_name'] .'_target'] = array(
     'group' => t('Content'),
-    'title' => t('@label target', array('@label' => t($field_types[$field['type']]['label']))) .': '. t($field['widget']['label']) . ' ('. $field['field_name'] .')',
+    'title' => t('@label target', array('@label' => t($field_types[$field['type']]['label']))) .': '. t($field['widget']['label']) .' ('. $field['field_name'] .')',
     'help' =>  $data[$table_alias][$field['field_name'] .'_url']['help'],
     'argument' => array(
       'field' => $db_info['columns']['attributes']['column'],
-      'title' => t('@label target', array('@label' => t($field_types[$field['type']]['label']))) .': '. t($field['widget']['label']) . ' ('. $field['field_name'] .')',
+      'title' => t('@label target', array('@label' => t($field_types[$field['type']]['label']))) .': '. t($field['widget']['label']) .' ('. $field['field_name'] .')',
       'tablename' => $db_info['table'],
       'handler' => 'link_views_handler_argument_target',
       'additional fields' => array(),
