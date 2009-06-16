@@ -1,5 +1,5 @@
 <?php
-// $Id: imagecache_textactions.module,v 1.2.2.6 2009/02/07 16:31:19 dman Exp $
+// $Id: imagecache_textactions.module,v 1.2.2.7 2009/05/02 04:54:50 dman Exp $
 /**
  * @file Provide text manipulation process for imagecache.
  * 
@@ -7,6 +7,7 @@
  * from http://drupal.org/node/264862#comment-865490 by patrickharris
  * 
  */
+  cache_clear_all('imagecache_actions', 'cache');
 
 require_once(dirname(__FILE__) .'/utility.inc'); // For simple color routines
 
@@ -19,6 +20,11 @@ function imagecache_textactions_imagecache_actions() {
       'name' => t('Text'),
       'description' => t('Add static or dynamic (coded) text to an image.'),
       'file' => 'textactions.inc',
+    ),
+    'textactions_rendertext' => array(
+      'name' => t('Render Text'),
+      'description' => t('EXPERIMENTAL Add static or dynamic (coded) text to an image using CSS-like effects.'),
+      'file' => 'textrender.inc',
     ),
   );
 
@@ -33,8 +39,30 @@ function imagecache_textactions_imagecache_actions() {
 function imagecache_textactions_help($path, $arg) {
   switch ($path) {
     case 'admin/help#imagecache_textactions':
+      $output = "<p>
+        For text rendering to work on a server, we <em>must</em>
+        know the system path to the font <em>file</em>, not just the name.
+        Font library handling differs too much on different systems and
+        the available PHP toolkits are unable to return good diagnostics.
+        </p><p>
+        On Debian/Ubuntu, you may find your fonts in and under
+        <code>/usr/share/fonts/truetype/</code>
+        eg <code>'/usr/share/fonts/truetype/ttf-bitstream-vera/VeraMono.ttf'</code>
+        </p><p>
+        On OSX, they are probably in <code>/Library/Fonts/</code>
+        eg <code>'/Library/Fonts/Times New Roman Bold Italic.ttf'</code>
+        </p><p>
+        On Windows, they are probably in <code>C://WINDOWS/Fonts/</code>
+        eg <code>'C://WINDOWS/Fonts/comic.TTF'</code>
+        </p><p>
+        Of course, this will change if you deploy to a different server!
+        so the best approach is to place your own TTF font file inside your
+        <em>files</em> directory and use that. 
+        Just give the filename with no path and it should be found..
+        </p>
+      ";
       if( ini_get('safe_mode') ){
-        return t("
+        $output .= t("
           It appears PHP 'safe mode' is on. 
           This prevents me for knowing which fonts are on your system. 
           You will have to know the exact path and filename of the fonts you intend to use 
@@ -42,9 +70,11 @@ function imagecache_textactions_help($path, $arg) {
         ");
       }
       else {
-        $output = `find /usr/share/fonts -name \*.ttf`;
-        return "Fonts Found : <pre>" . $output . "</pre>";
+        $list = `find /usr/share/fonts -name \*.ttf`;
+        $output .= "Fonts Found : <pre>" . $list . "</pre>";
       }
+      return $output;
+      break;
   }
 }
 
@@ -55,6 +85,10 @@ function imagecache_textactions_theme() {
   return array(
     'textactions_text2canvas' => array(
       'file'      => 'textactions.inc',
+      'arguments' => array('element' => NULL),
+    ),
+    'textactions_rendertext' => array(
+      'file'      => 'textrender.inc',
       'arguments' => array('element' => NULL),
     ),
     'imagecacheactions_rgb_form' => array(

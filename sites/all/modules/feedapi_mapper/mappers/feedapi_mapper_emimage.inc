@@ -1,33 +1,40 @@
 <?php
-// $Id: feedapi_mapper_emimage.inc,v 1.1.2.1 2008/11/06 20:42:43 alexb Exp $
+// $Id: feedapi_mapper_emimage.inc,v 1.1.2.3 2009/04/20 13:31:04 alexb Exp $
 
 /**
- * Implementation of hook_feedapi_mapper for emvideo part of embedded media CCK.
+ * On behalf implementation of hook_feedapi_mapper for emvideo (part of embedded media CCK).
  *
- * @param string $op
- * @param Drupal node $node
- * @param string $field_name
- * @param string, number or array of string or number $feed_element
- * @param string or number as id $sub_field
- *
+ * @see hook_feedapi_mapper()
  */
-function emimage_feedapi_mapper($op, $node, $field_name, $feed_element = array(), $sub_field = '') {
-  $field = content_fields($field_name);
-  if ($field['type'] != 'emimage') {
-    // if not an emvideo field just return
-    return;
-  }
-
+function emimage_feedapi_mapper($op, $node, $feed_element = array(), $field_name = '', $sub_field = '') {
   switch ($op) {
     case 'describe':
       // Describe what we are doing in this mapper. This shows up as help text on the mapping page.
       return t('Maps a link to a image to the Embedded Media Image CCK field. Use the original_url element for mapping to this field.');
     case 'list':
+      $info = content_types($node->type);
+      $fields = array();
+      if (@count($info['fields'])) {
+        foreach ($info['fields'] as $field_name => $field) {
+          if (in_array($field['type'], array('emimage'))) {
+            $fields[$field_name] = isset($field['widget']['label']) ? $field['widget']['label'] : $field_name;
+          }
+        }
+      }
+      if (count($fields)) {
+        return $fields;
+      }
+      return FALSE;
       // just for sub_fields
       return TRUE;
     case 'map':
       // Here is where the actual mapping happens.
-      $items = $node->$field_name;
+      if (isset($node->{$field_name})) {
+        $items = $node->{$field_name};
+      }
+      else {
+        $items = array();
+      }
       if (is_string($feed_element) && valid_url($feed_element)) {
         // straight link usually from options->original_url or options->guid
         $items[]['embed'] = $feed_element;
@@ -49,7 +56,7 @@ function emimage_feedapi_mapper($op, $node, $field_name, $feed_element = array()
           }
         }
       }
-      emimage_field('submit', $node, $field, $items, FALSE, FALSE);
+      emimage_field('submit', $node, $field_name, $items, FALSE, FALSE);
       $node->$field_name = $items;
       return $node;
   }

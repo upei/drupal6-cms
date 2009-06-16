@@ -1,5 +1,5 @@
 <?php
-// $Id: imagecache_customactions.module,v 1.1.2.1 2008/11/09 15:33:54 dman Exp $
+// $Id: imagecache_customactions.module,v 1.1.2.4 2009/06/10 01:42:40 dman Exp $
 
 /**
  * @file Allow advanced users to code their own PHP image manipulation routines
@@ -37,7 +37,7 @@
  *
  *   $image->info array
  *
- *   $image->res handle on the image object
+ *   $image->resource handle on the image object
  *
  * @param $action array of settings as defined in your form.
  */
@@ -77,11 +77,12 @@ function imagecache_customactions_form($action) {
       '#description' => t('
       <p>Enter PHP code for your custom action. Source image is available in the $image object
       which contains an <code>$image->info</code> array,
-      and a <code>$image->res</code> which is the php toolkit object itself.
+      and a <code>$image->resource</code> which is the php toolkit object itself.
       Your code must <b>return</b> an image object of the same structure (see ImageAPI).
       For convenience, the images current <code>$image->info</code> variables 
       - <code>$width</code>, <code>$height</code> are available in the current scope.
       <br/>Do not use %php tags. </p>
+      <p>If possible, the owning $node object may also be available.</p>
       <p>Note that executing incorrect PHP-code can break your Drupal site.</p>
       <p>If you are using a WYSIWYG, you must disable it for this edit area.</p>
 <h3>example:</h3>
@@ -92,12 +93,12 @@ function imagecache_customactions_form($action) {
 // Make a copy of the image twice the size
   $height2 = $height * 2; $width2 = $width * 2;
   $img2 = imagecreatetruecolor($width2, $height2);
-  imagecopyresampled($img2, $image->res, 0, 0, $x, $y, $width2, $height2, $width, $height);
+  imagecopyresampled($img2, $image->resource, 0, 0, $x, $y, $width2, $height2, $width, $height);
 // Wave it
   for($i = 0; $i < ($width2); $i += 2)
     imagecopy($img2, $img2, $x+$i-2, $y+sin($i/$period)*$amplitude, $x+$i, $y, 2, $height2);
 // Resample it down again
-  imagecopyresampled($image->res, $img2, $x, $y, 0, 0, $width, $height, $width2, $height2);
+  imagecopyresampled($image->resource, $img2, $x, $y, 0, 0, $width, $height, $width2, $height2);
   imagedestroy($img2);
 return $image;
 
@@ -118,7 +119,12 @@ return $image;
  * @param $action
  */
 function imagecache_customactions_image($image, $action) {
-  extract($image->info);
+  // Pull the images $width and $height out to play
+  @extract($image->info);
+  // And maybe the owner node data could be useful
+  if (function_exists('imagecache_actions_node_from_filepath')) {
+    $node = imagecache_actions_node_from_filepath($image->source);
+  }
   $result = eval($action['text']);
   return $result;  
 }

@@ -1,5 +1,5 @@
 <?php
-// $Id: transparency.inc,v 1.3.2.2 2008/11/26 16:15:58 dman Exp $
+// $Id: transparency.inc,v 1.3.2.3 2009/03/28 05:10:28 dman Exp $
 /**
  * Helper functions for the alpha action for imagecache
  * 
@@ -124,10 +124,10 @@ function imagecache_alpha_image(&$image, $data = array()) {
    imagealphablending($base_image, TRUE); 
  
     // Place the current image over it
-    $foreground = $image->res;
-    $success = imagecopy($base_image, $image->res, 0, 0, 0, 0, $info['width'], $info['height']);
+    $foreground = $image->resource;
+    $success = imagecopy($base_image, $image->resource, 0, 0, 0, 0, $info['width'], $info['height']);
 
-    $image->res = $base_image;
+    $image->resource = $base_image;
     return TRUE;
   }
 }
@@ -151,7 +151,7 @@ function png_color2alpha(&$image, $color) {
   $info = $image->info;
   if (!$info) { return FALSE; }
   
-  $im1 = $image->res;
+  $im1 = $image->resource;
   
   imagesavealpha( $im1, TRUE);
   imagealphablending($im1, FALSE);
@@ -177,8 +177,8 @@ function png_color2alpha(&$image, $color) {
       $alpha = (1- ((1-($lightness/256)) * (1-($rgba_array['alpha']/127)))) * 127;
       if (!$color) $background=$rgba_array;
       //paint the pixel
-      $color_to_paint = imagecolorallocatealpha($image->res, $background['red'], $background['green'], $background['blue'], $alpha);
-      imagesetpixel($image->res, $j, $i, $color_to_paint);  
+      $color_to_paint = imagecolorallocatealpha($image->resource, $background['red'], $background['green'], $background['blue'], $alpha);
+      imagesetpixel($image->resource, $j, $i, $color_to_paint);  
     }
   }
   return TRUE;

@@ -1,5 +1,5 @@
 <?php
-// $Id: imagecache_coloractions.module,v 1.4.2.7 2009/02/07 16:31:19 dman Exp $
+// $Id: imagecache_coloractions.module,v 1.4.2.9 2009/05/02 04:54:50 dman Exp $
 
 /**
  * @file
@@ -210,7 +210,10 @@ function imagecache_inverse_image(&$image, $data = array()) {
  * @return bool success
  */
 function imagecache_imagefilter($image, $data) {
-
+  if ($image->toolkit != 'imageapi_gd') {
+    drupal_set_message("Imagefilter is only currently supported for GD toolkit. Code welcome.", 'error');
+    return FALSE;
+  }
   if (! imagecache_gd_imagefilter($image, $data['filter'], $data['filter_arg1'], isset($data['filter_arg2']) ? $data['filter_arg2'] : NULL, isset($data['filter_arg3']) ? $data['filter_arg3'] : NULL)) {
     watchdog('imagecache', 'imagecache_imagefilter failed. image: %image, data: %data.', array('%path' => $image, '%data' => print_r($data, TRUE)), WATCHDOG_ERROR);
     return FALSE;
@@ -233,20 +236,20 @@ function imagecache_gd_imagefilter($image, $filter, $arg1, $arg2, $arg3) {
   if (!$info) {
     return FALSE;
   }
-  #dpm("run imagefilter imagefilter($image->res, $filter, $arg1, $arg2, $arg3)");
+  #dpm("run imagefilter imagefilter($image->resource, $filter, $arg1, $arg2, $arg3)");
 
-  imagesavealpha($image->res, TRUE);
+  imagesavealpha($image->resource, TRUE);
 
   # This is a bit silly really, php internals complain if it's given TOO MANY args!
   # Should refactor this and not be so lazy.
   if (!is_null($arg2) && !is_null($arg3)) {
-    return imagefilter($image->res, $filter, $arg1, $arg2, $arg3);
+    return imagefilter($image->resource, $filter, $arg1, $arg2, $arg3);
   }
   else if (!is_null($arg2) && is_null($arg3)) {
-    return imagefilter($image->res, $filter, $arg1, $arg2);
+    return imagefilter($image->resource, $filter, $arg1, $arg2);
   }
   else if (is_null($arg2) && is_null($arg3)) {
-    return imagefilter($image->res, $filter, $arg1);
+    return imagefilter($image->resource, $filter, $arg1);
   }
 }
 

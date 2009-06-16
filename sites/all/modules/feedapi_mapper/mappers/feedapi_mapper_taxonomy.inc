@@ -1,68 +1,43 @@
 <?php
-// $Id: feedapi_mapper_taxonomy.inc,v 1.1.4.2 2008/10/27 00:07:34 alexb Exp $
-/**
- * On behalf implementation of feed element mapper for taxonomy.module.
- */
+// $Id: feedapi_mapper_taxonomy.inc,v 1.1.4.4 2009/04/20 13:31:04 alexb Exp $
 
 /**
- * Implementation of hook_feedapi_mapper().
- * Maps feed elements to taxonomy values.
- * @param $op
- *   'list' or 'map'
- * @param $node
- *   Feed item node to map on.
- * @param $field_name
- *   Name of field to map to.
- * @param $feed_element
- *   Feed item element to map from. Parameter only present on $op = 'map'
- * @param @sub_field
- *   Subfield on field to map to. Parameter only present on $op = 'map'.
- *   This parameter will depend on if the hook implementation returns a subfield on 
- *   $op = 'list'.
- *
- * Return key => name array of sub fields on 'list'.
- * If only one field and no subfields are available for this content type return TRUE.
- * If no fields available for this content type return FALSE.
- * Options are necessary because a field like
- * e. g. "taxonomy" might have more than one slot for information - e. g. vocabularies.
+ * On behalf implementation of hook_feedapi_mapper() for taxonomy module.
  * 
- * Todo: $node could be passed by reference - implementers wouldn't need to return node
- * (PHP5 passes in by reference by default).
+ * @see hook_feedapi_mapper()
  */
-function taxonomy_feedapi_mapper($op, $node, $field_name, $feed_element = array(), $sub_field = '') {
-  if ($field_name == 'taxonomy') {
-    if ($op == 'describe') {
-      return t('Maps a string or an array of strings to taxonomy terms. Chose a vocabulary from sub options.');
-    }
-    else if ($op == 'list') {
-      if ($vocabularies = taxonomy_get_vocabularies($node->type)) {
-        foreach ($vocabularies as $v) {
-          $sub_fields[$v->vid] = $v->name;
-        }
-        return $sub_fields;
+function taxonomy_feedapi_mapper($op, $node, $feed_element = array(), $field_name = '', $sub_field = '') {
+  if ($op == 'describe') {
+    return t('Maps a string or an array of strings to taxonomy terms. Chose a vocabulary from sub options.');
+  }
+  else if ($op == 'list') {
+    if ($vocabularies = taxonomy_get_vocabularies($node->type)) {
+      foreach ($vocabularies as $v) {
+        $sub_fields[$v->vid] = $v->name;
       }
-      return FALSE;
+      return array('taxonomy' => $sub_fields);
     }
-    else if ($op == 'map') {
-      // Todo: some plausibility check of $feed_element
-      // Todo: security check of $feed_element
-      if (is_string($feed_element)) {
-        $feed_element = array($feed_element);
-      }
-      if (is_array($feed_element)) {
-        if (!isset($node->taxonomy) || !is_array($node->taxonomy)) {
-          $node->taxonomy = array();
-        }
-        $node->taxonomy = array_merge($node->taxonomy, _feedapi_mapper_create_terms($feed_element, $sub_field));
-      }
-      return $node;
+    return FALSE;
+  }
+  else if ($op == 'map' && $field_name == 'taxonomy') {
+    // Todo: some plausibility check of $feed_element
+    // Todo: security check of $feed_element
+    if (is_string($feed_element)) {
+      $feed_element = array($feed_element);
     }
+    if (is_array($feed_element)) {
+      if (!isset($node->taxonomy) || !is_array($node->taxonomy)) {
+        $node->taxonomy = array();
+      }
+      $node->taxonomy = array_merge($node->taxonomy, _feedapi_mapper_create_terms($feed_element, $sub_field));
+    }
+    return $node;
   }
 }
 
 /**
  * Creates terms from keywords, borrowed from yahoo_terms module.
- * Todo: simplify.
+ * @todo apply http://drupal.org/node/354657#comment-1184004
  */
 function _feedapi_mapper_create_terms($keywords, $vid, $static = FALSE) {
   if ($vid == FALSE) {

@@ -4,9 +4,9 @@ description = Display simple or dynamic captions on images.
 dependencies[] = imagecache
 package = ImageCache
 core = 6.x
-; Information added by drupal.org packaging script on 2009-03-25
-version = "6.x-1.5"
+; Information added by drupal.org packaging script on 2009-06-10
+version = "6.x-1.6"
 core = "6.x"
 project = "imagecache_actions"
-datestamp = "1238018466"
+datestamp = "1244598933"
 

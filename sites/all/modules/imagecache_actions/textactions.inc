@@ -241,130 +241,33 @@ function textactions_text2canvas_image(&$image, $action = array()) {
 function textactions_evaluate_text($image, $action) {
   // Try to load the attached node - if any
 
-  // This object MAY be filled up with extra data (by ref) when doing the lookup
-  $file_data = (object)array();
+  // This file_data object MAY be filled up with extra data (by ref) 
+  // when doing the lookup, eg 
+  // $file_data->description, $file_data->alt, $file_data->timestamp
+  
+  // HOOK_metadata from file attempts to glean info from any direction possible - EXIF, XMP, DB, description.txt
+  // @see the meta_* project
+  $meta = module_invoke_all('metadata_from_file', $image->source);
+  $file_data = (object) $meta;
+
 
   static $panic; #This can trigger recursion! build-load-build-etc
   if ($panic) return;
   $panic = TRUE;
-  $node = textactions_node_from_filepath($image->source, $file_data) ;
+  $node = imagecache_actions_node_from_filepath($image->source, $file_data) ;
   $panic = FALSE;
 
-  // Process the php using drupal_eval (rather than eval), but with GLOBAL variables, so they can be passed successfully
+  // Process the php using drupal_eval (rather than eval), 
+  // but with GLOBAL variables, so they can be passed successfully
   $GLOBALS['image'] = $image;
   $GLOBALS['node'] = $node;
   $GLOBALS['file_data'] = $file_data;
   
   $text = @drupal_eval('<'.'?php global $node; global $image; global $file_data; '.$action['text'].' ?'.'>');
-  $text = check_plain($text);
 
   return $text;
 }
 
-/**
- * Given only a file filename, track back to see if we can detect the parent
- * node and provide some context info.
- * 
- * This will be different in different cases.
- * Supported :
- * image.module image nodes
- * imagefield cck fields (may be multiple)
- * TODO:
- * upload.module attachments
- * image_attach attachments
- */
-function textactions_node_from_filepath($filepath, &$file_data = NULL) {
-
-  // lookup upload.module attachments
-  if (module_exists('upload')) {
-    $sql = "SELECT nid, f.fid FROM {upload} INNER JOIN {files} AS f WHERE f.filepath = '%s' LIMIT 1";
-    $results = db_query($sql, $filepath);
-    if ( $row = db_fetch_array($results)) {
-      // Return immediately
-      $node = node_load($row['nid']);
-      // also include the file description
-      $file_data = $node->files[$row['fid']];
-      return $node;
-    }
-  }
-
-  // Lookup image.module nodes
-  if (module_exists('image')) {
-    $sql = "SELECT nid FROM {image} INNER JOIN {files} AS f WHERE f.filepath = '%s' LIMIT 1";
-    if ( $nid = db_result(db_query($sql, $filepath))){
-      // Return immediately
-      return node_load($nid);
-    }
-  }
-
-
-  // Lookup filefield imagefield CCK attachments.
-  //
-  // Drupal 6 version here based largely on work done by mikeytown2 
-  // http://drupal.org/node/363434
-  
-  // Multiple file ID's might have the same name, get all 
-  // (but return just the first successful match)
-  $result = db_query("SELECT fid FROM {files} WHERE filepath = '%s'", $filepath);
-  $fids = array();
-  while ($row = db_fetch_array($result)) {
-    $fids[] = $row['fid'];
-  }
-
-  if (! empty($fids)) {
-    // Find out if any filefield contains this file, and if so, which field
-    // and node it belongs to. Required for later access checking.
-    // CCK filed analysis is in the outer loop, fids are scanned in the inner loop for a little speed.
-
-    // Get A List Of All CCK Fields, it's the only we we can reverse the lookups
-    foreach (content_fields() as $field) {
-      // If Field is an Image (imagefield.module) or filefield then
-      if ($field['type'] == 'image' || $field['type'] == 'filefield') {
-        // Need to do lots of lookups to find out what the storage tables look like.
-        // Grab All DB Column Names for that CCK Field
-        $db_info = content_database_info($field);
-        // Get Content Type DB name - FROM statement
-        $tablename = $db_info['table'];
-        //Get File ID DB Column Name - WHERE statement
-        $fid_column = $db_info['columns']['fid']['column'];
-
-        // Construct a Query that looks for all known fids in one go.
-        // eg:
-        // SELECT nid FROM content_type_story 
-        //   WHERE field_illustration_fid = 77 
-        //   OR field_illustration_fid = 99;
-        
-        $wheres = array();
-        $query_args = array();
-        foreach ($fids as $fid) {
-          $wheres[] = " %s = %d ";
-          $query_args[] = $fid_column; 
-          $query_args[] = $fid; 
-        }
-        $result = db_query("SELECT nid FROM {$tablename} WHERE ". join(' OR ', $wheres), $query_args);
-        while ($row = db_fetch_array($result)) {
-          // This while is a dummy loop - Just break out and return the first matching node. 
-          // If more than one node owns this image then ???
-          $node = node_load($row['nid']);
-
-          // Add even more info - the description data that MAY have been added to this file on this node.
-          // return the data associated with this file also;
-          // Slightly mushed together - I want it to mostly resemble the traditional file attachment object.
-          // We have the node but lost track of the file
-          // Need to scan again to make sure we got the right one :-{
-          if( $file_fields = $node->{$field['field_name']} ) {
-            foreach($file_fields as $file_field) {
-              if ($file_field['fid'] == $fid) {
-                $file_data = (object) array_merge($file_field['data'], $file_field);
-              }
-            }
-          }
-          return $node;
-        }
-      }
-    }
-  }
-}
 
 /**
  * Creates an image containing only the text - used to calculate the true
@@ -406,6 +309,18 @@ function textactions_create_font_image( $size, $angle, $font, $char ) {
 
 /**
  * Accept a keyword (center, top, left, etc) and return it as an offset in pixels.
+ * Called on either the x or y values.
+ * 
+ * @param $value 
+ *   string or int value. May be something like "20", "center", "left+20"
+ * @param $current_size
+ *   int size in pixels of the range this item is to be placed in
+ * @param $object_size
+ *   int size in pixels of the object to be placed
+ * 
+ * @param $xy
+ *   Whether the axis is on the x or the y (unused)
+ * 
  */
 function textactions_keyword_filter($value, $current_pixels, $new_pixels, $adj, $xy) {
   // check if we have plus or minus values
@@ -444,7 +359,6 @@ function textactions_keyword_filter($value, $current_pixels, $new_pixels, $adj, 
  */
 function imageapi_image_overlaytext_alpha(&$image, $text, $size = 12, $x = 0, $y = 0, $RGB = 0, $fontfile = 'MgOpenModernaBold', $angle = 0) {
   return imageapi_toolkit_invoke('overlaytext_alpha', $image, array($text, $size, $x, $y, $RGB, $fontfile, $angle));
-  #return call_user_func($image->toolkit .'_image_overlaytext_alpha', $image, $text, $size, $x, $y, $RGB, $fontfile, $angle);
 }
 
 /**
