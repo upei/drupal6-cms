@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.1.4.3 2009/02/06 06:01:41 yhager Exp $
+$Id: README.txt,v 1.1.4.4 2009/06/04 04:53:43 yhager Exp $
 
 = Overview =
 imagefield_crop provides a widget for cropping an image after upload.
@@ -20,11 +20,12 @@ within the node.
 
 
 = Prerequisites =
-You will need imagefield and imageapi enabled in order to use this module.
+You will need imagefield and imageapi enabled in order to use this module, along with a graphics processing engine (gd, imagemagick, or anything else imageapi.module can work with).
 
 
 = Installation =
 * Install the module and enable it.
+* Set appropriate permissions at (/admin/user/permissions) under sections "content_permissions module", "node module".
 * [opt.] Patch imagefield, as described below
 * On the imagefield configuration page (admin/content/types/<content_type>/fields/<your_image_field>) choose the 'Image with cropping' widget.
 * Save your field, and edit it again. There you can see the widget settings form where you can choose the cropping box size, and other configuration options.

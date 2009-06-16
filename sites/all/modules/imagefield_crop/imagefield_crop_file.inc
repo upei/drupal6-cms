@@ -6,7 +6,9 @@
  */
 function imagefield_crop_file_insert($file) {
   // we copy the file as is, for quality cropping.
-  if (imagefield_file_is_image($file)) { 
+  if ((isset($file->field['widget']) &&
+       $file->field['widget']['module'] == 'imagefield_crop') &&
+      imagefield_file_is_image($file)) {
     $newfile = drupal_clone($file);
     file_copy($newfile->filepath, imagefield_crop_file_admin_crop_display_path($newfile));
   }
@@ -33,18 +35,7 @@ function imagefield_crop_file_delete($file) {
 // create the path to the file to be used for displaying the crop interface.
 function imagefield_crop_file_admin_crop_display_path($file) {
   $file = (object)$file;
-  ob_start();
-  var_dump($file);
-  $m = ob_get_contents();
-  ob_end_clean();
-  // drupal_set_message($m);
-  $filename = $file->filepath .'.crop_display.jpg';
-  if (!file_exists($filename) && !empty($file->origname)) {
-    return dirname($file->filepath) . '/' . $file->origname . '.crop_display.jpg';
-  }
-  else {
-    return $filename;
-  }
+  return $file->filepath .'.crop_display.jpg';
 }
 
 // Original file to crop from
