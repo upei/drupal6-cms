@@ -1,5 +1,5 @@
 <?php
-// $Id: views_bulk_operations.views_default.inc,v 1.1.2.4 2009/01/23 18:39:24 kratib Exp $
+// $Id: views_bulk_operations.views_default.inc,v 1.1.2.6 2009/05/07 16:23:02 kratib Exp $
 
 function views_bulk_operations_views_default_views() {
   $view = new view;
@@ -102,6 +102,28 @@ function views_bulk_operations_views_default_views() {
     ),
   ));
   $handler->override_option('filters', array(
+    'title' => array(
+      'operator' => 'contains',
+      'value' => '',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'title_op',
+        'identifier' => 'title',
+        'label' => 'Title contains',
+        'optional' => 1,
+        'remember' => 0,
+      ),
+      'case' => 0,
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'override' => array(
+        'button' => 'Override',
+      ),
+      'relationship' => 'none',
+    ),
     'type' => array(
       'operator' => 'in',
       'value' => array(),
@@ -193,6 +215,7 @@ function views_bulk_operations_views_default_views() {
   $handler->override_option('title', 'Content');
   $handler->override_option('empty', 'There are no objects satisfying the filter settings. Try changing them to get some results.');
   $handler->override_option('empty_format', '1');
+  $handler->override_option('items_per_page', 20);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'bulk');
   $handler->override_option('style_options', array(
@@ -237,18 +260,19 @@ function views_bulk_operations_views_default_views() {
     'display_type' => '0',
     'skip_confirmation' => 0,
     'display_result' => 1,
-    'merge_single_action' => 1,
+    'merge_single_action' => 0,
     'selected_operations' => array(
-      '7a9a34556136a4e6d403cacfe0573d64' => '7a9a34556136a4e6d403cacfe0573d64',
-      '2590ff43ab3648737ccd1865cd76084e' => '2590ff43ab3648737ccd1865cd76084e',
-      'd0746f09756440a699f4a721c7683290' => 'd0746f09756440a699f4a721c7683290',
-      'b26a99d8d89001e5998b3651fa7b10ba' => 'b26a99d8d89001e5998b3651fa7b10ba',
-      '339302ab7ef2adc1a3a9844e15e76967' => '339302ab7ef2adc1a3a9844e15e76967',
-      'e865a3ac236dc71e38301049a0f356e8' => 'e865a3ac236dc71e38301049a0f356e8',
-      '2fd6d151e013faf3099170a3bb1284d4' => '2fd6d151e013faf3099170a3bb1284d4',
-      'c240117f80fc27a29633c29df38c3802' => 'c240117f80fc27a29633c29df38c3802',
-      'c1c34a331fb39c6ad9130862698bd354' => 'c1c34a331fb39c6ad9130862698bd354',
-      'd8fc611ebac486388a7f0bef1d4d8115' => 'd8fc611ebac486388a7f0bef1d4d8115',
+      '6a99179e9c90e9edfb34d075fa234d78' => '6a99179e9c90e9edfb34d075fa234d78',
+      '3ea33dae73a849deedd536991455be98' => '3ea33dae73a849deedd536991455be98',
+      '334d20af1ae7ac4b770b7ec3210b2638' => '334d20af1ae7ac4b770b7ec3210b2638',
+      '799e8527bbd3d99e4c8c25a8a674d264' => '799e8527bbd3d99e4c8c25a8a674d264',
+      'fce859fcce0e81943c3e31c20ccd68ff' => 'fce859fcce0e81943c3e31c20ccd68ff',
+      '4df6cb87c9bbb08ebec8c757e9a0fcc7' => '4df6cb87c9bbb08ebec8c757e9a0fcc7',
+      'f033f40d92f0308ed6b2e3befb3a4c2a' => 'f033f40d92f0308ed6b2e3befb3a4c2a',
+      '0341fcc505281031474b68c72e03a997' => '0341fcc505281031474b68c72e03a997',
+      'c6d3850086dc3c1bca4bf0625ce78c56' => 'c6d3850086dc3c1bca4bf0625ce78c56',
+      '94a098afb1689f950d72ed4c44f8655d' => '94a098afb1689f950d72ed4c44f8655d',
+      '548749a939aa6334157edff3d8f69351' => '548749a939aa6334157edff3d8f69351',
     ),
   ));
   $handler = $view->new_display('page', 'Page', 'page');
@@ -256,12 +280,14 @@ function views_bulk_operations_views_default_views() {
   $handler->override_option('menu', array(
     'type' => 'none',
     'title' => '',
+    'description' => '',
     'weight' => 0,
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
     'type' => 'none',
     'title' => '',
+    'description' => '',
     'weight' => 0,
   ));
 

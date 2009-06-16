@@ -1,9 +1,18 @@
 <?php
-// $Id: views_bulk_operations_plugin_style.inc,v 1.1.2.22 2009/02/24 05:31:04 kratib Exp $
+// $Id: views_bulk_operations_plugin_style.inc,v 1.1.2.31 2009/05/11 00:27:23 kratib Exp $
 
-define('VBO_EXECUTION_DIRECT', 1);
-define('VBO_EXECUTION_BATCH', 2);
-define('VBO_EXECUTION_QUEUE', 3);
+define('VBO_EXECUTION_DIRECT',    1);
+define('VBO_EXECUTION_BATCH',     2);
+define('VBO_EXECUTION_QUEUE',     3);
+
+define('VBO_AGGREGATE_FORCED',    1);
+define('VBO_AGGREGATE_FORBIDDEN', 0);
+define('VBO_AGGREGATE_OPTIONAL',  2);
+
+define('VBO_ACCESS_OP_VIEW',      0x01);
+define('VBO_ACCESS_OP_UPDATE',    0x02);
+define('VBO_ACCESS_OP_CREATE',    0x04);
+define('VBO_ACCESS_OP_DELETE',    0x08);
 
 class views_bulk_operations_plugin_style extends views_plugin_style_table {
   function options(&$options) {
@@ -83,12 +92,16 @@ class views_bulk_operations_plugin_style extends views_plugin_style_table {
     else {
       $form_suffix = 1;
     }
-    return drupal_get_form('views_bulk_operations_form_' . $form_suffix, $this);
+    return drupal_get_form('views_bulk_operations_form__' . $form_suffix, $this);
   }
 
   function get_selected_operations() {
     $selected = array();
     foreach (array_filter($this->options['selected_operations']) as $key => $operation) {
+      if (module_exists('actions_permissions')) {
+        $perm = 'execute ' . $this->options['all_operations'][$key]['label'] . ' ('. $this->options['all_operations'][$key]['callback'] .')';
+        if (!user_access($perm)) continue;
+      }
       $selected[$key] = t($this->options['all_operations'][$key]['label']);
     }
     return $selected;
@@ -118,41 +131,72 @@ class views_bulk_operations_plugin_style extends views_plugin_style_table {
     return $options;
   }
 
+  function uses_fields() {
+    if (isset($this->view->ignore_fields)) return FALSE;
+    return parent::uses_fields();
+  }
+
   private function populate_operations(&$options) {
     $operations = array();
 
-    $objects = views_bulk_operations_get_object_info();
-    foreach ($objects as $object_type => $info) {
+    module_load_include('inc', 'node', 'node.admin');
+    foreach (views_bulk_operations_get_object_info() as $object_type => $info) {
       $hook_name = $object_type .'_operations';
       foreach (module_invoke_all($hook_name) as $operation) {
-        if (empty($operation['callback'])) { continue; }
-        $key = md5($operation['callback'] . $operation['label']);
+        if (empty($operation['callback'])) continue;
+        $key = md5($operation['callback'] . (isset($operation['callback arguments']) ? serialize($operation['callback arguments']) : ''));
+        if (!isset($operation['behavior'])) { // assume operations modify nodes by default
+          $operation['behavior'] = array('changes_node_property');
+        }
         $operations[$key] = array(
           'label'              => $operation['label'],
           'callback'           => $operation['callback'],
           'callback arguments' => isset($operation['callback arguments']) ? $operation['callback arguments'] : array(),
-          'configurable'       => isset($operation['configurable']) ? $operation['configurable'] : false,
+          'configurable'       => isset($operation['configurable']) ? $operation['configurable'] : FALSE,
           'type'               => 'operation',
           'object'             => $object_type,
+          'aggregate'          => isset($operation['aggregate']) ? (int)$operation['aggregate'] : VBO_AGGREGATE_OPTIONAL,
+          'access op'          => $this->get_access_op($operation),
         );
       }
     }
 
     $action_operations = actions_list() + $this->get_custom_actions();
     foreach ($action_operations as $callback => $operation) {
-      $key = md5($callback . $operation['description']);
+      $key = md5($callback);
       $operations[$key] = array(
         'label'              => $operation['description'],
         'callback'           => $callback,
         'callback arguments' => isset($operation['parameters']) ? $operation['parameters'] : array(),
-        'configurable'       => isset($operation['configurable']) ? $operation['configurable'] : false,
+        'configurable'       => isset($operation['configurable']) ? $operation['configurable'] : FALSE,
         'type'               => 'action',
         'object'             => $operation['type'],
-        'modifies object'    => isset($operation['behavior']) && in_array('changes_node_property', $operation['behavior']),
+        'aggregate'          => isset($operation['aggregate']) ? (int)$operation['aggregate'] : VBO_AGGREGATE_FORBIDDEN,
+        'access op'          => $this->get_access_op($operation),
       );
     }
 
+    uasort($operations, create_function('$a, $b', 'return strcasecmp($a["label"], $b["label"]);'));
     $options['all_operations'] = $operations;
+  }
+
+  private function get_access_op($operation) {
+    $access_op = 0;
+    if (isset($operation['behavior'])) {
+      if (in_array('views_node_property', $operation['behavior'])) {
+        $access_op |= VBO_ACCESS_OP_VIEW;
+      }
+      if (in_array('changes_node_property', $operation['behavior'])) {
+        $access_op |= VBO_ACCESS_OP_UPDATE;
+      }
+      if (in_array('creates_node_property', $operation['behavior'])) {
+        $access_op |= VBO_ACCESS_OP_CREATE;
+      }
+      if (in_array('deletes_node_property', $operation['behavior'])) {
+        $access_op |= VBO_ACCESS_OP_DELETE;
+      }
+    }
+    return $access_op;
   }
 
   private function get_custom_actions() {
@@ -166,7 +210,8 @@ class views_bulk_operations_plugin_style extends views_plugin_style_table {
         'configurable' => FALSE,
         'parameters' => unserialize($action->parameters),
       );
-      $actions[$action->aid]['behavior'] = isset($static_actions[$action->callback]['behavior']) ? $static_actions[$action->callback]['behavior'] : null;
+      if (isset($static_actions[$action->callback]['behavior'])) $actions[$action->aid]['behavior'] = $static_actions[$action->callback]['behavior'];
+      if (isset($static_actions[$action->callback]['aggregate'])) $actions[$action->aid]['aggregate'] = $static_actions[$action->callback]['aggregate'];
     }
     return $actions;
   }
