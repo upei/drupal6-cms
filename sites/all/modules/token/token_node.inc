@@ -1,5 +1,5 @@
 <?php
-// $Id: token_node.inc,v 1.5.4.11 2008/07/23 15:46:41 greggles Exp $
+// $Id: token_node.inc,v 1.5.4.14 2009/05/14 16:09:15 greggles Exp $
 
 /**
  * @file
@@ -22,7 +22,7 @@ function node_token_values($type, $object = NULL, $options = array()) {
   switch ($type) {
     case 'node':
       $node = $object;
-      $account_mail = db_result(db_query("SELECT mail FROM {users} WHERE uid = %d", $node->uid));
+      $account = db_fetch_object(db_query("SELECT name, mail FROM {users} WHERE uid = %d", $node->uid));
 
       $values['nid']              = $node->nid;
       $values['type']             = $node->type;
@@ -31,10 +31,10 @@ function node_token_values($type, $object = NULL, $options = array()) {
       $values['title']            = check_plain($node->title);
       $values['title-raw']        = $node->title;
       $values['author-uid']       = $node->uid;
-      $values['author-name']      = check_plain($node->name);
-      $values['author-name-raw']  = $node->name;
-      $values['author-mail']      = check_plain($account_mail);
-      $values['author-mail-raw']  = $account_mail;
+      $values['author-name']      = check_plain($account->name);
+      $values['author-name-raw']  = $account->name;
+      $values['author-mail']      = check_plain($account->mail);
+      $values['author-mail-raw']  = $account->mail;
       if (isset($node->created)) {
         $date = (int)$node->created;
         $values['yyyy']           = date('Y', $date);
@@ -74,7 +74,7 @@ function node_token_values($type, $object = NULL, $options = array()) {
       if (!empty($mlid) || !empty($node->menu['mlid']) || !empty($node->menu['plid'])) {
         $menu_link = menu_link_load($mlid);
         $menus = menu_get_menus();
-        $menu = $menus[$menu_link['menu_name']];
+        $menu = isset($menus[$menu_link['menu_name']]) ? $menus[$menu_link['menu_name']] : '';
         $trail_raw = _menu_titles($menu_link, $node->nid);
 
         $trail = array();
@@ -113,7 +113,7 @@ function node_token_values($type, $object = NULL, $options = array()) {
               if (!$vid) {
                 continue;
               }
-              $term = db_fetch_object(db_query_range("SELECT t.tid, t.name FROM {term_data} t INNER JOIN {term_node} r ON r.tid = t.tid WHERE t.vid = %d AND r.nid = %d ORDER BY weight", $vid, $object->nid, 0, 1));
+              $term = db_fetch_object(db_query_range("SELECT t.tid, t.name FROM {term_data} t INNER JOIN {term_node} r ON r.tid = t.tid WHERE t.vid = %d AND r.vid = %d ORDER BY weight", $vid, $object->vid, 0, 1));
               $term->vid = $vid;
             }
 
