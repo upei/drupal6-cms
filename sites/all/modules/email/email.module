@@ -1,6 +1,6 @@
 <?php
 
-// $Id: email.module,v 1.9.2.8.4.8 2008/08/12 08:12:02 mh86 Exp $
+// $Id: email.module,v 1.9.2.8.4.12 2009/06/13 19:01:32 mh86 Exp $
 
 
 /**
@@ -220,12 +220,12 @@ function email_textfield_process($element, $edit, $form_state, $form) {
   $delta = $element['#delta'];
   $element[$field_key] = array(
     '#type' => 'textfield',
-    '#title' => t($field['widget']['label']),
-    '#description' => t($field['widget']['description']),
+    '#title' => $element['#title'],
+    '#description' => content_filter_xss($field['widget']['description']),
     '#required' => $element['#required'],
     '#maxlength' => 255,
     '#size' => !empty($field['widget']['size']) ? $field['widget']['size'] : 60,
-    '#attributes' => array('class' => 'text'),
+    '#attributes' => array('class' => 'text', 'dir' => 'ltr'),
     '#default_value' => isset($element['#value'][$field_key]) ? $element['#value'][$field_key] : NULL,
   );
   return $element;
@@ -243,12 +243,19 @@ function theme_email_textfield($element) {
  */
 function email_menu() {
   $items['email/%/%'] = array(
-    'title' => t('Email Contact Form'),
+    'title' => 'Email Contact Form',
     'page callback' => 'email_mail_page',
     'page arguments' => array(1, 2),
     'access callback' => 'user_access',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
+  );
+  $items['admin/settings/email'] = array(
+    'title' => 'CCK Email Contact Form Settings',
+    'description' => 'Administer flood control settings for email contact forms',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('email_admin_settings'),
+    'access arguments' => array('administer site configuration'),
   );
   return $items;
 }
@@ -443,4 +450,17 @@ function email_token_values($type, $object = NULL, $options = array()) {
     $tokens['formatted'] = $item['view'];
     return $tokens;
   }
+}
+
+/**
+ * Settings for contact form
+ */
+function email_admin_settings() {
+  $form['email_hourly_threshold'] = array('#type' => 'select',
+    '#title' => t('Hourly threshold for a CCK Email contact form'),
+    '#options' => drupal_map_assoc(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50)),
+    '#default_value' => variable_get('email_hourly_threshold', 3),
+    '#description' => t('The maximum number of contact form submissions a user can perform per hour.'),
+  );
+  return system_settings_form($form);
 }
