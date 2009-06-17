@@ -1,0 +1,137 @@
+# $Id: fr.po,v 1.1.2.1 2009/02/09 16:33:02 slybud Exp $
+#
+# French translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  page_title-admin-settings-form.tpl.php: n/a
+#  page_title.admin.inc,v 1.1.2.3 2008/12/16 17:46:56 njt1982
+#  page_title.module,v 1.18.2.6 2008/12/16 18:28:38 njt1982
+#  page_title.info,v 1.5 2008/05/02 16:29:11 njt1982
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: french translation for drupal page_title module\n"
+"POT-Creation-Date: 2009-02-09 17:09+0100\n"
+"PO-Revision-Date: 2009-02-09 17:27+0100\n"
+"Last-Translator: Sylvain Moreau <sylvain.moreau@ows.fr>\n"
+"Language-Team: Sylvain Moreau, OWS <sylvain.moreau@ows.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: French\n"
+
+#: page_title-admin-settings-form.tpl.php:15
+msgid "Available Tokens"
+msgstr "Jetons (Tokens) disponibles"
+
+#: page_title.admin.inc:21
+msgid "This is the pattern used in a situation where a pattern is not defined specifically for a content type below."
+msgstr "Ceci est le motif utilisé dans le cas où aucun motif n'est défini ci-dessous pour un type de contenu."
+
+#: page_title.admin.inc:22
+msgid "This is the frontpage pattern."
+msgstr "Ceci est le motif de la page d'accueil."
+
+#: page_title.admin.inc:28
+msgid "Pattern for %type"
+msgstr "Motif pour %type"
+
+#: page_title.admin.inc:29
+msgid "If left blank, will inherit from default settings."
+msgstr "Si laissé vide, il héritera des paramètres par défaut."
+
+#: page_title.admin.inc:50
+msgid "Content creation forms"
+msgstr "Formulaires de création de contenu"
+
+#: page_title.admin.inc:51
+msgid "Display a \"Page title\" field for these content types."
+msgstr "Afficher un champ \"Titre de la page\" pour ces types de contenu."
+
+#: page_title.module:21
+msgid "Provides control over the &lt;title> element on a page using token patterns and an optional textfield to override the node title."
+msgstr "Fournit un contrôle dur l'élément &lt;title> d'une page, en utilisant des motifs de jeton (token), et un champ texte optionnel pour remplacer le titre du noeud."
+
+#: page_title.module:22
+msgid "Below are all the tokens you can use with <strong><em>Page Title</em></strong>:"
+msgstr "Vous trouverez ci-desous tous les jetons (tokens) que vous pouvez utiliser pour <strong><em>le Titre de la Page</em></strong> : "
+
+#: page_title.module:26
+msgid ""
+"<p>Drupal's default page title follows one of two patterns:</p>\n"
+"        <ol>\n"
+"          <li><strong>Default Page:</strong> <em>page title</em> | <em>site name</em></li>\n"
+"          <li><strong>Default Frontpage:</strong> <em>site name</em> | <em>site slogan</em></li>\n"
+"        </ol>\n"
+"        <p>The <strong>Page Title</strong> module lets you change these defaults in two ways. First, you can adjust the patterns below using the placeholders given. This will change the way the default page titles are created. Second, on every content creation form you can have the option of specifying a title that is different than the title of the node. If a value is provided, this will be used to generate the <code>[page-title]</code> placeholder. If left blank, <code>[page-title]</code> will inherit the node's title.</p>\n"
+"        <p><code>[page-title]</code> will default to the value returned from <code>drupal_get_title</code> if there is no overriden page title.</p>"
+msgstr ""
+"<p>Le titre de la page par défaut de drupal suit l'un des deux motifs :</p>\n"
+"        <ol>\n"
+"          <li><strong>Page par défaut :</strong> <em>titre de la page</em> | <em>nom du site</em></li>\n"
+"          <li><strong>Page d'accueil par défaut :</strong> <em>nom du site</em> | <em>slogan du site</em></li>\n"
+"        </ol>\n"
+"        <p>Le module <strong>Page Title</strong> vous permet de modifier ces valeurs par défaut de deux manières. Premièrement, vous pouvez ajuster les motis ci-desous en utilisant les jetons fournis. Cela modifiera la facçon dont les titres de page par défaut sont créés. Deuxièmement, vous pouvez, sur chaque formulaire de création de contenu, avoir l'option de définir un titre différent de celui du noeud. Si une valeur est fournie, elle sera utilisée pour générer le jeton <code>[page-title]</code>. Si elle est laissée vide, <code>[page-title]</code> héritera du titre du noeud.</p>\n"
+"        <p><code>[page-title]</code> prendra par défaut la valeur retournée par <code>drupal_get_title</code>, si n'y aucun titre de la page remplacé.</p>"
+
+#: page_title.module:35
+msgid "To display a <em>Page Title</em> field on a node (just below the <em>Title</em> field), you will need to enable it for the appropriate content types below."
+msgstr "Pour afficher un champ <em>Titre de la Page</em> sur un noeud (juste en dessous du champ <em>Titre</em>), vous devrez l'activer ci-dessous pour les types de contenu appropriés."
+
+#: page_title.module:159
+msgid "Page title"
+msgstr "Titre de la page"
+
+#: page_title.module:160
+msgid "Optionally specify a different title to appear in the &lt;title&gt; tag of the page."
+msgstr "Vous pouvez aussi saisir un titre différent qui apparaîtra dans le balise &lt;title&gt; de cette page."
+
+#: page_title.module:328
+msgid "The page title."
+msgstr "Le titre de la page."
+
+#: page_title.module:46
+msgid "set page title"
+msgstr "définir le titre de la page"
+
+#: page_title.module:46
+msgid "administer page titles"
+msgstr "administrer les titres de pages"
+
+#: page_title.module:57
+msgid "Page titles"
+msgstr "Titres des pages"
+
+#: page_title.module:58
+msgid "Enhanced control over the page titles (in the &lt;head&gt; tag)."
+msgstr "Contrôle améliorés des titres de pages (au sein de la balise &lt;head&gt;)."
+
+#: page_title.module:67
+msgid "Default settings"
+msgstr "Paramètres par défaut"
+
+#: page_title.module:68
+msgid "Control the page title settings."
+msgstr "Contrôler les paramètres du titre de la page."
+
+#: page_title.module:76
+msgid "Content type settings"
+msgstr "Paramètres des types de contenu"
+
+#: page_title.module:77
+msgid "Control the display of the Page title field."
+msgstr "Contrôlez l'affichage du champ Titre de la page."
+
+#: page_title.module:0
+msgid "page_title"
+msgstr "page_title"
+
+#: page_title.info:0
+msgid "Page Title"
+msgstr "Page Title"
+
+#: page_title.info:0
+msgid "Enhanced control over the page title (in the &lt;head> tag)."
+msgstr "Améliorer le contrôle sur le titre de la page  (dans le tag &lt;head>)."
+
