@@ -20,8 +20,4 @@
 <div style="clear:both"></div>
 <?php include '02.410-page-bottom.php'; ?>
 <div style="clear:both"></div>
-<div class="clear-block clr" id="links-section">
-  <?php include '02.420-bottom-links.php'; ?>
-</div><!-- /bottom links -->
-<div style="clear:both"></div>
 <? include '02.450-right-sidebar.php'; ?>

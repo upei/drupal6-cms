@@ -1,5 +1,5 @@
 <?php
-// $Id: print.admin.inc,v 1.1.2.15 2008/09/10 08:13:05 jcnventura Exp $
+// $Id: print.admin.inc,v 1.1.2.25 2009/03/27 01:12:35 jcnventura Exp $
 
 /**
  * @file
@@ -34,7 +34,8 @@ function print_main_settings() {
     '#type' => 'checkbox',
     '#title' => t('Printer-friendly URLs list'),
     '#default_value' => variable_get('print_urls', PRINT_URLS_DEFAULT),
-    '#description' => t('If set, a list of the destination URLs for the page links will be displayed at the bottom of the page.'),
+    '#description' => t('If set, a list of the destination URLs for the page links will be displayed at the bottom of the page.') .'<br />'.
+                      t('Note that you can enable/disable the URL list for each content type individually from the !url.', array('!url' => l(t('Content Types page'), 'admin/content/types'))),
   );
 
   $form['settings']['print_comments'] = array(
@@ -182,7 +183,7 @@ function print_html_settings() {
     '#type' => 'fieldset',
     '#title' => t('Advanced link options'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['settings']['adv_link']['print_html_show_link'] = array(
@@ -191,6 +192,22 @@ function print_html_settings() {
     '#default_value' => variable_get('print_html_show_link', PRINT_HTML_SHOW_LINK_DEFAULT),
     '#options' => array(1 => t('Text only'), 2 => t('Icon only'), 3 => t('Icon and Text')),
     '#description' => t('Select the visual style of the link.'),
+  );
+
+  $form['settings']['adv_link']['print_html_link_use_alias'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use URL alias instead of node ID'),
+    '#default_value' => variable_get('print_html_link_use_alias', PRINT_HTML_LINK_USE_ALIAS_DEFAULT),
+    '#description' => t('Enabling this will create the link using the URL alias instead of the node ID.'),
+  );
+
+  $form['settings']['adv_link']['print_html_link_class'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link class'),
+    '#default_value' => variable_get('print_html_link_class', PRINT_HTML_LINK_CLASS_DEFAULT),
+    '#size' => 60,
+    '#maxlength' => 250,
+    '#description' => t('This can be used by themers to change the link style or by jQuery modules to open in a new window (e.g. greybox or thickbox). Multiple classes can be specified, separated by spaces.'),
   );
 
   $form['settings']['adv_link']['print_html_node_link_visibility'] = array(
@@ -207,14 +224,16 @@ function print_html_settings() {
     '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
   );
 
-  $form['settings']['adv_link']['print_html_link_class'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Link class'),
-    '#default_value' => variable_get('print_html_link_class', PRINT_HTML_LINK_CLASS_DEFAULT),
-    '#size' => 60,
-    '#maxlength' => 250,
-    '#description' => t('This can be used by themers to change the link style or by jQuery modules to open in a new window (e.g. greybox or thickbox). Multiple classes can be specified, separated by spaces.'),
-  );
+  $access = user_access('use PHP for link visibility');
+
+  if ($form['settings']['adv_link']['print_html_node_link_visibility']['#default_value'] == 2 && !$access) {
+    $form['settings']['adv_link']['print_html_node_link_visibility'] = array('#type' => 'value', '#value' => 2);
+    $form['settings']['adv_link']['print_html_node_link_pages'] = array('#type' => 'value', '#value' => $form['settings']['adv_link']['print_html_node_link_pages']['#default_value']);
+  }
+  elseif ($access) {
+    $form['settings']['adv_link']['print_html_node_link_visibility']['#options'][] = t('Show if the following PHP code returns <code>TRUE</code> (PHP-mode, experts only).');
+    $form['settings']['adv_link']['print_html_node_link_pages']['#description'] .= ' '. t('If the PHP-mode is chosen, enter PHP code between %php. Note that executing incorrect PHP-code can break your Drupal site.', array('%php' => '<?php ?>'));
+  }
 
   $form['settings']['adv_link']['print_html_sys_link_visibility'] = array(
     '#type' => 'radios',
@@ -231,11 +250,20 @@ function print_html_settings() {
                       t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
   );
 
-  $form['settings']['print_html_book_link'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Take control of the book module printer-friendly link'),
+  if ($form['settings']['adv_link']['print_html_sys_link_visibility']['#default_value'] == 2 && !$access) {
+    $form['settings']['adv_link']['print_html_sys_link_visibility'] = array('#type' => 'value', '#value' => 2);
+    $form['settings']['adv_link']['print_html_sys_link_pages'] = array('#type' => 'value', '#value' => $form['settings']['adv_link']['print_html_sys_link_pages']['#default_value']);
+  }
+  elseif ($access) {
+    $form['settings']['adv_link']['print_html_sys_link_visibility']['#options'][] = t('Show if the following PHP code returns <code>TRUE</code> (PHP-mode, experts only).');
+    $form['settings']['adv_link']['print_html_sys_link_pages']['#description'] .= ' '. t('If the PHP-mode is chosen, enter PHP code between %php. Note that executing incorrect PHP-code can break your Drupal site.', array('%php' => '<?php ?>'));
+  }
+
+  $form['settings']['adv_link']['print_html_book_link'] = array(
+    '#type' => 'radios',
+    '#title' => t('Link in book hierarchy nodes'),
     '#default_value' => variable_get('print_html_book_link', PRINT_HTML_BOOK_LINK_DEFAULT),
-    '#description' => t('Activate this to have the printer-friendly link in book nodes handled by this module. Requires the (core) book module.'),
+    '#options' => array(t('Book module link not modified'), t('Current page and sub-pages'), t('Current page only')),
   );
 
   $form['settings']['print_html_new_window'] = array(
@@ -278,6 +306,70 @@ function print_html_settings() {
     '#title' => t('Add noarchive'),
     '#default_value' => variable_get('print_robots_noarchive', PRINT_ROBOTS_NOARCHIVE_DEFAULT),
     '#description' => t('Non-standard tag to instruct search engines to not show a "Cached" link for your printer-friendly pages. Recognized by Googlebot.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Menu callback for the Printer-friendly pages module text strings settings form.
+ *
+ * @ingroup forms
+ */
+function print_main_strings_settings() {
+  drupal_set_message(t("Saving these strings will disable their translation via Drupal's language system. Use the reset button to return them to the original state."), 'warning');
+
+  $form['print_main_text'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Text strings'),
+  );
+
+  $form['print_main_text']['print_text_published'] = array(
+    '#type' => 'textfield',
+    '#default_value' => variable_get('print_text_published', t('Published on %site_name')),
+  );
+  $form['print_main_text']['print_text_by'] = array(
+    '#type' => 'textfield',
+    '#default_value' => variable_get('print_text_by', t('By %author')),
+  );
+  $form['print_main_text']['print_text_created'] = array(
+    '#type' => 'textfield',
+    '#default_value' => variable_get('print_text_created', t('Created %date')),
+  );
+  $form['print_main_text']['print_text_source_url'] = array(
+    '#type' => 'textfield',
+    '#default_value' => variable_get('print_text_source_url', t('Source URL')),
+  );
+  $form['print_main_text']['print_text_retrieved'] = array(
+    '#type' => 'textfield',
+    '#default_value' => variable_get('print_text_retrieved', t('retrieved on %date')),
+  );
+  $form['print_main_text']['print_text_links'] = array(
+    '#type' => 'textfield',
+    '#default_value' => variable_get('print_text_links', t('Links')),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Menu callback for the Printer-friendly pages module text strings settings form.
+ *
+ * @ingroup forms
+ */
+function print_html_strings_settings() {
+  drupal_set_message(t("Saving these strings will disable their translation via Drupal's language system. Use the reset button to return them to the original state."), 'warning');
+
+  $form['print_html_text'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Text strings'),
+  );
+
+  $form['print_html_text']['print_html_link_text'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link text'),
+    '#default_value' => variable_get('print_html_link_text', t('Printer-friendly version')),
+    '#description' => t('Text used in the link to the printer-friendly version.'),
   );
 
   return system_settings_form($form);

@@ -1,4 +1,4 @@
 $(function() {
   // add searchbox effects
-  $('#google-search-form').tooltip({effect: 'slideup', position: ['bottom', 'center']});
+  $('.has-tooltip').each(function() { $(this).tooltip({effect: 'slideup', position: ['bottom', 'center']}) });
 });

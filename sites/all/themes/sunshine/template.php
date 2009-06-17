@@ -210,6 +210,7 @@ $css_files = array(
   '907-views-nav-buttons.css',
   '908-zoom.css',
   '910-tooltip.css',
+  '920-node-page.css',
   '990-misc.css',
   
   // style

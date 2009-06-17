@@ -4,7 +4,6 @@
     <div class="field field-field-pull-quote"><?= $field_pull_quote[0]['view']?></div>
   </div>
   <div class="right">
-    <?php if ($links): ?>
     <fieldset>
       <legend>Useful Links</legend>
       <div class="links">
@@ -14,9 +13,10 @@
           </li>
         </ul>
       </div>
+    <?php if ($links): ?>
       <div class="links"><?php print $links; ?></div>
-    </fieldset>
     <?php endif; ?>
+    </fieldset>
     <fieldset>
       <legend>Contact Information</legend>
       <div class="field field-field-contact-name">

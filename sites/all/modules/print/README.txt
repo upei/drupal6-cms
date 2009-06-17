@@ -14,6 +14,11 @@ A link is inserted in the each node (configurable in the content type
 settings), that opens a version of the page with no sidebars, search boxes,
 navigation pages, etc.
 
+INSTALLATION
+------------
+
+Follow the instructions in the provided INSTALL.txt file.
+
 CONFIGURATION
 -------------
 
@@ -54,6 +59,9 @@ print.tpl.php or the css/print.css files.
    7. print.tpl.php in the theme directory
    8. print.tpl.php in the module directory (supplied by the module)
 
+  format is either html, mail or pdf, and type is Drupal's node type (e.g.
+  page, story, etc.)
+
 API
 ---
 
@@ -88,10 +96,6 @@ The following themeable functions are defined:
       Returns an array of formatted attributes for the Printer-friendly
       link.
 
-  * theme_print_text()
-    Returns an array of costumized text strings used in the printer-friendly
-    page.
-
   * print_pdf_dompdf_footer($html)
     Format the dompdf footer contents
 
@@ -121,4 +125,4 @@ ACKNOWLEDGMENTS
 The print, pdf and mail icons are copyright Plone Foundation. Thanks for
 letting me use them!
 
-// $Id: README.txt,v 1.7.2.7 2008/09/11 09:18:14 jcnventura Exp $
+// $Id: README.txt,v 1.7.2.9 2009/02/19 23:39:14 jcnventura Exp $

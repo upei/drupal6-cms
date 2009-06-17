@@ -1,0 +1,18 @@
+/* fields in left column */
+.node-page .right { float: right; width: 200px; }
+/** h1 for page-page */
+.node-page fieldset { border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; padding: 1em; }
+.node-page legend { font-weight: bold; }
+.node-page .field .label { display: block; font-weight: bold; }
+.node-page .field .value { display: block; }
+.node-page .links ul, .node-page .links li { margin: 0; padding: 0; display: block; }
+/* content */
+.node-page .content, #content .box { width: 60em; }
+.node-page .date {
+  color: #666; background-color: #eee; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;
+  padding: 0.2em 0 0.2em 1em; margin: 1em 0; font-style: italic; 
+}
+.node-page .content p, .view-media .views-field-body p { margin-bottom: 1.5em; word-wrap: break-word; }
+
+/* fix for panels */
+.panel-display .content, .panel-display .box { width: auto; }
