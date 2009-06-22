@@ -1,7 +1,10 @@
 <div class="node-media node<?php if ($sticky) { print " sticky"; } ?><?php if (!$status) { print " node-unpublished"; } ?>">
   <div class="left">
     <div class="field field-field-image"><?= $field_image[0]['view']?></div>
+    <div class="field field-field-image-data-title"><?= $field_image[0]['data']['title']?></div>
+    <?php if ($field_pull_quote[0]['view']): ?>
     <div class="field field-field-pull-quote"><?= $field_pull_quote[0]['view']?></div>
+    <?php endif; ?>
   </div>
   <div class="right">
     <fieldset>
@@ -38,6 +41,8 @@
     <h2 class="title"><a href="<?=$node_url?>"><?=$title?></a></h2>
     <? endif; ?>
     <div class="date">Posted on <?php print date('l, j F, Y', $created); ?></div>
+    <div class="field field-field-image"><?= $field_image[1]['view'] ?></div>
+    <div class="field field-field-image-data-title"><?= $field_image[1]['data']['title'] ?></div>
     <div class="body">
     <?php
       // filter out unneccessary p tags

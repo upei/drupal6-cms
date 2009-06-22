@@ -11,18 +11,18 @@
 </style>
 <![endif]-->
 <div class="vertical-video-list">
-<? $index = 0; foreach ($rows as $row): ?>
-  <div class="vertical-video-list-item" id="vertical-video-item-<?=$index?>">
-    <div class="vertical-video-item-thumbnail"><a href="#vertical-video-<?=$index?>"><?=$row['thumbnail']?></a></div>
-    <div class="vertical-video-item-title"><a href="#vertical-video-<?=$index++?>"><?=$row['title']?></a></div>
+<? foreach ($rows as $row): ?>
+  <div class="vertical-video-list-item" id="vertical-video-item-<?=$row['nid']?>">
+    <div class="vertical-video-item-thumbnail"><a href="#vertical-video-<?=$row['nid']?>"><?=$row['thumbnail']?></a></div>
+    <div class="vertical-video-item-title"><a href="#vertical-video-<?=$row['nid']?>"><?=$row['title']?></a></div>
     <div class="vertical-video-item-body"><?=$row['body']?></div>
   </div>
 <? endforeach; ?>
 </div>
 <div class="vertical-video-detail-items">
-  <? $index = 0; foreach ($rows as $row): ?>
-    <div id="vertical-video-<?=$index?>" class="vertical-video-detail-item">
-    <div id="vertical-video-swf-<?=$index++?>"><?= swf($row['video'], array('flashvars' => array('width' => '200', 'height'=> '355')))?></div>
+  <? foreach ($rows as $row): ?>
+    <div id="vertical-video-<?=$row['nid']?>" class="vertical-video-detail-item">
+    <div id="vertical-video-swf-<?=$row['nid']?>"><?= swf($row['video'], array('flashvars' => array('width' => '200', 'height'=> '355')))?></div>
     <h3><?=$row['title']?></h3>
     <div class="vertical-video-item-body"><?=$row['body']?></div>
     </div>
@@ -38,15 +38,14 @@ $(function() {
 <? /* 
 <script type="text/javascript">
 $(function() {
-<? for ($index = 0; $index < count($rows); $index++):
-   $row = $rows[$index]; ?>
-$('#vertical-video-item-<?=$index?> a').each(function() {
+<? foreach ($rows as $row): ?>
+$('#vertical-video-item-<?=$row['nid']?> a').each(function() {
   var href = $(this).attr('href').substring(1);
   $(this).fancyZoom({directory: '/misc/fancyzoom', width: 200, height: 390});
   $(this).click(function() {
       swfobject.embedSWF(
         "http://cms.upei.ca/futurestudents/sites/all/modules/swftools/shared/flash_media_player/player.swf",
-        "vertical-video-swf-<?=$index?>",
+        "vertical-video-swf-<?=$row['nid']?>",
         "200",
         "355",
         "7",
@@ -79,9 +78,10 @@ $('#vertical-video-item-<?=$index?> a').each(function() {
           "width": "200",
           "height": "355"
         },
-        { "id": "swf-<?=$index?>"}
+        { "id": "swf-<?=$row['nid']?>"}
       );
   });
+  pageTracker._trackPageview(Drupal.settings.basePath + 'click/' + href);
 });
 <? endfor; ?>
 });

@@ -22,7 +22,11 @@
     </div>
     <script type="text/javascript">
       $(function() {
-        $('.front-page-gallery .items a[href]').fancyZoom({directory: '/misc/fancyzoom'});
+        $('.front-page-gallery .items a[href]').each(function() {
+          $(this).fancyZoom({directory: '/misc/fancyzoom'});
+          var href=$(this).attr('href').substring(1);
+          pageTracker._trackPageview(Drupal.settings.basePath + 'click/' + href);
+        });
         //$('.front-page-gallery .items div[rel]').overlay();
         $('div.scrollable').scrollable({
           size: 8,

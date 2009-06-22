@@ -1,3 +1,1 @@
-<?php
-	echo "<a href=\"#". $row->nid ."\">" . $output ."</a>";
-?>
+<a id="anchor-<?=$row->nid?>" href="#<?=$row->nid?>"><?=$output?></a>

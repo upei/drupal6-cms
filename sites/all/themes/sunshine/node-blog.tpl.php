@@ -29,7 +29,7 @@
       print preg_replace(
         array("/<p>(&nbsp;| )*<\/p>/"),
         array(''),
-        $body); ?>
+        $content); ?>
     </div>
   </div>
   <div class="clear-block clear"></div>
