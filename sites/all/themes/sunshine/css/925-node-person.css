@@ -1,0 +1,12 @@
+.node-person .right { width: 375px; }
+.node-person .right .field { width: 180px; }
+.node-person .right img { margin: 0 12px !important; }
+.node-person fieldset.contact-infomation {
+  background: #fff url("../images/bkgrdl.gif") left bottom no-repeat;
+  border: 0; border-left: 1px dashed #ccc;
+}
+.page-staff .node-person .right, .page-faculty .node-person .right { margin-left: 12px; }
+
+.view-staff .views-row-odd, .view-staff .views-row-even,
+  .view-faculty .views-row-odd, .view-faculty .views-row-even { width: 375px; float: left; }
+.view-staff .views-row-odd, .view-faculty .views-row-odd { clear: left; }

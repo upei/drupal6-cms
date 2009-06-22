@@ -15,8 +15,8 @@ body {
 /* headings */ 
 h1, h2, h3 { font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif; font-weight: bold; }
 h1 { font-size: 1.8em; line-height: 1; margin-bottom: 0.75em; margin-top: 0.75em; }
-h2 { font-size: 1.5em; line-height: 1.25; margin-bottom: 0.75em; }
-h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 0.75em; }
+h2 { font-size: 1.5em; line-height: 1.25; margin-bottom: 0.75em; margin-top: 0.75em; }
+h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 0.75em; margin-top: 0.75em; }
 h4 { font-size: 1em; font-weight: bold; margin-bottom: 1.5em; }
 h5 { font-size: 1em; font-weight: bold; }
 
@@ -77,4 +77,13 @@ div.help {
 div.status {
   background-color: #fffbcd;
   border: 1px solid #ffbf54;
+}
+
+div.sections {
+  width: 100%;
+  padding: 0;
+}
+
+div.section {
+  float: left;
 }

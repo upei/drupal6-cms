@@ -200,7 +200,6 @@ $css_files = array(
   '310-footer.css',
   
   // special css
-  '900-member.css',
   '901-faqs.css',
   '902-buttons.css',
   '903-home-page-selector.css',
@@ -211,6 +210,7 @@ $css_files = array(
   '908-zoom.css',
   '910-tooltip.css',
   '920-node.css',
+  '925-node-person.css',
   '990-misc.css',
   
   // style

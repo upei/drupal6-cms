@@ -24,8 +24,10 @@
       $(function() {
         $('.front-page-gallery .items a[href]').each(function() {
           $(this).fancyZoom({directory: '/misc/fancyzoom'});
-          var href=$(this).attr('href').substring(1);
-          pageTracker._trackPageview(Drupal.settings.basePath + 'click/' + href);
+          $(this).click(function() {
+            var href=$(this).attr('href').substring(1);
+            pageTracker._trackPageview(Drupal.settings.basePath + 'click/' + href);
+          });
         });
         //$('.front-page-gallery .items div[rel]').overlay();
         $('div.scrollable').scrollable({

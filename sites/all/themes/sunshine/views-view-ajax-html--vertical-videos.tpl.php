@@ -32,6 +32,10 @@
 $(function() {
   $('.vertical-video-list a').each(function() {
     $(this).fancyZoom({directory: '/misc/fancyzoom', width: 200, height: 390});
+    $(this).click(function() {
+      var href = $(this).attr('href').substring(1);
+      pageTracker._trackPageview(Drupal.settings.basePath + 'click/' + href);
+    });
   });
 });
 </script>

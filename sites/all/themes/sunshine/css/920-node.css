@@ -8,6 +8,7 @@
 .node .links ul, .node .links li { margin: 0; padding: 0; display: block; }
 /* content */
 .node .content, #content .box { width: 60em; }
+.narrow .node .content, .narrow #content .box { width: 45em; }
 .node .date {
   color: #666; background-color: #eee; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;
   padding: 0.2em 0 0.2em 1em; margin: 1em 0; font-style: italic; 

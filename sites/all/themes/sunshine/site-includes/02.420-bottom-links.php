@@ -84,6 +84,7 @@
 <div class="section bottom-links">
     <h2 class="title">Academic Services</h2>
     <ul>
+        <li><a href="http://www.upei.ca/lifelonglearning/" title="">Centre for Life-Long Learning</a></li>
         <li><a href="http://www.upei.ca/co-op/" title="">Co-op Program</a></li>
         <li><a href="http://www.upei.ca/registrar/programs_by_faculty" title="">Programs &amp; Courses</a></li>
         <li><a href="http://www.upei.ca/registrar/" title="">Registrar&#039;s Office</a></li>
