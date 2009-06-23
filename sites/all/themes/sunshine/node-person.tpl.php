@@ -12,48 +12,58 @@
         <?=$field_faculty_photo[0]['view']?>
       </div>
       <legend>Contact Information</legend>
+      <?php if ($field_title && $field_title[0]['value']): ?>
       <div class="field field-field-title">
         <span class="label">Title</span>
         <span class="value"><?=$field_title[0]['safe']?></span>
       </div>
-      <?php if ($field_faculty_status): ?>
+      <?endif;?>
+      <?php if ($field_faculty_status && $field_faculty_status[0]['value']): ?>
       <div class="field field-field-faculty-status">
         <span class="label">Faculty Status</span>
         <span class="value"><?=$field_faculty_status[0]['safe']?></span>
       </div>
       <?php endif; ?>
-      <?php if ($field_education): ?>
+      <?php if ($field_education && $field_education[0]['value']): ?>
       <div class="field field-field-education">
         <span class="label">Education</span>
         <span class="value"><?=$field_education[0]['safe']?></span>
       </div>
       <?php endif; ?>
+      <?php if ($field_department && $field_department[0]['value']): ?>
       <div class="field field-field-department">
         <span class="label">Department</span>
         <span class="value"><?=$field_department[0]['safe']?></span>
       </div>
+      <?php endif; ?>
+      <?php if ($field_office && $field_office[0]['value']): ?>
       <div class="field field-field-office">
         <span class="label">Office</span>
         <span class="value"><?=$field_office[0]['safe']?></span>
       </div>
+      <?php endif; ?>
+      <?php if ($field_email && $field_email[0]['email']): ?>
       <div class="field field-field-email">
         <span class="label">Email</span>
         <span class="value"><?=$field_email[0]['safe']?></span>
       </div>
+      <?php endif; ?>
+      <?php if ($field_phone && $field_phone[0]['value']): ?>
       <div class="field field-field-phone">
         <span class="label">Phone</span>
         <span class="value"><?=$field_phone[0]['value']?></span>
       </div>
-      <?php if ($field_fax): ?>
+      <?php endif; ?>
+      <?php if ($field_fax && $field_fax[0]['value']): ?>
       <div class="field field-field-fax">
         <span class="label">Fax</span>
-        <span class="value"><?=$field_fax[0]['safe']?></span>
+        <span class="value"><?=$field_fax[0]['value']?></span>
       </div>
       <?php endif; ?>
-      <?php if ($field_link): ?>
+      <?php if ($field_link && $field_link[0]['url']): ?>
       <div class="field field-field-link">
         <span class="label">Link</span>
-        <span class="value"><?=$field_link[0]['safe']?></span>
+        <span class="value"><?=$field_link[0]['view']?></span>
       </div>
       <?php endif; ?>
     </fieldset>
