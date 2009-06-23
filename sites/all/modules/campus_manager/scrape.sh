@@ -197,7 +197,6 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 
 	# Copy files to proxy server
 	rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$bucket/${source_site}/${bucket}/ --delete drupal@prinny.cs.upei.ca:${static_directory}/$bucket/
-	#echo rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" ${cache_directory}/$bucket/${source_site}/$1 --delete drupal@prinny.cs.upei.ca:${static_directory}/$1
   # copy banners and css to proxy server
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/css/ --delete drupal@prinny.cs.upei.ca:${static_directory}/css/
   rsync -aWve "ssh -i /home/drupal/.ssh/id_rsa" /var/www-d6/docroot/js/ --delete drupal@prinny.cs.upei.ca:${static_directory}/js/
