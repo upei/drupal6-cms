@@ -5,18 +5,7 @@
   font-size: 0.9em;
   line-height: 1.8em;
   font-family: "Lucida Grande", "Lucida Unicode Sans", Arial, sans-serif;
-  margin-top: 10px;
-  padding: 10px;
-  border-top: 1px;
-  border-left: 1px;
-  border-right: 1px;
-  border-style: solid;
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  padding: 1em;
   font-variant: normal;
   font-weight: normal;
 }

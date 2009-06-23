@@ -1,7 +1,6 @@
-<div id="footer-absolute">
-<div id="footer-background"></div>
-<div id="footer-placeholder"></div>
-</div>
+<div class="clear-block clr" id="links-section">                                                                        
+  <?php include '02.420-bottom-links.php'; ?>
+</div><!-- /bottom links -->
 
 <?php if ($footer) { ?>
   <div id="footer-region"><?php print $footer?></div>

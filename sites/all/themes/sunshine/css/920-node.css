@@ -17,3 +17,4 @@
 
 /* fix for panels */
 .panel-display .content, .panel-display .box { width: auto; }
+.node-front img { margin: 0 12px 12px 12px; }

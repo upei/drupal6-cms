@@ -44,14 +44,8 @@ h1, h2, h3, h4, h5, h6 { color: #000; }
 
 /* 310 footer */
 
-#footer-absolute {
-  top: -200px;
-  left: 0;
-}
-#footer-background {
-  height: 307px;
-  background-image: url("/misc/i/swoosh-footer.png");
-  border-color: #ccc;
+#footer {
+  background: #fff url("/misc/i/swoosh-footer.png") no-repeat center 50px;
 }
 
 /* 903 home page selector */
