@@ -80,10 +80,5 @@
       <?= $content ?>
     </div>
     <? endif; ?>
-    <?php if (!$is_front && $type != 'landingpage' && !$view): ?>
-    <div class="clear-block clear"></div>
-    <div class="date"><? if (date('jFY', $changed) != date('jFY', $created)): ?> Updated on <?php print date('l, j F, Y.', $changed); endif; ?>
-    Created on <?php print date('l, j F, Y', $created); ?>.</div>
-    <?php endif; ?>
   </div>
 </div>

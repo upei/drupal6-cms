@@ -5,7 +5,7 @@
   <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
   <?php print $head ?>
   <style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/reset.css");</style>
-<!--[if IE]><link rel="stylesheet" type="text/css"<?php print base_path() . path_to_theme() ?>/css/ie.css" /><![endif]-->
+<!--[if IE]><link rel="stylesheet" type="text/css" href="<?php print base_path() . path_to_theme() ?>/css/ie.css" /><![endif]-->
   <?php print $styles ?>
 <!--[if IE 6]><link rel="stylesheet" type="text/css" href="<?php print base_path() . path_to_theme() ?>/css/ie6fix.css" /><![endif]-->
   <?php print _import_override_css_files(array("/css/sunshine.css"/*, "/misc/ui-theme/ui.generated.css"*/)); ?>
