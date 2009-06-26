@@ -88,6 +88,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	# Need to include fix-ie.css file explicitly
 	HTTRACK_OPTS="--sockets=10 --timeout=90 --retries=5 --host-control=1 -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
 	HTTRACK_OPTIONS="+${source_site}/$bucket/link/*
+      -${source_site}/news/newsfeed/*
       -${source_site}/$bucket/files/*
       +${source_site}/$bucket/*/imagecache/*
 			+${photo_site}/d/*
