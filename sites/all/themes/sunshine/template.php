@@ -263,3 +263,15 @@ $(function () {
 });
 END;
 drupal_add_js($javascript, 'inline', 'footer', false, false);
+
+/* XXX add rss feed to home page. this is a workaround.  */
+if (_get_bucket() == 'home') {
+  $_rss_feed = '<link rel="alternate" type="application/rss+xml" title="UPEI Media Releases" href="http://www.upei.ca/news/media/feed" />';
+  if (function_exists('drupal_add_html_head')) {
+    drupal_add_html_head($_rss_feed); // drupal 7
+  }
+  else {
+    drupal_set_html_head($_rss_feed); // drupal 6
+  }
+}
+/* END */
