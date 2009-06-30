@@ -1,0 +1,14 @@
+#event-timeline ul { padding: 0; margin: 0; }
+#event-timeline ul:first-child { background-color: #eef; }
+#event-timeline .anchors { display: block; height: 70px; width: 199px; float: left; position: relative; border-left: 1px solid #ccc; border-bottom: 1px solid #ccc; overflow: hidden; }
+#event-timeline .anchors li { display: block; float: left; list-style-type: none; list-style-image: none; padding: 29px 2px 0 2px; margin: 0; }
+#event-timeline .anchors li.wi-hover { padding: 21px 2px 0 2px; }
+#event-timeline .anchors li:first-child { position: absolute; float: none; padding: 0; margin: 0; font-size: 0.9em; color: #666; padding-left: 0.62em; font-weight: bold; }
+#event-timeline .anchors li:nth-child(2) { padding-left: 4px; }
+#event-timeline .wi-event-tooltip { display: none; position: absolute; z-index: 99; }
+#event-timeline .tooltips { margin: -5px; padding: 6px 6px 6px 6px; background-color: #fff; }
+#event-timeline .tooltips li { display: block; list-style-type: none; list-style-image: none; padding: 0; margin: 2px; font-size: 0.9em; height: 1.25em; overflow: hidden; }
+#event-timeline .tooltips .event-content { padding-left: 0.5em; }
+#event-timeline .inactive li { color: #999; }
+#event-timeline .tooltips li.active { color: #000; }
+#event-timeline .notes { text-align: center; font-weight: bold; color: #999; }

@@ -1,0 +1,38 @@
+.scrollable-container {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  margin-bottom: 1em;
+}
+.scrollable-container a.prev, .scrollable-container a.next, .scrollable-container a.prevPage, .scrollable-container a.nextPage {
+  display: block;
+  margin-top: 20px;
+  width: 27px;
+  height: 27px;
+  background: url("../images/widgets.png") -81px -84px no-repeat;
+  cursor: pointer;
+  z-index: 10; 
+  float: left;
+}
+.scrollable-container a.prev:hover, .scrollable-container a.prevPage:hover {
+  background-position: -81px -111px;
+}
+.scrollable-container a.next:hover, .scrollable-container a.nextPage:hover {
+  background-position: -81px -176px;
+}
+.scrollable-container a.disabled {
+  visibility: hidden !important;
+}
+.scrollable-container a.next, .scrollable-container a.nextPage {
+  background: url("../images/widgets.png") -81px -149px no-repeat;
+  float: right;
+  clear: right;
+}
+/* navigator */
+.scrollable-container .navi { width: 42px; margin: 0 auto; height: 20px; }
+.scrollable-container .navi a { 
+  width: 8px; height: 8px; float: left; margin: 0 3px;
+  background: url("../images/widgets.png") -85px -295px no-repeat;
+  cursor: pointer;
+}
+.scrollable-container .navi a:hover { background-position: -85px -303px; }
+.scrollable-container .navi a.active { background-position: -85px -311px; }

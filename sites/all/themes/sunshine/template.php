@@ -198,6 +198,10 @@ $css_files = array(
   // links and footer
   '300-bottom-links.css',
   '310-footer.css',
+
+  // javascript library
+  '800-widgets.css',
+  '810-scrollable.css',
   
   // special css
   '901-faqs.css',
@@ -209,6 +213,7 @@ $css_files = array(
   '907-views-nav-buttons.css',
   '908-zoom.css',
   '910-tooltip.css',
+  '911-event-timeline.css',
   '920-node.css',
   '925-node-person.css',
   '990-misc.css',

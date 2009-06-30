@@ -1,0 +1,25 @@
+.wi-container .wi-widget {
+  background-image: url("../images/widgets.png");
+  background-repeat: none;
+  display: inline-block;
+}
+
+/* event timeline */
+.wi-container .wi-event-normal { background-position: -3px -3px; width: 9px; height: 9px; }
+.wi-container .wi-event-important { background-position: -3px -21px; width: 9px; height: 9px; }
+.wi-container .wi-event-active { background-position: -3px -41px; width: 9px; height: 9px; }
+
+.wi-container .wi-event-bar-normal { background-position: -3px -64px; width: 9px; height: 40px; }
+.wi-container .wi-event-bar-important { background-position: -3px -120px; width: 9px; height: 40px; }
+.wi-container .wi-event-bar-active { background-position: -3px -174px; width: 9px; height: 49px; }
+
+/* event tooltip */
+.wi-container .wi-event-tooltip { position: relative; display: block; background-color: transparent; background-image: none; width: 284px; height: 276px; overflow: hidden; padding: 12px; }
+.wi-container .wi-event-tooltip-border-top-left { position: absolute; top: 0; left: 0; background-position: -24px -4px; width: 8px; height: 8px; }
+.wi-container .wi-event-tooltip-border-top-right { position: absolute; top: 0; right: 8px; background-position: -25px -21px; width: 8px; height: 8px; }
+.wi-container .wi-event-tooltip-border-bottom-left { position: absolute; bottom: 8px; left: 0; background-position: -24px -64px; width: 8px; height: 8px; }
+.wi-container .wi-event-tooltip-border-bottom-right { position: absolute; bottom: 8px; right: 8px; background-position: -25px -42px; width: 8px; height: 8px; }
+.wi-container .wi-event-tooltip-border-top{ position: absolute; top: 0; left: 8px; background-position: -53px -22px; width: 284px; height: 8px; }
+.wi-container .wi-event-tooltip-border-bottom{ position: absolute; bottom: 8px; left: 8px; background-position: -53px -65px; width: 284px; height: 8px; }
+.wi-container .wi-event-tooltip-border-left { position: absolute; top: 8px; left: 0; background-position: -53px -87px; width: 8px; height: 284px; }
+.wi-container .wi-event-tooltip-border-right { position: absolute; top: 8px; right: 8px; background-position: -25px -87px; width: 8px; height: 284px; }

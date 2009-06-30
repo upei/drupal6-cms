@@ -12,7 +12,7 @@
   <?php print $scripts ?>
   <?php include 'site-includes/page-setup-scripts.php'; ?>
 </head>
-<body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
+<body>
 <? if (function_exists('_print_additional_info')) {
   _print_additional_info();
 }?>
