@@ -1,5 +1,5 @@
 <?php
-// $Id: jquery_ui.module,v 1.5 2008/06/22 20:09:58 webchick Exp $
+// $Id: jquery_ui.module,v 1.6.2.2 2009/06/21 03:43:03 sun Exp $
 
 /**
  * @file
@@ -12,9 +12,18 @@
 
 /**
  * Path to jQuery UI library.
+ *
+ * During site installation, JQUERY_UI_PATH is the absolute path to the
+ * jQuery UI library.  At all other times JQUERY_UI_PATH is relative, and
+ * safe for use in URLs.
  */
-define('JQUERY_UI_PATH', drupal_get_path('module', 'jquery_ui') . '/jquery.ui');
- 
+if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'install') {
+  define('JQUERY_UI_PATH', dirname(__FILE__) . '/jquery.ui');
+}
+else {
+  define('JQUERY_UI_PATH', drupal_get_path('module', 'jquery_ui') . '/jquery.ui');
+}
+
 /**
  * Add the specified jQuery UI library files to this page.
  *
@@ -49,16 +58,18 @@ function jquery_ui_add($files = array()) {
       $effects_core = TRUE;
       jquery_ui_add(array('effects.core'));
     }
-  
+
     // Load other files.
     if (!isset($loaded_files[$file])) {
       switch ($compression) {
         case 'none':
           $file_path = "$file.js";
           break;
+
         case 'pack':
           $file_path = "packed/$file.packed.js";
           break;
+
         case 'mini':
         default:
           $file_path = "minified/$file.min.js";
@@ -66,7 +77,7 @@ function jquery_ui_add($files = array()) {
       }
       $js_path = $jquery_ui_path . '/' . $file_path;
       drupal_add_js($js_path);
-      $loaded_files[$file] = $js_path; // or TRUE...
+      $loaded_files[$file] = $js_path;
     }
   }
 }
@@ -83,3 +94,4 @@ function jquery_ui_get_version() {
 
   return $version;
 }
+

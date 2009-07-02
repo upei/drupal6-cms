@@ -6,7 +6,7 @@
     <li class="leaf"><a href="http://www.upei.ca/campuscard/" title="">My Campus Card</a></li>
     <li class="leaf"><a href="http://mymail.upei.ca/" title="">My Mail</a></li>
     <li class="leaf"><a href="http://moodle.upei.ca/" title="">My Moodle Courses</a></li>
-    <li class="leaf"><a href="https://secure.upei.ca/cls/dropbox/SummerTime.html " title="">2009 Summer Timetable</a></li>
+    <li class="leaf"><a href="https://secure.upei.ca/cls/dropbox/SummerTime.html" title="">2009 Summer Timetable</a></li>
     <li class="leaf"><a href="http://www.upei.ca/registrar/important_dates" title="">Important Calendar Dates</a></li>
     <li class="leaf"><a href="http://www.upei.ca/news" title="">Campus News and Events</a></li>
     <li class="leaf"><a href="http://www.upei.ca/computerservices/panthernet" title="">Wireless Access</a></li>

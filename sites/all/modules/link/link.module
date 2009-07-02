@@ -673,13 +673,13 @@ function link_validate_url($text) {
   // Pattern specific to internal links.
   $internal_pattern = "/^([a-z0-9_\-+\[\]]+)";
 
-  $directories = "(\/[\x{c0}-\x{ff}a-z0-9_\-\.~+%=&,$'!():;*@\[\]]*)*";
+  $directories = "(\/[a-z0-9_\-\.~+%=&,$'!():;*@\[\]]*)*";
   // Yes, four backslashes == a single backslash.
   $query = "(\/?\?([?a-z0-9+_|\-\.\/\\\\%=&,$'():;*@\[\]]*))";
   $anchor = "(#[a-z0-9_\-\.~+%=&,$'():;*@\[\]]*)";
 
   // The rest of the path for a standard URL.
-  $end = $directories .'?'. $query .'?'. $anchor .'?'.'$/iu';
+  $end = $directories .'?'. $query .'?'. $anchor .'?'.'$/i';
 
   $user = '[a-zA-Z0-9_\-\.\+\^!#\$%&*+\/\=\?\`\|\{\}~\'\[\]]+';
   $email_pattern = '/^mailto:'. $user .'@'.'('. $domain .'|'. $ipv4 .'|'. $ipv6 .'|localhost)'. $query .'?$/';

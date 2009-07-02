@@ -1611,7 +1611,7 @@ function swftools_swftools_embed($action = 'add_js', $methods = FALSE, $vars = F
   $params .= '<param name="loop"              value="' . $loop . '" />' . "\n";
   $params .= $flashvars ? '<param name="flashvars"  value="' . $flashvars . '" />' . "\n" : '' ;
 
-  $html  = '<div class="swftools">' . "\n";
+  // $html  = '<div class="swftools">' . "\n";
   $html .= '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"' . $width_attr . $height_attr . $wijering_fix . '>' . "\n";
   $html .= '<param name="movie" value="' . $P['src'] . '" />' . "\n";
   $html .= $params;
@@ -1624,7 +1624,7 @@ function swftools_swftools_embed($action = 'add_js', $methods = FALSE, $vars = F
   $html .= '</object>' . "\n";
   $html .= '<!--<![endif]-->' . "\n";
   $html .= '</object>' . "\n";
-  $html .= '</div>' . "\n";
+  // $html .= '</div>' . "\n";
 
   return $html;
 }
