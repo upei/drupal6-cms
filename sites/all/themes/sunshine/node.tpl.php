@@ -12,7 +12,7 @@
     <h2 class="title"><a href="<?=$node_url?>"><?=$title?></a></h2>
     <? endif; ?>
     <div class="body">
-      <?= $content ?>
+      <?= ($body) ? $body : $content ?>
     </div>
     <div class="clear-block clear"></div>
     <?php if (!$is_front && $type != 'landingpage' && !$view && array_key_exists(DRUPAL_AUTHENTICATED_RID, $user->roles)): ?>
