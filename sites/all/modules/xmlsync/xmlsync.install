@@ -1,0 +1,59 @@
+<?php
+
+function xmlsync_schema() {
+  $schema['xmlsync'] = array(
+    'description' => t('XML sync extension to {node}'),
+    'fields' => array(
+      'nid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
+      'vid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
+      'xmltype' => array('type' => 'varchar', 'length' => 20, 'not null' => TRUE, 'default' => ''),
+      'url' => array('type' => 'text'),
+      'last_sync' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('nid', 'vid'),
+    'nid' => array('nid'),
+    'vid' => array('vid'),
+  );
+
+  $schema['xmlsync_entities'] = array(
+    'description' => t('XML sync entities table related to {xmlsync}'),
+    'fields' => array(
+      'xid' => array('type' => 'serial', 'not null' => TRUE),
+      'nid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
+      'vid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
+      'index0_name' => array('type' => 'varchar', 'length' => 30),
+      'index0_value' => array('type' => 'varchar', 'length' => 255),
+      'index1_name' => array('type' => 'varchar', 'length' => 30),
+      'index1_value' => array('type' => 'varchar', 'length' => 255),
+      'index2_name' => array('type' => 'varchar', 'length' => 30),
+      'index2_value' => array('type' => 'varchar', 'length' => 255),
+      'index3_name' => array('type' => 'varchar', 'length' => 30),
+      'index3_value' => array('type' => 'varchar', 'length' => 255),
+      'index4_name' => array('type' => 'varchar', 'length' => 30),
+      'index4_value' => array('type' => 'varchar', 'length' => 255),
+      'data' => array('type' => 'text', 'size' => 'big'),
+    ),
+    'primary key' => array('xid'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'vid' => array('vid'),
+      'nid_vid' => array('nid', 'vid'),
+      'index1' => array('index1_name', 'index1_value'),
+      'index2' => array('index2_name', 'index2_value'),
+      'index3' => array('index3_name', 'index3_value'),
+      'index4' => array('index4_name', 'index4_value'),
+      'index0' => array('index0_name', 'index0_value'),
+    ),
+  );
+
+  return $schema;
+}
+
+function xmlsync_install() {
+  drupal_install_schema('xmlsync');
+}
+
+function xmlsync_uninstall() {
+  drupal_uninstall_schema('xmlsync');
+}
+  

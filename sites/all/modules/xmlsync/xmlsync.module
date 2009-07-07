@@ -1,0 +1,187 @@
+<?php
+
+function xmlsync_perm() {
+  return array('administer xmlsync');
+}
+
+function xmlsync_node_info($node = NULL) {
+  return array(
+    'xmlsync' => array(
+      'name' => t('XML Synchronization'),
+      'module' => 'xmlsync',
+      'description' => t('An XML file or URL for synchronisation.'),
+      'has_title' => TRUE,
+      'title_label' => t('Feed name'),
+      'has_body' => TRUE,
+      'body_label' => t('XML Content'),
+      'locked' => TRUE,
+    ),
+  );
+}
+
+function xmlsync_form(&$node) {
+  $type = node_get_types('type', $node);
+
+  if ($type->has_title) {
+    $form['title'] = array(
+      '#type' => 'textfield',
+      '#title' => check_plain($type->title_label),
+      '#required' => TRUE,
+      '#default_value' => $node->title,
+      '#weight' => -5,
+    );
+  }
+
+  if ($type->has_body && $node->xmltype == 'content') {
+    $form['body_field'] = node_body_field($node, $type->body_label, $type->min_word_count);
+  }
+
+  $form['xmltype'] = array(
+    '#type' => 'select',
+    '#title' => t('Type'),
+    '#required' => TRUE,
+    '#default_value' => $node->xmltype,
+    '#options' => array(
+      'content' => t('Content'),
+      'url' => t('URL'),
+    ),
+    '#description' => t('Please choose XML type. <em>Content</em> will make use of the Content field. <em>URL</em> will make use of a remote XML file.'),
+    '#weight' => -3,
+  );
+
+  $form['url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('XML URL'),
+    '#default_value' => $node->url,
+    '#weight' => -1,
+  );
+  
+  return $form;
+}
+
+function xmlsync_access($op, $node, $account) {
+  switch ($op) {
+    case 'create':
+    case 'update':
+    case 'delete':
+      return user_access('administer xmlsync', $account) || user_access('administer content', $account);
+  }
+}
+
+function xmlsync_load($node) {
+  $additions = db_fetch_object(db_query('SELECT * FROM {xmlsync} WHERE nid=%d AND vid=%d', $node->nid, $node->vid));
+  return $additions;
+}
+
+function xmlsync_nodeapi(&$node, $op) {
+  switch($op) {
+    case 'presave':
+      if ($node->xmltype == 'url') {
+        _xmlsync_update_url_content($node);
+      }
+      _xmlsync_extract_content($node);
+      break;
+    case 'delete revision':
+      db_query('DELETE FROM {xmlsync} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
+      db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
+      break;
+  }
+}
+
+function xmlsync_validate($node) {
+  // check url
+  if ($node->xmltype == 'url') {
+    $ret = parse_url($node->url);
+    if ($ret && ($ret['scheme'] == 'http' || $ret['scheme'] == 'https')) {
+      if (check_url($node->url)) {
+        return;
+      }
+    }
+    form_set_error('url', t('The URL is invalid.'));
+  }
+}
+function xmlsync_insert($node) {
+  drupal_write_record('xmlsync', $node);
+  // insert new xmlsync entities
+  foreach ($node->entities as $entity) {
+    drupal_write_record('xmlsync_entities', $entity);
+  }
+}
+
+function xmlsync_update($node) {
+  if ($node->revision) {
+    xmlsync_insert($node);
+  }
+  else {
+    drupal_write_record('xmlsync', $node, array('nid', 'vid'));
+    // update new xmlsync entities by delete all of them then reinsert
+    db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
+    // insert
+    foreach ($node->entities as $entity) {
+      drupal_write_record('xmlsync_entities', $entity);
+    }
+  }
+}
+
+function _xmlsync_update_url_content(&$node) {
+  if ($node->xmltype != 'url') {
+    return;
+  }
+  $ret = drupal_http_request($node->url);
+  if ($ret->error) {
+    form_set_error('url', $ret->error);
+  }
+  else {
+    $node->body = $ret->data;
+    $node->last_sync = time();
+  }
+}
+
+function _xmlsync_extract_content(&$node) {
+  // load simple xml element
+  $doc = simplexml_load_string($node->body);
+  if (!$doc) {
+    form_set_error('body', t('XML content is not well-formed.'));
+  }
+  
+  // get all indexes
+  $keys = $doc->xpath('/feed/indexes/key');
+  $keys = array_map('strval', $keys);
+  
+  $node->entities = array();  
+  // load all xml entities
+  foreach ($doc->xpath('/feed/node') as $key => $entity) {
+    $rec = new stdclass();
+    $rec->nid = $node->nid;
+    $rec->vid = $node->vid;
+    foreach ($keys as $id => $key) {
+      $name = 'index' . $id . '_name';
+      $value = 'index' . $id . '_value';
+      $rec->$name = $key;
+      $v = $entity->xpath("data/$key");
+      $rec->$value = strval($v[0]);
+      
+    }
+    $rec->data = $entity->data->asXML();
+    // add the record to node
+    $node->entities[] = $rec;
+  }
+}
+
+function xmlsync_view($node, $teaser=FALSE, $page=FALSE) {
+  $node = node_prepare($node, $teaser);
+  $node->content['body'] = array(
+    '#value' => '<pre>' . check_plain($node->body) . '</pre>',
+  );
+  return $node;
+}
+
+function xmlsync_delete($node) {
+  db_query('DELETE FROM {xmlsync} WHERE nid=%d', $node->nid);
+  // remove all from xmlsync entities
+  db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d', $node->nid);
+}
+
+function xmlsync_views_api() {
+  return array('api' => 2);
+}
