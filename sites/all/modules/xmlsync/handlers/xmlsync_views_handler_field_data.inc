@@ -2,12 +2,12 @@
 
 class xmlsync_views_handler_field_data extends views_handler_field {
 
-  function ui_name() {
+  function ui_name($short = FALSE) {
     if ($this->broken()) {
       return t('Broken field data. Unsupported database type.');
     }
     else {
-      return parent::ui_name();
+      return parent::ui_name($short) . t(': !xpath', array('!xpath' => $this->options['xpath']));
     }
   }
 

@@ -19,6 +19,10 @@ function xmlsync_node_info($node = NULL) {
   );
 }
 
+function xmlsync_form_xmlsync_node_form_alter(&$form, &$form_state) {
+  unset($form['revision_information']);
+}
+
 function xmlsync_form(&$node) {
   $type = node_get_types('type', $node);
 
@@ -109,17 +113,13 @@ function xmlsync_insert($node) {
 }
 
 function xmlsync_update($node) {
-  if ($node->revision) {
-    xmlsync_insert($node);
-  }
-  else {
-    drupal_write_record('xmlsync', $node, array('nid', 'vid'));
-    // update new xmlsync entities by delete all of them then reinsert
-    db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
-    // insert
-    foreach ($node->entities as $entity) {
-      drupal_write_record('xmlsync_entities', $entity);
-    }
+  $node->revision = false;
+  drupal_write_record('xmlsync', $node, array('nid', 'vid'));
+  // update new xmlsync entities by delete all of them then reinsert
+  db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
+  // insert
+  foreach ($node->entities as $entity) {
+    drupal_write_record('xmlsync_entities', $entity);
   }
 }
 
@@ -158,7 +158,7 @@ function _xmlsync_extract_content(&$node) {
       $name = 'index' . $id . '_name';
       $value = 'index' . $id . '_value';
       $rec->$name = $key;
-      $v = $entity->xpath("data/$key");
+      $v = $entity->xpath("$key");
       $rec->$value = strval($v[0]);
       
     }

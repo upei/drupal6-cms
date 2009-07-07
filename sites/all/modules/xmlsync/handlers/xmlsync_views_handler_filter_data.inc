@@ -2,6 +2,26 @@
 
 class xmlsync_views_handler_filter_data extends views_handler_filter {
 
+  function broken() {
+    global $db_type;
+    switch ($db_type) {
+    case 'mysql':
+    case 'mysqli':
+      return FALSE;
+    default:
+      return TRUE;
+    }                                                                                                                                                      
+  }
+
+  function ui_name($short = FALSE) {
+    if ($this->broken()) {
+      return t('Broken field data. Unsupported database type.');
+    }   
+    else {
+      return parent::ui_name($short) . t(': !xpath', array('!xpath' => $this->options['xpath']));
+    }   
+  }
+
   function can_expose() {
     return FALSE;
   }
@@ -111,7 +131,7 @@ class xmlsync_views_handler_filter_data extends views_handler_filter {
       '#type' => 'textfield',
       '#title' => t('XPath query'),
       '#default_value' => $this->options['xpath'],
-      '#weight' => -5,
+      '#weight' => -3,
     );
     $form['cast_as'] = array(
       '#type' => 'select',

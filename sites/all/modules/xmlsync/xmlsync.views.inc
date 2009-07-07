@@ -12,6 +12,12 @@ function xmlsync_views_handlers() {
       'xmlsync_views_handler_filter_data' => array(
         'parent' => 'views_handler_filter',
       ),
+      'xmlsync_views_handler_sort_data' => array(
+        'parent' => 'views_handler_sort',
+      ),
+      'xmlsync_views_handler_argument_data' => array(
+        'parent' => 'views_handler_argument_string',
+      ),
     ),
   );
 }
@@ -100,9 +106,16 @@ function xmlsync_views_data() {
     'help' => t('An entity of XML sync'),
     'field' => array(
       'handler' => 'xmlsync_views_handler_field_data',
+      'click sortable' => TRUE,
     ),
     'filter' => array(
       'handler' => 'xmlsync_views_handler_filter_data',
+    ),
+    'sort' => array(
+      'handler' => 'xmlsync_views_handler_sort_data',
+    ),
+    'argument' => array(
+      'handler' => 'xmlsync_views_handler_argument_data',
     ),
   );
   return $data;
