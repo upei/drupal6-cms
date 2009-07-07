@@ -1,8 +1,8 @@
 /* fontface */
-@font-face {
-  font-family: "Minion Pro";
-  src: url("/css/fonts/MinionPro-Medium.otf");
-}
+@font-face { font-family: Gentium; src: url("../fonts/GenBasR.ttf"); }
+@font-face { font-family: Gentium; font-weight: bold; src: url("../fonts/GenBasB.ttf"); }
+@font-face { font-family: Gentium; font-style: italic; src: url("../fonts/GenBasRI.ttf"); }
+@font-face { font-family: Gentium; font-weight: bold; font-style: italic; src: url("../fonts/GenBasBI.ttf"); }
 
 body {
   padding: 0;
@@ -13,7 +13,7 @@ body {
 }
 
 /* headings */ 
-h1, h2, h3 { font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif; font-weight: bold; }
+h1, h2, h3 { font-family: Minion Pro, Gentium, Georgia, "Times New Roman", Times, serif; font-weight: bold; }
 h1 { font-size: 1.8em; line-height: 1; margin-bottom: 0.75em; margin-top: 0.75em; }
 h2 { font-size: 1.5em; line-height: 1.25; margin-bottom: 0.75em; margin-top: 0.75em; }
 h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 0.75em; margin-top: 0.75em; }
