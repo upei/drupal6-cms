@@ -91,6 +91,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
       -${source_site}/news/newsfeed/*
       -${source_site}/$bucket/files/*
       +${source_site}/$bucket/*/imagecache/*
+      +${source_site}/$bucket/sites/all/*
 			+${photo_site}/d/*
 			${HTTRACK_OPTS}"
 

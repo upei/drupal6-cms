@@ -23,7 +23,7 @@ function xmlsync_views_handlers() {
 }
 
 function xmlsync_views_data() {
-  $data['xmlsync']['table']['group'] = t('XML Sync');
+  $data['xmlsync']['table']['group'] = t('XML Synchrona');
   $data['xmlsync']['table']['join'] = array(
     'node' => array(
       'left_field' => 'nid',
@@ -84,7 +84,7 @@ function xmlsync_views_data() {
     ),
   );
 
-  $data['xmlsync_entities']['table']['group'] = t('XML Sync Entity');
+  $data['xmlsync_entities']['table']['group'] = t('XML Synchrona  Entity');
   $data['xmlsync_entities']['table']['join'] = array(
     'node' => array(
       'left_field' => 'vid',
