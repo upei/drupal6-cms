@@ -26,6 +26,7 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
     $options = parent::option_definition();
     $options['xpath'] = array('default' => '.');
     $options['operator'] = array('default' => 'op_starts');
+    $options['multiple'] = array('default' => FALSE);
     return $options;
   }
 
@@ -50,11 +51,17 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
         'op_not_equals' => t('Is not equal to'),
       ),
     );
+    $form['multiple'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Handle multiple arguments'),
+      '#description' => t('Multiple arguments can be separated by comma'),
+      '#default_value' => $this->options['multiple'],
+    );
     unset($form['glossary']);
   }
 
   function query() {
-    $argument = $this->argument;
+    $arguments = $this->argument;
     if (!empty($this->options['transform_dash'])) {
       $argument = strtr($argument, '-', ' ');
     }
@@ -62,31 +69,42 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
     $this->ensure_my_table();
     $field = "$this->table_alias.$this->real_field";
 
-    if (empty($this->options['operator'])) {
-      op_equal($field, $this->options['xpath'], $argument);
+    // supports multiple arguments
+    if (!empty($this->options['multiple'])) {
+      $arguments = preg_split('/\s*,\s*/', $arguments);
+      $group = $this->query->set_where_group('OR');
     }
     else {
-      $this->{$this->options['operator']}($field, $this->options['xpath'], $argument);
+      $arguments = array($arguments);
+      $group = 0;
+    }
+    foreach ($arguments as $id => $argument) {
+      if (empty($this->options['operator'])) {
+        op_equal($group, $field, $this->options['xpath'], $argument);
+      }
+      else {
+        $this->{$this->options['operator']}($group, $field, $this->options['xpath'], $argument);
+      }
     }
   }
 
-  function op_equals($field, $xpath, $argument) {
-    $this->query->add_where(0, "EXTRACTVALUE(%s, '%s') = '%s'", $field, $xpath, $argument);
+  function op_equals($group, $field, $xpath, $argument) {
+    $this->query->add_where($group, "EXTRACTVALUE(%s, '%s') = '%s'", $field, $xpath, $argument);
   }
 
-  function op_not_equals($field, $xpath, $argument) {
-    $this->query->add_where(0, "EXTRACTVALUE(%s, '%s') != '%s'", $field, $xpath, $argument);
+  function op_not_equals($group, $field, $xpath, $argument) {
+    $this->query->add_where($group, "EXTRACTVALUE(%s, '%s') != '%s'", $field, $xpath, $argument);
   }
 
-  function op_starts($field, $xpath, $argument) {
-    $this->query->add_where(0, "EXTRACTVALUE(%s, '%s') LIKE '%s%%'", $field, $xpath, $argument);
+  function op_starts($group, $field, $xpath, $argument) {
+    $this->query->add_where($group, "EXTRACTVALUE(%s, '%s') LIKE '%s%%'", $field, $xpath, $argument);
   }
 
-  function op_ends($field, $xpath, $argument) {
-    $this->query->add_where(0, "EXTRACTVALUE(%s, '%s') LIKE '%%%s'", $field, $xpath, $argument);
+  function op_ends($group, $field, $xpath, $argument) {
+    $this->query->add_where($group, "EXTRACTVALUE(%s, '%s') LIKE '%%%s'", $field, $xpath, $argument);
   }
 
-  function op_contains($field, $xpath, $argument) {
-    $this->query->add_where(0, "EXTRACTVALUE(%s, '%s') LIKE '%%%s%%'", $field, $xpath, $argument);
+  function op_contains($group, $field, $xpath, $argument) {
+    $this->query->add_where($group, "EXTRACTVALUE(%s, '%s') LIKE '%%%s%%'", $field, $xpath, $argument);
   }
 }
