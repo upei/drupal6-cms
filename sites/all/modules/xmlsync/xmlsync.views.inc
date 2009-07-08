@@ -23,7 +23,7 @@ function xmlsync_views_handlers() {
 }
 
 function xmlsync_views_data() {
-  $data['xmlsync']['table']['group'] = t('XML Synchrona');
+  $data['xmlsync']['table']['group'] = t('XML Synchronym');
   $data['xmlsync']['table']['join'] = array(
     'node' => array(
       'left_field' => 'nid',
@@ -32,12 +32,12 @@ function xmlsync_views_data() {
   );
   $data['xmlsync']['nid'] = array(
      'title' => t('Nid'),
-     'help' => t('XML Sync content that references a node.'),
+     'help' => t('XML Synchronym content that references a node.'),
      'relationship' => array(
        'base' => 'node',
        'field' => 'nid',
        'handler' => 'views_handler_relationship',
-       'label' => t('XML Sync'),
+       'label' => t('XML Synchronym'),
      ),
   );
   $data['xmlsync']['xmltype'] = array(
@@ -84,7 +84,7 @@ function xmlsync_views_data() {
     ),
   );
 
-  $data['xmlsync_entities']['table']['group'] = t('XML Synchrona  Entity');
+  $data['xmlsync_entities']['table']['group'] = t('XML Synchronym Entity');
   $data['xmlsync_entities']['table']['join'] = array(
     'node' => array(
       'left_field' => 'vid',

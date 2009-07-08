@@ -71,15 +71,17 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
 
     foreach ($this->view->display_handler->get_handlers('field') as $field => $handler) {
       if (isset($handler->last_render)) {                                                                                   
-        $tokens["[{$field}-path]"] = preg_replace(
+        $tokens["[{$field}-lower]"] = strtolower($handler->last_render);
+        $tokens["[{$field}-url]"] = preg_replace(
           array(
-            //'/ /',
+            '/ /',
           ),
           array(
-            //'+',
+            '+',
           ),
           strtolower($handler->last_render)
         );
+
       }   
       // We only use fields up to (and including) this one.
       if ($field == $this->options['id']) {

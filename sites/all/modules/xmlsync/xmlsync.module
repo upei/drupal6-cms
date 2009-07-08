@@ -11,7 +11,7 @@ function xmlsync_views_api() {
 function xmlsync_node_info($node = NULL) {
   return array(
     'xmlsync' => array(
-      'name' => t('XML Synchrona'),
+      'name' => t('XML Synchronym'),
       'module' => 'xmlsync',
       'description' => t('An XML file or URL for synchronization.'),
       'has_title' => TRUE,
@@ -91,6 +91,7 @@ function xmlsync_load($node) {
 }
 
 function xmlsync_nodeapi(&$node, $op) {
+  if ($node->type == 'xmlsync') {
   switch($op) {
     case 'presave':
       if ($node->xmltype == 'url') {
@@ -102,6 +103,7 @@ function xmlsync_nodeapi(&$node, $op) {
       db_query('DELETE FROM {xmlsync} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
       db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
       break;
+  }
   }
 }
 
