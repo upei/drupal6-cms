@@ -1,6 +1,6 @@
 <?php
 
-class xmlsync_views_handler_filter_data extends views_handler_filter {
+class xmlsync_views_handler_filter_xml extends views_handler_filter {
 
   function broken() {
     global $db_type;

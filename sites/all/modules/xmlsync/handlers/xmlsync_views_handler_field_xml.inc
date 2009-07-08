@@ -1,6 +1,6 @@
 <?php
 
-class xmlsync_views_handler_field_data extends views_handler_field {
+class xmlsync_views_handler_field_xml extends views_handler_field {
 
   function ui_name($short = FALSE) {
     if ($this->broken()) {

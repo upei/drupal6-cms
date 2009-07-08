@@ -4,14 +4,18 @@ function xmlsync_perm() {
   return array('administer xmlsync');
 }
 
+function xmlsync_views_api() {
+  return array('api' => 2);
+}
+
 function xmlsync_node_info($node = NULL) {
   return array(
     'xmlsync' => array(
-      'name' => t('XML Synchronization'),
+      'name' => t('XML Synchrona'),
       'module' => 'xmlsync',
-      'description' => t('An XML file or URL for synchronisation.'),
+      'description' => t('An XML file or URL for synchronization.'),
       'has_title' => TRUE,
-      'title_label' => t('Feed name'),
+      'title_label' => t('XML Title'),
       'has_body' => TRUE,
       'body_label' => t('XML Content'),
       'locked' => TRUE,
@@ -30,7 +34,8 @@ function xmlsync_form(&$node) {
     $form['title'] = array(
       '#type' => 'textfield',
       '#title' => check_plain($type->title_label),
-      '#required' => TRUE,
+      '#description' => t('Leave this field blank to extract the feed name directly from XML content, if provided'),
+      '#required' => FALSE,
       '#default_value' => $node->title,
       '#weight' => -5,
     );
@@ -58,6 +63,14 @@ function xmlsync_form(&$node) {
     '#title' => t('XML URL'),
     '#default_value' => $node->url,
     '#weight' => -1,
+  );
+
+  $form['update_frequency'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Update frequency'),
+    '#description' => t('Frequency in minutes for cron.php to update this feed.'),
+    '#maxlength' => 5,
+    '#default_value' => $node->update_frequency,
   );
   
   return $form;
@@ -104,6 +117,7 @@ function xmlsync_validate($node) {
     form_set_error('url', t('The URL is invalid.'));
   }
 }
+
 function xmlsync_insert($node) {
   drupal_write_record('xmlsync', $node);
   // insert new xmlsync entities
@@ -142,6 +156,19 @@ function _xmlsync_extract_content(&$node) {
   $doc = simplexml_load_string($node->body);
   if (!$doc) {
     form_set_error('body', t('XML content is not well-formed.'));
+  }
+
+  // update title if no title is provided
+  if (empty($node->title)) {
+    $feed = $doc->xpath('/feed[@title]');
+    if ($feed) {
+      $attr = $feed[0]->attributes();
+      $title = $attr['title'];
+    }
+    if (empty($title)) {
+      $title = t('XMLSync feed');
+    }
+    $node->title = $title;
   }
   
   // get all indexes
@@ -182,6 +209,18 @@ function xmlsync_delete($node) {
   db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d', $node->nid);
 }
 
-function xmlsync_views_api() {
-  return array('api' => 2);
+function xmlsync_cron() {
+  // get all nodes that needs to be updated
+  $result = db_query("SELECT nid FROM {xmlsync} WHERE UNIX_TIMESTAMP()>update_frequency*60+last_sync AND xmltype='url'");
+  while($node = db_fetch_object($result)) {
+    $node = node_load($node->nid);
+    watchdog('cron', t("xmlsync node !nid: !title updated.<br />Update frequency: !freq minute(s).<br />Last sync: !last_sync."),
+      array('!nid' => $node->nid,
+        '!title' => $node->title,
+        '!freq' => $node->update_frequency,
+        '!last_sync' => date('r', $node->last_sync)),
+      WATCHDOG_NOTICE, l(t('view'), 'node/' . $node->nid));
+    node_save($node);
+  }
 }
+

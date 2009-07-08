@@ -3,4 +3,3 @@ description = Synchronize XML information
 package = XML manager
 core = 6.x
 php = 5.1
-version = 0.1

@@ -6,16 +6,16 @@ function xmlsync_views_handlers() {
       'path' => drupal_get_path('module', 'xmlsync') . '/handlers',
     ),
     'handlers' => array(
-      'xmlsync_views_handler_field_data' => array(
+      'xmlsync_views_handler_field_xml' => array(
         'parent' => 'views_handler_field',
       ),
-      'xmlsync_views_handler_filter_data' => array(
+      'xmlsync_views_handler_filter_xml' => array(
         'parent' => 'views_handler_filter',
       ),
-      'xmlsync_views_handler_sort_data' => array(
+      'xmlsync_views_handler_sort_xml' => array(
         'parent' => 'views_handler_sort',
       ),
-      'xmlsync_views_handler_argument_data' => array(
+      'xmlsync_views_handler_argument_xml' => array(
         'parent' => 'views_handler_argument_string',
       ),
     ),
@@ -105,17 +105,17 @@ function xmlsync_views_data() {
     'title' => t('Data'),
     'help' => t('An entity of XML sync'),
     'field' => array(
-      'handler' => 'xmlsync_views_handler_field_data',
+      'handler' => 'xmlsync_views_handler_field_xml',
       'click sortable' => TRUE,
     ),
     'filter' => array(
-      'handler' => 'xmlsync_views_handler_filter_data',
+      'handler' => 'xmlsync_views_handler_filter_xml',
     ),
     'sort' => array(
-      'handler' => 'xmlsync_views_handler_sort_data',
+      'handler' => 'xmlsync_views_handler_sort_xml',
     ),
     'argument' => array(
-      'handler' => 'xmlsync_views_handler_argument_data',
+      'handler' => 'xmlsync_views_handler_argument_xml',
     ),
   );
   return $data;

@@ -8,6 +8,7 @@ function xmlsync_schema() {
       'vid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
       'xmltype' => array('type' => 'varchar', 'length' => 20, 'not null' => TRUE, 'default' => ''),
       'url' => array('type' => 'text'),
+      'update_frequency' => array('type' => int, 'not null' => TRUE, 'default' => 60),
       'last_sync' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
     ),
     'primary key' => array('nid', 'vid'),
@@ -50,10 +51,20 @@ function xmlsync_schema() {
 }
 
 function xmlsync_install() {
-  drupal_install_schema('xmlsync');
+  $ret = drupal_install_schema('xmlsync');
+  return $ret;
 }
 
 function xmlsync_uninstall() {
-  drupal_uninstall_schema('xmlsync');
+  $ret = drupal_uninstall_schema('xmlsync');
+  return $ret;
 }
-  
+
+function xmlsync_update_6100() {
+  $ret = array();
+  db_add_field($ret, 'xmlsync', 'update_frequency',
+    array('type' => 'int', 'not null' => TRUE, 'unsigned' => TRUE, 'default' => 60));
+  db_change_field($ret, 'xmlsync', 'last_sync', 'last_sync',
+    array('type' => 'int', 'not null' => TRUE, 'unsigned' => TRUE, 'default' => 0));
+  return $ret;
+}
