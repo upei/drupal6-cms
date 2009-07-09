@@ -58,3 +58,7 @@ li.front-image-selector:hover {
 
 /* 906 front page news tabs */
 .front-page-news-tabs .tab-list li.selected a { background-color: #666; color: #fff; }
+
+/* views table */
+.views-table .odd { background-color: #eee; }
+.views-table .even { background-color: #fff; }

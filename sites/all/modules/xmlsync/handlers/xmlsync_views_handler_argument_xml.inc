@@ -36,13 +36,11 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
       '#type' => 'textfield',
       '#title' => t('XPath query'),
       '#default_value' => $this->options['xpath'],
-      '#weight' => -5,
     );
     $form['operator'] = array(
       '#type' => 'select',
       '#title' => t('Operator'),
       '#default_value' => $this->options['operator'],
-      '#weight' => -3,
       '#options' => array(
         'op_starts' => t('Starts with'),
         'op_ends' => t('Ends with'),
@@ -62,10 +60,7 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
 
   function query() {
     $arguments = $this->argument;
-    if (!empty($this->options['transform_dash'])) {
-      $argument = strtr($argument, '-', ' ');
-    }
-    
+   
     $this->ensure_my_table();
     $field = "$this->table_alias.$this->real_field";
 
@@ -79,6 +74,9 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
       $group = 0;
     }
     foreach ($arguments as $id => $argument) {
+      if (!empty($this->options['transform_dash'])) {
+        $argument = strtr($argument, '-', ' ');
+      }
       if (empty($this->options['operator'])) {
         op_equal($group, $field, filter_xss_admin($this->options['xpath']), $argument);
       }
