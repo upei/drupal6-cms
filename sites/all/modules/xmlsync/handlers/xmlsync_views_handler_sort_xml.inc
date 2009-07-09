@@ -18,7 +18,7 @@ class xmlsync_views_handler_sort_xml extends views_handler_sort {
       return t('Broken field data. Unsupported database type.');
     }   
     else {
-      return parent::ui_name($short) . t(': !xpath', array('!xpath' => $this->options['xpath']));
+      return parent::ui_name($short) . t(': !xpath', array('!xpath' => filter_xss_admin($this->options['xpath'])));
     }   
   }
 
@@ -59,7 +59,7 @@ class xmlsync_views_handler_sort_xml extends views_handler_sort {
     //       because views_query does not handle formulas very well.
     //       needs to use _db_query_callback to encode parameters correctly.
     $query = "CAST(EXTRACTVALUE(%s, '%s') AS %s)";
-    $args = array($field, $this->options['xpath'], $this->options['cast_as']);
+    $args = array($field, filter_xss_admin($this->options['xpath']), $this->options['cast_as']);
     _db_query_callback($args, TRUE);
     $query = preg_replace_callback(DB_QUERY_REGEXP, '_db_query_callback', $query);
     $this->query->orderby[] = "$query " . strtoupper($this->options['order']);

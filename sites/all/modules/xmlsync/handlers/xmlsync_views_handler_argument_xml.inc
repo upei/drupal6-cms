@@ -18,7 +18,7 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
       return t('Broken field data. Unsupported database type.');
     }   
     else {
-      return parent::ui_name($short) . t(': !xpath', array('!xpath' => $this->options['xpath']));
+      return parent::ui_name($short) . t(': !xpath', array('!xpath' => filter_xss_admin($this->options['xpath'])));
     }   
   }
 
@@ -80,10 +80,10 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
     }
     foreach ($arguments as $id => $argument) {
       if (empty($this->options['operator'])) {
-        op_equal($group, $field, $this->options['xpath'], $argument);
+        op_equal($group, $field, filter_xss_admin($this->options['xpath']), $argument);
       }
       else {
-        $this->{$this->options['operator']}($group, $field, $this->options['xpath'], $argument);
+        $this->{$this->options['operator']}($group, $field, filter_xss_admin($this->options['xpath']), $argument);
       }
     }
   }

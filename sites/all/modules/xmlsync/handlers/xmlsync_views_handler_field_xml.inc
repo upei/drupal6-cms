@@ -7,7 +7,7 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
       return t('Broken field data. Unsupported database type.');
     }
     else {
-      return parent::ui_name($short) . t(': !xpath', array('!xpath' => $this->options['xpath']));
+      return parent::ui_name($short) . t(': !xpath', array('!xpath' => filter_xss_admin($this->options['xpath'])));
     }
   }
 
@@ -45,14 +45,15 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
         '',
         '_',
       ),
-      $this->options['xpath']
+      filter_xss_admin($this->options['xpath'])
     );
   }
 
   function query() {
+    $xpath = filter_xss_admin($this->options['xpath']);
     $this->ensure_my_table();
     $this->query->fields[$this->field_alias] = array(
-      'field' => "EXTRACTVALUE($this->table_alias.$this->real_field, '{$this->options['xpath']}')",
+      'field' => "EXTRACTVALUE($this->table_alias.$this->real_field, '$xpath')",
       'table' => NULL,
       'alias' => $this->field_alias,
     );

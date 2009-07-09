@@ -18,7 +18,7 @@ class xmlsync_views_handler_filter_xml extends views_handler_filter {
       return t('Broken field data. Unsupported database type.');
     }   
     else {
-      return parent::ui_name($short) . t(': !xpath', array('!xpath' => $this->options['xpath']));
+      return parent::ui_name($short) . t(': !xpath', array('!xpath' => filter_xss_admin($this->options['xpath'])));
     }   
   }
 
@@ -178,21 +178,21 @@ class xmlsync_views_handler_filter_xml extends views_handler_filter {
   function op_contains($field, $upper, $cast_as) {
     $this->query->add_where($this->options['group'],
       "$upper(CAST(EXTRACTVALUE(%s, '%s') AS $cast_as)) LIKE $upper(CONCAT('%%', CAST('%s' AS $cast_as), '%%'))",
-      $field, $this->options['xpath'], $this->value
+      $field, filter_xss_admin($this->options['xpath']), $this->value
     );
   }
 
   function op_starts($field, $upper, $cast_as) {
     $this->query->add_where($this->options['group'],
       "$upper(CAST(EXTRACTVALUE(%s, '%s') AS $cast_as)) LIKE $upper(CONCAT(CAST('%s' AS $cast_as), '%%'))",
-      $field, $this->options['xpath'], $this->value
+      $field, filter_xss_admin($this->options['xpath']), $this->value
     );
   }
 
   function op_ends($field, $upper, $cast_as) {
     $this->query->add_where($this->options['group'],
       "$upper(CAST(EXTRACTVALUE(%s, '%s') AS $cast_as)) LIKE $upper(CONCAT('%%', CAST('%s' AS $cast_as)))",
-      $field, $this->options['xpath'], $this->value
+      $field, filter_xss_admin($this->options['xpath']), $this->value
     );
   }
 
@@ -200,7 +200,7 @@ class xmlsync_views_handler_filter_xml extends views_handler_filter {
     $binary = $upper != 'UPPER' ? '' : 'BINARY ';
     $this->query->add_where($this->options['group'],
       "EXTRACTVALUE(%s, '%s') $this->operator $binary'%s'",
-      $field, $this->options['xpath'], $this->value
+      $field, filter_xss_admin($this->options['xpath']), $this->value
     );
   }
 }
