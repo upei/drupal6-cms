@@ -7,6 +7,9 @@ function xmlsync_schema() {
       'nid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
       'vid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
       'xmltype' => array('type' => 'varchar', 'length' => 20, 'not null' => TRUE, 'default' => ''),
+      'xml_title' => array('type' => 'text'),
+      'xml_description' => array('type' => 'text'),
+      'entity_count' => array('type' => 'int', 'not null' => TRUE, 'unsigned' => TRUE, 'default' => 0),
       'url' => array('type' => 'text'),
       'update_frequency' => array('type' => int, 'not null' => TRUE, 'default' => 60),
       'last_sync' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
@@ -32,6 +35,9 @@ function xmlsync_schema() {
       'index3_value' => array('type' => 'varchar', 'length' => 255),
       'index4_name' => array('type' => 'varchar', 'length' => 30),
       'index4_value' => array('type' => 'varchar', 'length' => 255),
+      'entity_id' => array('type' => 'varchar', 'length' => 50, 'default' => ''),
+      'entity_title' => array('type' => 'text'),
+      'entity_description' => array('type' => 'text'),
       'data' => array('type' => 'text', 'size' => 'big'),
     ),
     'primary key' => array('xid'),
@@ -60,11 +66,22 @@ function xmlsync_uninstall() {
   return $ret;
 }
 
-function xmlsync_update_6100() {
+function xmlsync_update_6000() {
   $ret = array();
   db_add_field($ret, 'xmlsync', 'update_frequency',
     array('type' => 'int', 'not null' => TRUE, 'unsigned' => TRUE, 'default' => 60));
   db_change_field($ret, 'xmlsync', 'last_sync', 'last_sync',
     array('type' => 'int', 'not null' => TRUE, 'unsigned' => TRUE, 'default' => 0));
+  return $ret;
+}
+
+function xmlsync_update_6001() {
+  $ret = array();
+  db_add_field($ret, 'xmlsync', 'xml_title', array('type' => 'text'));
+  db_add_field($ret, 'xmlsync', 'xml_description', array('type' => 'text'));
+  db_add_field($ret, 'xmlsync', 'entity_count', array('type' => 'int', 'not null' => TRUE, 'unsigned' => TRUE, 'default' => 0));
+  db_add_field($ret, 'xmlsync_entities', 'entity_id', array('type' => 'varchar', 'length' => 50, 'default' => ''));
+  db_add_field($ret, 'xmlsync_entities', 'entity_title', array('type' => 'text'));
+  db_add_field($ret, 'xmlsync_entities', 'entity_description', array('type' => 'text'));
   return $ret;
 }

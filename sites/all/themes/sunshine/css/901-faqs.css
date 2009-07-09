@@ -1,5 +1,5 @@
 /*Add the styles for the faq page and block!!! April 28, 2009 S.A.*/
-#block-views-faqs-block_1 .view-faqs .views-row-odd, #block-views-faqs-block_1 .view-faqs .views-row-even {
+.block .view-faqs .views-row-odd, .block .view-faqs .views-row-even {
   padding: 5px 5px 0px 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;

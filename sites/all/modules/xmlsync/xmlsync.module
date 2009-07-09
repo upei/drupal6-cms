@@ -121,6 +121,7 @@ function xmlsync_validate($node) {
 }
 
 function xmlsync_insert($node) {
+  _xmlsync_extract_content($node);
   drupal_write_record('xmlsync', $node);
   // insert new xmlsync entities
   foreach ($node->entities as $entity) {
@@ -158,13 +159,15 @@ function _xmlsync_extract_content(&$node) {
   $doc = simplexml_load_string($node->body);
   if (!$doc) {
     form_set_error('body', t('XML content is not well-formed.'));
+    return;
   }
 
+  $feed = $doc->xpath('/feed');
+  $feed = $feed[0];
+  $attr = $feed->attributes();
   // update title if no title is provided
   if (empty($node->title)) {
-    $feed = $doc->xpath('/feed[@title]');
     if ($feed) {
-      $attr = $feed[0]->attributes();
       $title = $attr['title'];
     }
     if (empty($title)) {
@@ -172,6 +175,9 @@ function _xmlsync_extract_content(&$node) {
     }
     $node->title = $title;
   }
+  $node->xml_title = $attr['title'];
+  $node->xml_description = $attr['description'];
+  $node->entity_count = $attr['total'];
   
   // get all indexes
   $keys = $doc->xpath('/feed/indexes/key');
@@ -189,9 +195,13 @@ function _xmlsync_extract_content(&$node) {
       $rec->$name = $key;
       $v = $entity->xpath("$key");
       $rec->$value = strval($v[0]);
-      
     }
     $rec->data = $entity->data->asXML();
+    // grab attributes
+    $attr = $entity->attributes();
+    $rec->entity_id = $attr['id'];
+    $rec->entity_title = $attr['title'];
+    $rec->entity_description = $attr['description'];
     // add the record to node
     $node->entities[] = $rec;
   }
