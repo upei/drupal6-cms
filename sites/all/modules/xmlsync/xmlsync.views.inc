@@ -1,5 +1,7 @@
 <?php
 
+// $Id: xmlsync.views.inc,v 1.2 2009/07/13 14:03:32 gzfelix Exp $
+
 function xmlsync_views_handlers() {
   return array(
     'info' => array(
@@ -84,7 +86,7 @@ function xmlsync_views_data() {
     ),
   );
 
-  $data['xmlsync_entities']['table']['group'] = t('XML Synchronym Entity');
+  $data['xmlsync_entities']['table']['group'] = t('XML Synchronym Record');
   $data['xmlsync_entities']['table']['join'] = array(
     'node' => array(
       'left_field' => 'vid',
@@ -103,7 +105,7 @@ function xmlsync_views_data() {
   );
   $data['xmlsync_entities']['data'] = array(
     'title' => t('Data'),
-    'help' => t('An entity of XML sync'),
+    'help' => t('A record of XMLSynchronym'),
     'field' => array(
       'handler' => 'xmlsync_views_handler_field_xml',
       'click sortable' => TRUE,
