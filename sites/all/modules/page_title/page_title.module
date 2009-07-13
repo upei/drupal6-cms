@@ -1,5 +1,5 @@
 <?php
-// $Id: page_title.module,v 1.18.2.12 2009/06/11 09:20:03 njt1982 Exp $
+// $Id: page_title.module,v 1.18.2.15 2009/06/17 15:03:07 njt1982 Exp $
 
 /**
  * @file
@@ -89,7 +89,8 @@ function page_title_theme() {
  * Updates settings after a node type change.
  */
 function page_title_node_type($op, $info) {
-  if ($op == 'update' && !empty($info->old_type) and $info->type != $info->old_type) {
+  // Handle a content type rename
+  if ($op == 'update' && !empty($info->old_type) && $info->type != $info->old_type) {
     // Load the old node type settings.
     $temp = variable_get('page_title_type_'. $info->old_type, '');
 
@@ -99,15 +100,21 @@ function page_title_node_type($op, $info) {
     }
 
     // Delete the old setting
-    variable_del('page_title_type_'. $info-old_type);
-
+    variable_del('page_title_type_'. $info->old_type);
 
     // Essentially, do the same as above but with the _showfield suffix for the node type
     $temp = variable_get('page_title_type_'. $info->old_type .'_showfield', 0);
     if ($temp) {
       variable_set('page_title_type_'. $info->type .'_showfield', $temp);
     }
-    variable_del('page_title_type_'. $info-old_type .'_showfield');
+    variable_del('page_title_type_'. $info->old_type .'_showfield');
+
+  }
+
+  // If deleted, remove the variables
+  if ($op == 'delete') {
+    variable_del('page_title_type_'. $info->type);
+    variable_del('page_title_type_'. $info->type .'_showfield');
   }
 }
 
@@ -163,6 +170,47 @@ function page_title_form_alter(&$form, $form_state, $form_id) {
       );
     }
   }
+  elseif ($form_id == 'node_type_form') {
+    $form['page_title'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Page Title Settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+
+    $form['page_title']['show_field'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Page Title Field'),
+      '#description' => t('If checked, the <em>Page Title</em> field will appear on the node edit form for those who have permission to set the title.'),
+      '#options' => array(
+        'show_field' => t('Show field'),
+      ),
+      '#default_value' => array('show_field' => variable_get('page_title_type_'. $form['#node_type']->type .'_showfield', 0) ? 'show_field' : 0),
+    );
+
+    $form['page_title']['pattern'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Page Title Pattern'),
+      '#default_value' => variable_get('page_title_type_'. $form['#node_type']->type, ''),
+      '#description' => t('Enter the <em>Page Title</em> pattern you want to use for this node type. For more information, please use the !link settings page', array('!link' => l('Page Title', 'admin/content/page_title'))),
+    );
+
+    $form['#submit'][] = 'page_title_node_type_form_submit';
+  }
+}
+
+
+/**
+ * Submite handler for the node_type_form element added in the hook_form_alter() above.
+ */
+function page_title_node_type_form_submit($form, &$form_state) {
+  $show_field = $form_state['values']['page_title']['show_field']['show_field'] ? 1 : 0;
+  variable_set('page_title_type_'. $form_state['values']['type'] .'_showfield', $show_field);
+  variable_set('page_title_type_'. $form_state['values']['type'], $form_state['values']['page_title']['pattern']);
+
+  // For some reason the node module adds the fieldset as a separate entry in the variables table... we dont want this!
+  variable_del('page_title_'. $form_state['values']['type']);
 }
 
 
@@ -445,4 +493,24 @@ function page_title_token_list($type = 'all') {
  */
 function page_title_preprocess_page(&$vars) {
   $vars['head_title'] = page_title_page_get_title();
+}
+
+
+/**
+ * Implementation of hook_content_extra_fields().
+ *
+ * This allows CCK to control the weight of the Page Title element as a "non-cck field"
+ */
+function page_title_content_extra_fields($type_name) {
+  $extra = array();
+
+  if (variable_get('page_title_type_'. $type_name .'_showfield', 0)) {
+    $extra['page_title'] = array(
+      'label' => t('Page Title'),
+      'description' => t('Page Title form.'),
+      'weight' => -4
+    );
+  }
+
+  return $extra;
 }
