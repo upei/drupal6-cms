@@ -1,5 +1,7 @@
 <?php
 
+// $Id: xmlsync_views_handler_field_xml.inc,v 1.2 2009/07/13 14:03:32 gzfelix Exp $
+
 class xmlsync_views_handler_field_xml extends views_handler_field {
 
   function ui_name($short = FALSE) {

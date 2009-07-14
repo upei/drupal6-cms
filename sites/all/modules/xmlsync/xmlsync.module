@@ -1,5 +1,34 @@
 <?php
 
+// $Id: xmlsync.module,v 1.2 2009/07/13 14:03:32 gzfelix Exp $
+
+function xmlsync_requirements($phase) {
+  $requirements = array();
+  // get translation
+  $t = get_t();
+
+  // check requirements
+  if ($phase == 'install' || $phase == 'runtime') {
+    $v = db_fetch_object(db_query("SELECT VERSION() AS version"));
+    if (!preg_match("/^(5\.1|[6-9])/", $v->version)) {
+      $requirements['mysql'] = array(
+        'title' => $t('MySQL'),
+        'value' => $t('MySQL 5.1 or above is required, but !version is provided.', array('!version'=>$v->version)),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+    else {
+      $requirements['mysql'] = array(
+        'title' => $t('MySQL'),
+        'value' => $t('MySQL !version is installed.', array('!version' => $v->version)),
+        'severity' => REQUIREMENT_INFO,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
 function xmlsync_perm() {
   return array('administer xmlsync');
 }

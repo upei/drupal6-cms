@@ -1,5 +1,7 @@
-name = XML sync
+; $Id: xmlsync.info,v 1.2 2009/07/13 14:04:58 gzfelix Exp $
+name = XML synchonrizer
 description = Synchronize XML information
 package = XML manager
 core = 6.x
 php = 5.1
+dependencies[] = views

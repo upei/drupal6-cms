@@ -1,7 +1,7 @@
 /* fontface */
 @font-face { font-family: Gentium; src: url("../fonts/GenBasR.ttf"); }
 @font-face { font-family: Gentium; font-weight: bold; src: url("../fonts/GenBasB.ttf"); }
-@font-face { font-family: Gentium; font-style: italic; src: url("../fonts/GenBasRI.ttf"); }
+@font-face { font-family: Gentium; font-style: italic; src: url("../fonts/GenBasI.ttf"); }
 @font-face { font-family: Gentium; font-weight: bold; font-style: italic; src: url("../fonts/GenBasBI.ttf"); }
 
 body {
