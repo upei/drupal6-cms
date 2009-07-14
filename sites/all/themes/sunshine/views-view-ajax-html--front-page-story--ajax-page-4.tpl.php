@@ -1,0 +1,1 @@
+views-view-ajax-html--front-page-story--ajax-page-2.tpl.php
