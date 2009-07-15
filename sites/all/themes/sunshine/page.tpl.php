@@ -26,7 +26,7 @@
   <div style="clear:both"></div>
 </div>
 <?php include 'site-includes/02.100-suckerfish.php'; ?>
-<div id="page" class="page-<?=$node->type?>">
+<div id="page" class="<?=$is_front ? "page-front " : ""?>page-<?=$node->type?>">
   <?php include 'site-includes/02-page.tpl.php'; ?>
   <div style="clear:both"></div>
 </div>
