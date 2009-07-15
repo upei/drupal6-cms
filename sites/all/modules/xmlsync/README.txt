@@ -1,4 +1,4 @@
-// $Id: README.txt,v 1.1 2009/07/13 14:01:16 gzfelix Exp $
+// $Id: README.txt,v 1.2 2009/07/13 17:54:21 gzfelix Exp $
 
 CONTENTS OF THIS FILE
 ---------------------
@@ -18,8 +18,9 @@ Current Maintainer: Yuxing Huang <yxh@webinit.org>
 XMLSync is a module to synchronize record-based XML documents with Drupal. It
 reads a format-specified record-based well-formed XML document into a Drupal
 node XMLSyncrhonym, and parses records in the XML document into XMLSyncrhonym
-entities. A XMLSynchronym is a Drupal node that has many synchronym records.
+records. A XMLSynchronym is a Drupal node that has many synchronym records.
 
+This module is part of UPEI (upei.ca) Drupal contributions to the community.
 
 INSTALLATION
 ------------

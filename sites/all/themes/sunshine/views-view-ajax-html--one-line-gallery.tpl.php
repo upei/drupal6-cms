@@ -31,7 +31,7 @@
         });
         //$('.front-page-gallery .items div[rel]').overlay();
         $('div.scrollable').scrollable({
-          size: 8,
+          size: <?= arg(3) ? intval(arg(3)): '8' ?>,
           loop: true
         });
       });
