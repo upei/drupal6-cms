@@ -13,16 +13,24 @@
           </li>
         </ul>
       </div>
+    <!--
     <?php if ($links): ?>
       <div class="links"><?php print $links; ?></div>
     <?php endif; ?>
+    -->
     </fieldset>
   </div>
   <div class="content">
     <? if ($page == 0): ?>
     <h2 class="title"><a href="<?=$node_url?>"><?=$title?></a></h2>
     <? endif; ?>
-    <div class="date">Posted on <?php print date('l, j F, Y', $created); ?></div>
+    <div class="date">Posted on <?php print date('l, j F Y', $created); ?>
+<div style="display: block; float: right;">
+<!-- AddThis Button BEGIN -->
+<a href="http://www.addthis.com/bookmark.php?v=250&pub=xa-4a5b85f028866018" onmouseover="return addthis_open(this, '', '[URL]', '[TITLE]')" onmouseout="addthis_close()" onclick="return addthis_sendto()"><img style="margin: 0;" src="http://s7.addthis.com/static/btn/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a5b85f028866018"></script>
+<!-- AddThis Button END -->
+</div>
+</div>
     <div class="body">
     <?php
       // filter out unneccessary p tags

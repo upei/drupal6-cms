@@ -13,9 +13,9 @@ else {
   <source src="<?=$rows[0]['ogg']?>" type="video/ogg" />
   <source src="<?=$rows[0]['video']?>" type="video/mp4" />
   <object width="<?=$width?>" height="<?=$height?>" type="application/x-shockwave-flash"
-  data="http://cms.upei.ca/media/sites/all/modules/swftools/shared/flash_media_player/player.swf" flashvars="width=<?=$width?>&amp;height=<?=$height?>&amp;shuffle=false&amp;autostart=false&amp;skin=/misc/modieus/modieus.swf&amp;repeat=list&amp;playlist=none&amp;controlbar=bottom&amp;accessible_visible=1&amp;file=<?=urlencode($rows[0]['video'])?>&amp;image=<?=urlencode($rows[0]['cover'])?>"
+  data="http://cms.upei.ca/media/sites/all/modules/swftools/shared/flash_media_player/player.swf" flashvars="streamer=lighttpd&amp;width=<?=$width?>&amp;height=<?=$height?>&amp;shuffle=false&amp;autostart=false&amp;skin=/misc/modieus/modieus.swf&amp;repeat=list&amp;playlist=none&amp;controlbar=bottom&amp;accessible_visible=1&amp;file=<?=urlencode($rows[0]['video'])?>&amp;image=<?=urlencode($rows[0]['cover'])?>"
   > <param name="movie" value="http://cms.upei.ca/media/sites/all/modules/swftools/shared/flash_media_player/player.swf" />
-  <param name="flashvars" value="width=<?=$width?>&amp;height=<?=$height?>&amp;shuffle=false&amp;autostart=false&amp;skin=/misc/modieus/modieus.swf&amp;repeat=list&amp;playlist=none&amp;controlbar=bottom&amp;accessible_visible=1&amp;file=<?=urlencode($rows[0]['video'])?>&amp;image=<?=urlencode($rows[0]['cover'])?>" />
+  <param name="flashvars" value="streamer=lighttpd&amp;width=<?=$width?>&amp;height=<?=$height?>&amp;shuffle=false&amp;autostart=false&amp;skin=/misc/modieus/modieus.swf&amp;repeat=list&amp;playlist=none&amp;controlbar=bottom&amp;accessible_visible=1&amp;file=<?=urlencode($rows[0]['video'])?>&amp;image=<?=urlencode($rows[0]['cover'])?>" />
     <!--[if gt IE 6]>
     <object width="<?=$width?>" height="<?=$height?>" classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B">
       <param name="src" value="<?=$rows[0]['video']?>" /><!

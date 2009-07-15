@@ -12,7 +12,7 @@ foreach ($rows as $row) {
 ?>
 <?
 $content = str_replace("'", "\\'", swf($playlist,
-    array('flashvars' => array( 'playlist' => 'over', 'autostart' => 'false', 'width' => $width, 'height' => $height), 'methods' => array('embed' => SWFTOOLS_NOJAVASCRIPT))
+    array('flashvars' => array( 'streamer' => 'lighttpd', 'playlist' => 'over', 'autostart' => 'false', 'width' => $width, 'height' => $height), 'methods' => array('embed' => SWFTOOLS_NOJAVASCRIPT))
   ));
 $content = explode("\n", $content);
 $content = "'" . join("' + \n'", $content) . "'";

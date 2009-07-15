@@ -40,7 +40,7 @@
     <? if ($page == 0): ?>
     <h2 class="title"><a href="<?=$node_url?>"><?=$title?></a></h2>
     <? endif; ?>
-    <div class="date">Posted on <?php print date('l, j F, Y', $created); ?></div>
+    <div class="date">Posted on <?php print date('l, j F Y', $created); ?></div>
     <div class="field field-field-image"><?= $field_image[1]['view'] ?></div>
     <div class="field field-field-image-data-title"><?= $field_image[1]['data']['title'] ?></div>
     <div class="body">
