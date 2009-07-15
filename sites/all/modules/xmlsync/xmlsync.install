@@ -15,6 +15,8 @@ function xmlsync_schema() {
       'url' => array('type' => 'text'),
       'update_frequency' => array('type' => int, 'not null' => TRUE, 'default' => 60),
       'last_sync' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+      'record_template_name' => array('type' => 'varchar', 'length' => 50, 'not null' => TRUE, 'default' => ''),
+      'record_alias_template' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
     ),
     'primary key' => array('nid', 'vid'),
     'nid' => array('nid'),
@@ -85,5 +87,14 @@ function xmlsync_update_6001() {
   db_add_field($ret, 'xmlsync_entities', 'entity_id', array('type' => 'varchar', 'length' => 50, 'default' => ''));
   db_add_field($ret, 'xmlsync_entities', 'entity_title', array('type' => 'text'));
   db_add_field($ret, 'xmlsync_entities', 'entity_description', array('type' => 'text'));
+  return $ret;
+}
+
+function xmlsync_update_6002() {
+  $ret = array();
+  db_add_field($ret, 'xmlsync', 'record_template_name',
+    array('type' => 'varchar', 'length' => 50, 'not null' => TRUE, 'default' => 'xmlsync-record'));
+  db_add_field($ret, 'xmlsync', 'record_alias_template',
+    array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''));
   return $ret;
 }

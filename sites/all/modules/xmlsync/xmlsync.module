@@ -9,7 +9,7 @@ function xmlsync_requirements($phase) {
 
   // check requirements
   if ($phase == 'install' || $phase == 'runtime') {
-    $v = db_fetch_object(db_query("SELECT VERSION() AS version"));
+    $v = db_fetch_object(db_query(db_rewrite_sql("SELECT VERSION() AS version")));
     if (!preg_match("/^(5\.1|[6-9])/", $v->version)) {
       $requirements['mysql'] = array(
         'title' => $t('MySQL'),
@@ -101,6 +101,18 @@ function xmlsync_form(&$node) {
     '#maxlength' => 5,
     '#default_value' => $node->update_frequency,
   );
+
+  $form['record_template_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Record template name'),
+    '#default_value' => $node->record_template_name,
+  );
+
+  $form['record_alias_template'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Record alias template'),
+    '#default_value' => $node->record_alias_template,
+  );
   
   return $form;
 }
@@ -115,7 +127,7 @@ function xmlsync_access($op, $node, $account) {
 }
 
 function xmlsync_load($node) {
-  $additions = db_fetch_object(db_query('SELECT * FROM {xmlsync} WHERE nid=%d AND vid=%d', $node->nid, $node->vid));
+  $additions = db_fetch_object(db_query(db_rewrite_sql('SELECT * FROM {xmlsync} WHERE nid=%d AND vid=%d'), $node->nid, $node->vid));
   return $additions;
 }
 
@@ -129,8 +141,8 @@ function xmlsync_nodeapi(&$node, $op) {
       _xmlsync_extract_content($node);
       break;
     case 'delete revision':
-      db_query('DELETE FROM {xmlsync} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
-      db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
+      db_query(db_rewrite_sql('DELETE FROM {xmlsync} WHERE nid=%d AND vid=%d'), $node->nid, $node->vid);
+      db_query(db_rewrite_sql('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d'), $node->nid, $node->vid);
       break;
   }
   }
@@ -155,6 +167,7 @@ function xmlsync_insert($node) {
   // insert new xmlsync entities
   foreach ($node->entities as $entity) {
     drupal_write_record('xmlsync_entities', $entity);
+    _xmlsync_create_alias($node, $record);
   }
 }
 
@@ -162,11 +175,47 @@ function xmlsync_update($node) {
   $node->revision = false;
   drupal_write_record('xmlsync', $node, array('nid', 'vid'));
   // update new xmlsync entities by delete all of them then reinsert
-  db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d', $node->nid, $node->vid);
+  _xmlsync_delete_aliases($node);
+  db_query(db_rewrite_sql('DELETE FROM {xmlsync_entities} WHERE nid=%d AND vid=%d'), $node->nid, $node->vid);
   // insert
-  foreach ($node->entities as $entity) {
-    drupal_write_record('xmlsync_entities', $entity);
+  foreach ($node->entities as $record) {
+    drupal_write_record('xmlsync_entities', $record);
+    _xmlsync_create_alias($node, $record);
   }
+}
+
+function _xmlsync_create_alias($node, $record) {
+  _pathauto_include();
+  // get the doc data
+  $doc = simplexml_load_string($record->data);
+  // grep all replacements in the node
+  if(preg_match_all('#(\[([^\]]+)\])#u', $node->record_alias_template, $matches)) {
+    $patterns = $matches[1];
+    $xpaths = $matches[2];
+    $replacments = array();
+    // get the result
+    foreach($xpaths as $xpath) {
+      $s = array_pop($doc->xpath($xpath));
+      // check NULL if needed
+      if (NULL == $s) $s = '';
+      // update replacement patterns
+      $replacements[] = strtolower(pathauto_cleanstring($s));
+    }
+  }
+  // replace token patterns, clean the alias up, and trim opening and ending slashes
+  $alias = preg_replace('#(^/+|/+$)#', '',
+    pathauto_cleanstring(
+      str_replace($patterns, $replacements, $node->record_alias_template),
+      FALSE)
+    );
+
+  // lookup the path to check if it exists
+  if (drupal_lookup_path('source', $alias)) {
+    $index = 0;
+    while (drupal_lookup_path('source', $alias . '-' . ++$index)) ;
+    $alias = $alias . '-' . $index;
+  }
+  path_set_alias('xmlsync/record/' . $record->xid, $alias);
 }
 
 function _xmlsync_update_url_content(&$node) {
@@ -191,8 +240,7 @@ function _xmlsync_extract_content(&$node) {
     return;
   }
 
-  $feed = $doc->xpath('/feed');
-  $feed = $feed[0];
+  $feed = array_pop($doc->xpath('/feed'));
   $attr = $feed->attributes();
   // update title if no title is provided
   if (empty($node->title)) {
@@ -222,8 +270,7 @@ function _xmlsync_extract_content(&$node) {
       $name = 'index' . $id . '_name';
       $value = 'index' . $id . '_value';
       $rec->$name = $key;
-      $v = $entity->xpath("$key");
-      $rec->$value = strval($v[0]);
+      $rec->$value = strval(array_pop($entity->xpath("$key")));
     }
     $rec->data = $entity->data->asXML();
     // grab attributes
@@ -244,15 +291,26 @@ function xmlsync_view($node, $teaser=FALSE, $page=FALSE) {
   return $node;
 }
 
+function _xmlsync_delete_aliases($node) {
+  // remove all xmlsync record alias
+  // get all xid
+  $result = db_query(db_rewrite_sql('SELECT xid FROM {xmlsync_entities} WHERE nid=%d'), $node->nid);
+  while ($record = db_fetch_object($result)) {
+    path_set_alias('xmlsync/record/' . $record->xid);
+  }
+  unset($result);
+}
+
 function xmlsync_delete($node) {
-  db_query('DELETE FROM {xmlsync} WHERE nid=%d', $node->nid);
+  db_query(db_rewrite_sql('DELETE FROM {xmlsync} WHERE nid=%d'), $node->nid);
+  _xmlsync_delete_aliases($node);
   // remove all from xmlsync entities
-  db_query('DELETE FROM {xmlsync_entities} WHERE nid=%d', $node->nid);
+  db_query(db_rewrite_sql('DELETE FROM {xmlsync_entities} WHERE nid=%d'), $node->nid);
 }
 
 function xmlsync_cron() {
   // get all nodes that needs to be updated
-  $result = db_query("SELECT nid FROM {xmlsync} WHERE UNIX_TIMESTAMP()>update_frequency*60+last_sync AND xmltype='url'");
+  $result = db_query(db_rewrite_sql("SELECT nid FROM {xmlsync} WHERE UNIX_TIMESTAMP()>update_frequency*60+last_sync AND xmltype='url'"));
   while($node = db_fetch_object($result)) {
     $node = node_load($node->nid);
     watchdog('cron', t("xmlsync node !nid: !title updated.<br />Update frequency: !freq minute(s).<br />Last sync: !last_sync."),
@@ -265,3 +323,45 @@ function xmlsync_cron() {
   }
 }
 
+function xmlsync_menu() {
+  $menu = array();
+  $menu['xmlsync/record/%'] = array(
+    'page callback' => 'xmlsync_record_view',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $menu;
+}
+
+function xmlsync_theme() {
+  $path = drupal_get_path('module', 'xmlsync');
+  require_once "./$path/theme/theme.inc";
+  // base array
+  $base = array(
+    'file' => "theme.inc",
+    'path' => "$path/theme",
+  );
+
+  $theme['xmlsync_record'] = $base + array(
+    'arguments' => array('node' => NULL, 'record' => NULL),
+    'template' => 'xmlsync-record',
+  );
+
+  return $theme;
+}
+
+function xmlsync_record_view($xid) {
+  // load node 
+  $record = db_fetch_object(db_query(db_rewrite_sql('SELECT * FROM {xmlsync_entities} WHERE xid=%d'), $xid));
+  if ($record) {
+    // load the related node
+    $node = node_load($record->nid);
+    // set the path alias
+    $record->path_alias = drupal_get_path_alias("xmlsync/record/{$record->xid}");
+    return theme('xmlsync_record', $node, $record);
+  }
+  else {
+    drupal_not_found();
+  }
+}
