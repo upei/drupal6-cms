@@ -5,4 +5,3 @@ package = XML manager
 core = 6.x
 php = 5.1
 dependencies[] = views
-dependencies[] = pathauto

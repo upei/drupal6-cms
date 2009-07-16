@@ -2,6 +2,8 @@
 
 // $Id: xmlsync.module,v 1.3 2009/07/13 17:54:21 gzfelix Exp $
 
+include_once './' . drupal_get_path('module', 'xmlsync') . '/xmlsync.inc';
+
 function xmlsync_requirements($phase) {
   $requirements = array();
   // get translation
@@ -167,8 +169,12 @@ function xmlsync_insert($node) {
   // insert new xmlsync entities
   foreach ($node->entities as $entity) {
     drupal_write_record('xmlsync_entities', $entity);
-    _xmlsync_create_alias($node, $record);
+    if (trim($node->record_alias_template)) {
+      _xmlsync_create_alias($node, $record);
+    }
   }
+  // rebuild theme registry
+  drupal_rebuild_theme_registry();
 }
 
 function xmlsync_update($node) {
@@ -180,108 +186,14 @@ function xmlsync_update($node) {
   // insert
   foreach ($node->entities as $record) {
     drupal_write_record('xmlsync_entities', $record);
-    _xmlsync_create_alias($node, $record);
-  }
-}
-
-function _xmlsync_create_alias($node, $record) {
-  _pathauto_include();
-  // get the doc data
-  $doc = simplexml_load_string($record->data);
-  // grep all replacements in the node
-  if(preg_match_all('#(\[([^\]]+)\])#u', $node->record_alias_template, $matches)) {
-    $patterns = $matches[1];
-    $xpaths = $matches[2];
-    $replacments = array();
-    // get the result
-    foreach($xpaths as $xpath) {
-      $s = array_pop($doc->xpath($xpath));
-      // check NULL if needed
-      if (NULL == $s) $s = '';
-      // update replacement patterns
-      $replacements[] = strtolower(pathauto_cleanstring($s));
+    if (trim($node->record_alias_template)) {
+      _xmlsync_create_alias($node, $record);
     }
   }
-  // replace token patterns, clean the alias up, and trim opening and ending slashes
-  $alias = preg_replace('#(^/+|/+$)#', '',
-    pathauto_cleanstring(
-      str_replace($patterns, $replacements, $node->record_alias_template),
-      FALSE)
-    );
-
-  // lookup the path to check if it exists
-  if (drupal_lookup_path('source', $alias)) {
-    $index = 0;
-    while (drupal_lookup_path('source', $alias . '-' . ++$index)) ;
-    $alias = $alias . '-' . $index;
-  }
-  path_set_alias('xmlsync/record/' . $record->xid, $alias);
+  // rebuild theme registry
+  drupal_rebuild_theme_registry();
 }
 
-function _xmlsync_update_url_content(&$node) {
-  if ($node->xmltype != 'url') {
-    return;
-  }
-  $ret = drupal_http_request($node->url);
-  if ($ret->error) {
-    form_set_error('url', $ret->error);
-  }
-  else {
-    $node->body = $ret->data;
-    $node->last_sync = time();
-  }
-}
-
-function _xmlsync_extract_content(&$node) {
-  // load simple xml element
-  $doc = simplexml_load_string($node->body);
-  if (!$doc) {
-    form_set_error('body', t('XML content is not well-formed.'));
-    return;
-  }
-
-  $feed = array_pop($doc->xpath('/feed'));
-  $attr = $feed->attributes();
-  // update title if no title is provided
-  if (empty($node->title)) {
-    if ($feed) {
-      $title = $attr['title'];
-    }
-    if (empty($title)) {
-      $title = t('XMLSync feed');
-    }
-    $node->title = $title;
-  }
-  $node->xml_title = $attr['title'];
-  $node->xml_description = $attr['description'];
-  $node->entity_count = $attr['total'];
-  
-  // get all indexes
-  $keys = $doc->xpath('/feed/indexes/key');
-  $keys = array_map('strval', $keys);
-  
-  $node->entities = array();  
-  // load all xml entities
-  foreach ($doc->xpath('/feed/node') as $key => $entity) {
-    $rec = new stdclass();
-    $rec->nid = $node->nid;
-    $rec->vid = $node->vid;
-    foreach ($keys as $id => $key) {
-      $name = 'index' . $id . '_name';
-      $value = 'index' . $id . '_value';
-      $rec->$name = $key;
-      $rec->$value = strval(array_pop($entity->xpath("$key")));
-    }
-    $rec->data = $entity->data->asXML();
-    // grab attributes
-    $attr = $entity->attributes();
-    $rec->entity_id = $attr['id'];
-    $rec->entity_title = $attr['title'];
-    $rec->entity_description = $attr['description'];
-    // add the record to node
-    $node->entities[] = $rec;
-  }
-}
 
 function xmlsync_view($node, $teaser=FALSE, $page=FALSE) {
   $node = node_prepare($node, $teaser);
@@ -289,23 +201,6 @@ function xmlsync_view($node, $teaser=FALSE, $page=FALSE) {
     '#value' => '<pre>' . check_plain($node->body) . '</pre>',
   );
   return $node;
-}
-
-function _xmlsync_delete_aliases($node) {
-  // remove all xmlsync record alias
-  // get all xid
-  $result = db_query(db_rewrite_sql('SELECT xid FROM {xmlsync_entities} WHERE nid=%d'), $node->nid);
-  while ($record = db_fetch_object($result)) {
-    path_set_alias('xmlsync/record/' . $record->xid);
-  }
-  unset($result);
-}
-
-function xmlsync_delete($node) {
-  db_query(db_rewrite_sql('DELETE FROM {xmlsync} WHERE nid=%d'), $node->nid);
-  _xmlsync_delete_aliases($node);
-  // remove all from xmlsync entities
-  db_query(db_rewrite_sql('DELETE FROM {xmlsync_entities} WHERE nid=%d'), $node->nid);
 }
 
 function xmlsync_cron() {
@@ -324,12 +219,18 @@ function xmlsync_cron() {
 }
 
 function xmlsync_menu() {
+  $base = array(
+    'file' => 'xmlsync.menu.inc',
+  );
   $menu = array();
-  $menu['xmlsync/record/%'] = array(
+
+  $menu['xmlsync/record/%'] = $base + array(
     'page callback' => 'xmlsync_record_view',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
+    'title callback' => '_xmlsync_record_page_get_title',
+    'title arguments' => array(2),
   );
   return $menu;
 }
@@ -339,29 +240,23 @@ function xmlsync_theme() {
   require_once "./$path/theme/theme.inc";
   // base array
   $base = array(
-    'file' => "theme.inc",
     'path' => "$path/theme",
+    'file' => 'theme.inc',
+    'theme paths' => array("$path/theme", path_to_theme()),
   );
 
   $theme['xmlsync_record'] = $base + array(
-    'arguments' => array('node' => NULL, 'record' => NULL),
     'template' => 'xmlsync-record',
+    'arguments' => array('node' => NULL, 'record' => NULL),
+    'pattern' => 'xmlsync_record__',
   );
 
   return $theme;
 }
 
-function xmlsync_record_view($xid) {
-  // load node 
-  $record = db_fetch_object(db_query(db_rewrite_sql('SELECT * FROM {xmlsync_entities} WHERE xid=%d'), $xid));
-  if ($record) {
-    // load the related node
-    $node = node_load($record->nid);
-    // set the path alias
-    $record->path_alias = drupal_get_path_alias("xmlsync/record/{$record->xid}");
-    return theme('xmlsync_record', $node, $record);
-  }
-  else {
-    drupal_not_found();
-  }
+function xmlsync_preprocess_page(&$vars) {
+  // get the node we're in
+  $node = _xmlsync_record_page_get_node();
+  $vars['node'] = $node;
 }
+
