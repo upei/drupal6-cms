@@ -78,10 +78,10 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
 
   function render($values) {
     if (empty($this->options['record_link'])) {
-      return $values->{$this->field_alias};
+      return html_entity_decode($values->{$this->field_alias});
     }
     else {
-      return l($values->{$this->field_alias}, drupal_get_path_alias('xmlsync/record/'.$values->xid));
+      return l(html_entity_decode($values->{$this->field_alias}), drupal_get_path_alias('xmlsync/record/'.$values->xid));
     }
   }
 
