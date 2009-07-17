@@ -49,6 +49,7 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
         'op_contains' => t('Contains'),
         'op_equals' => t('Is equal to'),
         'op_not_equals' => t('Is not equal to'),
+        'op_ignore' => t('Just ignore it'),
       ),
     );
     $form['multiple'] = array(
@@ -106,5 +107,9 @@ class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
 
   function op_contains($group, $field, $xpath, $argument) {
     $this->query->add_where($group, "EXTRACTVALUE(%s, '%s') LIKE '%%%s%%'", $field, $xpath, $argument);
+  }
+
+  function op_ignore($group, $field, $xpath, $argument) {
+    $this->query->add_where($group, "1");
   }
 }

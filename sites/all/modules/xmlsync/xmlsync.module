@@ -167,8 +167,8 @@ function xmlsync_insert($node) {
   _xmlsync_extract_content($node);
   drupal_write_record('xmlsync', $node);
   // insert new xmlsync entities
-  foreach ($node->entities as $entity) {
-    drupal_write_record('xmlsync_entities', $entity);
+  foreach ($node->entities as $record) {
+    drupal_write_record('xmlsync_entities', $record);
     if (trim($node->record_alias_template)) {
       _xmlsync_create_alias($node, $record);
     }

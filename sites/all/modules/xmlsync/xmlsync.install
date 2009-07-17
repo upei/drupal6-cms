@@ -26,7 +26,7 @@ function xmlsync_schema() {
   $schema['xmlsync_entities'] = array(
     'description' => t('XML sync entities table related to {xmlsync}'),
     'fields' => array(
-      'xid' => array('type' => 'serial', 'not null' => TRUE),
+      'xid' => array('type' => 'serial', 'size' => 'big', 'not null' => TRUE),
       'nid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
       'vid' => array('type' => 'int', 'not null' => TRUE, 'default' => -1),
       'index0_name' => array('type' => 'varchar', 'length' => 30),
@@ -96,5 +96,12 @@ function xmlsync_update_6002() {
     array('type' => 'varchar', 'length' => 50, 'not null' => TRUE, 'default' => 'xmlsync-record'));
   db_add_field($ret, 'xmlsync', 'record_alias_template',
     array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''));
+  return $ret;
+}
+
+function xmlsync_update_6003() {
+  $ret = array();
+  db_change_field($ret, 'xmlsync_entities', 'xid', 'xid',
+    array('type' => 'serial', 'size' => 'big', 'not null' => TRUE));
   return $ret;
 }
