@@ -16,6 +16,8 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
   function option_definition() {
     $options = parent::option_definition();
     $options['xpath'] = array('default' => '.');
+    $options['distinct'] => array('default' => '');
+    $options['record_link'] => array('default' => '');
     return $options;
   }
 
@@ -23,8 +25,13 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
     parent::options_form(&$form, &$form_state);
     $form['xpath'] = array(
       '#type' => 'textfield',
-      '#title' => 'XPath query',
+      '#title' => t('XPath query'),
       '#default_value' => $this->options['xpath'],
+    );
+    $form['record_link'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Link to the record'),
+      '#default_value' => $this->options['record_link'],
     );
     $form['distinct'] = array(
       '#type' => 'checkbox',
@@ -63,10 +70,19 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
     if (!empty($this->options['distinct'])) {
       $this->query->add_groupby($this->field_alias);
     }
+    // chec record link
+    if (!empty($this->options['record_link'])) {
+      $this->query->add_field(NULL, 'xid');
+    }
   }
 
   function render($values) {
-    return $values->{$this->field_alias};
+    if (empty($this->options['record_link'])) {
+      return $values->{$this->field_alias};
+    }
+    else {
+      return l($values->{$this->field_alias}, drupal_get_path_alias('xmlsync/record/'.$values->xid));
+    }
   }
 
   function get_render_tokens() {
