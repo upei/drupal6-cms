@@ -28,6 +28,9 @@ class xmlsync_views_handler_sort_xml extends views_handler_sort {
     $options = parent::option_definition();
     $options['xpath'] = array('default' => '.');
     $options['cast_as'] = array('default' => 'CHAR');
+    $options['date_format'] = array('default' => '%M %e, %Y');
+    $options['date_prefix'] = array('default' => '');
+    $options['date_suffix'] = array('default' => '');
     return $options;
   }
 
@@ -37,7 +40,6 @@ class xmlsync_views_handler_sort_xml extends views_handler_sort {
       '#type' => 'textfield',
       '#title' => t('XPath query'),
       '#default_value' => $this->options['xpath'],
-      '#weight' => -5,
     );
     $form['cast_as'] = array(
       '#type' => 'select',
@@ -48,8 +50,27 @@ class xmlsync_views_handler_sort_xml extends views_handler_sort {
         'CHAR' => t('Char'),
         'SIGNED' => t('Signed Integer'),
         'UNSIGNED' => t('Unsigned Integer'),
+        'DATE' => t('Date'),
       ),
-      '#weight' => -3,
+    );
+    $form['date']['#tree'] = TRUE;
+    $form['date']['date_format'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Date format'),
+      '#default_value' => $this->options['date_format'],
+      '#description' => t('Describe the date format of the date'),
+    );
+    $form['date']['date_prefix'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Date prefix'),
+      '#description' => t('Prefix added to the query'),
+      '#default_value' => $this->options['date_prefix'],
+    );
+    $form['date']['date_suffix'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Date suffix'),
+      '#description' => t('Suffix added to the query'),
+      '#default_value' => $this->options['date_suffix'],
     );
   }
 
@@ -60,8 +81,19 @@ class xmlsync_views_handler_sort_xml extends views_handler_sort {
     // FIXME hack views_query->orderby[] directly instead of using views_query->add_orderby
     //       because views_query does not handle formulas very well.
     //       needs to use _db_query_callback to encode parameters correctly.
-    $query = "CAST(EXTRACTVALUE(%s, '%s') AS %s)";
-    $args = array($field, filter_xss_admin($this->options['xpath']), $this->options['cast_as']);
+    if ($this->options['cast_as'] == 'DATE') {
+      $query = "UNIX_TIMESTAMP(STR_TO_DATE(CONCAT('%s',EXTRACTVALUE(%s, '%s'),'%s'), '%s'))";
+      $args = array(filter_xss_admin($this->options['date_prefix']),
+        $field,
+        filter_xss_admin($this->options['xpath']),
+        filter_xss_admin($this->options['date_suffix']),
+        filter_xss_admin($this->options['date_format'])
+      );
+    }
+    else {
+      $query = "CAST(EXTRACTVALUE(%s, '%s') AS %s)";
+      $args = array($field, filter_xss_admin($this->options['xpath']), $this->options['cast_as']);
+    }
     _db_query_callback($args, TRUE);
     $query = preg_replace_callback(DB_QUERY_REGEXP, '_db_query_callback', $query);
     $this->query->orderby[] = "$query " . strtoupper($this->options['order']);

@@ -82,8 +82,8 @@ function xmlsync_form(&$node) {
     '#required' => TRUE,
     '#default_value' => $node->xmltype,
     '#options' => array(
-      'content' => t('Content'),
       'url' => t('URL'),
+      'content' => t('Content'),
     ),
     '#description' => t('Please choose XML type. <em>Content</em> will make use of the Content field. <em>URL</em> will make use of a remote XML file.'),
     '#weight' => -3,
