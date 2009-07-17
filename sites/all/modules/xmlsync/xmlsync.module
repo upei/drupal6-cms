@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync.module,v 1.3 2009/07/13 17:54:21 gzfelix Exp $
+// $Id: xmlsync.module,v 1.4 2009/07/17 14:28:10 gzfelix Exp $
 
 include_once './' . drupal_get_path('module', 'xmlsync') . '/xmlsync.inc';
 
@@ -114,7 +114,7 @@ function xmlsync_form(&$node) {
   $form['record_alias_template'] = array(
     '#type' => 'textfield',
     '#title' => t('Record alias template'),
-    '#description' => t('Leave this field blank to ignore creating aliases.'),
+    '#description' => t('Leave this field blank to ignore creating aliases. Token like [/xpath/query] will be replaced by the content from the query.'),
     '#default_value' => $node->record_alias_template,
   );
   

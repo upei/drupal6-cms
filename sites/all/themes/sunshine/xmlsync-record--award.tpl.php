@@ -13,7 +13,8 @@
  </tr>
  <tr>
  	<td style="width:200px;"><strong>Award Maximum:</strong></td>
-	<td><?=x($data, '/data/maximum-amount')?></td>
+  <td><?=x($data, '/data/maximum-amount') ?
+         x($data,'/data/maximum-amount') : t('To Be Determined')?></td>
  </tr>
  
  <tr>
@@ -22,11 +23,13 @@
  </tr>
   <tr>
  	<td><strong>Award Deadline:</strong></td>
-	<td><?=x($data,'/data/deadline')?></td>
+  <td><?=x($data,'/data/deadline') ?
+         x($data,'/data/deadline') : t('No Deadline')?></td>
  </tr>
   <tr>
  	<td><strong>Application Form:</strong></td>
-	<td><?=x($data,'/data/application-form-link') ? l(t('Application Form'), x($data,'/data/application-form-link')) : ''?></td>
+  <td><?=x($data,'/data/application-form-link') ?
+         l(t('Application Form'), x($data,'/data/application-form-link')) : t('No Application Form')?></td>
  </tr>
   <tr>
  	<td><strong>Award Faculty:</strong></td>

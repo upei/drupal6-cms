@@ -1,5 +1,7 @@
 <?php
 
+// $Id: theme.inc,v 1.1 2009/07/17 14:28:10 gzfelix Exp $
+
 function template_preprocess_xmlsync_record(&$vars) {
   // enable simplexml object
   $vars['data'] = simplexml_load_string($vars['record']->data);

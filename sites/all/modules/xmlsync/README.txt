@@ -1,4 +1,4 @@
-// $Id: README.txt,v 1.2 2009/07/13 17:54:21 gzfelix Exp $
+// $Id: README.txt,v 1.3 2009/07/17 14:28:10 gzfelix Exp $
 
 CONTENTS OF THIS FILE
 ---------------------
@@ -51,6 +51,8 @@ Record Data field, and set the XQuery Path to /data/name to get the name
 (assuming we are using the xml feed below) of a course. XMLSyncrhonym
 record arguments, sorting, and filtering are also supported.
 
+Single record view is added. Url aliases can also be added to a single record
+by entering a template into the record alias template field.
 
 XML FEED FORMAT
 ---------------
@@ -132,6 +134,5 @@ Here is a real-world example format of a XML feed supported by XMLSync module.
 TODO LIST
 ---------
 
-* Ability to show a single XMLSynchronym record with template support
 * Better indexing with indexes tags.
 * PostgreSQL support
