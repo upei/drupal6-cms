@@ -148,7 +148,7 @@ function _xmlsync_record_page_get_title($xid = NULL) {
   // get the record
   $record = db_fetch_object(db_query(db_rewrite_sql('SELECT * FROM {xmlsync_entities} WHERE xid=%d'), $xid));
   if ($record) {
-    return check_plain($record->entity_title);
+    return check_markup(html_entity_decode($record->entity_title));
   }
 }
 
