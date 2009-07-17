@@ -107,12 +107,14 @@ function xmlsync_form(&$node) {
   $form['record_template_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Record template name'),
+    '#description' => t('Leave this field blank to use the default template. New template name will be xmlsync-record--<em>template-name</em>.tpl.php'),
     '#default_value' => $node->record_template_name,
   );
 
   $form['record_alias_template'] = array(
     '#type' => 'textfield',
     '#title' => t('Record alias template'),
+    '#description' => t('Leave this field blank to ignore creating aliases.'),
     '#default_value' => $node->record_alias_template,
   );
   

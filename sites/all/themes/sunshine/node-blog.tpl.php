@@ -9,7 +9,8 @@
       <div class="links">
         <ul class="links">
           <li class="first last">
-            <a href="<?=base_path()?>blogs">Return to Blogs</a>
+            <a href="<?=base_path()?>blogs/external">More Blog Posts</a><br />
+            <a href="<?=base_path()?>blogs/internal">Research Milieu</a>
           </li>
         </ul>
       </div>

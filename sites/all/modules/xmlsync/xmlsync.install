@@ -93,7 +93,7 @@ function xmlsync_update_6001() {
 function xmlsync_update_6002() {
   $ret = array();
   db_add_field($ret, 'xmlsync', 'record_template_name',
-    array('type' => 'varchar', 'length' => 50, 'not null' => TRUE, 'default' => 'xmlsync-record'));
+    array('type' => 'varchar', 'length' => 50, 'not null' => TRUE, 'default' => ''));
   db_add_field($ret, 'xmlsync', 'record_alias_template',
     array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''));
   return $ret;
