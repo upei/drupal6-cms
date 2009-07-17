@@ -1,0 +1,1 @@
+../sunshine/xmlsync-record--award.tpl.php
