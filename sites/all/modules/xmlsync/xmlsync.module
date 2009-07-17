@@ -260,7 +260,7 @@ function xmlsync_preprocess_page(&$vars) {
   // get the node we're in
   $menu = menu_get_item();
   if ($menu['path'] == 'xmlsync/record/%') {
-    $node = _xmlsync_record_page_get_node($menu->['page_arguments'][0]);
+    $node = _xmlsync_record_page_get_node($menu['page_arguments'][0]);
     $vars['node'] = $node;
   }
 }

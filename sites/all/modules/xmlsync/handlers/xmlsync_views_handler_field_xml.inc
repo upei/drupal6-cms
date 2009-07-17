@@ -16,8 +16,8 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
   function option_definition() {
     $options = parent::option_definition();
     $options['xpath'] = array('default' => '.');
-    $options['distinct'] => array('default' => '');
-    $options['record_link'] => array('default' => '');
+    $options['distinct'] = array('default' => '');
+    $options['record_link'] = array('default' => '');
     return $options;
   }
 
