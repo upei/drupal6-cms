@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync_views_handler_argument_xml.inc,v 1.2 2009/07/13 14:03:32 gzfelix Exp $
+// $Id: xmlsync_views_handler_argument_xml.inc,v 1.3 2009/07/17 14:28:10 gzfelix Exp $
 
 class xmlsync_views_handler_argument_xml extends views_handler_argument_string {
 
