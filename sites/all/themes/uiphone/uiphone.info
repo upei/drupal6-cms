@@ -1,0 +1,7 @@
+name = UiPhone
+description = An iPhone theme developed by UPEI.
+core = 6.x
+engine = phptemplate
+
+regions[header] = Header
+regions[footer] = Footer
