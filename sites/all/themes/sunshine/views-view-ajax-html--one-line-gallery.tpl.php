@@ -22,7 +22,7 @@
     </div>
     <script type="text/javascript">
       $(function() {
-        $('.front-page-gallery .items a[href]').each(function() {
+        $('.front-page-gallery .item>a[href]').each(function() {
           $(this).fancyZoom({directory: '/misc/fancyzoom'});
           $(this).click(function() {
             var href=$(this).attr('href').substring(1);
@@ -30,8 +30,9 @@
           });
         });
         //$('.front-page-gallery .items div[rel]').overlay();
+<?php $size = array_pop(arg()); ?>
         $('div.scrollable').scrollable({
-          size: <?= arg(3) ? intval(arg(3)): '8' ?>,
+          size: <?= is_numeric($size) ? intval($size): '8' ?>,
           loop: true
         });
       });

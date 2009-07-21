@@ -136,8 +136,8 @@ tbody {
 }
 
 /* Styles added to make the grouped section on the reseracher,faculty,staff etc pages float right*/
-.group-faculty-member-informati, .group-player-information,
-.group-staff-member-informati,  .group-staff-information 
+.node .group-faculty-member-informati, .node .group-player-information,
+.node .group-staff-member-informati, .node .group-staff-information 
 {
 float: right;
 position: relative;

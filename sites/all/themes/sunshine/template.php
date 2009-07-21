@@ -168,8 +168,6 @@ function phptemplate_imagefield_admin_thumbnail($item = null) {
   return '<img class="imagefield-admin-thumb" width="150" src="'. file_create_url($item['filepath']) .'" />';
 }
 
-$style = get_sunshine_style();
-
 /* order is important here */
 
 $css_files = array(
@@ -217,10 +215,9 @@ $css_files = array(
   '920-node.css',
   '925-node-person.css',
   '990-misc.css',
-  
-  // style
-  "$style.css",
 
+  'sunshine.css',
+  
   // jquery-ui
   'ui-theme/ui.core.css',
   'ui-theme/ui.theme.css',

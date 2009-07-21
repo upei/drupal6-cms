@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync_views_handler_sort_xml.inc,v 1.2 2009/07/13 14:03:32 gzfelix Exp $
+// $Id: xmlsync_views_handler_sort_xml.inc,v 1.3 2009/07/17 18:16:34 gzfelix Exp $
 
 class xmlsync_views_handler_sort_xml extends views_handler_sort {
 

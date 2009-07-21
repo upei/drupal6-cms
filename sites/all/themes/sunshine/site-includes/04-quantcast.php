@@ -6,7 +6,12 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 <script type="text/javascript">
 try {
 var pageTracker = _gat._getTracker("<?=$_ga?>");
+<? if ((_get_bucket() == 'home' && arg(0) == 'node' && arg(1) == '190')): // campuslinks page ?>
+pageTracker._trackPageview("/404.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer);
+<? else: ?>
 pageTracker._trackPageview();
+<? endif; ?>
+
 } catch(err) {}</script>
 <!-- Start Quantcast tag -->
 <script type="text/javascript">
