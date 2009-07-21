@@ -257,6 +257,7 @@ $javascript = <<<END
 $(function () {
   if ($.hasFlashPlayer) {
     $('.header-title').sifr({
+      offsetTop: 3,
       textColor: '#7A2424',
       font:'minionpro',
       path:'/misc/sifr'
