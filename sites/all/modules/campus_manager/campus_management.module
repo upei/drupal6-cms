@@ -249,11 +249,6 @@ function _campus_management_content_view() {
 
 
 function campus_management_init($main = 0) {
-  // add flash and sifr
-  drupal_add_js('misc/jquery.flash.min.js', 'module', 'footer', false, true);
-  drupal_add_js('misc/sifr/jquery.sifr.min.js', 'module', 'footer', false, true);
-
-  
   // add fancyzoom
   drupal_add_js('misc/fancyzoom.min.js', 'module', 'header', false, true);
 }

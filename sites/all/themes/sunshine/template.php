@@ -238,6 +238,8 @@ $scripts = array(
 );
 
 foreach ($scripts as $script) drupal_add_js( path_to_theme('sunshine') . '/' . $script, 'theme', 'footer');
+drupal_add_js('misc/sifr/jquery.swfobject.min.js', 'theme', 'footer', false, true);
+drupal_add_js('misc/sifr/jquery.sifr.min.js', 'theme', 'footer', false, true);
 
 if (theme_get_setting('sunshine_iepngfix')) {
    drupal_add_js(drupal_get_path('theme', 'sunshine') . '/js/jquery.pngFix.js', 'theme');
@@ -253,13 +255,11 @@ if (theme_get_setting('sunshine_uselocalcontent'))
 
 $javascript = <<<END
 $(function () {
-  if ($(document).flash.hasFlash(7,0,0)) {
+  if ($.hasFlashPlayer) {
     $('.header-title').sifr({
-      offsetTop: 3,
       textColor: '#7A2424',
       font:'minionpro',
-      path:'/misc/sifr',
-      expressInstall: true
+      path:'/misc/sifr'
     });
   }
 });
