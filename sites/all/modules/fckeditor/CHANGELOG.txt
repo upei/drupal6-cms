@@ -1,4 +1,47 @@
-$Id: CHANGELOG.txt,v 1.2.2.27.2.66 2008/12/12 23:23:37 wwalc Exp $
+$Id: CHANGELOG.txt,v 1.2.2.27.2.89 2009/03/11 15:55:48 wwalc Exp $
+
+-- 2009-03-11 version 6.x-2.x-dev
+* #380134 Fixed the incompatibility with JsMin in IE
+* #379088 Added support for Web File Manager (WebFM)
+* #370019 Added possibility to load fckeditor.config.js from theme path
+* #365121 Fixed: Img Assist button pops up blank window with JS errors
+
+-- 2009-03-10 version 6.x-2.x-dev
+* #389186 Fixed the issue with calling IMCE filebrowser when index.html resides in Drupal folder
+
+-- 2009-02-19 version 6.x-2.x-dev
+* #363514 Fixed the issue with including nonexisting subtheme stylesheet
+
+-- 2009-02-16 version 6.x-2.x-dev
+* #372150 Fixed: break tag shows up in empty Body field after saving
+* #330286 Removed the "Red Title" style from the default list of styles
+* #374386 Fixed: &#160 shows up in empty Body field when ProcessHTMLEntities is set to false
+* #371653 Removed t() from schema description
+* #369093 Fixed: AJAX callback - XSS filter should not be called if no security filter is selected
+
+-- 2009-01-28 version 6.x-2.x-dev
+* #295937 Fixed: break plugin forces new paragraph
+* #363514 Fixed: CSS files in parent theme are incorrectly included in the editor area
+
+-- 2009-01-23 version 6.x-2.x-dev
+* #352704 Fixed: moving an image corrupts its path
+* #323844 Fixed: loading (sub)theme stylesheets
+
+-- 2009-01-20 version 6.x-2.x-dev
+* #347865 Fixed: invalid implementation of hook_file_download
+* #350155 Fixed: double slash in path to fckstyles.xml
+* #355576 Added better explanation of what simplified toolbar really is
+* #358092 Fixed: forward slashes break profile names
+* #347133 Disabled FCKeditor by default on admin/settings/actions/configure
+
+-- 2009-01-19 version 6.x-2.x-dev
+* #360599 Improved ImageBrowser integration
+
+-- 2008-12-23 version 6.x-2.x-dev
+* Fixed built-in file browser issues when Devel module is enabled
+
+-- 2008-12-17 version 6.x-2.x-dev
+* #347189 Improved the detection of a teaser in the body
 
 -- 2008-12-12 version 6.x-2.x-dev
 * #338923 Improved description of security setting
@@ -28,7 +71,7 @@ $Id: CHANGELOG.txt,v 1.2.2.27.2.66 2008/12/12 23:23:37 wwalc Exp $
 * Added missing file (imgassist_small.gif)
 
 -- 2008-11-14 version 6.x-2.x-dev
-* #332727 Fixed: Fatal error in PHP4 
+* #332727 Fixed: Fatal error in PHP4
 * #327615 Added Image Browser (http://drupal.org/project/imagebrowser) to the list of supported file browsers
 
 -- 2008-10-21 version 6.x-2.x-dev

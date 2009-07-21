@@ -1,15 +1,15 @@
 <?php
-// $Id: feedapi_mapper.install,v 1.1.4.1 2008/09/08 11:41:13 alexb Exp $
+// $Id: feedapi_mapper.install,v 1.1.4.2 2009/06/27 09:28:18 aronnovak Exp $
 
 /**
  * Implementation of hook_schema().
  */
 function feedapi_mapper_schema() {
   $schema['feedapi_mapper'] = array(
-    'description' => t('Store date for the feedapi mapper'),
+    'description' => 'Stores data for the feedapi mapper',
     'fields' => array(
       'nid' => array(
-        'description' => t('The primary identifier for the feed.'),
+        'description' => 'The primary identifier for the feed.',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE),

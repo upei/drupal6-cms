@@ -1,5 +1,5 @@
 <?php
-// $Id: img_assist.module,v 1.75.2.22 2009/01/18 21:51:17 sun Exp $
+// $Id: img_assist.module,v 1.75.2.31 2009/07/15 22:58:07 sun Exp $
 
 /**
  * @file
@@ -53,13 +53,13 @@ function img_assist_menu() {
   $items['img_assist/cache/clear'] = array(
     'title' => 'Empty cache',
     'page callback' => 'img_assist_cache_clear',
-    'access arguments' => array('access content'),
+    'access arguments' => array('administer site configuration'),
     'type' => MENU_CALLBACK,
   );
   $items['img_assist/load'] = array(
     'title' => 'Image assist',
     'page callback' => 'img_assist_loader',
-    'access arguments' => array('access content'),
+    'access arguments' => array('access img_assist'),
     'type' => MENU_CALLBACK,
   );
   // Page callbacks called internally by img_assist/load.
@@ -67,32 +67,31 @@ function img_assist_menu() {
     'title' => 'Image assist header',
     'page callback' => 'img_assist_header',
     'page arguments' => array(2),
-    'access arguments' => array('access content'),
+    'access arguments' => array('access img_assist'),
     'type' => MENU_CALLBACK,
   );
   $items['img_assist/thumbs'] = array(
     'title' => 'Image assist thumbnails',
     'page callback' => 'img_assist_thumbs',
-    'access arguments' => array('access content'),
+    'access arguments' => array('access img_assist'),
     'type' => MENU_CALLBACK,
   );
   $items['img_assist/upload'] = array(
     'title' => 'Image assist upload',
     'page callback' => 'img_assist_upload',
-    'access arguments' => array('access content'),
+    'access arguments' => array('access img_assist'),
     'type' => MENU_CALLBACK,
   );
   $items['img_assist/properties'] = array(
     'title' => 'Image assist properties',
     'page callback' => 'img_assist_properties',
-    'access arguments' => array('access content'),
+    'access arguments' => array('access img_assist'),
     'type' => MENU_CALLBACK,
   );
   // Popup images page.
   $items['img_assist/popup'] = array(
     'title' => 'Popup image',
     'page callback' => 'img_assist_popup',
-    'access callback' => 'user_access',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -100,7 +99,7 @@ function img_assist_menu() {
   $items['img_assist/insert_html'] = array(
     'title' => 'Insert callback',
     'page callback' => 'img_assist_insert_html',
-    'access arguments' => array('access content'),
+    'access arguments' => array('access img_assist'),
     'type' => MENU_CALLBACK,
   );
   $items['admin/settings/img_assist'] = array(
@@ -119,6 +118,9 @@ function img_assist_menu() {
 function img_assist_init() {
   $path = drupal_get_path('module', 'img_assist');
   if (arg(0) == 'img_assist') {
+    // Suppress Administration menu.
+    module_invoke('admin_menu', 'suppress');
+
     drupal_add_css($path .'/img_assist_popup.css', 'module', 'all', FALSE);
   }
   else {
@@ -352,7 +354,7 @@ function img_assist_admin_settings() {
   $form['image']['img_assist_create_derivatives'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Creation of image derivatives'),
-    '#default_value' => variable_get('img_assist_create_derivatives', array('properties', 'custom_all', 'custom_advanced')),
+    '#default_value' => variable_get('img_assist_create_derivatives', array()),
     '#options' => array(
       'properties' => t('Create 200x200 images for the image properties window (useful if the thumbnail size is small).'),
       'custom_advanced' => t('Allow users with %access permission to create custom size inline images.', array('%access' => 'access advanced options')),
@@ -372,7 +374,7 @@ function img_assist_admin_settings() {
     '#type' => 'select',
     '#title' => t('Default link behavior'),
     '#default_value' => variable_get('img_assist_default_link_behavior', 'none'),
-    '#options' => array('none' => t('Not a link'), 'node' => t('Link to image page'), /*'popup' => t('Open in popup window'), */'url' => t('Go to URL')),
+    '#options' => array('none' => t('Not a link'), 'node' => t('Link to image page'), 'popup' => t('Open in popup window'), 'url' => t('Go to URL')),
     '#description' => t('The link behavior can be overridden when inserting images by users with the proper permissions, but these defaults will still be used for everyone else.'),
   );
   $form['properties']['img_assist_default_link_url'] = array(
@@ -568,14 +570,21 @@ function img_assist_cache_clear() {
  */
 function img_assist_loader() {
   $path = drupal_get_path('module', 'img_assist');
-  $editor = arg(2) ? arg(2) : 'textarea';
+  $caller = arg(2) ? arg(2) : 'textarea';
 
-  drupal_add_js($path .'/img_assist_popup.js');
-  if ($editor == 'tinymce') {
-    $tinymce_path = drupal_get_path('module', 'wysiwyg');
-    drupal_add_js($tinymce_path .'/tinymce/jscripts/tiny_mce/tiny_mce_popup.js');
+  drupal_add_js($path . '/img_assist_popup.js');
+  if (module_exists('wysiwyg') && ($editor = wysiwyg_get_editor($caller))) {
+    if ($editor['name'] == 'tinymce') {
+      drupal_add_js($editor['library path'] . '/tiny_mce_popup.js');
+    }
   }
-  drupal_add_js($path .'/img_assist_'. $editor .'.js');
+  elseif (module_exists('tinymce') && $caller == 'tinymce') {
+    drupal_add_js(drupal_get_path('module', 'tinymce') . '/tinymce/jscripts/tiny_mce/tiny_mce_popup.js');
+  }
+  else {
+    $caller = 'textarea';
+  }
+  drupal_add_js($path . '/img_assist_' . $caller . '.js');
 
   $output  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN">'."\n";
   $output .= "<html>\n";
@@ -662,6 +671,7 @@ function img_assist_header_form(&$form_state, $mode) {
         // Get my images and count.
         $myimages = views_get_view('img_assist_browser');
         $myimages->set_arguments(array($user->uid));
+        $myimages->get_total_rows = TRUE; // Required for overridden default view.
         $myimages->execute();
         $options['img_assist_browser/' . $user->uid] = t('My Images') ." ($myimages->total_rows)";
 
@@ -669,6 +679,7 @@ function img_assist_header_form(&$form_state, $mode) {
         if (user_access('access all images')) {
           $allimages = views_get_view('img_assist_browser');
           $allimages->set_arguments(array('all'));
+          $allimages->get_total_rows = TRUE; // Required for overridden default view.
           $allimages->execute();
           $options['img_assist_browser/all'] = t('All Images') ." ($allimages->total_rows)";
         }
@@ -852,8 +863,8 @@ function img_assist_properties() {
   // Update is put into a hidden field so the javascript can see it.
   $update = (arg(3)) ? 1 : 0;
   
-  if (is_numeric($nid)) {
-    $output = drupal_get_form('img_assist_properties_form', node_load($nid), $update);
+  if (is_numeric($nid) && ($node = node_load($nid)) && $node->type == 'image' && node_access('view', $node)) {
+    $output = drupal_get_form('img_assist_properties_form', $node, $update);
   }
   else {
     $output = t('Image ID not found');
@@ -877,7 +888,8 @@ function img_assist_properties_form($form_state, $node, $update) {
   require_once drupal_get_path('module', 'img_assist') .'/includes/img_assist.token.inc';
 
   $image_info = image_get_info(file_create_path($node->images[IMAGE_ORIGINAL]));
-  
+  $image_info['aspect_ratio'] = $image_info['height'] / $image_info['width'];
+
   // Select (or generate) a preview image.
   $img_assist_create_derivatives = variable_get('img_assist_create_derivatives', array());
   if (!empty($img_assist_create_derivatives['properties'])) {
@@ -915,7 +927,11 @@ function img_assist_properties_form($form_state, $node, $update) {
   // choose.
   $max_size = explode('x', variable_get('img_assist_max_size', '640x640'));
   
-  foreach (image_get_sizes() as $key => $size) {
+  foreach (image_get_sizes(NULL, $image_info['aspect_ratio']) as $key => $size) {
+    // Sizes are strings, may contain '' for 0; convert to integers.
+    settype($size['width'], 'int');
+    settype($size['height'], 'int');
+
     $added_to_derivatives = FALSE;
     if ($key == IMAGE_ORIGINAL) {
       if (user_access('use original size') && $image_info['width'] <= $max_size[0] && $image_info['height'] <= $max_size[1]) {
@@ -963,7 +979,7 @@ function img_assist_properties_form($form_state, $node, $update) {
   $form[] = array('#value' => '<table width="100%" border="0" cellspacing="0" cellpadding="0">');
   $form[] = array('#value' => '<tr><td valign="top" rowspan="3" id="preview">');
   $form[] = array('#value' => $properties_image);
-  $form[] = array('#value' => '<span id="caption" style="width: '. $properties_size['width'] .'px;">'. $node->title .'</span>');
+  $form[] = array('#value' => '<span id="caption" style="width: '. $properties_size['width'] .'px;">'. check_plain($node->title) .'</span>');
 
   // Image node properties fieldset.
   $form['properties'] = array('#type' => 'fieldset', '#title' => t('Image properties'));
@@ -1050,7 +1066,7 @@ function img_assist_properties_form($form_state, $node, $update) {
       '#type' => 'select',
       '#title' => t('Link'),
       '#default_value' => variable_get('img_assist_default_link_behavior', 'none'),
-      '#options' => array('none' => t('Not a link'), 'node' => t('Link to image page'), /*'popup' => t('Open in popup window'), */'url' => t('Go to URL')),
+      '#options' => array('none' => t('Not a link'), 'node' => t('Link to image page'), 'popup' => t('Open in popup window'), 'url' => t('Go to URL')),
       '#attributes' => array('onchange' => 'parent.onChangeLink()'),
     );
     $form['url'] = array(
@@ -1119,23 +1135,26 @@ function img_assist_properties_form($form_state, $node, $update) {
   );
   
   // Buttons.
-  $form[] = array('#value' => '<div id="buttons">');
-  $form['insert'] = array(
+  $form['buttons'] = array(
+    '#prefix' => '<div id="buttons">',
+    '#suffix' => '</div>',
+  );
+  $form['#attributes']['onsubmit'] = 'return parent.insertImage();';
+  $form['buttons']['insert'] = array(
     '#type' => 'submit',
     '#value' => ($update) ? t('Update') : t('Insert'),
-    '#attributes' => array('onclick' => 'parent.insertImage()', 'style' => 'float: left;'),
+    '#attributes' => array('style' => 'float: left;'),
   );
-  $form['cancel'] = array(
+  $form['buttons']['cancel'] = array(
     '#type' => 'button',
     '#value' => t('Cancel'),
     '#button_type' => 'button',
-    '#attributes' => array('onclick' => 'parent.cancelAction()', 'style' => 'float: right;'),
+    '#attributes' => array('onclick' => 'return parent.cancelAction();', 'style' => 'float: right;'),
   );
   
-  $form[] = array('#value' => '</div>');
   $form[] = array('#value' => '</td></tr></table></div>');
   
-  $form['#attributes'] = array('name' => 'img_assist');
+  $form['#attributes']['name'] = 'img_assist';
   return $form;
 }
 
@@ -1330,12 +1349,15 @@ function _img_assist_build_derivatives(&$node, $size = NULL) {
       if ($info['width'] > $size['width'] || $info['height'] > $size['height']) {
         $source = file_create_path($node->images[IMAGE_ORIGINAL]);
         $destination = _image_filename(basename($source), $key, FALSE);
-        if (!image_scale($source, file_create_path($destination), $size['width'], $size['height'])) {
+        $destination_path = file_create_path($destination);
+        if (!image_scale($source, $destination_path, $size['width'], $size['height'])) {
           drupal_set_message(t('Unable to create %label image', array('%label' => $size['label'])), 'error');
         }
         else {
+          // Set default file permissions for webserver-generated files.
+          @chmod($destination_path, 0664);
           $node->images[$key] = $destination;
-          _image_insert($node, $key, file_create_path($destination));
+          _image_insert($node, $key, $destination_path);
         }
       }
       else {
@@ -1371,7 +1393,7 @@ function img_assist_render_image($attributes = array()) {
     // Get size.
     $width  = $attributes['width'];
     $height = $attributes['height'];
-    if ($width && $height) {
+    if ($width || $height) {
       // Check to ensure that the dimensions don't exceed the max set in the
       // img_assist settings.
       $max_size = explode('x', variable_get('img_assist_max_size', '640x640'));
@@ -1396,11 +1418,13 @@ function img_assist_render_image($attributes = array()) {
           $aspect_ratio = round($preview_width / $preview_height, 6);
           
           // Get new width and height for this inline image.
-          // Width is controlling factor.
-          if (round($width / $aspect_ratio) <= $height) {
+          // If height is either left out or larger than width then
+          // width is the controlling factor.
+          if (!$height || round($width / $aspect_ratio) <= $height) {
             $height = round($width / $aspect_ratio);
           }
-          // Height is controlling factor.
+          // Else, width is either left out or larger than height so
+          // height is controlling factor.
           else {
             $width = round($height * $aspect_ratio);
           }
@@ -1505,15 +1529,19 @@ function img_assist_render_image($attributes = array()) {
 
 function img_assist_popup() {
   $nid = arg(2);
-  $node = node_load(array('nid' => $nid));
-  drupal_set_title($node->title);
-  $size       = variable_get('img_assist_popup_label', IMAGE_PREVIEW);
-  $size       = array('key' => $size);
-  $content    = img_assist_display($node, $size);
-  $attributes = array('id' => 'img_assist_popup');
-  
-  echo theme('img_assist_popup', $content, $attributes);
-  exit;
+  if (is_numeric($nid) && ($node = node_load($nid)) && $node->type == 'image' && node_access('view', $node)) {
+    drupal_set_title(check_plain($node->title));
+    $size       = variable_get('img_assist_popup_label', IMAGE_PREVIEW);
+    $size       = array('key' => $size);
+    $content    = img_assist_display($node, $size);
+    $attributes = array('id' => 'img_assist_popup');
+    
+    echo theme('img_assist_popup', $content, $attributes);
+    exit;
+  }
+  else {
+    return drupal_access_denied();
+  }
 }
 
 /**
@@ -1704,6 +1732,7 @@ function _img_assist_textarea_match($formid) {
  */
 
 function theme_img_assist_inline($node, $size, $attributes) {
+  $caption = '';
   if ($attributes['title'] && $attributes['desc']) {
     $caption = '<strong>'. $attributes['title'] .': </strong>'. $attributes['desc'];
   }
@@ -1819,8 +1848,8 @@ function theme_img_assist_page($content, $attributes = NULL) {
   $output .= drupal_get_html_head();
   $output .= drupal_get_js();
   $output .= "\n<script type=\"text/javascript\"><!-- \n";
-  $output .= "  if (parent.tinyMCE) {\n";
-  $output .= "    document.write('<link href=\"' + parent.tinyMCEPopup.getParam(\"popups_css\") + '\" rel=\"stylesheet\" type=\"text/css\">');\n";
+  $output .= "  if (parent.tinyMCE && parent.tinyMCEPopup && parent.tinyMCEPopup.getParam('popups_css')) {\n";
+  $output .= "    document.write('<link href=\"' + parent.tinyMCEPopup.getParam('popups_css') + '\" rel=\"stylesheet\" type=\"text/css\">');\n";
   $output .= "  } else {\n";
   foreach (drupal_add_css() as $media => $type) {
     $paths = array_merge($type['module'], $type['theme']);
@@ -1867,6 +1896,7 @@ function img_assist_wysiwyg_plugin($editor, $version) {
             'buttons' => array('img_assist' => t('Image Assist')),
             'url' => 'http://drupal.org/project/img_assist',
             'extended_valid_elements' => array('img[class|src|border=0|alt|title|width|height|align|name|style]'),
+            'load' => TRUE,
           ),
         );
       }

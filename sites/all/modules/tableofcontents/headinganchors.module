@@ -1,5 +1,5 @@
 <?php
-//$Id: headinganchors.module,v 1.2.4.2.2.2.2.1 2008/06/21 18:19:19 deviantintegral Exp $
+//$Id: headinganchors.module,v 1.2.4.2.2.2.2.5 2009/03/18 20:28:00 deviantintegral Exp $
 
 /**
  * @file
@@ -84,6 +84,10 @@ function headinganchors_filter($op, $delta = 0, $format = -1, $text = '') {
         // check for existing id and use that if found
         if (preg_match('/id="(.*?)"/i', $attributes, $existing_id)) {
           $anchor = $existing_id[1];
+
+          // remove the existing id, it will be added back later
+          $attributes = preg_replace('/\s*id="(.*?)"\s*/i', '', $attributes);
+
           // if no id found, create one
         }
         else {
@@ -98,15 +102,15 @@ function headinganchors_filter($op, $delta = 0, $format = -1, $text = '') {
           $anchors[$anchor]++;
         }
         else {
-          $anchors[$anchor] = 0;
+          $anchors[$anchor] = 1;
         }
-        if ($anchors[$anchor] > 0) {
+        if ($anchors[$anchor] > 1) {
           $anchor .= "-" . $anchors[$anchor];
         }
-        $pattern = "/<h".$level.$attributes.">".preg_quote($heading, '/')."<\/h".$level.">/i";
+        $pattern = "/<h" . $level . preg_quote($attributes, '/') . ">" . preg_quote($heading, '/') . "<\/h" . $level . ">/i";
 
         // append everything together to create the new heading
-        $replacement = "<h".$level.$attributes." id=\"".$anchor."\">".$heading."</h".$level.">";
+        $replacement = "<h" . $level . $attributes . " id=\"" . $anchor . "\">" . str_replace('$', '\\$', $heading) . "</h" . $level . ">";
         // replace the header in the text
         // Limit of one so that identical headers are only replaced one at a time
         $text = preg_replace($pattern, $replacement, $text, 1);

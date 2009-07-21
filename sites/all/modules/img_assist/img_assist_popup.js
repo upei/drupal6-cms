@@ -1,4 +1,4 @@
-/* $Id: img_assist_popup.js,v 1.1.2.3 2008/12/25 19:15:08 sun Exp $ */
+/* $Id: img_assist_popup.js,v 1.1.2.4 2009/02/01 09:59:57 sun Exp $ */
 
 var currentMode;
 
@@ -113,7 +113,7 @@ function hideElement(id) {
 }
 
 function insertImage() {
-  if (window.opener || !tinyMCEPopup.isWindow) {
+  if (window.opener || (tinyMCEPopup.editor && tinyMCEPopup.editor.id)) {
     // Get variables from the fields on the properties frame
     var formObj = frames['img_assist_main'].document.forms[0];
     // Get mode  (see img_assist.module for detailed comments)
@@ -126,11 +126,10 @@ function insertImage() {
       var content = getHTML(formObj);
     }
     else {
+      // formObj['edit-insertmode'].value == 'filtertag'
       var content = getFilterTag(formObj);
     }
-    insertToEditor(content);
-    return false;
-    
+    return insertToEditor(content);
   }
   else {
     alert('The image cannot be inserted because the parent window cannot be found.');
@@ -139,6 +138,5 @@ function insertImage() {
 }
 
 function getHTML(formObj) {
-  var html = frames['img_assist_main'].document.getElementById('finalhtmlcode').value;
-  return html;
+  return frames['img_assist_main'].document.getElementById('finalhtmlcode').value;
 }

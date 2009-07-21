@@ -1,4 +1,4 @@
-// $Id: fckplugin.js,v 1.2.4.4 2008/11/19 12:06:55 wwalc Exp $
+// $Id: fckplugin.js,v 1.2.4.5 2009/01/28 15:03:51 wwalc Exp $
 /*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
@@ -92,10 +92,17 @@ FCKDrupalBreak.prototype.MoveBreakOutsideElement = function()
         {
           var oParent = element.parentNode ;
           var oDiv = FCK.EditorDocument.createElement( next.toUpperCase() ) ;
+          var bDivEmpty = true ;
           var sibling ;
 
           while( sibling = element.nextSibling )
+          {
+            if (!((sibling.nodeType == 3 && !sibling.nodeValue.length) || (sibling.nodeType == 1 && sibling.nodeName.toLowerCase() == 'br' && sibling.getAttribute( 'type' ) == '_moz'))) {
+            bDivEmpty = false ;
+            }
+
             oDiv.appendChild( sibling ) ;
+          }
 
           if ( oDiv.childNodes.length )
           {
@@ -116,6 +123,9 @@ FCKDrupalBreak.prototype.MoveBreakOutsideElement = function()
           //we must be sure the bogus node is available to make cursor blinking
           if ( FCKBrowserInfo.IsGeckoLike )
             FCKTools.AppendBogusBr( oParent ) ;
+
+          if ( bDivEmpty )
+            oDiv.parentNode.removeChild( oDiv );
 
           break ;
         }

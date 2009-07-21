@@ -1,4 +1,4 @@
-// $Id: img_assist_textarea.js,v 1.4.4.2 2008/12/25 19:15:08 sun Exp $
+// $Id: img_assist_textarea.js,v 1.4.4.3 2009/02/01 09:59:57 sun Exp $
 /**
  * This javascript file allows img_assist to work with a plain textarea.
  * This file is used instead of img_assist_tinymce.js if img_assist is called
@@ -101,13 +101,13 @@ function insertToEditor(content) {
   }
   
   // Close the dialog
-  cancelAction();
-  return false;
+  return cancelAction();
 }
 
 function cancelAction() {
   // Close the dialog
   window.close();
+  return false;
 }
 
 /**

@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_mapper_date.inc,v 1.1.2.3.2.6 2009/04/30 19:36:07 alexb Exp $
+// $Id: feedapi_mapper_date.inc,v 1.1.2.3.2.11 2009/07/17 13:39:44 alexb Exp $
 
 /**
  * On behalf implementation of hook_feedapi_mapper for date field from content.module (CCK),
@@ -39,19 +39,20 @@ function date_feedapi_mapper($op, $node, $feed_element = array(), $field_name = 
       return $fields;
 
     case 'map':
-	  if (empty($feed_element)) {
-	    return $node;
-	  }
+      if (empty($feed_element)) {
+        return $node;
+      }
       include_once(drupal_get_path('module', 'date_api') .'/date_api_ical.inc');
       $field = content_fields($field_name);
+
       switch ($sub_field) {
         case 'ical':
           return feedapi_mapper_date_ical($node, $field, $feed_element);
-          
+
         case 'start_datetime':
         case 'end_datetime':
           return feedapi_mapper_date_datetime($node, $field, $feed_element, $sub_field);
-            
+
         case 'start_stamp':
         case 'end_stamp':
           return feedapi_mapper_date_stamp($node, $field, $feed_element, $sub_field);
@@ -69,7 +70,7 @@ function feedapi_mapper_date_datetime(&$node, $field, $feed_element, $sub_field)
   $field_name = $field['field_name'];
   $timezone = date_default_timezone_name();
   $to_tz = date_get_timezone($field['tz_handling'], $timezone);
-    
+
   if (is_array($feed_element)) {
     $feed_element = $feed_element[0];
   }
@@ -88,17 +89,21 @@ function feedapi_mapper_date_datetime(&$node, $field, $feed_element, $sub_field)
     }
     else {
       // Bring the date back to UTC.
+      $direction = ($direction == '+' ? '-' : '+');
       date_modify($value, $direction . trim($hours) .' hours');
       date_modify($value, $direction . trim($minutes) .' minutes');       
     }
     // Reset it to the appropriate local timezone.
     date_timezone_set($value, timezone_open($to_tz));
   }
+  elseif (stripos($feed_element, "Z") != strlen($feed_element)) {
+    $value = date_create($feed_element, timezone_open($to_tz));
+  }
   else {
     // A date without a timezone or a non-ISO date, assume local timezone.
-	$needle   = ';';
-	$pos = strripos($feed_element, $needle);
-	$feed_element = substr($feed_element, 0, $pos);
+    $needle = ';';
+    $pos = strripos($feed_element, $needle);
+    $feed_element = substr($feed_element, 0, $pos);
     $value = date_create($feed_element, timezone_open($to_tz));
   }
 
@@ -107,7 +112,7 @@ function feedapi_mapper_date_datetime(&$node, $field, $feed_element, $sub_field)
   $date->set_value('timezone', $timezone);
   $date->set_value($sub_field, date_format($value, DATE_FORMAT_DATETIME));
   $date->build();
-  
+
   if (!isset($node->{$field_name})) {
     $node->$field_name = array($date->value);
   }
@@ -131,7 +136,7 @@ function feedapi_mapper_date_stamp(&$node, $field, $feed_element, $sub_field) {
   $field_name = $field['field_name'];
   $timezone = date_default_timezone_name();
   $to_tz = date_get_timezone($field['tz_handling'], $timezone);
-    
+
   // A date without a timezone, assume local timezone.
   $value = date_create("@$feed_element", timezone_open('UTC'));
   date_timezone_set($value, $to_tz);
@@ -141,7 +146,7 @@ function feedapi_mapper_date_stamp(&$node, $field, $feed_element, $sub_field) {
   $date->set_value('timezone', $timezone);
   $date->set_value($sub_field, date_format($value, DATE_FORMAT_DATETIME));
   $date->build();
-  
+
   if (!isset($node->{$field_name})) {
     $node->$field_name = array($date->value);
   }
@@ -155,6 +160,7 @@ function feedapi_mapper_date_stamp(&$node, $field, $feed_element, $sub_field) {
       $node->{$field_name}[0]['value2'] = $date->value['value2'];
     }
   }
+  return $node;
 }
 
 /**
@@ -162,7 +168,7 @@ function feedapi_mapper_date_stamp(&$node, $field, $feed_element, $sub_field) {
  */
 function feedapi_mapper_date_ical($node, $field, $feed_element) {
   // There are lots of available elements in the feed, so do some checking.
-  
+
   // If the feed element contains the top-level VEVENT, 
   // pick out the part we need, the DATE array.
   if (array_key_exists('DATE', $feed_element)) {
@@ -204,16 +210,16 @@ function feedapi_mapper_date_ical($node, $field, $feed_element) {
   $date->set_value('all_day', $feed_element['DTSTART']['all_day']);
   $date->build();
   $node->$field_name = array($date->value);
-  
+
   if (array_key_exists('RRULE', $feed_element) && !empty($feed_element['RRULE']) && module_exists('date_repeat')) {
-          
+
     include_once('./'. drupal_get_path('module', 'date_repeat') .'/date_repeat_calc.inc');
     include_once('./'. drupal_get_path('module', 'date') .'/date_repeat.inc');
 
     // Explode the RRULE into parts so we can analyze it.
     $rrule = $feed_element['RRULE']['DATA'] . (!empty($feed_element['EXDATE']) ? "/n". $feed_element['EXDATE'] : "");
     $form_values = date_ical_parse_rrule($field, $rrule);
-          
+
     // Make sure we don't end up with thousands of values with RRULES 
     // that have no UNTIL or COUNT.
     // TODO: could be adjusted or made configurable later.
@@ -231,13 +237,12 @@ function feedapi_mapper_date_ical($node, $field, $feed_element) {
     elseif (empty($form_values['UNTIL'])) {
       $form_values['UNTIL'] = array('datetime' => $until, 'tz' => 'UTC');
     }
-          
+
     // Reconstruct the RRULE with our changes and build the repeats.
     $rrule = date_api_ical_build_rrule($form_values);
     $node_field = $node->{$field_name}[0];
     $values = date_repeat_build_dates($rrule, $form_values, $field, $node_field);
     $node->$field_name = $values;
-
   }
   return $node;
 }
@@ -252,7 +257,7 @@ function feedapi_mapper_date_ical($node, $field, $feed_element) {
  */
 function feedapi_mapper_date_part(&$node, $field, $feed_element, $sub_field) {
   static $date;
-  
+
   $field_name = $field['field_name'];
   if (empty($node->$field_name)) {
     $date = new date_constructor();
@@ -276,6 +281,7 @@ function feedapi_mapper_date_part(&$node, $field, $feed_element, $sub_field) {
  * Call build() at any time to construct a date from the
  * currently available values.
  *
+ * @todo: This should live in date module.
  */
 class date_constructor {
   var $field = NULL;
@@ -290,7 +296,7 @@ class date_constructor {
   var $format = NULL;
   var $db_tz = NULL;
   var $to_tz = NULL;
-  
+
   function construct($field) {
     $now = date_now();  
     //$this->start_date = date_format($now, DATE_FORMAT_DATE);
@@ -353,8 +359,7 @@ class date_constructor {
         $this->end_datetime = $value;
         $this->end_date = NULL;
         $this->end_time = NULL;
-        break;  
-  
+        break;
     }
   }
 
@@ -383,7 +388,7 @@ class date_constructor {
     elseif (empty($this->end_datetime)) {
       $this->end_datetime = $this->start_datetime;
     }
-    
+
     // We don't know exactly what format the provided date used,
     // so use the native date_create() where available, which does a
     // pretty good job of interpreting non-standard date values. Where the 
@@ -400,7 +405,7 @@ class date_constructor {
       $this->value['date'] = date_create($this->start_datetime, timezone_open($this->to_tz));
       $this->value['date2'] = date_create($this->end_datetime, timezone_open($this->to_tz));      
     }
-    
+
     $this->value['offset'] = date_offset_get($this->value['date']);
     $this->value['offset2'] = date_offset_get($this->value['date2']);
     date_timezone_set($this->value['date'], timezone_open($this->db_tz));

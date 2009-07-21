@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_mapper.api.php,v 1.1.2.2 2009/04/20 13:31:04 alexb Exp $
+// $Id: feedapi_mapper.api.php,v 1.1.2.3 2009/05/09 14:28:33 alexb Exp $
 
 /**
  * @file
@@ -97,4 +97,33 @@ function hook_feedapi_mapper($op, $node, $feed_element = array(), $field_name = 
       return $node;
     }
   }
+}
+
+/**
+ * Implement hook_feedapi_mapper_elements to define standard elements that your
+ * configuration should be able to map to.
+ * 
+ * When FeedAPI Mapper exposes the mapping form on a feed node (node/%/map), it
+ * parses the feed and uses the result to make elements of it available as 
+ * mapping sources.
+ * 
+ * However, when FeedAPI mapper exposes the mapping form on a content type
+ * form (admin/content/node-type/%/map), there is no feed to parse for 
+ * discovering feed elements. In this case FeedAPI Mapper exposes some standard
+ * elements. You may find yourself in the need for more specific standard
+ * elements on the content type level, in this case implement 
+ * hook_feedapi_mapper_elements() in your module.
+ * 
+ * @see _feedapi_mapper_get_standard_elements().
+ * 
+ * @return 
+ *   An array of arrays that describe the path to a feed element on a feed.
+ */
+function hook_feedapi_mapper_elements() {
+  return array(
+    array('options', 'raw', 'headquarter', 'name'),
+    array('options', 'raw', 'headquarter', 'city'),
+    array('options', 'raw', 'headquarter', 'street'),
+    array('options', 'raw', 'headquarter', 'country'),
+  );
 }

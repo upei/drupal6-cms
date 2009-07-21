@@ -1,5 +1,5 @@
 .toc {
-  max-width: 45%;
+  max-width: 50%;
   _width: 50%;
   background-color: #F9F9F9;
   border: 1px solid #B5C9D8;
@@ -19,8 +19,4 @@
 .toc ul {
   list-style-image: none;
   list-style-type: none;
-}
-
-.toc li a {
-  color: blue;
 }

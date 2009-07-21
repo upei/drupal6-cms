@@ -1,26 +1,26 @@
 <?php
-// $Id: tableofcontents.module,v 1.2.4.2.2.2.2.8 2008/08/18 15:47:25 deviantintegral Exp $
+// $Id: tableofcontents.module,v 1.2.4.2.2.2.2.13 2008/12/14 03:08:02 deviantintegral Exp $
 
 /**
  * @file
- * This is a filter module to generate a collapsible jquery enabled mediawiki-style table of contents based on <h[1-5]>  tags. Transforms header tags into named anchors.
+ * This is a filter module to generate a collapsible jquery enabled mediawiki
+ * style table of contents based on <h[1-6]> tags. Transforms header tags into
+ * named anchors.
  *
- * It is a complete rewrite of the original non-jquery enabled tableofcontents filter module as follows:
- *    +incorporates the code from the headingsanchors filter module removing dependency on a separate filter
- *    +added jquery to make ToC collapsible
- *    +optimizes the code so that nothing is done, including loading the jquery & css files,  if the <!--tableofcontents--> marker does not appear in the text
- *    +preserves attributes on the header tags
- *    +checks for existing ID on headers and uses that if found (if none, creates one)
- *    +extends the minimum header level to 1
- *    +header conversion is case insensitive
- *    +made the regex match for options on the <!--tableofcontents--> marker tolerant of spaces
- *    +added a more explanatory error message for invalid options & concatenated it into one string to prevent duplicates from being displayed
- *    +added several divs to make ToC themable via CSS
- *    +provided basic CSS
- *
- * TO DO:
- *    +make module themable
- *    +limit heading anchors created to minlevel and maxlevel instead of always 1-5
+ * It is a complete rewrite of the original non-jquery enabled tableofcontents
+ * filter module as follows:
+ *   +added jquery to make ToC collapsible
+ *   +preserves attributes on the header tags
+ *   +checks for existing ID on headers and uses that if found (if none,
+ *    creates one)
+ *   +extends the minimum header level to 1
+ *   +header conversion is case insensitive
+ *   +made the regex match for options on the <!--tableofcontents-->
+ *    marker tolerant of spaces
+ *   +added a more explanatory error message for invalid options & concatenated
+ *    it into one string to prevent duplicates from being displayed
+ *   +added several divs to make ToC themable via CSS
+ *   +provided basic CSS
  */
 
 /**
@@ -47,12 +47,24 @@ function tableofcontents_help($section) {
 /**
  * Implementation of hook_filter_tips().
  */
-function tableofcontents_filter_tips($format, $long = FALSE) {
+function tableofcontents_filter_tips($delta, $format, $long = FALSE) {
+  $override = variable_get('tableofcontents_allow_override_' . $format, TRUE);
+  
   if ($long) {
-    return t('Every instance of "&lt;!--tableofcontents--&gt;" in the input text will be replaced with a collapsible mediawiki-style table of contents. Accepts options for title, list style, minimum heading level, and maximum heading level as follows: &lt;!--tableofcontents list: ol; title: Table of Contents; minlevel: 1; maxlevel: 3;--&gt;. All arguments are optional and defaults are shown.');
+    if ($override) {
+      return t('Every instance of "&lt;!--tableofcontents--&gt;" in the input text will be replaced with a collapsible mediawiki-style table of contents. Accepts options for title, list style, minimum heading level, and maximum heading level, and attachments as follows: &lt;!--tableofcontents list: ol; title: Table of Contents; minlevel: 2; maxlevel: 3; attachments: yes;--&gt;. All arguments are optional.');
+    }
+    else {
+      return t('Every instance of "&lt;!--tableofcontents--&gt;" in the input text will be replaced with a collapsible mediawiki-style table of contents.');
+    }
   }
   else {
-    return t('Insert &lt;!--tableofcontents [list: ol; title: Table of Contents; minlevel: 1; maxlevel: 3;]--&gt; to insert a mediawiki style collapsible table of contents. Arguments within [] are optional (defaults are shown).');
+    if ($override) {
+      return t('Insert &lt;!--tableofcontents [list: ol; title: Table of Contents; minlevel: 2; maxlevel: 3; attachments: yes;]--&gt; to insert a mediawiki style collapsible table of contents. Arguments within [] are optional.');
+    }
+    else {
+      return t('Insert &lt;!--tableofcontents--&gt; to insert a mediawiki style collapsible table of contents.');
+    }
   }
 }
 
@@ -73,6 +85,9 @@ function tableofcontents_filter($op, $delta = 0, $format = -1, $text = '') {
 
     case 'no cache':
       return FALSE;
+      
+    case 'settings':
+      return _tableofcontents_settings($format);
 
     case 'prepare':
 
@@ -80,20 +95,20 @@ function tableofcontents_filter($op, $delta = 0, $format = -1, $text = '') {
       preg_match_all('!<\!-- ?tableofcontents(.*)-->!', $text, $options_str, PREG_PATTERN_ORDER);
 
       // to optimize performance enclose preparation in conditional that tests for presence of ToC marker
-      if ($options_str[0][0] != "") {
+      if (!empty($options_str[0]) && $options_str[0][0] != "") {
 
-        // set defaults
+        // Set defaults.
         $toc_options = array();
         
-        // We save a translate call and only translate this when we process the options
-        $toc_options["title"] = "Table of Contents";
-        $toc_options["list"] = "ol";
-        $toc_options["minlevel"] = "1";
-        $toc_options["maxlevel"] = "3";
-        $toc_options["attachments"] = "yes";
+        // We save a translate call and only translate this when we process the options.
+        $toc_options["title"] = variable_get('tableofcontents_title_' . $format, 'Table of Contents');
+        $toc_options["list"] = variable_get('tableofcontents_list_type_' . $format, 'ol');
+        $toc_options["minlevel"] = variable_get('tableofcontents_minlevel_' . $format, 2);
+        $toc_options["maxlevel"] = variable_get('tableofcontents_maxlevel_' . $format, 3);
+        $toc_options["attachments"] = variable_get('tableofcontents_attachments_' . $format, FALSE);
 
-        //only process options if user arguments were specified
-        if (count($options_str,1) > 2) {
+        // Only process options if user arguments were specified and are allowed.
+        if (variable_get('tableofcontents_allow_override_' . $format, TRUE) && count($options_str,1) > 2) {
 
           // parse separate options
           preg_match_all('/([A-z]+): ?([A-z0-9 ]+);/', $options_str[1][0], $options, PREG_PATTERN_ORDER);
@@ -125,8 +140,8 @@ function tableofcontents_filter($op, $delta = 0, $format = -1, $text = '') {
             $error_status = true;
             $toc_options["maxlevel"] = 3;
           }
-          if (!($toc_options["attachments"] == "yes" || $toc_options["attachments"] == "no")) {
-            $error_message[] = t("!attachments is an invalid attachments option. Attachments option must be set to yes or no.", array('!attachments' => $toc_options["attachments"]));
+          if (!($toc_options["attachments"] == 1 || $toc_options["attachments"] == 0)) {
+            $error_message[] = t("!attachments is an invalid attachments option. Attachments option must be set to '1' to display or '0' to hide.", array('!attachments' => $toc_options["attachments"]));
             $error_status = true;
           }
           if ($error_status) {
@@ -138,8 +153,8 @@ function tableofcontents_filter($op, $delta = 0, $format = -1, $text = '') {
             }
           }
         }
-
-        //translate title
+        
+        // Translate title.
         $toc_options["title"] = t($toc_options["title"]);
       }
 
@@ -189,69 +204,21 @@ function tableofcontents_filter($op, $delta = 0, $format = -1, $text = '') {
             'anchor' => $anchor)
           );
         }
-        // Build HTML for the Table of Contents
-        $toc_html = "<div class=\"toc\">\n<div class=\"toc-title\">" .
-        $toc_options["title"] . " [<a href=\"#\" class=\"toc-toggle\">" . t('hide') . "</a>]</div>\n<div class=\"toc-list\">\n<" .
-        $toc_options["list"] . ">\n";
-
-        $depth = $toc_options["minlevel"];
-        foreach ($toc as $index=>$title) {
-
-          // process nested lists
-          $curdepth = $title['level'];
-          if ($curdepth <= $toc_options["maxlevel"]) {
-            // Close list items but not before no items have been added
-            if ($curdepth == $depth && $index != 0) $toc_html .= "</li>\n";
-            // Be sure to deal with skipping between non-adjacent h levels
-            while ($curdepth != $depth) {
-              if ($curdepth > $depth) {
-                $toc_html .= "\n<" . $toc_options["list"] . ">\n";
-                $depth++;
-              }
-              else if ($curdepth < $depth) {
-                $toc_html .= "</li>\n</" . $toc_options["list"] . ">\n";
-                $depth--;
-                if ($curdepth == $depth) $toc_html .= "</li>\n";
-              }
-            }
-
-            // insert the li element
-            $toc_html .= "\t<li><a href=\"#".$title['anchor']."\">".$title['heading']."</a>";
-          }
-        }
-        // Did we recurse back out? If not, close open lists.
-        while ($depth > $toc_options["minlevel"]) {
-          $toc_html .= "</li>\n</" . $toc_options["list"] . ">\n";
-          $depth = $depth -1;
-        }
-        $toc_html .= "</li>\n";
         
-        if ($toc_options["attachments"] == "yes") {
+        // If attachments are enabled, prepare the $files variable
+        if ($toc_options["attachments"]) {
           $nid = explode('/', $_GET['q']);
           if (isset($nid[0]) && $nid[0] == 'node' && isset($nid[1]) && is_numeric($nid[1])) {
             $nid = $nid[1];
             $node = node_load($nid);
           }
           if (!empty($node->files)) {
-            $toc_html .= '<li><a href="#attachments">' . t("Attachments") . "</a>";
-            $toc_html .= "<" . $toc_options["list"] . ">";
-            foreach($node->files as $file) {
-              if ($file->list && !$file->remove) {
-                $toc_html .= '<li>';
-
-                // If there is no function providing phptemplate_file_icon in template.php or similar
-                // then this will fail gracefully.
-                $toc_html .= theme('file_icon', $file);
-
-                $file_href = $href = file_create_url((strpos($file->fid, 'upload') === FALSE ? $file->filepath : file_create_filename($file->filename, file_create_path())));
-                $file_text = $file->description ? $file->description : $file->filename;
-
-                $toc_html .= l($file_text, $file_href) . "</li>\n";
-              }
-            }
+            $files = $node->files;
           }
         }
-        $toc_html .= "</".$toc_options["list"].">\n</div>\n</div>";
+        
+        // Build HTML for the Table of Contents.
+        $toc_html = theme('tableofcontents_toc', $toc, $toc_options, $files);
 
         // replace all tableofcontents markers with generated ToC html
         return preg_replace('!<\!-- ?tableofcontents(.*)-->!', $toc_html, $text);
@@ -263,6 +230,90 @@ function tableofcontents_filter($op, $delta = 0, $format = -1, $text = '') {
 }
 
 /**
+ * Return the form used for the filter settings.
+ * 
+ * @param $format
+ *   The currently selected input format.
+ */
+function _tableofcontents_settings($format) {
+  $form['tableofcontents'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Table of Contents'),
+    '#collapsible' => TRUE,
+  );
+  
+  $form['tableofcontents']['tableofcontents_allow_override_' . $format] = array(
+    '#title' => t('Allow users to override these settings within the &lt;!--tableofcontents--&gt; tag'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('tableofcontents_allow_override_' . $format, TRUE),
+  );
+  
+  $form['tableofcontents']['tableofcontents_remove_teaser_' . $format] = array(
+    '#title' => t('Remove Table of Contents tags from teasers'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get("tableofcontents_remove_teaser_$format", TRUE),
+    '#description' => t('If this setting is changed, each node may need to be re-edited to reflect the new setting. This will also cause every node with a Table of Contents to have a split teaser. If you have many nodes, the <a href="@retease">Retease module</a> can help to do this automatically.', array('@retease' => url('http://drupal.org/project/retease'))),
+  );
+  
+  $form['tableofcontents']['tableofcontents_title_' . $format] = array(
+    '#title' => t('Table of Contents Title'),
+    '#type' => 'textfield',
+    '#size' => 64,
+    '#maxlength' => 1024,
+    '#default_value' => variable_get('tableofcontents_title_' . $format, 'Table of Contents'),
+    '#description' => t('Enter a default title for each Table of Contents. This will be translated for each individual page.'),
+  );
+  
+  $form['tableofcontents']['tableofcontents_list_type_' . $format] = array(
+    '#title' => t('List Type'),
+    '#type' => 'radios',
+    '#options' => array(
+      'ol' => t('Ordered list'),
+      'ul' => t('Unordered list'),
+    ),
+    '#default_value' => variable_get('tableofcontents_list_type_' . $format, 'ol'),
+  );
+  
+  $form['tableofcontents']['tableofcontents_minlevel_' . $format] = array(
+    '#title' => t('Minimum heading level'),
+    '#type' => 'select',
+    '#multiple' => FALSE,
+    '#options' => array(
+      1 => "1",
+      2 => "2",
+      3 => "3",
+      4 => "4",
+      5 => "5",
+      6 => "6",
+    ),
+    '#default_value' => variable_get('tableofcontents_minlevel_' . $format, 2),
+  );
+  
+  $form['tableofcontents']['tableofcontents_maxlevel_' . $format] = array(
+    '#title' => t('Minimum heading level'),
+    '#type' => 'select',
+    '#multiple' => FALSE,
+    '#options' => array(
+      1 => "1",
+      2 => "2",
+      3 => "3",
+      4 => "4",
+      5 => "5",
+      6 => "6",
+    ),
+    '#default_value' => variable_get('tableofcontents_maxlevel_' . $format, 3),
+  );
+  
+  $form['tableofcontents']['tableofcontents_attachments_' . $format] = array(
+    '#title' => t('Show attachments in the table of contents'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('tableofcontents_attachments_' . $format, FALSE),
+  );
+  
+  return $form;
+}
+
+/**
  * Implementation of hook_nodeapi
  *
  * We need to clear the cache to cover the case where file attachments have changed, but
@@ -270,8 +321,7 @@ function tableofcontents_filter($op, $delta = 0, $format = -1, $text = '') {
  * with attachments, but since this only occurs during editing or creating the load should be
  * pretty minimal.
  */
-
-function tableofcontents_nodeapi (&$node, $op, $a3 = NULL, $a4 = NULL) {
+function tableofcontents_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   switch ($op) {
     case 'prepare':
       if (isset($node->files)) {
@@ -280,5 +330,123 @@ function tableofcontents_nodeapi (&$node, $op, $a3 = NULL, $a4 = NULL) {
         cache_clear_all($cid, 'cache_filter');
       }
       break;
+      
+    case 'presave':
+      if (variable_get("tableofcontents_remove_teaser_$node->format", TRUE)) {
+        $filters = filter_list_format($node->format);
+        if (isset($filters['tableofcontents/0'])) {
+          if ($node->teaser && ($node->teaser != $new_teaser = preg_replace('!<\!-- ?tableofcontents(.*)-->!', '', $node->teaser))) {
+            if (strpos($node->body, '<!--break-->') > 0) {
+              // We've specfied the split, but the summary is shown in the full
+              // view. So, we now have to convert it so that the summary is
+              // hidden.
+              $node->body = preg_replace('/(.*)<!--break-->/s', '<!--break-->$1', $node->body);
+              drupal_set_message(t("Your summary was split from the body as site settings don't allow Table of Contents in summaries."));
+            }
+            else {
+              // This is the case where no specific break or summary was
+              // specified, so now it becomes a split teaser.
+              $node->body = '<!--break-->' . $node->body;
+              drupal_set_message(t("A split summary was automatically created as site settings don't allow Table of Contents in summaries."));
+            }
+            
+            // Remove toc from teasers.
+            $node->teaser = $new_teaser;
+          }
+        }
+      }
+      break;
   }
+}
+
+/**
+ * Implementation of hook_theme
+ * @return
+ *   Array of theme hooks this module implements.
+ */
+function tableofcontents_theme() {
+  return array(
+    'tableofcontents_toc' => array(
+      'arguments' => array(
+        'toc' => NULL,
+        'options' => NULL,
+        'files' => array(),
+      ),
+    ),
+  );
+}
+
+/**
+ * Theme the output of a table of contents.
+ * 
+ * @param $toc
+ *   Array containing the table of contents.
+ * @param $options
+ *   The array of options for the table of contents.
+ * @param $files
+ *   Optional array of files to render in the table of contents.
+ * @return
+ *   Rendered HTML to be displayed.
+ */
+function theme_tableofcontents_toc($toc, $options, $files = array()) {
+  $output = "<div class=\"toc\">\n<div class=\"toc-title\">" .
+  $options["title"] . " [<a href=\"#\" class=\"toc-toggle\">" . t('hide') . "</a>]</div>\n<div class=\"toc-list\">\n<" .
+  $options["list"] . ">\n";
+
+  $depth = $options["minlevel"];
+  foreach ($toc as $index=>$title) {
+
+    // Process nested lists.
+    $curdepth = $title['level'];
+    if ($curdepth <= $options["maxlevel"]) {
+      // Close list items but not before no items have been added.
+      if ($curdepth == $depth && $index != 0) $output .= "</li>\n";
+      // Be sure to deal with skipping between non-adjacent h levels.
+      while ($curdepth != $depth) {
+        if ($curdepth > $depth) {
+          $output .= "\n<" . $options["list"] . ">\n";
+          $depth++;
+        }
+        else if ($curdepth < $depth) {
+          $output .= "</li>\n</" . $options["list"] . ">\n";
+          $depth--;
+          if ($curdepth == $depth) $output .= "</li>\n";
+        }
+      }
+
+      // insert the li element
+      $output .= "\t<li><a href=\"#".$title['anchor']."\">".$title['heading']."</a>";
+    }
+  }
+  // Did we recurse back out? If not, close open lists.
+  while ($depth > $options["minlevel"]) {
+    $output .= "</li>\n</" . $options["list"] . ">\n";
+    $depth = $depth - 1;
+  }
+  $output .= "</li>\n";
+  
+  // If we've been passed an array of files, add them to the table of contents.
+  if (!empty($files)) {
+    $output .= '<li><a href="#attachments">' . t("Attachments") . "</a>";
+    $output .= "<" . $options["list"] . ">";
+    foreach($files as $file) {
+      if ($file->list && !$file->remove) {
+        $output .= '<li>';
+
+        // If there is no function providing phptemplate_file_icon in
+        // template.php or similar then this will fail gracefully.
+        $output .= theme('file_icon', $file);
+
+        $file_href = $href = file_create_url((strpos($file->fid, 'upload') === FALSE ? $file->filepath : file_create_filename($file->filename, file_create_path())));
+        $file_text = $file->description ? $file->description : $file->filename;
+
+        $output .= l($file_text, $file_href) . "</li>\n";
+      }
+    }
+    $output .= "</" . $options['list'] . "></li>\n";
+  }
+  
+  $output .= "</".$options["list"].">\n</div>\n</div>";
+  
+  return $output;
 }

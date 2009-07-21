@@ -4,9 +4,9 @@ description = "Enables the usage of FCKeditor (WYSIWYG) instead of plain text fi
 core = 6.x
 
 
-; Information added by drupal.org packaging script on 2008-12-13
-version = "6.x-2.0-alpha4"
+; Information added by drupal.org packaging script on 2009-03-19
+version = "6.x-2.0-beta1"
 core = "6.x"
 project = "fckeditor"
-datestamp = "1229126715"
+datestamp = "1237480528"
 

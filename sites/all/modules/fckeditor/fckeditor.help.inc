@@ -1,5 +1,5 @@
 <?php
-// $Id: fckeditor.help.inc,v 1.1.2.11 2008/12/12 19:37:35 wwalc Exp $
+// $Id: fckeditor.help.inc,v 1.1.2.13 2009/03/11 13:42:22 wwalc Exp $
 /**
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
@@ -93,14 +93,14 @@ function fckeditor_help_delegate($path, $arg) {
       $output .= '<ol>';
       $output .= '<li>'. t('Open "!fckeditor.config.js" and uncomment these three lines: <pre>!code</pre>', array('!fckeditor.config.js' => base_path() . drupal_get_path('module', 'fckeditor') .'/fckeditor.config.js', '!code' => "\nFCKConfig.PluginsPath = '../../plugins/';\nFCKConfig.Plugins.Add('drupalbreak');\nFCKConfig.Plugins.Add('drupalpagebreak');\n")) .'</li>';
       $output .= '<li>'. t('The second step is to add buttons to the toolbar (in the same file). The button names are: "DrupalBreak", "DrupalPageBreak". For example if you have a toolbar with an array of buttons defined as follows: <pre>!buttons1</pre> simply add those two buttons at the end of array (remember about single quotes): <pre>!buttons2</pre>', array('!buttons1' => "['Image','Flash','Table','Rule','SpecialChar']", '!buttons2' => "['Image','Flash','Table','Rule','SpecialChar', 'DrupalBreak', 'DrupalPageBreak']")) .'</li>';
-      $output .= '<li>'. t('Note that the &lt;--pagebreak--&gt; tag is not supported by default in Drupal. You should install the <a href="!paging" target="_blank">Paging</a> module to enable the &lt;!--pagebreak--&gt; tag support. Please refer to the Paging module documentation for detailed installation instructions.', array("!paging" => "http://drupal.org/project/paging")).'</li>';
+      $output .= '<li>'. t('Note that the &lt;--pagebreak--&gt; tag is not supported by default in Drupal. You should install the <a href="!paging" target="_blank">Paging</a> module to enable the &lt;!--pagebreak--&gt; tag support. Please refer to the Paging module documentation for detailed installation instructions.', array("!paging" => "http://drupal.org/project/paging")) .'</li>';
       $output .= '</ol>';
 
       $output .= '<h3>'. t('Uploading images and files') .'</h3>';
       $output .= '<p>'. t('There are three ways for uploading files:') .'</p>';
       $output .= '<ol>';
       $output .= '<li>'. t('By using the built-in file browser.') .'</li>';
-      $output .= '<li>'. t('By using a module like <a href="!imce">IMCE</a> or <a href="!ib">Image Browser</a>.', array('!imce' => 'http://drupal.org/project/imce', '!ib' => 'http://drupal.org/project/imagebrowser')) .'</li>';
+      $output .= '<li>'. t('By using a module like <a href="!imce">IMCE</a>, <a href="!ib">Image Browser</a> or <a href="!webfm">Web File Manager</a>.', array('!imce' => 'http://drupal.org/project/imce', '!ib' => 'http://drupal.org/project/imagebrowser', '!webfm' => 'http://drupal.org/project/webfm')) .'</li>';
       $output .= '<li>'. t('By using the core upload module.') .'</li>';
       $output .= '</ol>';
 

@@ -1,4 +1,4 @@
-// $Id: fckeditor.utils.js,v 1.2.2.8.2.17 2008/12/05 09:07:28 wwalc Exp $
+// $Id: fckeditor.utils.js,v 1.2.2.8.2.22 2009/03/11 11:59:38 wwalc Exp $
 // map of instancename -> FCKeditor object
 var fckInstances = {};
 // this object will store teaser information
@@ -20,7 +20,7 @@ Drupal.behaviors.fckeditor = function(context) {
           $.post(Drupal.settings.basePath + 'index.php?q=fckeditor/xss', {
             text: $('#' + taid).val(),
             'filters[]': Drupal.settings.fckeditor_filters[fckInstances[taid].DrupalId]
-            }, 
+            },
             function(text) {
               textarea.val(text);
               $('#img_assist-link-' + taid).hide();
@@ -33,7 +33,7 @@ Drupal.behaviors.fckeditor = function(context) {
           editorInstance.ReplaceTextarea();
           $('#img_assist-link-' + taid).hide();
           $(".img_assist-button").hide();
-        }        
+        }
       }
     }
   });
@@ -54,7 +54,7 @@ function Toggle(textareaID, TextTextarea, TextRTE, xss_check)
       $.post(Drupal.settings.basePath + 'index.php?q=fckeditor/xss', {
         text: $('#' + textareaID).val(),
         'filters[]': Drupal.settings.fckeditor_filters[fckInstances[textareaID].DrupalId]
-        }, 
+        },
         function(text) {
           $('#' + textareaID).val(text);
           fckInstances[textareaID].ReplaceTextarea();
@@ -82,6 +82,10 @@ function Toggle(textareaID, TextTextarea, TextRTE, xss_check)
     swtch.text(TextRTE);
 
     text = editorInstance.GetData(true);
+    // #372150 and #374386
+    if (text == '<br />' || text == '<p>&#160;</p>' || text == '<div>&#160;</div>') {
+        text = '';
+    }
 
     // check if we have to take care of teasers
     var teaser = FCKeditor_TeaserInfo(textareaID);
@@ -108,7 +112,6 @@ function Toggle(textareaID, TextTextarea, TextRTE, xss_check)
     } else {
       text = textArea.val();
     }
-
     textArea.val(text);
 
     textArea.show();
@@ -155,7 +158,7 @@ function Toggle(textareaID, TextTextarea, TextRTE, xss_check)
  * editor instance is completely loaded and available for API interactions.
  */
 function FCKeditor_OnComplete(editorInstance) {
-  
+
   // Enable the switch button. It is disabled at startup, waiting the editor to be loaded.
   $('#switch_' + editorInstance.Name).show();
   editorInstance.Events.AttachEvent('OnAfterLinkedFieldUpdate', FCKeditor_OnAfterLinkedFieldUpdate);
@@ -165,7 +168,7 @@ function FCKeditor_OnComplete(editorInstance) {
   if (teaser) {
     // if there is a teaser, prepend it to the text, only when switched to FCKeditor using toggle
     //if (fckInstances[editorInstance.Name].defaultState == 2) {
-      if (teaser.textarea.val().length > 0 && editorInstance.GetData(true).indexOf('\n<!--break-->\n') == -1 ) {
+      if (teaser.textarea.val().length > 0 && editorInstance.GetData(true).indexOf('<!--break-->') == -1 ) {
         var text = teaser.textarea.val() + '\n<!--break-->\n' + editorInstance.GetData(true);
         editorInstance.SetData(text);
       }
@@ -200,6 +203,10 @@ function FCKeditor_OnAfterLinkedFieldUpdate(editorInstance) {
 
   if ($(textArea).is(':hidden')) {
     var text = editorInstance.GetData(true);
+    // #372150 and #374386
+    if (text == '<br />' || text == '<p>&#160;</p>' || text == '<div>&#160;</div>') {
+        text = '';
+    }
     textArea.value = text;
     // only update the teaser field if this field is associated with a teaser field
     if (teaser) {
@@ -296,4 +303,19 @@ function FCKeditor_OpenPopup(popupUrl, jsID, textareaID) {
   }
 
   window.open(popupUrl, null, 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=1,dependent=yes');
+}
+
+// Probably JsMin was used to compress the code.
+// In such case, in IE FCKeditor_IsCompatibleBrowser() will always return false.
+if (typeof(FCKeditor_IsCompatibleBrowser) == 'function' && !FCKeditor_IsCompatibleBrowser()) {
+  var FCKeditor_IsCompatibleBrowser = function() {
+    var sAgent = navigator.userAgent.toLowerCase() ;
+    // Internet Explorer 5.5+
+    if ( sAgent.indexOf("mac") == -1 && sAgent.indexOf("opera") == -1 && navigator.appVersion.match( /MSIE (.\..)/ ) )
+    {
+      var sBrowserVersion = navigator.appVersion.match(/MSIE (.\..)/)[1] ;
+      return ( sBrowserVersion >= 5.5 ) ;
+    }
+    return false;
+  }
 }

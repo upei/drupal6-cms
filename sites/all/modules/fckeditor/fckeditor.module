@@ -1,5 +1,5 @@
 <?php
-// $Id: fckeditor.module,v 1.20.2.34.2.55 2008/12/09 16:54:09 wwalc Exp $
+// $Id: fckeditor.module,v 1.20.2.34.2.69 2009/03/11 14:22:14 wwalc Exp $
 /**
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
@@ -36,11 +36,11 @@
  */
 define('FCKEDITOR_FORCE_SIMPLE_TOOLBAR_NAME', 'DrupalBasic') ;
 
-global $fckeditor_configuration;
-global $fckeditor_js_ids;
+global $_fckeditor_configuration;
+global $_fckeditor_js_ids;
 
-$fckeditor_configuration = array();
-$fckeditor_js_ids = array();
+$_fckeditor_configuration = array();
+$_fckeditor_js_ids = array();
 
 /**
  * Implementation of hook_help().
@@ -99,7 +99,7 @@ function fckeditor_elements() {
     if (fckeditor_is_compatible_client()) {
       // it would be useless to dig deeper if we're not able or allowed to
       $type['textarea'] = array('#process' => array('fckeditor_process_textarea'));
-      $type['form'] = array('#after_build' => array('fckeditor_process_form'));      
+      $type['form'] = array('#after_build' => array('fckeditor_process_form'));
     }
   }
   return $type;
@@ -114,10 +114,10 @@ function fckeditor_filter_xss() {
   if (!isset($_POST['text']) || !is_string($_POST['text']) || !is_array($_POST['filters'])) {
     exit;
   }
-  
+
   $text = $_POST['text'];
   $text = strtr($text, array('<!--' => '__COMMENT__START__', '-->' => '__COMMENT__END__'));
-  
+
   foreach ($_POST['filters'] as $module_delta) {
     $module = strtok($module_delta, "/");
     $delta = strtok("/");
@@ -139,7 +139,7 @@ function fckeditor_filter_xss() {
       $text = module_invoke($module, 'filter', 'process', $delta, $format, $text);
     }
   }
-  
+
   $text = strtr($text, array('__COMMENT__START__' => '<!--', '__COMMENT__END__' => '-->'));
 
   echo $text;
@@ -147,45 +147,45 @@ function fckeditor_filter_xss() {
 }
 
 function fckeditor_process_form(&$form) {
-  global $fckeditor_configuration, $fckeditor_js_ids;
+  global $_fckeditor_configuration, $_fckeditor_js_ids;
   static $processed_textareas = array();
   static $found_textareas = array();
-  
+
   //Skip if:
   // - we're not editing an element
   // - fckeditor is not enabled (configuration is empty)
-  if (arg(1) == "add" || arg(1) == "reply" || !count($fckeditor_configuration)) {
+  if (arg(1) == "add" || arg(1) == "reply" || !count($_fckeditor_configuration)) {
     return $form;
-  }  
-  
+  }
+
   $fckeditor_filters = array();
-    
+
   // Iterate over element children; resetting array keys to access last index.
   if ($children = array_values(element_children($form))) {
     foreach ($children as $index => $item) {
       $element = &$form[$item];
 
-      if (isset($element['#id']) && in_array($element['#id'], array_keys($fckeditor_js_ids))) {
+      if (isset($element['#id']) && in_array($element['#id'], array_keys($_fckeditor_js_ids))) {
         $found_textareas[$element['#id']] = &$element;
       }
-      
+
       // filter_form() always uses the key 'format'. We need a type-agnostic
       // match to prevent false positives. Also, there must have been at least
       // one element on this level.
       if ($item === 'format' && $index > 0) {
-        
+
         // Make sure we either match a input format selector or input format
         // guidelines (displayed if user has access to one input format only).
         if ((isset($element['#type']) && $element['#type'] == 'fieldset') || isset($element['format']['guidelines'])) {
           // The element before this element is the target form field.
           $field = &$form[$children[$index - 1]];
           $textarea_id = $field['#id'];
-          $js_id = $fckeditor_js_ids[$textarea_id];
-          
+          $js_id = $_fckeditor_js_ids[$textarea_id];
+
           array_push($processed_textareas, $js_id);
-          
+
           //search for checkxss1/2 class
-          if (empty($field['#attributes']['class']) || strpos($field['#attributes']['class'], "checkxss") === false) {
+          if (empty($field['#attributes']['class']) || strpos($field['#attributes']['class'], "checkxss") === FALSE) {
             continue;
           }
 
@@ -193,27 +193,27 @@ function fckeditor_process_form(&$form) {
           // link to "More information about formatting options". When only one
           // input format is displayed, we also have to remove formatting
           // guidelines, stored in the child 'format'.
-          $formats = element_children($element);          
-          
+          $formats = element_children($element);
+
           foreach ($formats as $format_id) {
             $format = !empty($element[$format_id]['#default_value']) ? $element[$format_id]['#default_value'] : $element[$format_id]['#value'];
             break;
           }
-          
+
           $enabled = filter_list_format($format);
           $fckeditor_filters = array();
-          
+
           //loop through all enabled filters
           foreach ($enabled as $id => $filter) {
             //but use only that one selected in FCKeditor profile
-            if (in_array($id, array_keys($fckeditor_configuration[$textarea_id]['filters']))) {
+            if (in_array($id, array_keys($_fckeditor_configuration[$textarea_id]['filters'])) && $_fckeditor_configuration[$textarea_id]['filters'][$id]) {
               if (!isset($fckeditor_filters[$js_id])) {
                 $fckeditor_filters[$js_id] = array();
               }
-              $fckeditor_filters[$js_id][] = $id ."/".$format;
+              $fckeditor_filters[$js_id][] = $id ."/". $format;
             }
           }
-          
+
           //No filters assigned, remove xss class
           if (empty($fckeditor_filters[$js_id])) {
             $field['#attributes']['class'] = preg_replace("/checkxss(1|2)/", "", $field['#attributes']['class']);
@@ -221,7 +221,7 @@ function fckeditor_process_form(&$form) {
           else {
             $field['#attributes']['class'] = strtr($field['#attributes']['class'], array("checkxss1" => "filterxss1", "checkxss2" => "filterxss2"));
           }
-          
+
           array_pop($formats);
           unset($formats['format']);
         }
@@ -232,29 +232,29 @@ function fckeditor_process_form(&$form) {
       fckeditor_process_form($element);
     }
   }
-  
+
   //We're in a form
   if (isset($form['#action'])) {
     //some textareas associated with FCKeditor has not been processed
-    if (count($processed_textareas) < count($fckeditor_js_ids)) {
+    if (count($processed_textareas) < count($_fckeditor_js_ids)) {
       //loop through all found textfields
       foreach (array_keys($found_textareas) as $id) {
-      	$element = &$found_textareas[$id];
+        $element = &$found_textareas[$id];
         //if not processed yet (checkxss class is before final processing)
-        if (strpos($element['#attributes']['class'], "checkxss") !== false && !in_array($fckeditor_js_ids[$element['#id']], $processed_textareas)) {
-          //assign default Filtered HTML to be safe on fields that do not have input format assigned
-          $js_id = $fckeditor_js_ids[$element['#id']];
+        if (strpos($element['#attributes']['class'], "checkxss") !== FALSE && !in_array($_fckeditor_js_ids[$element['#id']], $processed_textareas) && !empty($_fckeditor_configuration[$id]['filters']) && array_sum($_fckeditor_configuration[$id]['filters'])) {
+          //assign default Filtered HTML to be safe on fields that do not have input format assigned, but only if at least one security filter is enabled in Security settings
+          $js_id = $_fckeditor_js_ids[$element['#id']];
           $fckeditor_filters[$js_id][] = "filter/0/1";
           $element['#attributes']['class'] = strtr($element['#attributes']['class'], array("checkxss1" => "filterxss1", "checkxss2" => "filterxss2"));
         }
       }
     }
   }
-  
+
   if (!empty($fckeditor_filters)) {
     drupal_add_js(array('fckeditor_filters' => $fckeditor_filters), 'setting');
   }
-  
+
   return $form;
 }
 
@@ -281,7 +281,7 @@ function fckeditor_menu() {
     'access arguments' => array('access fckeditor'),
     'type' => MENU_CALLBACK,
   );
-    
+
   $items['admin/settings/fckeditor'] = array(
     'title' => 'FCKeditor settings',
     'description' => 'Configure the rich text editor.',
@@ -364,24 +364,27 @@ function fckeditor_init() {
 /**
  * Implementation of hook_file_download().
  * Support for private downloads.
+ * FCKeditor does not implement any kind of potection on private files.
  */
 function fckeditor_file_download($file) {
-  if (module_exists('imce') && variable_get('imce_settings_fck', 0)) {
-    return NULL;
-  }
-  if (module_exists('upload')) {
-    $result = db_query("SELECT f.* FROM {files} f WHERE filepath = '%s'", $file);
+  if ($path = file_create_path($file)) {
+    $result = db_query("SELECT f.* FROM {files} f WHERE filepath = '%s'", $path);
     if (db_fetch_object($result)) {
-      return NULL;
+        return NULL;
+    }
+
+    //No info in DB? Probably a file uploaded with FCKeditor
+    $global_profile = fckeditor_profile_load("FCKeditor Global Profile");
+
+    //Assume that files inside of fckeditor directory belong to the FCKeditor. If private directory is set, let the decision about protection to the user.
+    $private_dir = isset($global_profile->settings['private_dir']) ? $global_profile->settings['private_dir'] : "/";
+
+    //If path to the file points to the FCKeditor private directory, allow downloading
+    if (strpos($path, file_directory_path() ."/". trim($private_dir, "/\\")) === 0) {
+      $ctype = ($info = @getimagesize($path)) ? $info['mime'] : (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download');
+      return array('Content-type: '. $ctype);
     }
   }
-  //it is probably file uploaded with FCKeditor
-  if (($path = file_create_path($file))) {
-    $ctype = ($info = @getimagesize($path)) ? $info['mime'] : (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download');
-    return array('Content-Type: '. $ctype .'; authoritative=true');
-  }
-
-  return -1;
 }
 
 /**
@@ -406,7 +409,7 @@ function fckeditor_profile_load($name = '') {
     }
   }
 
-  return ($name ? (isset($profiles[$name]) ? $profiles[$name] : FALSE) : $profiles);
+  return ($name ? (isset($profiles[urldecode($name)]) ? $profiles[urldecode($name)] : FALSE) : $profiles);
 }
 
 /**
@@ -440,7 +443,7 @@ function fckeditor_is_enabled($excl_mode, $excl_regex, $element_id, $get_q) {
 function fckeditor_process_textarea($element) {
   static $is_running = FALSE;
   static $num = 1;
-  global $user, $language, $fckeditor_configuration, $fckeditor_js_ids;
+  global $user, $language, $_fckeditor_configuration, $_fckeditor_js_ids;
   $enabled = TRUE;
 
   //hack for module developers that want to disable FCKeditor on their textareas
@@ -487,7 +490,7 @@ function fckeditor_process_textarea($element) {
       $enabled = FALSE;
     }
   }
-  
+
   //old profile info, assume Filtered HTML is enabled
   if (!isset($conf['ss'])) {
     $conf['ss'] = 2;
@@ -496,7 +499,7 @@ function fckeditor_process_textarea($element) {
   if (!isset($conf['filters'])) {
     $conf['filters'] = array();
   }
-    
+
   $themepath = path_to_theme() .'/';
   $host = base_path();
 
@@ -517,16 +520,16 @@ function fckeditor_process_textarea($element) {
     else {
       $element['#attributes']['class'] .= ' fckeditor';
     }
-    
+
     $js_id = 'oFCK_'. $num++;
-    $fckeditor_js_ids[$element['#id']] = $js_id;
+    $_fckeditor_js_ids[$element['#id']] = $js_id;
     $fckeditor_on = ($conf['default']=='t') ? 1 : 0 ;
 
     $xss_check = 0;
     //it's not a problem when adding new content/comment
     if (arg(1) != "add" && arg(1) != "reply") {
-      $fckeditor_configuration[$element['#id']] = $conf;
-      
+      $_fckeditor_configuration[$element['#id']] = $conf;
+
       //let FCKeditor know when perform XSS checks auto/manual
       if ($conf['ss'] == 1) {
         $xss_class = 'checkxss1';
@@ -538,7 +541,7 @@ function fckeditor_process_textarea($element) {
       $element['#attributes']['class'] .= ' '. $xss_class;
       $xss_check = 1;
     }
-        
+
     //settings are saved as strings, not booleans
     if ($conf['show_toggle'] == 't') {
       $content = '';
@@ -591,12 +594,19 @@ function fckeditor_process_textarea($element) {
       $toolbar = FCKEDITOR_FORCE_SIMPLE_TOOLBAR_NAME;
     }
 
+    if (!empty($conf['theme_config_js']) && $conf['theme_config_js'] == 't' && file_exists($themepath .'fckeditor.config.js')) {
+      $fckeditor_config_path = $host . $themepath .'fckeditor.config.js?'. @filemtime($themepath .'fckeditor.config.js');
+    }
+    else {
+      $fckeditor_config_path = $module_full_path ."/fckeditor.config.js?". @filemtime($module_drupal_path ."/fckeditor.config.js");
+    }
+
     $js = $js_id ." = new FCKeditor( '". $textarea_id ."' );
 ". $js_id .".defaultState = ". (($fckeditor_on && $conf['popup'] == 'f') ? 1 : 0) .";
 ". $js_id .".BasePath = '". $editor_path ."/';
 ". $js_id .".DrupalId = '". $js_id ."';
 ". $js_id .".Config['PluginsPath'] = '". $module_full_path ."/plugins/';
-". $js_id .".Config['CustomConfigurationsPath'] = \"". $module_full_path ."/fckeditor.config.js?". @filemtime($module_drupal_path ."/fckeditor.config.js") ."\";
+". $js_id .".Config['CustomConfigurationsPath'] = \"". $fckeditor_config_path ."\";
 ". $js_id .".Config['TextareaID'] = \"". $element['#id'] ."\";";
 
     //if ($conf['appearance_conf'] == 'f') {
@@ -632,6 +642,9 @@ function fckeditor_process_textarea($element) {
       if ($filebrowser == 'ib' && !module_exists('imagebrowser')) {
         $filebrowser = 'none';
       }
+      if ($filebrowser == 'webfm' && !module_exists('webfm_popup')) {
+        $filebrowser = 'none';
+      }
       $quickupload = (!empty($conf['quickupload']) && $conf['quickupload'] == 't');
 
       // load variables used by both quick upload and filebrowser
@@ -654,8 +667,15 @@ function fckeditor_process_textarea($element) {
         if (!empty($profile->settings['UserFilesPath'])) $_SESSION['FCKeditor']['UserFilesPath'] = strtr($profile->settings['UserFilesPath'], array("%f" => file_directory_path(), "%u" => $user->uid, "%b" => $host, "%n" => $user->name));
         if (!empty($profile->settings['UserFilesAbsolutePath'])) $_SESSION['FCKeditor']['UserFilesAbsolutePath'] = strtr($profile->settings['UserFilesAbsolutePath'], array("%f" => file_directory_path(), "%u" => $user->uid, "%b" => base_path(), "%d" => $_SERVER['DOCUMENT_ROOT'], "%n" => $user->name));
         if (variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE) {
-          $_SESSION['FCKeditor']['UserFilesPath'] = url('system/files') .'/';
-          $_SESSION['FCKeditor']['UserFilesAbsolutePath'] = realpath(file_directory_path()) . DIRECTORY_SEPARATOR;
+          $private_dir = trim(isset($global_profile->settings['private_dir']) ? $global_profile->settings['private_dir'] : "", "/\\");
+          if (strlen($private_dir)) {
+            $_SESSION['FCKeditor']['UserFilesPath'] = url('system/files') .'/'. $private_dir .'/';
+            $_SESSION['FCKeditor']['UserFilesAbsolutePath'] = realpath(file_directory_path()) . DIRECTORY_SEPARATOR . $private_dir . DIRECTORY_SEPARATOR;
+          }
+          else {
+            $_SESSION['FCKeditor']['UserFilesPath'] = url('system/files') .'/';
+            $_SESSION['FCKeditor']['UserFilesAbsolutePath'] = realpath(file_directory_path()) . DIRECTORY_SEPARATOR;
+          }
         }
       }
 
@@ -678,9 +698,19 @@ function fckeditor_process_textarea($element) {
           $js .= $js_id .".Config['LinkBrowser']= true;\n";
           $js .= $js_id .".Config['ImageBrowser']= true;\n";
           $js .= $js_id .".Config['FlashBrowser']= true;\n";
-          $js .= $js_id .".Config['LinkBrowserURL']= '". $host ."?q=imce&app=FCKEditor|url@txtUrl';\n";
-          $js .= $js_id .".Config['ImageBrowserURL']= '". $host ."?q=imce&app=FCKEditor|url@txtUrl|width@txtWidth|height@txtHeight';\n";
-          $js .= $js_id .".Config['FlashBrowserURL']= '". $host ."?q=imce&app=FCKEditor|url@txtUrl';\n";
+          $js .= $js_id .".Config['LinkBrowserURL']= '". $host ."index.php?q=imce&app=FCKEditor|url@txtUrl';\n";
+          $js .= $js_id .".Config['ImageBrowserURL']= '". $host ."index.php?q=imce&app=FCKEditor|url@txtUrl|width@txtWidth|height@txtHeight';\n";
+          $js .= $js_id .".Config['FlashBrowserURL']= '". $host ."index.php?q=imce&app=FCKEditor|url@txtUrl';\n";
+          break;
+
+        case 'webfm':
+          $js .= $js_id .".Config['LinkBrowser']= true;\n";
+          $js .= $js_id .".Config['ImageBrowser']= true;\n";
+          $js .= $js_id .".Config['FlashBrowser']= true;\n";
+          $js .= $js_id .".Config['ImageDlgHideLink']= true;\n";
+          $js .= $js_id .".Config['LinkBrowserURL']= '". $host ."index.php?q=webfm_popup&url=txtUrl';\n";
+          $js .= $js_id .".Config['ImageBrowserURL']= '". $host ."index.php?q=webfm_popup&url=txtUrl';\n";
+          $js .= $js_id .".Config['FlashBrowserURL']= '". $host ."index.php?q=webfm_popup&url=txtUrl';\n";
           break;
 
         case 'builtin':
@@ -696,8 +726,8 @@ function fckeditor_process_textarea($element) {
           $js .= $js_id .".Config['ImageBrowser']= true;\n";
           $js .= $js_id .".Config['LinkBrowser']= true;\n";
           $js .= $js_id .".Config['FlashBrowser']= false;\n";
-          $js .= $js_id .".Config['ImageBrowserURL']= '". $host ."?q=imagebrowser/view/browser&app=FCKEditor';\n";
-          $js .= $js_id .".Config['LinkBrowserURL']= '". $host ."?q=imagebrowser/view/browser&app=FCKEditor';\n";
+          $js .= $js_id .".Config['ImageBrowserURL']= '". $host ."index.php?q=imagebrowser/view/browser&app=FCKEditor';\n";
+          $js .= $js_id .".Config['LinkBrowserURL']= '". $host ."index.php?q=imagebrowser/view/browser&app=FCKEditor';\n";
           $js .= $js_id .".Config['ImageBrowserWindowWidth']= '680';";
           $js .= $js_id .".Config['ImageBrowserWindowHeight'] = '439';";
           $js .= $js_id .".Config['LinkBrowserWindowWidth']= '680';";
@@ -735,8 +765,8 @@ function fckeditor_process_textarea($element) {
 
     // add custom xml stylesheet if it exists
     if (!empty($conf['css_style']) && $conf['css_style'] == 'theme') {
-      if (file_exists($themepath .'/fckstyles.xml')) {
-        $styles_xml_path = $host . $themepath .'/fckstyles.xml';
+      if (file_exists($themepath .'fckstyles.xml')) {
+        $styles_xml_path = $host . $themepath .'fckstyles.xml';
         $js .= $js_id .".Config['StylesXmlPath'] = \"". $styles_xml_path ."\";\n";
       }
     }
@@ -749,23 +779,59 @@ function fckeditor_process_textarea($element) {
     $cssfiles = array($module_full_path .'/fckeditor.css');
     switch ($conf['css_mode']) {
       case 'theme':
-        global $theme, $theme_info;
+        global $language, $theme, $theme_info, $base_theme_info;
 
-        $default_theme_css = array($themepath .'style.css');
-        $css = array_shift(variable_get('color_'. $theme .'_stylesheets', $default_theme_css));
-
-        if (file_exists($css)) {
-          $cssfiles[] =  $host . $css;
-        }
-        elseif (file_exists($themepath . $theme .'.css')) {
-          $cssfiles[] =  $host . $themepath . $theme .'.css';
-        }
-        elseif (!empty($theme_info->info['stylesheets']['all'])) {
-          foreach ($theme_info->info['stylesheets']['all'] as $value) {
-            $cssfiles[] = $host . $value;
+        $style_css = $themepath .'style.css';
+        if (!empty($theme_info->stylesheets)) {
+          $css_files = array();
+          $editorcss = "\"";
+          foreach ($base_theme_info as $base) { // Grab stylesheets from base theme
+            foreach ($base->stylesheets as $type => $stylesheets) {
+              if ($type != "print") {
+                foreach ($stylesheets as $name => $path) {
+                  if (file_exists($path)) {
+                    $css_files[$name] = $host . $path;
+                  }
+                }
+              }
+            }
           }
+          if (!empty($theme_info->stylesheets)) { // Grab stylesheets from current theme
+            foreach ($theme_info->stylesheets as $type => $stylesheets) {
+              if ($type != "print") {
+                foreach ($stylesheets as $name => $path) {
+                  if (file_exists($path)) {
+                    $css_files[$name] = $host . $path;
+                  }
+                  else if (!empty($css_files[$name])) {
+                    unset($css_files[$name]);
+                  }
+                }
+              }
+            }
+          }
+          if (!empty($css_files)) {
+            $editorcss .= implode(",", $css_files) .",";
+          }
+          // Grab stylesheets from color module
+          $color_paths = variable_get('color_'. $theme .'_stylesheets', array());
+          if (defined('LANGUAGE_RTL') && $language->direction == LANGUAGE_RTL) {
+            if (!empty($color_paths[1])) {
+              $editorcss .= $host . $color_paths[1] .",";
+            }
+          }
+          else if (!empty($color_paths[0])) {
+            $editorcss .= $host . $color_paths[0] .",";
+          }
+          $editorcss .= $module_full_path ."/fckeditor.css\";\n";
+          $js .=  $js_id .".Config['EditorAreaCSS'] = ". $editorcss;
         }
-        $js .=  $js_id .".Config['EditorAreaCSS'] = '". implode(',', $cssfiles) ."';\n";
+        else if (file_exists($style_css)) {
+          $js .=  $js_id .".Config['EditorAreaCSS'] = \"". $host . $style_css .",". $module_full_path ."/fckeditor.css\";";
+        }
+        else {
+          $js .=  $js_id .".Config['EditorAreaCSS'] = \"". $module_full_path ."/fckeditor.css\";";
+        }
         break;
 
       case 'self':
@@ -778,7 +844,6 @@ function fckeditor_process_textarea($element) {
         $js .=  $js_id .".Config['EditorAreaCSS'] = ". $js_id .".BasePath + 'editor/css/fck_editorarea.css,' + '". implode(',', $cssfiles) ."';\n";
         break;
     }
-
     if ($num == 2) {
       $js .= 'var fckInstances = {};';
     }
@@ -839,18 +904,27 @@ function fckeditor_sorted_roles() {
  */
 function fckeditor_is_compatible_client() {
   $editor_local_path    = fckeditor_path(TRUE);
-  
-  if (!function_exists('version_compare') || version_compare(phpversion(), '5', '<'))
-    $fckeditor_main_file  = $editor_local_path .'/fckeditor_php4.php';
-  else
-    $fckeditor_main_file  = $editor_local_path .'/fckeditor_php5.php';
-  
-  if (file_exists($fckeditor_main_file)) {
-    include_once $fckeditor_main_file;
+
+  $fckeditor_main_file = $editor_local_path .'/fckeditor.php';
+  if (!function_exists('version_compare') || version_compare(phpversion(), '5', '<')) {
+    $fckeditor_target_file = $editor_local_path .'/fckeditor_php4.php';
+  }
+  else {
+    $fckeditor_target_file = $editor_local_path .'/fckeditor_php5.php';
+  }
+
+  if (file_exists($fckeditor_target_file)) {
+    include_once $fckeditor_target_file;
+    //FCKeditor 2.6.1+
     if (function_exists('FCKeditor_IsCompatibleBrowser')) {
       return FCKeditor_IsCompatibleBrowser();
     }
     else if (class_exists('FCKeditor')) {
+      //FCKeditor 2.5.1 up to 2.6 with definition of FCKeditor_IsCompatibleBrowser() in fckeditor.php
+      if (filesize($fckeditor_main_file) > 1500) {
+        include_once $fckeditor_main_file;
+      }
+      //FCKeditor 2.5.0 and earlier
       $fck = new FCKeditor('fake');
       return $fck->IsCompatible();
     }
@@ -866,17 +940,17 @@ function fckeditor_is_compatible_client() {
  */
 function fckeditor_html_filter_formats() {
   static $return;
-  
+
   if (isset($return)) {
     return $return;
   }
-  
+
   $return = array();
   $r = db_query("SELECT format FROM {filters} WHERE module = 'filter' AND delta = 0");
   while ($row = db_fetch_object($r)) {
     $return[] = $row->format;
   }
-  
+
   return $return;
 }
 

@@ -1,4 +1,4 @@
-/* $Id: CHANGELOG.txt,v 1.30.2.28 2009/01/18 21:51:17 sun Exp $ */
+/* $Id: CHANGELOG.txt,v 1.30.2.39 2009/07/15 22:58:07 sun Exp $ */
 
 Img_Assist x.x-x.x, xxxx-xx-xx
 ------------------------------
@@ -6,6 +6,24 @@ Img_Assist x.x-x.x, xxxx-xx-xx
 
 Img_Assist 6.x-2.x, xxxx-xx-xx
 ------------------------------
+
+
+Img_Assist 6.x-2.0-ALPHA4, 2009-07-15
+-------------------------------------
+#520564 by smk-ka: Fixed improper access checks and escaping in popup window.
+#469530 by sun: Fixed compatibility with Wysiwyg API 2.x.
+#497436 by iva2k: Fixed Image assist's button not showing up in Wysiwyg API 3.x.
+#428936 by sun: Fixed wrong default derivative image creation option value.
+#362128 by jonathan1055, sun: Fixed image count not displayed in select list.
+
+
+Img_Assist 6.x-2.0-ALPHA-3, 2009-03-09
+--------------------------------------
+by sun: Added Administration menu suppression.
+#247992 by Grugnog2, sun: Fixed file permissions of server-generated files.
+#293909 by alienbrain, sun: Fixed always adding thumbnail when image preset
+  width or height is unspecified.
+#319363 by sun: Follow-up: Synced 2.x with 3.x where possible.
 #356454 by sun: Fixed missing DB table placeholder tags for new count query.
 
 

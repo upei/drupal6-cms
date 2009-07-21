@@ -1,4 +1,4 @@
-// $Id: img_assist_tinymce.js,v 1.3.4.3 2009/01/18 04:10:37 sun Exp $
+// $Id: img_assist_tinymce.js,v 1.3.4.4 2009/02/01 09:59:57 sun Exp $
 /**
  * This javascript file allows img_assist to work with TinyMCE via the
  * drupalimage plugin for TinyMCE.
@@ -116,12 +116,12 @@ function insertToEditor(content) {
   tinyMCEPopup.editor.execCommand('mceInsertContent', false, content);
   
   // Close the dialog
-  tinyMCEPopup.close();
-  return false;
+  return cancelAction();
 }
 
 function cancelAction() {
   // Close the dialog
   tinyMCEPopup.close();
+  return false;
 }
 

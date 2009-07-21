@@ -1,5 +1,5 @@
 <?php
-// $Id: fckeditor.install,v 1.2.2.10.2.36 2008/12/12 18:04:49 wwalc Exp $
+// $Id: fckeditor.install,v 1.2.2.10.2.38 2009/02/16 11:58:03 wwalc Exp $
 /*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
@@ -61,7 +61,7 @@ function fckeditor_install() {
   //security
   $arr['ss'] = "2";
   $arr['filters']['filter/0'] = 1;
-    
+
   //appearance
   $arr['default'] = "t";
   $arr['show_toggle'] = "t";
@@ -126,6 +126,7 @@ function fckeditor_install() {
   "*.edit-feedburner-useragents\n".
   "*@*.edit-webform-*\n".
   "admin/*/logintoboggan\n".
+  "admin/settings/actions/configure/*\n".
   "*.edit-target\n"
   );
 
@@ -147,37 +148,37 @@ function fckeditor_install() {
  */
 function fckeditor_schema() {
   $schema['fckeditor_settings'] = array(
-  'description' => t('Stores FCKeditor profile settings'),
+  'description' => 'Stores FCKeditor profile settings',
   'fields' => array(
   'name'    => array(
   'type' => 'varchar',
   'not null' => TRUE,
   'default' => '',
   'length' => 128,
-  'description' => t('Name of the FCKeditor profile'),
+  'description' => 'Name of the FCKeditor profile',
     ),
     'settings'    => array(
       'type' => 'text',
-      'description' => t('Profile settings'),
+      'description' => 'Profile settings',
     ),
   ),
   'primary key' => array('name'),
   );
   $schema['fckeditor_role'] = array(
-    'description' => t('Stores FCKeditor profile assignments'),
+    'description' => 'Stores FCKeditor profile assignments',
     'fields' => array(
       'name'    => array(
         'type' => 'varchar',
         'not null' => TRUE,
         'default' => '',
         'length' => 128,
-        'description' => t('Name of the FCKeditor role'),
+        'description' => 'Name of the FCKeditor role',
       ),
       'rid' => array(
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
-        'description' => t('Drupal role id'),
+        'description' => 'Drupal role id',
       ),
     ),
     'primary key' => array('name', 'rid'),
@@ -315,7 +316,7 @@ function _fckeditor_requirements_filemanager_config_check($profile_name) {
   $require_once_line = 0;
   $userfiles_absolute_path_line = 0;
   $force_single_extension_line = 0;
-  
+
   if ($config_contents)
   foreach ($config_contents as $line_num => $line) {
     //make sure it doesn't start with a comment, unfortunately we're not protected if code is commented with /* */
@@ -330,11 +331,11 @@ function _fckeditor_requirements_filemanager_config_check($profile_name) {
       $force_single_extension_line = $line_num;
     }
   }
-  
+
   if (!$require_once_found) {
     return t('You are using a feature that requires manual integration into config.php (either built-in filebrowser or quick uploads are enabled in the !profile profile). Read instructions about enabling built-in file browser and add "require_once ..." statement in editor/filemanager/connectors/php/config.php.', array('!profile' => l($profile_name, 'admin/settings/fckeditor/edit/'. urlencode($profile_name))));
   }
-  
+
   if ($userfiles_absolute_path_line && $force_single_extension_line && (
   $require_once_line < $userfiles_absolute_path_line || $require_once_line > $force_single_extension_line)) {
     return t('You are using a feature that requires manual integration into config.php (either built-in filebrowser or quick uploads are enabled in the !profile profile). You have added "require_once ..." statement in editor/filemanager/connectors/php/config.php, but in the wrong line.', array('!profile' => l($profile_name, 'admin/settings/fckeditor/edit/'. urlencode($profile_name))));

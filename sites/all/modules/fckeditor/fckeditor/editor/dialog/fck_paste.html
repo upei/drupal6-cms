@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!--
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2008 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2009 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -29,7 +29,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex, nofollow" />
 	<script src="common/fck_dialog_common.js" type="text/javascript"></script>
-  <script type="text/javascript">
+	<script type="text/javascript">
 var dialog = window.parent ;
 var oEditor = dialog.InnerDialogLoaded() ;
 var FCK = oEditor.FCK;
@@ -87,6 +87,7 @@ window.onload = function ()
 	else
 	{
 		document.getElementById('txtData').style.display = '' ;
+		SelectField( 'txtData' ) ;
 	}
 
 	if ( sPastingType != 'Word' )
@@ -330,16 +331,14 @@ function CleanWord( oNode, bIgnoreFont, bRemoveStyles )
 		</tr>
 		<tr id="oWordCommands">
 			<td>
-				<img src="common/images/coverup.png" style="position:relative;left:-188px;top:0px;float:right;">
-				<input id="chkRemoveFont" type="checkbox" checked="checked" />
-					<!-- <label for="chkRemoveFont" fcklang="DlgPasteIgnoreFont">
-						Ignore Font Face</label> -->
-					<br />
-				
 
-           <input id="chkRemoveStyles" type="checkbox"  checked="checked"  />
-					<!-- <label for="chkRemoveStyles" fcklang="DlgPasteRemoveStyles">
-						Remove Styles</label> -->
+					<input id="chkRemoveFont" type="checkbox" checked="checked" />
+					<label for="chkRemoveFont" fcklang="DlgPasteIgnoreFont">
+						Ignore Font Face definitions</label>
+					<br />
+					<input id="chkRemoveStyles" type="checkbox" />
+					<label for="chkRemoveStyles" fcklang="DlgPasteRemoveStyles">
+						Remove Styles definitions</label>
 
 			</td>
 		</tr>

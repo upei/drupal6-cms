@@ -25,6 +25,10 @@
 
 //FCK.Events.AttachEvent( 'OnSelectionChange', FCKImgAssist.Redraw ) ;
 
+
+var imgAssistIcon= top.document.getElementById('img_assist-link-' + FCK.Config['TextareaID']);
+if (imgAssistIcon){
+
 var FCKImageAssistProcessor = FCKDocumentProcessor.AppendNew() ;
 FCKImageAssistProcessor.ProcessDocument = function( document )
 {
@@ -68,9 +72,15 @@ FCKImageAssistProcessor.OnDoubleClick = function( span ) {
   }
 }
 
+//Save reference to the internal FCKeditor TagProcessor
+//It must be called to process _fcksavedurl [#352704]
+var FCKXHtml_TagProcessors_Img = FCKXHtml.TagProcessors['img'];
+
 // We must process the IMG tags, change <img...> to [img_assist...]
 FCKXHtml.TagProcessors['img'] = function( node, htmlNode )
 {
+  node = FCKXHtml_TagProcessors_Img( node, htmlNode ) ;
+  
   if ( htmlNode.getAttribute('nid') ) {
     var IAString = FCKTools.ImageAssistCode ( htmlNode );
     if( IAString )
@@ -179,10 +189,7 @@ FCK.Events.AttachEvent( 'OnSelectionChange', FCKImageAssistProcessor.Redraw ) ;
 var FCKimageAssist = function(){
   this.EditMode = FCK.EditMode;
 }
-
-var imgAssistIcon= top.document.getElementById('img_assist-link-' + FCK.Config['TextareaID']);
-if (imgAssistIcon){
-
+  
   FCKimageAssist.prototype.Execute = function(){
     if ( FCK.EditMode != FCK_EDITMODE_WYSIWYG ) {
       return ;
