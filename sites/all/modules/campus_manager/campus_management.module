@@ -23,6 +23,7 @@ class SiteLocalSearchBlock extends DrupalBlockBase {
     $s = array();
     $bucket = _get_bucket();
     $s['content'] = <<<END
+
 <script type="text/javascript">
 function LocalSearchFormSubmit() {
   if (!document.forms['LocalSearchForm'].q.value.match(/site:/g)) {
@@ -119,10 +120,41 @@ function _campus_management_updateable_content() {
   $order = intval(trim($_REQUEST['_order']));
   $order = ($order == '0') ? 'DESC' : 'ASC';
   $bucket = $site[1];
-  $page_content = "<table>\n";
+  
+
+  	$form_content = "<fieldset><label>Filter</label>";
+	$form_content .= "<form name=\"frmSearch\" action=\"\" method=\"get\">";
+	$form_content .= "<table width=\"500\">";
+	$form_content .= "<tr>";
+	$form_content .= "	<td width=\"100\"><input type=\"radio\" id=\"edit-filter-status\" name=\"filter\" value=\"status\"  checked=\"checked\"  class=\"form-radio\"> Type:</td>";
+	$form_content .= "	<td><select name=\"sltType\" class=\"form-select\" id=\"edit-category\" >\n";
+	$fSQL = "SELECT type, name FROM {node_type} ORDER BY name";
+	$result =  db_query($fSQL);
+    while ($nt = db_fetch_object($result)) {
+		$type = $nt->type;
+		$type_name = $nt->name;
+		if($_GET['sltType'] == $type){$selected = "SELECTED";}else{$selected = "";}
+		$form_content .= "<option value=\"". $type . "\" ". $selected . ">". $type_name . "</option>\n";
+	}
+	$form_content .= "	</select></td>";
+	$form_content .= "<td><input type=\"submit\" value=\"Filter\"></td>";
+	if($_GET['sltType']){$form_content .= "<td><a href=\"". base_path() . "content/update\">Undo filter</a></td>";}
+	$form_content .= "</tr>";
+	$form_content .= "</table>";
+	$form_content .= "</form>";
+	$form_content .= "</fieldset>";
+	
+  $page_content = $form_content;
+  $page_content .= "<table width=\"100%\">\n";
   $page_content .= "<tr><th>Title</th><th width=\"75\">Type</th><th  width=\"75\" style=\"text-align:center;\">Published?</th><th width=\"75\" >Edit</th></tr>\n";
-  $sSQL = "SELECT * FROM {node} WHERE type NOT IN ('award_node', 'timetable_node', 'full_timetable_node', 'firstyear_timetable_node', 'timetable_feed', 'news_node') ORDER BY changed DESC";
-  $result =  db_query($sSQL);
+  if($_GET['sltType']) {
+    $sSQL = "SELECT * FROM {node} WHERE type NOT IN ('award_node', 'timetable_node', 'full_timetable_node', 'firstyear_timetable_node', 'timetable_feed', 'news_node') AND type = '%s' ORDER BY changed DESC";
+    $result =  db_query($sSQL, $_GET['sltType']);
+  }
+  else {
+    $sSQL = "SELECT * FROM {node} WHERE type NOT IN ('award_node', 'timetable_node', 'full_timetable_node', 'firstyear_timetable_node', 'timetable_feed', 'news_node') ORDER BY changed DESC";
+    $result =  db_query($sSQL);
+  }
     while ($node = db_fetch_object($result)) {
     $node_object = node_load($node->nid);
         $node_access = node_access("update", $node_object);
