@@ -265,6 +265,7 @@ function _gmap_doheader() {
   $gmap_path = drupal_get_path('module', 'gmap');
   drupal_add_css($gmap_path .'/gmap.css');
   drupal_add_js($gmap_path .'/js/gmap.js');
+  drupal_add_js($gmap_path .'/js/overlay.js');
   $mm = variable_get('gmap_mm_type', 'gmap');
   $mms = variable_get('gmap_markermanager', array());
   if (empty($mms[$mm])) {
