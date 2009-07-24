@@ -1,10 +1,9 @@
-// $Id: fckeditor.config.js,v 1.5.2.5.2.13 2009/02/16 10:39:07 wwalc Exp $
+// $Id: fckeditor.config.js,v 1.5.2.5.2.12 2008/12/12 19:37:35 wwalc Exp $
 
 /*
  WARNING: clear browser's cache after you modify this file.
  If you don't do this, you may notice that browser is ignoring all your changes.
 */
-
 /*
  Define as many toolbars as you need, you can change toolbar names
  DrupalBasic will be forced on some smaller textareas (if enabled)
@@ -33,7 +32,8 @@ FCKConfig.ToolbarSets['DrupalFull'] = [
 ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
 ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 ['JustifyLeft','JustifyCenter','JustifyRight'],
-/*
+['DrupalBreak','SpellCheck'],
+/* 
  * EXPERIMENTAL
  * Uncomment the line below to enable linktonode and linktomenu buttons
  * ATTENTION: Link to Content module must be installed first!
@@ -51,7 +51,8 @@ FCKConfig.ToolbarSets['DrupalFull'] = [
 ] ;
 
 FCKConfig.ToolbarSets['DrupalBasic'] = [
-['FontFormat','-','Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink', 'Image']
+['FontFormat','-','Bold','Italic','Underline','-','OrderedList','UnorderedList','PasteWord','-','Link','Unlink', 'Image', 'Rule'],
+['JustifyLeft','JustifyCenter','JustifyRight','Anchor','DrupalBreak','SpellCheck']
 ] ;
 
 //This toolbar should work fine with "Filtered HTML" filter
@@ -59,7 +60,7 @@ FCKConfig.ToolbarSets['DrupalFiltered'] = [
 ['Source'],
 ['Cut','Copy','Paste','PasteText','PasteWord'],
 ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-/*
+/* 
  * EXPERIMENTAL
  * Uncomment the line below to enable linktonode and linktomenu buttons
  * ATTENTION: Link to Content module must be installed first!
@@ -67,7 +68,7 @@ FCKConfig.ToolbarSets['DrupalFiltered'] = [
  */
 //['Link','Unlink','LinkToNode','LinkToMenu','Anchor'],
 ['Link','Unlink','Anchor'],
-['Image','Flash','Table','Rule','Smiley','SpecialChar'],
+['Image','Flash','Table','Rule','Smiley','SpecialChar','SpellCheck'],
 '/',
 ['FontFormat'],
 ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
@@ -108,5 +109,6 @@ FCKConfig.IndentClasses = ['rteindent1','rteindent2','rteindent3','rteindent4'] 
 FCKConfig.JustifyClasses = ['rteleft','rtecenter','rteright','rtejustify'] ;
 //Set to 'encode' if you want to obfuscate emails with javascript
 FCKConfig.EMailProtection = 'none' ;
-// #330286 remove "Red Title" from Styles list.
-FCKConfig.CustomStyles = {};
+FCKConfig.SpellChecker = 'SpellerPages' ;
+FCKConfig.CleanWordKeepsStructure = true ;
+FCKConfig.AutoDetectPasteFromWord = true ;
