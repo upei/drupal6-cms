@@ -282,7 +282,7 @@ function _campus_management_content_view() {
 
 function campus_management_init($main = 0) {
   // add fancyzoom
-  drupal_add_js('misc/fancyzoom.min.js', 'module', 'header', false, true);
+  // drupal_add_js('misc/fancyzoom.min.js', 'module', 'header', false, true);
 }
 
 function campus_management_filter($op, $delta = 0, $format = -1, $text = '', $cache_id = 0) {

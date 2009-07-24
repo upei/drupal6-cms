@@ -240,6 +240,7 @@ $scripts = array(
 foreach ($scripts as $script) drupal_add_js( path_to_theme('sunshine') . '/' . $script, 'theme', 'footer');
 drupal_add_js('misc/sifr/jquery.swfobject.min.js', 'theme', 'footer', false, true);
 drupal_add_js('misc/sifr/jquery.sifr.min.js', 'theme', 'footer', false, true);
+drupal_add_js('misc/fancyzoom.min.js', 'theme', 'header', false, true);
 
 if (theme_get_setting('sunshine_iepngfix')) {
    drupal_add_js(drupal_get_path('theme', 'sunshine') . '/js/jquery.pngFix.js', 'theme');

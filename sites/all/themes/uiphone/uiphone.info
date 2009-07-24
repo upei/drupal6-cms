@@ -3,5 +3,7 @@ description = An iPhone theme developed by UPEI.
 core = 6.x
 engine = phptemplate
 
+scripts[] = js/iphone.js
+
 regions[header] = Header
 regions[footer] = Footer
