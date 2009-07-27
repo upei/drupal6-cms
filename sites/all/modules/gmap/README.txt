@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.12 2008/07/15 16:30:29 bdragon Exp $
+$Id: README.txt,v 1.13 2009/03/13 17:10:45 bdragon Exp $
 
 Description
 -----------
@@ -18,10 +18,10 @@ gmap_views.module: GMap <-> Views.module interface. Provides a "GMap View" view 
 Installation
 ------------
 
-* To install, follow the general directions available at: 
+* To install, follow the general directions available at:
 http://drupal.org/getting-started/5/install-contrib/modules
 
-* You will need a Google Maps API key for your website. You can get one at: 
+* You will need a Google Maps API key for your website. You can get one at:
 http://www.google.com/apis/maps/signup.html
 Enter your Google Maps API key in the GMap settings page (admin/settings/gmap).
 
@@ -65,19 +65,19 @@ Macro
 A GMap macro will look something like this (see API.txt for syntax details):
 [gmap markers=blue::41.902277040963696,-87.6708984375 |zoom=5 |center=42.94033923363183,-88.857421875 |width=300px |height=200px |control=Small |type=Map]
 
-The GMap Macro Builder is a GUI for creating GMap macros; you may use it to create a map with points, lines, polygons, and circles, and then copy and paste the resulting macro text. After you insert the macro into a node, you can edit it using raw values that you get from elsewhere to create a different set of points or lines on the map. 
+The GMap Macro Builder is a GUI for creating GMap macros; you may use it to create a map with points, lines, polygons, and circles, and then copy and paste the resulting macro text. After you insert the macro into a node, you can edit it using raw values that you get from elsewhere to create a different set of points or lines on the map.
 
-If you've enabled the gmap_macro_builder.module, you can access the GMap macro builder at the 'map/macro' path (there will be "Build a GMap macro" link in your Navigation menu). 
+If you've enabled the gmap_macro_builder.module, you can access the GMap macro builder at the 'map/macro' path (there will be "Build a GMap macro" link in your Navigation menu).
 
 Note that there are many more options you can set on your maps if you are willing to edit macros by hand. For example, you may add KML or GeoRSS overlays to GMaps, but this option isn't available through the macro builder. Again, see API.txt for syntax details.
 
- 
+
 User and node maps
 ------------------
 
-User and node location maps are made available by gmap_location.module, and work in conjunction with location.module. Any user that has the 'show user map' or 'show node map' permission can see the user or node maps, respectively. These are maps with a marker for every user or node, and are located at the 'map/user' and 'map/node' paths (links to these maps are placed in the Navigation menu).
+User and node location maps are made available by gmap_location.module, and work in conjunction with location.module. Any user that has the 'view user map' or 'view node map' permission can see the user or node maps, respectively. These are maps with a marker for every user or node, and are located at the 'map/user' and 'map/node' paths (links to these maps are placed in the Navigation menu).
 
-Users with the 'user locations' permission can click markers on the User map to see information on individual users.
+Users with the 'view user location details' permission can click markers on the User map to see information on individual users.
 
 GMap Location also provides two map blocks that work with node locations: a "Location map" block that displays the location markers associated with the node being viewed, and an "Author map" block that displays a marker representing the node author's location.
 

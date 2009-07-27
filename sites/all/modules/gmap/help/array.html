@@ -1,4 +1,4 @@
-<!-- $Id: array.html,v 1.6 2009/02/03 17:17:37 bdragon Exp $ -->
+<!-- $Id: array.html,v 1.7 2009/04/06 21:48:53 bec Exp $ -->
 
 <p>A GMap array is used to define and render a map inside PHP code. This is useful
 for things like creating a map based on a database query, or doing things that you
@@ -396,6 +396,13 @@ array(
 <pre>
   array(
     array(
+      'type' => 'line',
+      'points' => array(
+        array(0.000, 0.000),            // First point.
+        array(0.000, 0.000),            // Second point.
+        array(0.000, 0.000),            // Third point.
+      ),
+      'style' => array("00ff00", 5, 80),
     )
     array(
       'type' => 'polygon',
@@ -419,11 +426,48 @@ array(
       'point2' => array(0.000, 0.000),  // One of the vertex coordinates.
       'style' => array(),               // Style to use.
     ),
+    array(
+      'type' => 'encoded_line',
+      'points' => 'icx~FfigvOt~CsnB~Vo`G~aDqnBp`@chB',  // a series of points, encoded
+      'levels' => 'BBBBB',                              // zoom level for each point, encoded
+      'numLevels' => 18,                                // derived from the encoding algorithm
+      'zoomFactor' => 2,                                // derived from the encoding algorithm
+      'style' => array(),
+    ),
+    array(
+      'type' => 'encoded_polygon',
+      'polylines' => array(
+        array(
+          'points' => 's{r~FnwcvO`zB{qHa}Fa`E~aC|rN',
+          'levels' => 'BBBB',
+          'numLevels' => 18,
+          'zoomFactor' => 2,
+        ),
+      ),
+      'style' => array(),
+    ),
   );
 </pre>
 </dd>
 <dt>Notes:</dt>
-<dd></dd>
+<dd><p>For both <strong>encoded_line</strong> and <strong>encoded_polyline</strong>, the 'points', 'levels', 'numLevels', and 'zoomFactor' should be generated using the <em>gmap_polyutil_polyline()</em> function in <em>gmap_polyutil.inc</em>. To use this, pass an array of points into the function:</p>
+<pre>$points = array(
+  array(41.90625, -87.67634),
+  array(41.91226, -87.65643),
+  array(41.91021, -87.65059),
+  array(41.90753, -87.64956),
+);
+$gmap_encoding = gmap_polyutil_polyline($points);
+</pre>
+<p>results in:</p>
+<pre>Array
+(
+    [points] => ayw~FbhcvOqd@m{BxKoc@vOmE
+    [levels] => PGFP
+    [numLevels] => 18
+    [zoomFactor] => 2
+)
+</pre></dd>
 </dl>
 </li>
 

@@ -1,4 +1,4 @@
-<!-- $Id: api.html,v 1.1 2008/11/06 16:57:33 bdragon Exp $ -->
+<!-- $Id: api.html,v 1.2 2009/03/13 19:35:17 bdragon Exp $ -->
 <em>This documentation is still in flux.</em>
 
 <p>The GMap API is a simple way to create Google Maps from a macro or PHP code. It allows other modules to integrate Google Maps into their Drupal site. Among other things, the GMap API can be used by theme developers to integrate Google maps into portions of their theme, or by developers to insert a map into any block of PHP.</p>
@@ -96,13 +96,13 @@ There are two methods of inserting a Google Map using the GMap API. You may eith
         'text' => 'First Marker',
         'longitude' => 39.3739522204,
         'latitude' => -81.5681648254,
-        'markername' => "Light Blue",
+        'markername' => 'lblue',
       ),
       array(
         'text' => 'Second Marker',
         'longitude' => 44.205835001,
         'latitude' => -70.3674316406,
-        'markername' => "Orange",
+        'markername' => 'orange',
       ),
     ),
 
@@ -116,6 +116,7 @@ There are two methods of inserting a Google Map using the GMap API. You may eith
           array(43.9058083561574,-69.202880859375),
           array(44.512176171071054,-69.796142578125),
           array(43.667871610117494,-70.675048828125),
+        ),
       ),
       array(
         'type' => "circle",

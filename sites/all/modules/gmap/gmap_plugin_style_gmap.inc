@@ -1,5 +1,5 @@
 <?php
-// $Id: gmap_plugin_style_gmap.inc,v 1.7 2009/02/05 21:51:53 bdragon Exp $
+// $Id: gmap_plugin_style_gmap.inc,v 1.9 2009/04/03 15:34:50 bdragon Exp $
 
 /**
  * @file
@@ -55,6 +55,10 @@ class gmap_plugin_style_gmap extends views_plugin_style {
   }
 
   function render() {
+    if (isset($this->view->live_preview) && $this->view->live_preview) {
+      return t('GMap views are not compatible with live preview.');
+    }
+
     if (empty($this->row_plugin)) {
       vpr('gmap_plugin_style_gmap: Missing row plugin');
       return;
@@ -167,11 +171,10 @@ class gmap_plugin_style_gmap extends views_plugin_style {
     );
 
     $options = array();
-    // @@@ Fix this when I'm not having a monday morning.
-    // There's likely a more "correct" way.
-    foreach ($this->display->display_options['fields'] as $id => $handler) {
-      $data = views_fetch_data($handler['table']);
-      $options[$id] = $handler['label'];
+    $fields = $this->display->handler->get_handlers('field');
+
+    foreach ($fields as $id => $handler) {
+      $options[$id] = $handler->ui_name(FALSE);
     }
 
     $form['latfield'] = array(

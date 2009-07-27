@@ -6,9 +6,9 @@ core = 6.x
 dependencies[] = gmap
 dependencies[] = location
 
-; Information added by drupal.org packaging script on 2009-03-03
-version = "6.x-1.1-rc1"
+; Information added by drupal.org packaging script on 2009-06-09
+version = "6.x-1.x-dev"
 core = "6.x"
 project = "gmap"
-datestamp = "1236113457"
+datestamp = "1244506356"
 

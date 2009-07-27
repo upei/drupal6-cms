@@ -1,4 +1,4 @@
-/* $Id: locpick.js,v 1.3 2009/02/11 19:52:23 bdragon Exp $ */
+/* $Id: locpick.js,v 1.4 2009/04/06 17:28:00 bdragon Exp $ */
 
 /**
  * @file
@@ -29,21 +29,20 @@ Drupal.gmap.addHandler('gmap', function (elem) {
       GEvent.addListener(obj.map, "click", function (overlay, point) {
         obj.map.checkResize();
         if (!overlay) {
-          if (obj.locpick_point) {
-            obj.map.removeOverlay(obj.locpick_point);
+          if (!obj.locpick_point) {
+            obj.map.addOverlay(obj.locpick_point = new GMarker(point, {draggable: true}));
           }
-          obj.map.zoomIn();
-          obj.map.zoomIn();
-          obj.map.addOverlay(obj.locpick_point = new GMarker(point, {draggable: true}));
+          obj.locpick_point.setLatLng(point);
+          obj.map.zoomIn(point, true, true);
+          obj.map.zoomIn(point, true, true);
           GEvent.addListener(obj.locpick_point, 'drag', function () {
             obj.locpick_coord = obj.locpick_point.getLatLng();
             obj.change('locpickchange', binding);
           });
           GEvent.addListener(obj.locpick_point, 'dragend', function () {
             obj.locpick_coord = obj.locpick_point.getLatLng();
-            obj.map.zoomIn();
-            obj.map.zoomIn();
-            obj.map.panTo(obj.locpick_coord);
+            obj.map.zoomIn(obj.locpick_coord, true, true);
+            obj.map.zoomIn(obj.locpick_coord, true, true);
             obj.change('locpickchange', binding);
           });
           obj.locpick_coord = point;

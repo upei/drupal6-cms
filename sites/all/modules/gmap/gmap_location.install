@@ -1,5 +1,5 @@
 <?php
-// $Id: gmap_location.install,v 1.7 2009/02/05 21:44:22 bdragon Exp $
+// $Id: gmap_location.install,v 1.8 2009/03/13 17:10:45 bdragon Exp $
 
 /**
  * @file
@@ -161,5 +161,23 @@ function gmap_location_update_5100() {
 function gmap_location_update_5101() {
   $ret = array();
   variable_del('gmap_geocode');
+  return $ret;
+}
+
+/**
+ * 5.x-1.1 update 1 (Still haven't diverged for 6.x.)
+ * #392130: Use better permission names.
+ */
+function gmap_location_update_5102() {
+  $ret = array();
+  $result = db_query("SELECT rid, perm FROM {permission} ORDER BY rid");
+  while ($role = db_fetch_object($result)) {
+    $renamed_permission = preg_replace('/(?<=^|,\ )user\ locations(?=,|$)/', 'view user location details', $role->perm);
+    $renamed_permission = preg_replace('/(?<=^|,\ )show\ user\ map(?=,|$)/', 'view user map', $renamed_permission);
+    $renamed_permission = preg_replace('/(?<=^|,\ )show\ node\ map(?=,|$)/', 'view node map', $renamed_permission);
+    if ($renamed_permission != $role->perm) {
+      $ret[] = update_sql("UPDATE {permission} SET perm = '$renamed_permission' WHERE rid = $role->rid");
+    }
+  }
   return $ret;
 }

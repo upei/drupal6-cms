@@ -1,5 +1,5 @@
 <?php
-// $Id: gmap.module,v 1.99 2009/02/12 23:45:23 bdragon Exp $
+// $Id: gmap.module,v 1.101 2009/04/17 18:31:59 bdragon Exp $
 
 /**
  * @file
@@ -265,7 +265,6 @@ function _gmap_doheader() {
   $gmap_path = drupal_get_path('module', 'gmap');
   drupal_add_css($gmap_path .'/gmap.css');
   drupal_add_js($gmap_path .'/js/gmap.js');
-  drupal_add_js($gmap_path .'/js/overlay.js');
   $mm = variable_get('gmap_mm_type', 'gmap');
   $mms = variable_get('gmap_markermanager', array());
   if (empty($mms[$mm])) {
@@ -287,7 +286,8 @@ function _gmap_doheader() {
   drupal_add_js($gmap_path .'/js/'. $mm .'_marker.js');
   drupal_add_js(array('gmap_markermanager' => $mms[$mm]), 'setting');
 // @@@
-drupal_add_js($gmap_path .'/js/poly.js');
+  drupal_add_js($gmap_path .'/js/poly.js');
+  drupal_add_js($gmap_path .'/js/overlay.js');
 
   global $language;
   $query = array(
@@ -833,6 +833,12 @@ function theme_gmap_align($element) {
  * Gmap element theme hook
  */
 function theme_gmap($element) {
+  // Usability: Prevent js errors on first visit to settings page, etc.
+  // Of course it will still error if the *wrong* key is on file.
+  if (gmap_get_key() == '') {
+    return t('Unable to render map: Google Maps API key is missing.');
+  }
+
   // Track the mapids we've used already.
   static $mapids = array();
 
@@ -1000,7 +1006,7 @@ function gmap_get_auto_mapid() {
 function gmap_get_marker_titles($reset = FALSE) {
   static $titles;
 
-  if (!reset) {
+  if (!$reset) {
     if (is_array($titles)) {
       return $titles;
     }

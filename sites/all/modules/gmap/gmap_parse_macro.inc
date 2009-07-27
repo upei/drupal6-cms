@@ -1,5 +1,5 @@
 <?php
-// $Id: gmap_parse_macro.inc,v 1.1 2008/11/07 20:17:50 bdragon Exp $
+// $Id: gmap_parse_macro.inc,v 1.2 2009/04/06 21:32:46 bdragon Exp $
 
 /**
  * @file
@@ -145,7 +145,7 @@ function _gmap_parse_macro($instring, $ver = 2) {
       }
       $tmp = explode('+', $shape);
       $s['radius'] = $tmp[1] ? $tmp[1] : 100;
-      if ($tmp[2]) $s['numpoints'] = trim($tmp[2]);
+      if (isset($tmp[2]) && $tmp[2]) $s['numpoints'] = trim($tmp[2]);
       $tmp = _gmap_str2coord($tmp[0]);
       $s['center'] = $tmp[0];
       $m['shapes'][] = $s;

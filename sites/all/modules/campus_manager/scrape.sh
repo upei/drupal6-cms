@@ -100,7 +100,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 		httrack http://${source_site}/$1 \
 	    http://${source_site}/$bucket/hidden/links -* \
 		  +${source_site}/$1* \
-			$HTTRACK_OPTIONS
+			-r20 $HTTRACK_OPTIONS
 	else
 		# we need to go upstairs, but only direct links. old pages are not removed.
 		httrack http://${source_site}/$1/$2 -* \
@@ -114,7 +114,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	  httrack http://${source_site}/$bucket \
 	    http://${source_site}/$bucket/hidden/links -* \
 		  +${source_site}/$bucket* \
-			$HTTRACK_OPTIONS
+			-r20 $HTTRACK_OPTIONS
 	fi
 
 	echo `date` $1 mirror finished >> ${log_filename}

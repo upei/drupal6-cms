@@ -112,7 +112,7 @@ Drupal.gmap.addHandler('gmap', function(elem) {
 
   var opacity = 0.75;
   
-  obj.bind('init', function() {
+  obj.bind('ready', function() {
     // Bug in the Google Maps: Copyright for Overlay is not correctly displayed
     var gcr = GMapType.prototype.getCopyrights;
     GMapType.prototype.getCopyrights = function(bounds,zoom) {
@@ -143,9 +143,17 @@ Drupal.gmap.addHandler('gmap', function(elem) {
     // Unfortunately, the opacity for whole overlay is then not changeable, either or...
     tilelayer.isPng = function() { return true;};
     tilelayer.getOpacity = function() { return opacity; }
+    
+    // add transparency control
 
     overlay = new GTileLayerOverlay( tilelayer );
+    // obj.map.addControl(new CTransparencyControl(overlay));
     obj.map.addOverlay(overlay);
+    
+    // set minimum and maximum level
+    G_NORMAL_MAP.getMaximumResolution = function() { return 18; }
+    G_SATELLITE_MAP.getMaximumResolution = function() { return 18; }
+    G_HYBRID_MAP.getMaximumResolution = function() { return 18; }
   });
   
 });

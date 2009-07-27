@@ -1,5 +1,5 @@
 <?php
-// $Id: gmap_location.module,v 1.55 2009/02/12 18:54:25 bdragon Exp $
+// $Id: gmap_location.module,v 1.58 2009/03/13 17:10:45 bdragon Exp $
 
 /**
  * @file
@@ -28,7 +28,11 @@ function gmap_location_theme() {
  * Implementation of hook_perm().
  */
 function gmap_location_perm() {
-  return array('set user location', 'show user map', 'user locations', 'show node map');
+  return array(
+    'view node map',
+    'view user map',
+    'view user location details',
+  );
 }
 
 /**
@@ -62,23 +66,23 @@ function gmap_location_menu() {
   $items['map/user'] = array(
     'type' => MENU_NORMAL_ITEM,
     'title' => 'User locations',
-    'access arguments' => array('show user map'),
+    'access arguments' => array('view user map'),
     'page callback' => 'gmap_location_user_page',
   );
   $items['map/user/load'] = array(
     'type' => MENU_CALLBACK,
-    'access arguments' => array('show user map'),
+    'access arguments' => array('view user map'),
     'page callback' => 'gmap_location_user_point',
   );
   $items['map/node'] = array(
     'type' => MENU_NORMAL_ITEM,
     'title' => 'Node locations',
-    'access arguments' => array('show node map'),
+    'access arguments' => array('view node map'),
     'page callback' => 'gmap_location_node_page',
   );
   $items['map/node/load/%node/%'] = array(
     'type' => MENU_CALLBACK,
-    'access arguments' => array('show node map'),
+    'access arguments' => array('view node map'),
     'page callback' => 'gmap_location_node_point',
     'page arguments' => array(3,4),
   );
@@ -130,7 +134,9 @@ function gmap_location_user_page() {
     AND
       (l.latitude != 0 OR l.longitude != 0)
     GROUP BY
-      i.uid, i.lid");
+      i.uid, i.lid, u.name, l.latitude, l.longitude");
+  // The u.name, l.latitude, and l.longitude in the GROUP BY are needed for
+  // PostgreSQL.
 
   while ($row = db_fetch_object($result)) {
     // Determine marker type to show.
@@ -139,9 +145,9 @@ function gmap_location_user_page() {
       $marker = $markertypes[$row->role];
     }
 
-    // Users with the 'user locations' permission are allowed to see who
+    // Users with the 'view user location details' permission are allowed to see who
     // each marker represents.
-    if (user_access('user locations')) {
+    if (user_access('view user location details')) {
       if ($mode == 1) {
         $newmarker['rmt'] = $row->uid;
       }
@@ -163,7 +169,7 @@ function gmap_location_user_page() {
 
 // @@@ Move to gmap_addons.
 /*
-  if (user_access('user locations') && function_exists('buddylist_get_buddies') && count($locationbyuser)>0) {
+  if (user_access('view user location details') && function_exists('buddylist_get_buddies') && count($locationbyuser)>0) {
     //create lines for buddies
     if (!isset($thismap['shapes'])) {
       $thismap['shapes']=array();
@@ -301,7 +307,7 @@ function gmap_location_node_page($nid = NULL) {
   if (is_numeric($nid) && $node = node_load($nid)) {
 
     // Organic groups. Group nodes are displayed as a map of the users who belong to the group.
-    if (user_access('user locations') && function_exists('og_is_group_type') && og_is_group_type($node->type)) {
+    if (user_access('view user location details') && function_exists('og_is_group_type') && og_is_group_type($node->type)) {
       $rolemarkers = variable_get('gmap_role_markers', array());
 
       $map['markers'] = array(); // Reset markers.
