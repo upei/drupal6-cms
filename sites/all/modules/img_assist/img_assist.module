@@ -581,6 +581,9 @@ function img_assist_loader() {
   elseif (module_exists('tinymce') && $caller == 'tinymce') {
     drupal_add_js(drupal_get_path('module', 'tinymce') . '/tinymce/jscripts/tiny_mce/tiny_mce_popup.js');
   }
+  elseif (module_exists('fckeditor') && $caller == 'fckeditor') {
+    $caller = 'fckeditor';
+  }
   else {
     $caller = 'textarea';
   }
@@ -589,6 +592,7 @@ function img_assist_loader() {
   $output  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN">'."\n";
   $output .= "<html>\n";
   $output .= "<head>\n";
+
   $output .= '<title>'. t('Add image') ."</title>\n";
   $output .= drupal_get_js();
   $output .= "</head>\n\n";

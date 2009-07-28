@@ -87,7 +87,7 @@ function insertToEditor(content) {
     cursor = myDoc.selection.createRange();
     cursor.text = content;
   }
-  else if (myTextarea.selectionStart || myTextarea.selectionStart == "0") {
+  else if (myTextarea.selectionStart || myTextarea.selectionStart == 0) {
   	// Gecko-based engines: Mozilla, Camino, Firefox, Netscape
     var startPos  = myTextarea.selectionStart;
     var endPos    = myTextarea.selectionEnd;

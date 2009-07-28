@@ -2,88 +2,24 @@
 // Load the img_assist_textarea.js script
 //
 // Get the header of the document
-// var head= document.getElementsByTagName('head')[0];
-// $Id: img_assist_textarea.js,v 1.4.4.3 2009/02/01 09:59:57 sun Exp $
-/**
- * This javascript file allows img_assist to work with a plain textarea.
- * This file is used instead of img_assist_tinymce.js if img_assist is called
- * from the textarea button.
- * Additional JS files similar to img_assist_textarea.js and
- * img_assist_tinymce.js could be created for using img_assist with other
- * WYSIWYG editors. Some minor code changes to the menu function in
- * img_assist.module will be necessary, at least in img_assist_menu() and
- * img_assist_loader().
- */
+/*
+var head= document.getElementsByTagName('head')[0];
 
-// Declare global variables
-var myDoc, myForm, myTextarea, hasInputFormat;
+function fckeditor_add_script(src) {
+  var script= document.createElement('script');
+  script.type= 'text/javascript';
+  script.src = src;
+  head.appendChild(script);
+}
 
-function initLoader() {
-  // Save the references to the parent form and textarea to be used later. 
-  myDoc      = window.opener.document; // global (so don't use var keyword)
-  myForm     = '';
-  myTextarea = '';
-  hasInputFormat = false;
-  
-  var args = getArgs(); // get the querystring arguments
-  var textarea = args.textarea;
-  
-  // Reference the form object for this textarea.
-  if (myDoc.getElementsByTagName) {
-    var f = myDoc.getElementsByTagName('form');
-    for (var i=0; i<f.length; i++) {
-      // Is this textarea is using an input format?
-      if (f[i]['edit-format']) {
-        hasInputFormat = true;
-      }
-      if (f[i][textarea]) {
-        myForm = f[i];
-        myTextarea = f[i][textarea];
-        break;
-      }
-    }
+// Source dirname is built from the second script tag found in the document
+for (var i = 0; i < head.getElementsByTagName('script').length; i++) {
+  if ( head.getElementsByTagName('script')[i].src.match( /img_assist/ ) ) {
+    fckeditor_add_script(head.getElementsByTagName('script')[i].src.replace( /img_assist[_a-z]*\.js/, 'img_assist_textarea.js' ));
+    break;
   }
-  frames['img_assist_main'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/thumbs/img_assist_browser';
 }
-
-function initProperties() {
-  setHeader('properties');
-  updateCaption();
-  onChangeLink();
-  onChangeSizeLabel();
-}
-
-function initThumbs() {
-  setHeader('browse');
-}
-
-function initHeader() {
-}
-
-function initUpload() {
-  setHeader('uploading');
-}
-
-function getFilterTag(formObj) {
-  var nid          = formObj['edit-nid'].value;
-  var captionTitle = formObj['edit-title'].value;
-  var captionDesc  = formObj['edit-desc'].value;
-  var link         = formObj['edit-link'].value;
-  var url          = formObj['edit-url'].value;
-  var align        = formObj['edit-align'].value;
-  var width        = formObj['edit-width'].value;
-  var height       = formObj['edit-height'].value;
-  
-  // Create the image placeholder tag
-  var miscAttribs = 'nid=' + nid + '|title=' + captionTitle + '|desc=' + captionDesc + '|link=' + link;
-  if (url != formObj['edit-default-url'].value) {
-    miscAttribs += '|url=' + url;
-  }
-  var content = '[img_assist|' + miscAttribs + '' + '|align=' + align + '|width=' + width + '|height=' + height + ']';
-  
-  return content;
-}
-
+*/
 function insertToEditor(content) {
   // Insert the image
   if (myDoc.selection) {
@@ -92,7 +28,7 @@ function insertToEditor(content) {
     cursor = myDoc.selection.createRange();
     cursor.text = content;
   }
-  else if (myTextarea.selectionStart || myTextarea.selectionStart == "0") {
+  else if (myTextarea.selectionStart || myTextarea.selectionStart == 0) {
   	// Gecko-based engines: Mozilla, Camino, Firefox, Netscape
     var startPos  = myTextarea.selectionStart;
     var endPos    = myTextarea.selectionEnd;
@@ -143,23 +79,7 @@ function getArgs() {
   return args; // Return the Object
 }
 
-/*
-function fckeditor_add_script(src) {
-  var script= document.createElement('script');
-  script.type= 'text/javascript';
-  script.src = src;
-  head.appendChild(script);
-}
-
-// Source dirname is built from the second script tag found in the document
-for (var i = 0; i < head.getElementsByTagName('script').length; i++) {
-  if ( head.getElementsByTagName('script')[i].src.match( /img_assist/ ) ) {
-    fckeditor_add_script(head.getElementsByTagName('script')[i].src.replace( /img_assist[_a-z]*\.js/, 'img_assist_textarea.js' ));
-    break;
-  }
-}
-*/
-setTimeout("InitFCKeditorImgAssist();", 1000);
+setTimeout('InitFCKeditorImgAssist();', 1000);
 
 function InitFCKeditorImgAssist() {
   var oldInsertToEditor = insertToEditor;
@@ -247,5 +167,85 @@ if (typeof(initLoader) == 'undefined') {
     }
     frames['img_assist_main'].window.location.href = BASE_URL + 'index.php?q=img_assist/thumbs/myimages';
   }
+}// $Id: img_assist_textarea.js,v 1.4.4.3 2009/02/01 09:59:57 sun Exp $
+/**
+ * This javascript file allows img_assist to work with a plain textarea.
+ * This file is used instead of img_assist_tinymce.js if img_assist is called
+ * from the textarea button.
+ * Additional JS files similar to img_assist_textarea.js and
+ * img_assist_tinymce.js could be created for using img_assist with other
+ * WYSIWYG editors. Some minor code changes to the menu function in
+ * img_assist.module will be necessary, at least in img_assist_menu() and
+ * img_assist_loader().
+ */
+
+// Declare global variables
+var myDoc, myForm, myTextarea, hasInputFormat;
+
+function initLoader() {
+  // Save the references to the parent form and textarea to be used later. 
+  myDoc      = window.opener.document; // global (so don't use var keyword)
+  myForm     = '';
+  myTextarea = '';
+  hasInputFormat = false;
+  
+  var args = getArgs(); // get the querystring arguments
+  var textarea = args.textarea;
+  
+  // Reference the form object for this textarea.
+  if (myDoc.getElementsByTagName) {
+    var f = myDoc.getElementsByTagName('form');
+    for (var i=0; i<f.length; i++) {
+      // Is this textarea is using an input format?
+      if (f[i]['edit-format']) {
+        hasInputFormat = true;
+      }
+      if (f[i][textarea]) {
+        myForm = f[i];
+        myTextarea = f[i][textarea];
+        break;
+      }
+    }
+  }
+  frames['img_assist_main'].window.location.href = Drupal.settings.basePath + 'index.php?q=img_assist/thumbs/img_assist_browser';
 }
+
+function initProperties() {
+  setHeader('properties');
+  updateCaption();
+  onChangeLink();
+  onChangeSizeLabel();
+}
+
+function initThumbs() {
+  setHeader('browse');
+}
+
+function initHeader() {
+}
+
+function initUpload() {
+  setHeader('uploading');
+}
+
+function getFilterTag(formObj) {
+  var nid          = formObj['edit-nid'].value;
+  var captionTitle = formObj['edit-title'].value;
+  var captionDesc  = formObj['edit-desc'].value;
+  var link         = formObj['edit-link'].value;
+  var url          = formObj['edit-url'].value;
+  var align        = formObj['edit-align'].value;
+  var width        = formObj['edit-width'].value;
+  var height       = formObj['edit-height'].value;
+  
+  // Create the image placeholder tag
+  var miscAttribs = 'nid=' + nid + '|title=' + captionTitle + '|desc=' + captionDesc + '|link=' + link;
+  if (url != formObj['edit-default-url'].value) {
+    miscAttribs += '|url=' + url;
+  }
+  var content = '[img_assist|' + miscAttribs + '' + '|align=' + align + '|width=' + width + '|height=' + height + ']';
+  
+  return content;
+}
+
 
