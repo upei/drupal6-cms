@@ -1,0 +1,77 @@
+body {
+  font-family: helvetica, arial, sans-serif;
+  background-color: #f5efef;
+  font-size: 9pt;
+  margin: 0;
+}
+
+a { color: #7a2424; font-weight: bold; }
+h2 { font-size: 1.25em; margin: 0; line-height: 1.25em; }
+
+/* header */
+.nav { background: url(../images/navbar.png) top left no-repeat; width: 320px; height: 32px; }
+
+/* content */
+.content { margin: 10px; }
+
+/* springboard */
+.view-springboard .views-row-odd, .view-springboard .views-row-even {
+  float: left;
+  width: 75px;
+  height: 110px;
+  text-align: center;
+}
+.view-springboard a { text-decoration: none; }
+
+input { font-size: 1.25em; }
+#result-container { font-size: 1.25em; }
+#result-container .field-item { margin: 0.5em auto; }
+
+/* search results */
+.results { margin: 1em auto; padding: 0; -webkit-user-select: ignore; }
+.results li:first-child {
+  border-top: 1px solid #843434;
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+}
+.results li:last-child {
+  -webkit-border-bottom-left-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+.results li {
+  display: block; list-style: none; margin: 0;
+  padding: 0.7em;
+  background-color: #fff;
+  border-bottom: 1px solid #843434;
+  border-left: 1px solid #843434;
+  border-right: 1px solid #843434;
+}
+.results li a { text-decoration: none; display: block; }
+.results li .note { float: right; font-size: 0.75em; color: #888; }
+/* search detail */
+#result-container .tabs { margin: 0; padding: 0; }
+#result-container .tabs li {
+  display: block; float: left; padding: 3px 0.5em; margin: auto 0.3em;
+  font-size: 0.8em;
+  background-color: #fff;
+  color: #843434;
+  border-top: 1px #843434 solid;
+  border-left: 1px #843434 solid;
+  border-right: 1px #843434 solid;
+}
+#result-container .tabs li.active {
+  background-color: #cfb1b1;
+  color: #843434;
+}
+#result-container .tabs li:first-child { margin-left: 1em; }
+#result-container .tabs a { text-decoration: none; color: #7a2424; }
+#result-container .tabs li.active a { color: #fff; }
+#result-container .detail {
+  clear: both;
+  background-color: #fff;
+  padding: 0.8em;
+  border: 1px #843434 solid;
+  -webkit-border-radius: 10px;
+}
+#result-container .detail > div { display: none; }
+#result-container .detail > div:first-child { display: block; }

@@ -3,6 +3,8 @@ description = An iPhone theme developed by UPEI.
 core = 6.x
 engine = phptemplate
 
+scripts[] = js/jquery.parsequery.js
+scripts[] = js/location.js
 scripts[] = js/iphone.js
 
 regions[header] = Header
