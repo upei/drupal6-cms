@@ -1,12 +1,19 @@
-jQuery.location = new LocationManager(
-  '#result-container', {
-    'search': '/facilities/map/ajax/json?keys=',
-    'detail': '/facilities/building/ajax/json/'
-  }
-);
+jQuery.extend(jQuery, {
+  location: new LocationManager(
+    '#result-container', {
+      'search': '/facilities/map/ajax/json?keys=',
+      'detail': '/facilities/building/ajax/json/'
+    })
+});
 
 // load
 $(function() {
+  // bind orientationchange
+  var updateOrientation = function() {
+    setTimeout(function() {window.scrollTo(0, 1)}, 200);
+  }
+  window.onorientationchange=updateOrientation;
+
   // set current position
   function foundLocation(position) {
     jQuery.location.latitude = position.coords.latitude;
@@ -20,9 +27,7 @@ $(function() {
     navigator.geolocation.watchPosition(foundLocation, noLocation);
   }
   /* skip the address bar */
-  setTimeout(function() {
-    window.scrollTo(0, 1);
-  }, 200);
+  setTimeout(function() {window.scrollTo(0, 1)}, 200);
   /* set search keys */
   var q = $.parseQuery();
   if (q.keys) {

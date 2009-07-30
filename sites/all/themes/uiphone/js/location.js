@@ -65,7 +65,12 @@ LocationManager.prototype.search = function() {
           else {
             dist = '';
           }
-          html += '<li>' + dist + '<a href="' + Drupal.settings.basePath + 'location/detail?nid=' + row.nid + '">' + row.title + "</a></li>\n";
+          html += '<li>' + dist + '<a href="' + Drupal.settings.basePath + 'location/detail?nid=' + row.nid + '">';
+          html += row.title;
+          if (row.building_number > 0) {
+            html += ' (' + row.building_number + ')';
+          }
+          html += "</a></li>\n";
         }
         html += '</ul>';
       }
@@ -93,18 +98,22 @@ LocationManager.prototype.detail = function() {
       var tabs = {
         'Map': function() {
           var html = '';
-          html += '<div id="gmap" style="width: 100%; height: 240px;"></div>';
-          return html;
-        },
-        'Description': function() {
-          var html = '';
-          html += '<h2>' + row.title + "</h2>\n";
-          html += '<div class="description">' + row.description + "</div>\n";
+          html += '<div id="gmap"></div>';
           return html;
         },
         "What's Here": function() {
           var html = '';
           html += '<div class="description">' + row.occupants + "</div>\n";
+          return html;
+        },
+        'Description': function() {
+          var html = '';
+          html += '<h2>' + row.title + "</h2>\n";
+          html += '<div class="description">';
+          if (row.building_number > 0) {
+            html += '<p>Building number: ' + row.building_number + '</p>';
+          }
+          html += row.description + "</div>\n";
           return html;
         }
       };
@@ -121,6 +130,7 @@ LocationManager.prototype.detail = function() {
       ctr.html(bar + cont);
       // enable map
       loc.map('gmap', row.latitude, row.longitude);
+      // click on tab
       ctr.find('.tabs a').click(function() {
         var id = $(this).attr('href');
         $(this)
@@ -132,6 +142,7 @@ LocationManager.prototype.detail = function() {
           .siblings().hide()
           .end()
           .show();
+        return false;
       });
       ctr.find('.tabs li:first a').click();
     },
@@ -148,22 +159,22 @@ LocationManager.prototype.map = function(map_id, lat, lon) {
    */
   // map bounds
   var mapBounds = new GLatLngBounds(new GLatLng(46.2514795465, -63.144328), new GLatLng(46.262567, -63.1334033165));
-  var mapMinZoom = 17;
+  var mapMinZoom = 14;
   var mapMaxZoom = 18;
 
   var opacity = 0.9;
   var map;
   var centre = mapBounds.getCenter();
+  var where;
   if (lat && lon) {
-    centre = new GLatLng(lat, lon);
-  }
-  
+    where = new GLatLng(lat, lon);
+  }  
   if (GBrowserIsCompatible()) {
 
      // Bug in the Google Maps: Copyright for Overlay is not correctly displayed
      // set minimum and maximum level
      G_NORMAL_MAP.getMaximumResolution = function() { return 18; }
-     G_NORMAL_MAP.getMinimumResolution = function() { return 17; }
+     G_NORMAL_MAP.getMinimumResolution = function() { return 10; }
      
      var gcr = GMapType.prototype.getCopyrights;
      GMapType.prototype.getCopyrights = function(bounds,zoom) {
@@ -175,7 +186,7 @@ LocationManager.prototype.map = function(map_id, lat, lon) {
      map.addMapType(G_NORMAL_MAP);
      map.setMapType(G_NORMAL_MAP);
 
-     map.setCenter( centre, map.getBoundsZoomLevel( mapBounds ));
+     map.setCenter( where, 16 );
 
      // tile layer
      var tilelayer = new GTileLayer(GCopyrightCollection(''), mapMinZoom, mapMaxZoom);
@@ -199,16 +210,22 @@ LocationManager.prototype.map = function(map_id, lat, lon) {
      
      // marker
      if (lat && lon) {
-       map.addOverlay(new GMarker(centre));
+       map.addOverlay(new GMarker(where));
      }
      // add where you are
      if (this.latitude && this.longitude) {
        // Create our "tiny" marker icon
        var icon = new GIcon(G_DEFAULT_ICON);
+       var pos = new GLatLng(this.latitude, this.longitude);
        icon.image = "http://www.google.com/intl/en_us/mapfiles/ms/micons/yellow-dot.png";
        // Set up our GMarkerOptions object
        markerOptions = { icon:icon };
-       map.addOverlay(new GMarker(new GLatLng(this.latitude, this.longitude), markerOptions));
+       map.addOverlay(new GMarker(pos, markerOptions));
+       // set up center if we're inside the bound
+       if (mapBounds.contains(pos)) {
+         var center = new GLatLng((where.lat()+pos.lat())/2, (where.lng()+pos.lng())/2);
+         map.setCenter(center, 16);
+       }
      }
      
      // IE 7-: support for PNG alpha channel
@@ -226,7 +243,7 @@ LocationManager.prototype.map = function(map_id, lat, lon) {
 
      map.disableContinuousZoom();
      map.disableScrollWheelZoom();
-     map.disableDragging();
+     // map.disableDragging();
      map.disableInfoWindow();
 
      map.setMapType(G_NORMAL_MAP);

@@ -5,7 +5,7 @@
 <html>
 <head>
 <title><?= $head_title?></title>
-<meta name="viewport" content="width=device-width,user-scalable=no" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 <link rel="apple-touch-icon" href="<?= $logo ?>" />
 <link type="text/css" rel="stylesheet" media="screen" href="<?=base_path() . path_to_theme()?>/css/iphone.css" />
   <?php 
