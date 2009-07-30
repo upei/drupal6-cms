@@ -15,22 +15,20 @@
   ?>
 <?php print $scripts; ?>
 </head>
-
 <body>
 <?php if (!$is_front): ?>
-<div class="nav">
-</div>
+<div class="nav"><? print $breadcrumb; ?></div>
 <?php endif;?>
 <div class="header">
-  <?= $header ?>
+  <?php print $header; ?>
 </div>
 
 <div class="content">  
   <?php /* print $help */ ?>
   <?php print $content ?>
   <?php /* print $feed_icons */ ?>
-
 </div>
+<div style="clear:both;"></div>
 <div id="footer">
   <?php print $footer_message; ?>
   <?php print $footer; ?>

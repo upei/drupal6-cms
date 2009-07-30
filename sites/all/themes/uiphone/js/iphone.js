@@ -17,7 +17,7 @@ $(function() {
     jQuery.location.longitude = undefined;
   }
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(foundLocation, noLocation);
+    navigator.geolocation.watchPosition(foundLocation, noLocation);
   }
   /* skip the address bar */
   setTimeout(function() {
