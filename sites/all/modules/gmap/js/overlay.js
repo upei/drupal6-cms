@@ -110,11 +110,18 @@ Drupal.gmap.addHandler('gmap', function(elem) {
   var mapMinZoom = 14;
   var mapMaxZoom = 18;
 
-  var opacity = 0.75;
+  var opacity = 0.9;
   
   obj.bind('ready', function() {
     upei.MapManager.addCampusOverlay(obj.map);
     upei.MapManager.addNameOverlay(obj.map);
+
+    obj.map.setMapType(G_NORMAL_MAP);
+   
+    // set minimum and maximum level
+    G_NORMAL_MAP.getMaximumResolution = function() { return 18; }
+    G_SATELLITE_MAP.getMaximumResolution = function() { return 18; }
+    G_HYBRID_MAP.getMaximumResolution = function() { return 18; }
   });
   
 });
