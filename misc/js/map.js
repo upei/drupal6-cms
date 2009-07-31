@@ -7,13 +7,16 @@ upei.MapManager = {
     map.setMapType(G_NORMAL_MAP);
     return map;
   },
+  mapBounds: function() {
+    return new GLatLngBounds(new GLatLng(46.2514795465, -63.144328), new GLatLng(46.262567, -63.1334033165));
+  },
   addCampusOverlay: function(map) {
     /*
      * Constants for given map
      * TODO: read it from tilemapresource.xml
      */
     // map bounds
-    var mapBounds = new GLatLngBounds(new GLatLng(46.2514795465, -63.144328), new GLatLng(46.262567, -63.1334033165));
+    var mapBounds = upei.MapManager.mapBounds();
     var mapMinZoom = 14;
     var mapMaxZoom = 18;
 
@@ -25,7 +28,7 @@ upei.MapManager = {
     var mercator = new GMercatorProjection(mapMaxZoom+1);
     tilelayer.getTileUrl = function(tile,zoom) {
       if ((zoom < mapMinZoom) || (zoom > mapMaxZoom)) {
-          return "http://www.maptiler.org/img/none.png";
+          return "http://www.upei.ca/misc/maps/none.png";
       } 
       var ymax = 1 << zoom;
       var y = ymax - tile.y -1;
@@ -36,7 +39,7 @@ upei.MapManager = {
       if (mapBounds.intersects(tileBounds)) {
           return 'http://www.upei.ca/misc/maps/' + zoom+"/"+tile.x+"/"+y+".png";
       } else {
-          return "http://www.maptiler.org/img/none.png";
+          return "http://www.upei.ca/misc/maps/none.png";
       }
     }
     // IE 7-: support for PNG alpha channel
@@ -46,6 +49,10 @@ upei.MapManager = {
 
     overlay = new GTileLayerOverlay( tilelayer );
     map.addOverlay(overlay);
+    // set minimum and maximum level
+    G_NORMAL_MAP.getMaximumResolution = function() { return 18; }
+    G_SATELLITE_MAP.getMaximumResolution = function() { return 18; }
+    G_HYBRID_MAP.getMaximumResolution = function() { return 18; }
   },
   addNameOverlay: function(map) {
     // add road and names overlay
@@ -56,7 +63,7 @@ upei.MapManager = {
     var where = new GLatLng(lat, lon);
     // marker
     if (lat && lon) {
-      map.addOverlay(new GMarker(where), markerOptions);
+      map.addOverlay(new GMarker(where, markerOptions));
     }
   }
 }

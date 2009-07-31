@@ -106,7 +106,7 @@ CTransparencyControl.prototype.getDefaultPosition = function() {
 
 Drupal.gmap.addHandler('gmap', function(elem) {
   var obj = this;
-  var mapBounds = new GLatLngBounds(new GLatLng(46.2514795465, -63.144328), new GLatLng(46.262567, -63.1334033165));
+  var mapBounds = upei.MapManager.mapBounds();
   var mapMinZoom = 14;
   var mapMaxZoom = 18;
 
@@ -115,11 +115,6 @@ Drupal.gmap.addHandler('gmap', function(elem) {
   obj.bind('ready', function() {
     upei.MapManager.addCampusOverlay(obj.map);
     upei.MapManager.addNameOverlay(obj.map);
-   
-    // set minimum and maximum level
-    G_NORMAL_MAP.getMaximumResolution = function() { return 18; }
-    G_SATELLITE_MAP.getMaximumResolution = function() { return 18; }
-    G_HYBRID_MAP.getMaximumResolution = function() { return 18; }
   });
   
 });

@@ -104,6 +104,7 @@ input { font-size: 1.25em; }
 /* general node */
 .rounded { -webkit-border-radius: 10px; -moz-border-radius: 10px; border: 1px #843434 solid; background-color: #fff; padding: 10px; font-size: 1.2em;}
 
+video { display: block; }
 /* orientation related */
 
 @media screen and (max-width: 320px) {

@@ -5,8 +5,8 @@ var LocationManager = function(container, apis) {
   this.q = jQuery.parseQuery();
 }
 
-LocationManager.prototype = {}
-LocationManager.prototype.distance = function(lat1, lon1, lat2, lon2) {
+LocationManager.prototype = upei.MapManager
+LocationManager.distance = function(lat1, lon1, lat2, lon2) {
   // convert degree into radian
   lat1 = lat1 * Math.PI / 180;
   lat2 = lat2 * Math.PI / 180;
@@ -27,7 +27,7 @@ LocationManager.prototype.sort = function (rows) {
   if (this.latitude && this.longitude) {
     // caculate all distance
     for (var index = 0; index < rows.length; index ++) {
-      rows[index].distance = this.distance(
+      rows[index].distance = LocationManager.distance(
         this.latitude, this.longitude,
         rows[index].latitude, rows[index].longitude
         );
@@ -157,8 +157,7 @@ LocationManager.prototype.map = function(map_id, lat, lon) {
    * Constants for given map
    * TODO: read it from tilemapresource.xml
    */
-  var mapBounds = new GLatLngBounds(new GLatLng(46.2514795465, -63.144328), new GLatLng(46.262567, -63.1334033165));
-
+  var mapBounds = this.mapBounds();
   var map;
   var centre = mapBounds.getCenter();
   var where;
@@ -166,10 +165,10 @@ LocationManager.prototype.map = function(map_id, lat, lon) {
     where = new GLatLng(lat, lon);
   }  
   if (GBrowserIsCompatible()) {
-    map = upei.MapManager.create(map_id);
+    map = this.create(map_id);
     map.setCenter( where, 16 );
-    upei.MapManager.addCampusOverlay(map);
-    upei.MapManager.addMarker(map, lat, lon);
+    this.addCampusOverlay(map);
+    this.addMarker(map, lat, lon);
 
     // add where you are
     if (this.latitude && this.longitude) {
@@ -177,17 +176,19 @@ LocationManager.prototype.map = function(map_id, lat, lon) {
      var icon = new GIcon(G_DEFAULT_ICON);
      var pos = new GLatLng(this.latitude, this.longitude);
      icon.image = "http://www.google.com/intl/en_us/mapfiles/ms/micons/yellow-dot.png";
+     icon.iconSize = new GSize(32, 32);
      // Set up our GMarkerOptions object
      markerOptions = { icon:icon };
-     upei.MapManager.addMarker(map, this.latitude, this.longitude, markerOptions);
+     this.addMarker(map, this.latitude, this.longitude, markerOptions);
      // set up center if we're inside the bound
      if (mapBounds.contains(pos)) {
        var center = new GLatLng((where.lat()+pos.lat())/2, (where.lng()+pos.lng())/2);
        map.setCenter(center, 16);
      }
     }
-    upei.MapManager.addNameOverlay(map);
-    map.addControl(new GSmallMapControl());
+    this.addNameOverlay(map);
+    map.addControl(new GSmallZoomControl3D());
+    map.addControl(new GScaleControl);
     map.disableContinuousZoom();
     map.disableScrollWheelZoom();
     // map.disableDragging();

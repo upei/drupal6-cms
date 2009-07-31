@@ -3,7 +3,10 @@ jQuery.extend(jQuery, {
     '#result-container', {
       'search': '/facilities/map/ajax/json?keys=',
       'detail': '/facilities/building/ajax/json/'
-    })
+    }),
+  emergency: new EmergencyManager(
+    '/emergency/cem/endpoint/json'
+    ),
 });
 
 // load

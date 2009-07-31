@@ -95,3 +95,6 @@ function phptemplate_breadcrumb($breadcrumb) {
   }
   return $result;
 }
+
+// add js
+drupal_add_js('misc/js/map.js');

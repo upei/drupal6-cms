@@ -5,6 +5,7 @@ engine = phptemplate
 
 scripts[] = js/jquery.parsequery.js
 scripts[] = js/location.js
+scripts[] = js/emergency.js
 scripts[] = js/iphone.js
 
 regions[header] = Header
