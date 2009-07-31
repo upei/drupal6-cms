@@ -1,0 +1,126 @@
+body {
+  font-family: helvetica, arial, sans-serif;
+  background-color: #f5efef;
+  font-size: 12px;
+  margin: 0;
+  -webkit-text-size-adjust: none;
+}
+
+a { color: #7a2424; font-weight: bold; }
+h2 { font-size: 1.25em; margin: 0; line-height: 1.25em; }
+img { border: 0; }
+
+/* nav */
+.nav { height: 32px; background: url(../images/nav/nav.png) top left repeat-x; -webkit-user-select: ignore; }
+.nav-item > * { display: block; float: left; height: 32px; }
+.nav-item a { padding-top: 9px; line-height: 1em; color: #fff; text-decoration: none; }
+.nav span { float: left; display: block; height: 32px; }
+span.nav-help { height: 32px; width: 32px; background: url(../images/nav/help.png) top left no-repeat; float: right; }
+span.nav-home { height: 32px; width: 41px; background: url(../images/nav/home.png) top left no-repeat; }
+.nav-title-text { height: 32px; padding-top: 8px; font-weight: bold; color: #fff; padding-left: 3px; }
+
+/* footer */
+#footer { text-align: center; width: 100%; margin-top: 30px; }
+
+/* content */
+.content { margin: 10px; }
+
+/* springboard */
+.view-springboard .views-row-odd, .view-springboard .views-row-even {
+  float: left;
+  width: 75px;
+  height: 100px;
+  text-align: center;
+}
+.view-springboard a { text-decoration: none; }
+
+form { width: 100%; }
+input { font-size: 1.25em; }
+
+#result-container { font-size: 1.2em; }
+#result-container .field-item { margin: 0.5em auto; }
+
+/* search results */
+.results { margin: 1em auto; padding: 0; -webkit-user-select: ignore; }
+.results li:first-child {
+  border-top: 1px solid #843434;
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+}
+.results li:last-child {
+  -webkit-border-bottom-left-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-bottomright: 10px;
+}
+.results li {
+  display: block; list-style: none; margin: 0;
+  padding: 0.7em;
+  background-color: #fff;
+  border-bottom: 1px solid #843434;
+  border-left: 1px solid #843434;
+  border-right: 1px solid #843434;
+}
+.results li a { text-decoration: none; display: block; }
+.results li .note { float: right; font-size: 0.75em; color: #888; }
+/* search detail */
+#result-container .tabs { margin: 0; padding: 0; }
+#result-container .tabs li {
+  display: block; float: left; padding: 3px 0.5em; margin: auto 0.3em;
+  font-size: 1em;
+  background-color: #fff;
+  color: #843434;
+  border-top: 1px #843434 solid;
+  border-left: 1px #843434 solid;
+  border-right: 1px #843434 solid;
+}
+#result-container .tabs li.active {
+  background-color: #cfb1b1;
+  color: #843434;
+}
+#result-container .tabs li:first-child { margin-left: 1em; }
+#result-container .tabs a { text-decoration: none; color: #7a2424; }
+#result-container .tabs li.active a { color: #fff; }
+#result-container .detail {
+  clear: both;
+  background-color: #fff;
+  padding: 0.8em;
+  border: 1px #843434 solid;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+#result-container .detail > div { display: none; }
+#result-container .detail > div:first-child { display: block; }
+/* dl list */
+#result-container dl { margin: 0; }
+#result-container dt { float: left; width: 80px; margin: 6px 0; line-height: 1.5em; font-size: 0.75em; text-align: right; padding-right: 10px; color: #888; clear: left; }
+#result-container dd { float: left; width: 180px; margin: 6px 0; }
+
+/* map */
+#gmap { width: 100%; }
+
+/* general node */
+.rounded { -webkit-border-radius: 10px; -moz-border-radius: 10px; border: 1px #843434 solid; background-color: #fff; padding: 10px; font-size: 1.2em;}
+
+/* orientation related */
+
+@media screen and (max-width: 320px) {
+  body { min-height: 480px; }
+  input[type="text"] { width: 180px; }
+  input[type="submit"] { width: 100px; }
+  #gmap { height: 310px; }
+}
+
+@media screen and (min-width: 321px) {
+  body { min-height: 320px; }  
+  input[type="text"] { width: 340px; }
+  input[type="submit"] { width: 100px; }
+  #gmap { height: 170px; }
+}
+
+/* safari */
+@media screen and (min-width: 481px) {
+  #gmap { height: 450px; }
+}
