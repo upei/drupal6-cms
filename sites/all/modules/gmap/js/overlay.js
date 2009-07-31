@@ -110,7 +110,7 @@ Drupal.gmap.addHandler('gmap', function(elem) {
   var mapMinZoom = 14;
   var mapMaxZoom = 18;
 
-  var opacity = 0.75;
+  var opacity = 0.9;
   
   obj.bind('ready', function() {
     // Bug in the Google Maps: Copyright for Overlay is not correctly displayed
@@ -118,8 +118,9 @@ Drupal.gmap.addHandler('gmap', function(elem) {
     GMapType.prototype.getCopyrights = function(bounds,zoom) {
         return ["&copy; 2009 University of Prince Edward Island"].concat(gcr.call(this,bounds,zoom));
     }
-
+    obj.map.setMapType(G_NORMAL_MAP);
     // obj.map.setCenter( mapBounds.getCenter(), map.getBoundsZoomLevel( mapBounds ));
+    // add road and name overlay
 
     var tilelayer = new GTileLayer(GCopyrightCollection(''), mapMinZoom, mapMaxZoom);
     var mercator = new GMercatorProjection(mapMaxZoom+1);
@@ -149,6 +150,11 @@ Drupal.gmap.addHandler('gmap', function(elem) {
     overlay = new GTileLayerOverlay( tilelayer );
     // obj.map.addControl(new CTransparencyControl(overlay));
     obj.map.addOverlay(overlay);
+    // add road and name overlay
+    var hybridOverlay = new GTileLayerOverlay( G_HYBRID_MAP.getTileLayers()[1] );
+    obj.map.addOverlay(hybridOverlay);
+    
+    obj.map.setMapType(G_NORMAL_MAP);
     
     // set minimum and maximum level
     G_NORMAL_MAP.getMaximumResolution = function() { return 18; }
