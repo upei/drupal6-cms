@@ -113,43 +113,9 @@ Drupal.gmap.addHandler('gmap', function(elem) {
   var opacity = 0.75;
   
   obj.bind('ready', function() {
-    // Bug in the Google Maps: Copyright for Overlay is not correctly displayed
-    var gcr = GMapType.prototype.getCopyrights;
-    GMapType.prototype.getCopyrights = function(bounds,zoom) {
-        return ["&copy; 2009 University of Prince Edward Island"].concat(gcr.call(this,bounds,zoom));
-    }
-
-    // obj.map.setCenter( mapBounds.getCenter(), map.getBoundsZoomLevel( mapBounds ));
-
-    var tilelayer = new GTileLayer(GCopyrightCollection(''), mapMinZoom, mapMaxZoom);
-    var mercator = new GMercatorProjection(mapMaxZoom+1);
-    tilelayer.getTileUrl = function(tile,zoom) {
-        if ((zoom < mapMinZoom) || (zoom > mapMaxZoom)) {
-            return "http://www.maptiler.org/img/none.png";
-        } 
-        var ymax = 1 << zoom;
-        var y = ymax - tile.y -1;
-        var tileBounds = new GLatLngBounds(
-            mercator.fromPixelToLatLng( new GPoint( (tile.x)*256, (tile.y+1)*256 ) , zoom ),
-            mercator.fromPixelToLatLng( new GPoint( (tile.x+1)*256, (tile.y)*256 ) , zoom )
-        );
-        if (mapBounds.intersects(tileBounds)) {
-            return 'http://www.upei.ca/misc/maps/' + zoom+"/"+tile.x+"/"+y+".png";
-        } else {
-            return "http://www.maptiler.org/img/none.png";
-        }
-    }
-    // IE 7-: support for PNG alpha channel
-    // Unfortunately, the opacity for whole overlay is then not changeable, either or...
-    tilelayer.isPng = function() { return true;};
-    tilelayer.getOpacity = function() { return opacity; }
-    
-    // add transparency control
-
-    overlay = new GTileLayerOverlay( tilelayer );
-    // obj.map.addControl(new CTransparencyControl(overlay));
-    obj.map.addOverlay(overlay);
-    
+    upei.MapManager.addCampusOverlay(obj.map);
+    upei.MapManager.addNameOverlay(obj.map);
+   
     // set minimum and maximum level
     G_NORMAL_MAP.getMaximumResolution = function() { return 18; }
     G_SATELLITE_MAP.getMaximumResolution = function() { return 18; }
