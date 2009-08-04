@@ -7,6 +7,9 @@ jQuery.extend(jQuery, {
   emergency: new EmergencyManager(
     '/emergency/cem/endpoint/json'
     ),
+  news: new NewsManager(
+    '/news/newsfeed/ajax/json/1+2+3+6/all'
+    ),
 });
 
 // load

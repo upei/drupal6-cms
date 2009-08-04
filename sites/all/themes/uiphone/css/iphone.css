@@ -8,6 +8,8 @@ body {
 
 a { color: #7a2424; font-weight: bold; }
 h2 { font-size: 1.25em; margin: 0; line-height: 1.25em; }
+h3 { font-size: 1em; margin: 0; line-height: 1em; margin: 0.5em auto;}
+
 img { border: 0; }
 
 /* nav */
@@ -101,10 +103,11 @@ input { font-size: 1.25em; }
 /* map */
 #gmap { width: 100%; }
 
-/* general node */
-.rounded { -webkit-border-radius: 10px; -moz-border-radius: 10px; border: 1px #843434 solid; background-color: #fff; padding: 10px; font-size: 1.2em;}
 
-video { display: block; }
+/* general node */
+.rounded { -webkit-border-radius: 10px; -moz-border-radius: 10px; border: 1px #843434 solid; background-color: #fff; padding: 10px; font-size: 1.2em; margin-bottom: 10px; }
+
+video { display: block; margin: 10px auto; }
 /* orientation related */
 
 @media screen and (max-width: 320px) {

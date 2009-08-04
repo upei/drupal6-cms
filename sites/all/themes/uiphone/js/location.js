@@ -75,7 +75,7 @@ LocationManager.prototype.search = function() {
         html += '</ul>';
       }
       else {
-        html = Drupal.t('<p>Sorry, no result is found.</p>');
+        html = Drupal.t('<div class="rounded">Sorry, no result is found.</div>');
       }
       ctr.html(html);
     },
