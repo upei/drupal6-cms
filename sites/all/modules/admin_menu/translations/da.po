@@ -1,17 +1,17 @@
-# Dansk translation of admin_menu (6.x-1.4)
+# Dansk translation of admin_menu (6.x-3.x-dev)
 # Copyright (c) 2009 by the Dansk translation team
 # Generated from files:
-# admin_menu.inc,v 1.11.2.24 2009/04/18 03:24:00 sun
-# admin_menu.module,v 1.43.2.17 2009/01/31 08:29:25 sun
+# admin_menu.inc,v 1.11.2.20.2.8 2009/04/04 15:23:18 sun
 # admin_menu.info,v 1.5.2.1 2008/11/30 12:50:36 sun
+# admin_menu.module,v 1.43.2.17.2.6 2009/05/07 00:34:40 sun
 # 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: admin_menu (6.x-1.4)\n"
+"Project-Id-Version: admin_menu (6.x-3.x-dev)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-28 06:44-0700\n"
-"PO-Revision-Date: 2009-05-28 15:44+0200\n"
+"POT-Creation-Date: 2009-05-29 00:41-0700\n"
+"PO-Revision-Date: 2009-05-29 09:41+0200\n"
 "Last-Translator: Morten Wulff <wulff@ratatosk.net>\n"
 "Language-Team: Dansk <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);"
 
-#: admin_menu.inc:430
+#: admin_menu.inc:425,439
 msgid "Weight"
 msgstr "Vægt"
 
-#: admin_menu.module:318
+#: admin_menu.inc:542,556
 msgid "Home"
 msgstr "Hjem"
 
@@ -31,39 +31,39 @@ msgstr "Hjem"
 msgid "Administration"
 msgstr "Administration"
 
-#: admin_menu.inc:373
+#: admin_menu.inc:379,393
 msgid "Advanced settings"
 msgstr "Avancerede indstillinger"
 
-#: admin_menu.inc:430
+#: admin_menu.inc:425,439
 msgid "None"
 msgstr "Ingen"
 
-#: admin_menu.inc:276
+#: admin_menu.inc:272,285
 msgid "Enable developer modules"
 msgstr "Aktivér udviklermoduler"
 
-#: admin_menu.inc:276
+#: admin_menu.inc:272,285
 msgid "Disable developer modules"
 msgstr "Deaktivér udviklermoduler"
 
-#: admin_menu.inc:377
+#: admin_menu.inc:383,397
 msgid "Collapse fieldsets on modules page"
 msgstr "Sammenklap feltgrupper på modul-siden"
 
-#: admin_menu.module:303
+#: admin_menu.inc:343; admin_menu.module:342
 msgid "Current anonymous / authenticated users"
 msgstr "Aktuelle anonyme / godkendte brugere"
 
-#: admin_menu.inc:440
+#: admin_menu.inc:435,449
 msgid "Display all menu items"
 msgstr "Vis alle menupunkter"
 
-#: admin_menu.module:31
+#: admin_menu.module:34
 msgid "access administration menu"
 msgstr "tilgå administrationsmenu"
 
-#: admin_menu.module:31
+#: admin_menu.module:34
 msgid "display drupal links"
 msgstr "vis drupal links"
 
@@ -71,42 +71,37 @@ msgstr "vis drupal links"
 msgid "admin_menu"
 msgstr "admin_menu"
 
-#: admin_menu.inc:471
+#: admin_menu.inc:465,479
 msgid "Disabled these modules: !module-list."
 msgstr "Deaktiverede følgende moduler: !module-list."
 
-#: admin_menu.inc:475
+#: admin_menu.inc:469,483
 msgid "No developer modules are enabled."
 msgstr "Ingen udviklermoduler er aktiveret."
 
-#: admin_menu.module:305
+#: admin_menu.module:344
 msgid "@count-anon / @count-auth !icon"
 msgstr "@count-anon / @count-auth !icon"
 
-#: admin_menu.inc:397
-msgid "Wipe and rebuild"
-msgstr "Ryd og genopbyg"
-
-#: admin_menu.inc:361
+#: admin_menu.inc:367,381
 msgid "Adjust top margin"
 msgstr "Tilpas topmargen"
 
-#: admin_menu.inc:363
+#: admin_menu.inc:369,383
 msgid ""
 "If enabled, the site output is shifted down approximately 20 pixels "
 "from the top of the viewport to display the administration menu. If "
 "disabled, some absolute- or fixed-positioned page elements may be "
 "covered by the administration menu."
 msgstr ""
-"Hvis denne indstilling aktiveres, flyttes alle sider ca. 20 pixels ned "
-"fra toppen af browservinduet for at give plads til "
-"administrationsmenuen."
+"Flytter alle sider ca. 20 pixels ned fra toppen af browservinduet for "
+"at give plads til administrationsmenuen."
 
-#: admin_menu.inc:367
+#: admin_menu.inc:373,387
 msgid "Keep menu at top of page"
 msgstr "Behold menuen i toppen af siden"
 
-#: admin_menu.inc:369
+#: admin_menu.inc:375,389
 msgid ""
 "If enabled, the administration menu is always displayed at the top of "
 "the browser viewport (even after the page is scrolled). <strong>Note: "
@@ -114,23 +109,21 @@ msgid ""
 "invisible cursor, non-selectable elements in forms, or other issues. "
 "Disable this option if these issues occur.</strong>"
 msgstr ""
-"Hvis denne indstilling aktiveres, vises administrationsmenuen altid i "
-"toppen af browservinduet (også hvis siden er rullet ned). "
-"<strong>Bemærk: I visse browsere kan denne indstilling resultere i "
-"fejlagtigt sideindhold, en usynlig markør, formularelementer som ikke "
-"kan vælges og andre fejl. Hvis det sker, skal denne indstilling "
-"deaktiveres.</strong>"
+"Viser altid administrationsmenuen i toppen af browservinduet (også "
+"hvis siden er rullet ned). <strong>Bemærk: I visse browsere kan denne "
+"indstilling resultere i fejlagtigt sideindhold, en usynlig markør, "
+"formularelementer som ikke kan vælges og andre fejl. Hvis det sker, "
+"skal denne indstilling deaktiveres.</strong>"
 
-#: admin_menu.inc:379
+#: admin_menu.inc:385,399
 msgid ""
 "If enabled, fieldsets on the <a href=\"!modules-url\">modules</a> page "
 "are automatically collapsed when loading the page."
 msgstr ""
-"Hvis denne indstilling aktiveres foldes feltgrupperne på <a "
-"href=\"!modules-url\">modulsiden</a>automatisk sammen når siden "
-"indlæses."
+"Folder automatisk feltgrupperne på <a "
+"href=\"!modules-url\">modulsiden</a>sammen når siden indlæses."
 
-#: admin_menu.inc:382
+#: admin_menu.inc:388,402
 msgid ""
 "If the Utility module was installed for this purpose, it can be safely "
 "disabled and uninstalled."
@@ -138,64 +131,55 @@ msgstr ""
 "Hvis Utility modulet er aktiveret af denne grund, kan det uden "
 "problemer deaktiveres og afinstalleres."
 
-#: admin_menu.inc:386
+#: admin_menu.inc:392,406
 msgid "Move local tasks into menu"
 msgstr "Flyt lokale opgaver til menuen"
 
-#: admin_menu.inc:388
+#: admin_menu.inc:394,408
 msgid ""
 "If enabled, the tabs on the current page are moved into the "
 "administration menu. This feature is only available in themes that use "
 "the CSS classes <code>tabs primary</code> and <code>tabs "
 "secondary</code> for tabs."
 msgstr ""
-"Hvis denne indstilling aktiveres flyttes fanerne fra den aktuelle side "
-"ind i administrationsmenuen. Denne funktion er kun tilgængelig i "
-"temaer, som bruger CSS klasserne <code>tabs primary</code> og "
-"<code>tabs secondary</code> til faneblade."
+"Flytter fanerne fra den aktuelle side ind i administrationsmenuen. "
+"Denne funktion er kun tilgængelig i temaer, som bruger CSS klasserne "
+"<code>tabs primary</code> og <code>tabs secondary</code> til "
+"faneblade."
 
-#: admin_menu.inc:393
-msgid ""
-"If the administration menu displays duplicate menu items, you may need "
-"to rebuild your menu items using the <em>Wipe and rebuild</em> button."
-msgstr ""
-"Hvis administrationsmenuen viser samme menupunkt flere gange kan det "
-"være nødvendigt at genopbygge menupunkterne ved at klikke på "
-"knappen <em>Ryd og genopbyg</em>."
-
-#: admin_menu.inc:425
+#: admin_menu.inc:420,434
 msgid "Administration menu settings"
 msgstr "Indstillinger for administrationsmenu"
 
-#: admin_menu.inc:430
+#: admin_menu.inc:425,439
 msgid "Menu link ID"
 msgstr "Menu link ID"
 
-#: admin_menu.inc:430
+#: admin_menu.inc:425,439
 msgid "Parent link ID"
 msgstr "Overordnet link ID"
 
-#: admin_menu.inc:433
+#: admin_menu.inc:428,442
 msgid "Display additional data for each menu item"
 msgstr "Vis ekstra data til hvert menupunkt"
 
-#: admin_menu.inc:436
+#: admin_menu.inc:431,445
 msgid "Display the selected items next to each menu item link."
 msgstr "Vis de valgte elementer udfor hvert menupunktslink."
 
-#: admin_menu.inc:442
+#: admin_menu.inc:437,451
 msgid ""
 "If enabled, all menu items are displayed regardless of your site "
 "permissions. <em>Note: Do not enable on a production site.</em>"
 msgstr ""
-"Viser alle menupunkt uanset dine tilladelser. <em>Bemærk: Bør ikke "
+"Viser alle menupunkter uanset dine tilladelser. <em>Bemærk: Bør ikke "
 "bruges på et produktionssite.</em>"
 
-#: admin_menu.inc:459
+#: admin_menu.inc:453,467
 msgid "Enabled these modules: !module-list."
 msgstr "Aktivér disse moduler: !module-list."
 
-#: admin_menu.module:16
+#: admin_menu.module:19
 msgid ""
 "The administration menu module provides a dropdown menu arranged for "
 "one- or two-click access to most administrative tasks and other common "
@@ -205,9 +189,9 @@ msgstr ""
 "Administration Menu modulet opretter en dropdown-menu så de fleste "
 "administrative opgaver og sider kan nås med et eller to klik (for "
 "brugere med de rette tilladelser). Brug indstillingerne herunder til "
-"at tilpasse menuen udseende."
+"at tilpasse menuens udseende."
 
-#: admin_menu.module:20
+#: admin_menu.module:23
 msgid ""
 "The administration menu module provides a dropdown menu arranged for "
 "one- or two-click access to most administrative tasks and other common "
@@ -228,7 +212,7 @@ msgstr ""
 "href=\"@drupal\">Devel</a>-modulet administrationsmenuen til at give "
 "hurtig adgang til udviklingsværktøjer."
 
-#: admin_menu.module:21
+#: admin_menu.module:24
 msgid ""
 "The administration menu <a href=\"@settings\">settings page</a> allows "
 "you to modify some elements of the menu's behavior and appearance. "
@@ -239,11 +223,11 @@ msgid ""
 msgstr ""
 "Under administrationsmenuens <a href=\"@settings\">indstillinger</a> "
 "kan du tilpasse menuens opførsel og udseende. Siden menuens udseende "
-"afhænger af sitets tema kræver omfattende ændringer af menuen at du "
-"tilpasser sitets tema- og CSS-filer. Se filen README.txt for "
+"afhænger af sitets tema, kræver omfattende ændringer af menuen at "
+"du tilpasser sitets tema- og CSS-filer. Se filen README.txt for "
 "yderligere information om tilpasning af tema og CSS."
 
-#: admin_menu.module:22
+#: admin_menu.module:25
 msgid ""
 "The menu items displayed in the administration menu depend upon the "
 "actual permissions of the viewer. First, the administration menu is "
@@ -261,16 +245,16 @@ msgstr ""
 "brugere med tilladelsen <em>tilgå administrationsmenu</em>. For det "
 "andet skal brugeren have tilladelsen <em>tilgå "
 "administrationssider</em> for at se administrative links. For det "
-"tredje vises kun links som brugeren reelt har adgang til. Hvis en "
-"bruger f.eks. ikke har tilladelserne <em>administrer tilladelser</em> "
-"og <em>administrer brugere</em> vises menupunktet <em>Brugere</em> "
+"tredje vises kun de links som brugeren reelt har adgang til. Hvis en "
+"bruger f.eks. ikke har tilladelserne <em>administrér tilladelser</em> "
+"og <em>administrér brugere</em> vises menupunktet <em>Brugere</em> "
 "ikke."
 
-#: admin_menu.module:51; admin_menu.info:0
+#: admin_menu.module:54,61; admin_menu.info:0
 msgid "Administration menu"
 msgstr "Administrationsmenu"
 
-#: admin_menu.module:52
+#: admin_menu.module:55,62
 msgid "Adjust administration menu settings."
 msgstr "Tilpas indstillinger for administrationsmenu."
 
@@ -279,7 +263,11 @@ msgid ""
 "Provides a dropdown menu to most administrative tasks and other common "
 "destinations (to users with the proper permissions)."
 msgstr ""
-"Opretter en dropdown menu som giver adgang til de fleste "
+"Opretter en dropdown-menu som giver adgang til de fleste "
 "administrative opgaver og sider (til brugere med de rette "
 "tilladelser)."
+
+#: admin_menu.module:323
+msgid "@count-anon / @count-auth"
+msgstr "@count-anon / @count-auth"
 

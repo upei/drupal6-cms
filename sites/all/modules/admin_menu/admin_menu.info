@@ -1,12 +1,18 @@
-; $Id: admin_menu.info,v 1.5.2.1 2008/11/30 12:50:36 sun Exp $
+; $Id: admin_menu.info,v 1.5.2.1.2.2 2009/07/29 15:50:51 sun Exp $
 name = Administration menu
 description = Provides a dropdown menu to most administrative tasks and other common destinations (to users with the proper permissions).
 package = Administration
-core = 6.x
 
-; Information added by drupal.org packaging script on 2009-07-02
-version = "6.x-1.5"
+; Purposively added for feature development.
+version = 6.x-3.x-dev
+core = 6.x
+project = admin_menu
+
+dependencies[] = menu
+
+; Information added by drupal.org packaging script on 2009-08-02
+version = "6.x-3.0-alpha2"
 core = "6.x"
 project = "admin_menu"
-datestamp = "1246537502"
+datestamp = "1249183202"
 

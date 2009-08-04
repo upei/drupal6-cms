@@ -1,27 +1,67 @@
-// $Id: CHANGELOG.txt,v 1.33.2.58 2009/07/02 12:10:37 sun Exp $
+// $Id: CHANGELOG.txt,v 1.33.2.48.2.47 2009/08/02 03:11:29 sun Exp $
 
 Admin Menu x.x-x.x, xxxx-xx-xx
 ------------------------------
 
 
-Admin Menu 6.x-1.x, xxxx-xx-xx
+Admin Menu 6.x-3.x, xxxx-xx-xx
 ------------------------------
 
 
-Admin Menu 6.x-1.5, 2009-07-02
-------------------------------
+Admin Menu 6.x-3.0-ALPHA2, 2009-08-02
+-------------------------------------
+#527908 by sun: Changed theme_admin_menu_links() to use $element['#children'].
+#527908 by markus_petrux, sun: Changed admin menu into a renderable array.
+#420812 by sun, smk-ka: Added support for hook_js().
+by sun: Fixed destination query string of current page not applied to links.
+by sun: Changed Drupal.admin.attachBehaviors() to accept local JS settings.
+#276751 by sun: Revamped rendering of menu additions/widgets.
+#500866 by sun: Updated for removed t() from getInfo() in tests.
+by markus_petrux, sun: Added API documentation.
+#461264 by sun: Added site/domain as CSS class.
+#451270 by smk-ka, sun: Changed visual indication for uid1.
+by sun: Minor code clean-up.
+#490670 by sun: Fixed missing menu after installation/upgrade.
+#515718 by joelstein, sun: Added rules_admin module to developer modules list.
+#352065 by sun: Added setting to select developer modules to keep enabled.
+#511854 by psynaptic: Fixed logout link.
+#424960 by markus_petrux, sun: Fixed gzip compression for cached output.
+by sun: Fixed opacity of links in sub-menus.
 #479922 by sun: Fixed fieldsets not collapsed on admin/build/modules/list*.
+#495148 by sun: Fixed MENU_NORMAL_ITEMs do not appear in administration menu.
+by sun: Fixed tests for new content-type locations.
+#345984 by markus_petrux, sun: Fixed old menu links not removed on upgrade.
+#276751 by sun: Major rewrite. Fixed menu items cannot be moved, altered, or
+  added as well as various performance issues.
+by sun: Added variable to allow to disable caching (rewrite).
+
+
+Admin Menu 6.x-3.0-ALPHA1, 2009-06-10
+-------------------------------------
 #236657 by sun: Updated for corrected arguments of system_clear_cache_submit().
+#483870 by sun: Fixed compatibility with new Admin module.
+#483152 by sun: Fixed admin_menu caches not flushed when clean URLs are toggled.
+#479922 by danep: Fixed fieldsets not collapsed on admin/build/modules/list.
+#469716 by sun: Fixed wrong AJAX callback URL under various conditions.
 #471504 by wulff: Updated Danish translation.
-
-
-Admin Menu 6.x-1.4, 2009-05-15
-------------------------------
-by Dave Reid: Updated for getInfo() for tests.
-#433016 by ultimateboy: Fixed Devel switch user links added to wrong parent.
+by sun: Fixed admin_menu_suppress() does not suppress margin-top.
+#451270 by sun: Added visual indication when working as uid 1.
+by Dave Reid: Updated for getInfo() in tests.
+#420828 by sun: Added dynamic replacements for cached administration menu.
+#420840 by sun: Fixed Drupal.behaviors.adminMenu must be only executed once.
+#345984 by markus_petrux, sun: Added client-side caching of administration menu.
+  Attention: A new era of Drupal user experience starts here.  This is the very
+  first issue of a series of improvements targeting plain awesomeness.
 #349169 by sun: Fixed Devel switch user links contain multiple path prefixes.
+#345984 by sun: Code clean-up in preparation for client-side caching.
+#415196 by psynaptic: Updated for CSS coding standards.
+#406672 by mr.j, sun: Fixed "Move local tasks" option leaves stale UL.
+by sun: Major code clean-up and sync across 3.x branches.
+#349505 by smk-ka, sun: Performance: Added caching of entire menu output.
+#315342 by wulff: Added "My account" link (by splitting the "Log out" item).
 #384100 by kepol, sun: Fixed content-type items displayed in wrong place.
 #373339 by sun: Fixed double-escaped 'Edit <content-type>' link titles.
+#373372 by sun: Turned procedural JavaScript into admin menu behaviors.
 by sun: Fixed admin menu tests (and updated to 6.x for SimpleTest 2.x).
 #359158 by nitrospectide, sun: Fixed Devel Themer breaks admin menu.
 #365335 by sun: Fixed not all variables removed after uninstall.
@@ -221,5 +261,3 @@ First stable release, compatible to Drupal 4.7.x and 5.x.
 Admin Menu 4.7-1.0, 2007-01-16
 ------------------------------
 Initial release of admin_menu module. Already supporting Drupal 5.0.
-
-
