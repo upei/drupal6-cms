@@ -1,5 +1,17 @@
 <?php
 class views_plugin_style_ajax extends views_plugin_style {
+
+  function options(&$options) {
+    $options['include_nodes'] = array('default' => TRUE);
+  }
+
+  function options_form(&$form, &$form_state) {
+    $form['include_nodes'] = array(
+      '#type' => 'checkbox',
+      '#default_value' => $this->options['include_nodes'],
+      '#title' => t('Include raw node output'),
+    );
+  }
   function render() {
     if (empty($this->row_plugin)) {
       vpr('views_plugin_style_default: Missing row plugin');
@@ -23,11 +35,20 @@ class views_plugin_style_ajax extends views_plugin_style {
         }
         $rows[] = $fields;
       }
-      $output[] = array(
-        'title' => $title,
-        'rows' => $rows,
-        'nodes' => $nodes,
-      );
+      if (empty($this->options['include_nodes'])) {
+        $output[] = array(
+          'title' => $title,
+          'rows' => $rows,
+        );
+
+      }
+      else {
+        $output[] = array(
+          'title' => $title,
+          'rows' => $rows,
+          'nodes' => $nodes,
+        );
+      }
     }
     return $output;
   }

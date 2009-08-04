@@ -23,6 +23,7 @@ function views_ajax_endpoint_views_plugins() {
         'handler' => 'views_plugin_style_ajax_json',
         'uses row plugin' => TRUE,
         'uses fields' => TRUE,
+        'uses options' => TRUE,
         'type' => 'ajax',
       ),
       
