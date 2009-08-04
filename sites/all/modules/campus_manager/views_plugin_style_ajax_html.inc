@@ -4,10 +4,13 @@ require_once('views_plugin_style_ajax.inc');
 class views_plugin_style_ajax_html extends views_plugin_style_ajax {
   
   function options(&$options) {
+    parent::options($options);
     $options['template'] = '';
   }
 
   function options_form(&$form, &$form_state) {
+    parent::options_form($form, $form_state);
+
     $form['template'] = array(
       '#id' => 'views_plugin_style_ajax_html_template',
       '#type' => 'textarea',

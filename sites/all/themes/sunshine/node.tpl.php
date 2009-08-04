@@ -1,4 +1,5 @@
 <div class="node<?= ($is_front || $type == 'landingpage') ? "-front" : "" ?> node-<?=$type?><?php if ($sticky) { print " sticky"; } ?><?php if (!$status) { print " node-unpublished"; } ?>">
+  <? if (!$is_front): ?>
   <div class="right">
     <?php if ($links): ?>
     <fieldset>
@@ -7,6 +8,7 @@
     </fieldset>
     <?php endif; ?>
   </div>
+  <? endif; ?>
   <div class="content">
     <? if ($page == 0): ?>
     <h2 class="title"><a href="<?=$node_url?>"><?=$title?></a></h2>
