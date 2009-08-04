@@ -259,14 +259,14 @@ final class ScrapeBlock extends DrupalBlockBase {
    // scrape site
     if (user_access(ScrapeManager::$PERM_SITE)) {
       $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/allgolive.jpg\" alt=\"Scrape Website\"/>";
-      $block_content .= l($image, 'scrape/site',
+      $block_content .= '<p>'.l($image, 'scrape/site',
         array(
           'query' => array(
             'uri' => request_uri(),
             ),
           'html' => true,
           )
-      );
+      ).'</p>';
     }
     
     // scrape section
@@ -274,28 +274,28 @@ final class ScrapeBlock extends DrupalBlockBase {
      $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/minegolive.jpg\" alt=\"Scrape Section\"/>";
       // make sure section scrape does not appear when it is under admin
      if ($site[2] != 'admin') {
-       $block_content .= l($image, 'scrape/section',
+       $block_content .= '<p>'.l($image, 'scrape/section',
          array(
            'query' => array(
              'uri' => request_uri(),
              ),
            'html' => true,
            )
-       );
+       ).'</p>';
      }
    }
     
 	// scrape page
     if (user_access(ScrapeManager::$PERM_PAGE)) {
       $image = "<img style=\"border:1px solid #cccccc;\" src=\"/{$site[1]}/{$path}/images/onegolive.jpg\" alt=\"Scrape Page\"/>";
-      $page_scrape_content = l($image, 'scrape/page',
+      $page_scrape_content = '<p>'.l($image, 'scrape/page',
         array(
           'query' => array(
             'uri' => request_uri(),
             ),
           'html' => true,
           )
-      );
+      ).'</p>';
       // get the node number
       $node_number = $this->get_node_number();
       if ($node_number) {

@@ -13,10 +13,11 @@
   <?php include 'site-includes/page-setup-scripts.php'; ?>
 </head>
 <body>
+<?php include 'site-includes/00.010-administration-panel.php'; ?>
+<?php if (!empty($admin)) print $admin; ?>
 <? if (function_exists('_print_additional_info')) {
   _print_additional_info();
 }?>
-<?php include 'site-includes/00.010-administration-panel.php'; ?>
 <div id="primary-navigation">
   <?php include "site-includes/00-primarynav.php"; ?>
 </div>

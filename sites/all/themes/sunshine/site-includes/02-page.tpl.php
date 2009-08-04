@@ -1,5 +1,4 @@
 
-<?php include '02.050-left-sidebar.php'; ?>
 <!-- dave did this and he's very sorry--> 
 <?php include '02.110-breadcrumb.php'; ?>
 <?php include '02.120-mission.php'; ?>
