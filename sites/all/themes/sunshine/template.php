@@ -26,15 +26,15 @@ function sunshine_build_css_cache($css_files) {
   preg_match_all($regexp, $data, $matches);
   $data = preg_replace($regexp, '', $data);
   $data = implode('', $matches[0]) . $data;
-  
-  $filename = 'sunshine.' . md5($data) . '.css';
-  
+  $checksum = md5($data);
+  $filename_cache = 'sunshine.cache.css';
   // Create the CSS file.
-  if (!file_exists($csspath . '/' . $filename)) {
-    file_save_data($data, $csspath .'/'. $filename, FILE_EXISTS_REPLACE);
+  if (md5(file_get_contents($csspath.'/'.$filename_cache)) != $checksum) {
+    drupal_set_message('Sunshine CSS cache has been rebuilt.');
+    file_save_data($data, $csspath .'/'. $filename_cache, FILE_EXISTS_REPLACE);
   }
 
-  return $csspath .'/'. $filename;
+  return $csspath .'/'. $filename_cache;
 }
 
 function _get_override_css_files() {
