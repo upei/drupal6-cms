@@ -1,0 +1,25 @@
+#header-logo { width:215px;float:left;}
+#header-logo img { margin-bottom:2px 0px 0px 10px; float:left; }
+
+#header-search {
+  margin-top: 14px;
+  width: 370px;
+  float: right;
+  border: 0px solid #ccc;
+}
+
+.header-title {
+  width: 400px;
+  font-family: "Times New Roman", "Times", serif;
+  font-size: 1.5em;
+  line-height: 1em;
+  font-weight: normal;
+  display: block;
+  float: left;
+  padding: 0 0 0 4px;
+  margin: 13px 0 0 0;
+}
+.header-title-twin {
+  margin: 2px 0 0 0;
+}
+

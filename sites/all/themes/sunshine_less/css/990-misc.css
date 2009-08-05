@@ -1,0 +1,67 @@
+/* Style for the course schedule feel for the top menu*/
+#coursefeedtitle { padding:20px 0px 20px 0px;font-size:14px;font-weight:bold;width:98%;text-align:center;border:0px solid #999999; }
+#coursefeedtitle a{ text-decoration:underline;padding:20px 12px 20px 12px; }
+
+/* Added here March 10th 2009. Special Styles created by Ryan and Deb to allow more variety in text - S.A.*/
+.specialclass1 {
+font-weight: bold;
+font-size: 120%;
+}
+
+.specialclass2 {
+font-weight: bold;
+font-size: 140%;
+}
+
+.specialclass3 {
+padding: 3px;
+font-weight: bold;
+font-size: 120%;
+}
+
+.specialclass4 {
+font-weight: bold;
+font-size: 120%;
+}
+
+.specialclass5 {
+font-weight: bold;
+font-size: 140%;
+}
+
+.specialclass6 {
+padding: 3px;
+font-weight: bold;
+font-size: 120%;
+}
+
+/* This overrides the button images inside the editor to take away the spacing */
+.mceEditor img{margin:0px;}
+
+/*tr.even, tr.odd{border-bottom: 2px solid #ffffff;}*/
+tr.even td, tr.odd td{border: 2px solid #ffffff;}
+
+
+.home-page-story-ajax hr { display: none; }
+.home-page-story-ajax h2 { font-weight: normal; padding: 0; margin: 0; line-height: 17px; margin-top: -1px;}
+.home-page-story-ajax a { font-weight: normal !important; font-size: 13px !important; padding: 0 !important; margin: 0 !important; line-height:17px; }
+
+#block-views-buttons-block_2{margin-bottom:10px;}
+
+
+/*News page media sources formatting*/
+
+.sections .block .views-field-title a, .sections .block .views-field-field-news-link-url { font-weight: bold; }
+
+.block .view-buttons { margin-bottom: 6px; }
+
+/** full timetable */
+.view-timetable th { font-weight: bold; }
+.view-timetable td { padding: 6px; vertical-align: middle; }
+.view-timetable .views-table .views-field-data { width: 80px; }
+.view-timetable .views-table .views-field-data-1 { width: 200px; }
+.view-timetable .views-table .views-field-data-2 { width: 140px; }
+.view-timetable .views-table .views-field-data-3 { width: 110px; }
+.view-timetable .views-table .views-field-data-6 { width: 80px; }
+.view-timetable .views-table .views-field-data-4 { width: 100px; }
+.view-timetable .views-table .views-field-data-5 { width: 40px; }

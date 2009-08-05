@@ -1,0 +1,14 @@
+/* front page gallery / one line gallery */
+.front-page-gallery { padding: 0; margin: 0 auto; height: 64px; width: 880px; overflow: hidden; position: relative; }
+.front-page-gallery .items { padding: 0; margin: 0; width: 20000em; position: absolute; }
+.front-page-gallery .item {
+  display: block;
+  list-style-type: none;
+  list-style-image: none;
+  margin: 0 5px;
+  width: 100px;
+  float: left;
+  overflow: hidden;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}

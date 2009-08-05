@@ -1,0 +1,93 @@
+#sidebar-left { width: 20px; height: 120px; }
+#sidebar-left-bar { display: block; float: right; position: relative; }
+#sidebar-left-close {
+  display: block; width: 18px; height: 18px; position: absolute; top: 0; right: 2px;
+}
+#sidebar-left-close {
+  background-image: url("../images/arrow/right.png"); background-repeat: no-repeat;
+}
+#sidebar-left-close:hover { background-position: 0 -18px; }
+#sidebar-left-close.enabled {
+  background-image: url("../images/arrow/left.png"); background-repeat: no-repeat;
+}
+#sidebar-left, #sidebar-right {
+  z-index: 1000 !important;
+  position: fixed;
+  top: 120px;
+  max-width: 250px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  overflow: hidden;
+  font-size: 0.9em;
+  line-height: 1.8em;
+}
+#sidebar-left {
+  left: 0;
+  border-right: 1px solid #ccc;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+}
+#sidebar-right {
+  position: absolute;
+  right: 0;
+  border-left: 1px solid #ccc;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-bottomleft: 5px;
+}
+#sidebar-right-close {
+  display: block; width: 18px; height: 18px; position: absolute; top: 0; left: 0;
+}
+#sidebar-right-close {
+  background-image: url("../images/arrow/left.png"); background-repeat: no-repeat;
+}
+#sidebar-right-close:hover { background-position: 0 -18px; }
+#sidebar-right-close.enabled {
+  background-image: url("../images/arrow/right.png"); background-repeat: no-repeat;
+}
+
+
+#sidebar-left li, #sidebar-right li { list-style: disc inside; }
+#sidebar-left .hidden, #sidebar-right .hidden { display: none; }
+#sidebar-left .block, #sidebar-right .block {
+	border-top: 0px;
+	border-right: 0px solid #ccc;
+	border-bottom: 0px solid #ccc;
+	border-left: 0px;
+}
+
+#sidebar-left h2.title, #sidebar-right h2.title {
+	background-position: top right;
+	padding-left:10px;
+	font-size:1em;
+	padding:2px;
+	border-style:solid;
+	border-width:1px;
+}
+
+
+#sidebar-left h2.title, #sidebar-right h2.title {
+  background-image: none;
+  border: 0px;
+}
+
+#sidebar-left li a {
+  text-decoration: none;
+  font-size: 88%;
+  font-family: verdana; 
+  font-weight: normal;
+}
+
+#sidebar-left div.content > ul > li {
+  border-bottom: 1px dotted #ccc;
+}
+
+#sidebar-left div.content > ul li.active-trail > a {
+}
+
+#sidebar-left li li a {
+}

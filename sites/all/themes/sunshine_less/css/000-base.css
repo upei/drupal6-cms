@@ -1,0 +1,89 @@
+/* fontface */
+@font-face { font-family: Gentium; src: url("../fonts/GenBasR.ttf"); }
+@font-face { font-family: Gentium; font-weight: bold; src: url("../fonts/GenBasB.ttf"); }
+@font-face { font-family: Gentium; font-style: italic; src: url("../fonts/GenBasI.ttf"); }
+@font-face { font-family: Gentium; font-weight: bold; font-style: italic; src: url("../fonts/GenBasBI.ttf"); }
+
+body {
+  padding: 0;
+  width: 1000px;
+  margin: 0 auto 0 auto;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+
+/* headings */ 
+h1, h2, h3 { font-family: Minion Pro, Gentium, Georgia, "Times New Roman", Times, serif; font-weight: bold; }
+h1 { font-size: 1.8em; line-height: 1; margin-bottom: 0.75em; margin-top: 0.75em; }
+h2 { font-size: 1.5em; line-height: 1.25; margin-bottom: 0.75em; margin-top: 0.75em; }
+h3 { font-size: 1.2em; line-height: 1.25; margin-bottom: 0.75em; margin-top: 0.75em; }
+h4 { font-size: 1em; font-weight: bold; margin-bottom: 1.5em; }
+h5 { font-size: 1em; font-weight: bold; }
+
+li { list-style: disc outside; margin-left: 2em;}
+ol li { list-style-type: decimal; list-style-image: none; }
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* default button styles */
+input[type="submit"] {
+  background-image: url("/misc/i/buttonback25.png");
+  background-repeat: repeat-x;
+  border: 1px outset #ccc;
+  padding-left: 15px;
+  padding-right: 15px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  overflow: visible;
+}
+input[type="submit"]:active { border-style: inset; background-image: url("/misc/i/buttonbackactive25.png"); }
+
+/* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
+/* vertical-align: middle --> vertical-align: top */
+/* This moves the 'inside banner menu' to the top right corner of the banner */
+
+#content-top .block {
+  padding: 0px;
+}
+
+.clearfix:after {
+   content: ".";
+   display: block;
+   height: 0;
+   clear: both;
+   visibility: hidden;
+}
+
+#inner-content {
+padding: 0px;
+}
+
+/* error */
+div.error, div.help, div.status {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+div.help {
+  background-color: #cdecff;
+  border: 1px solid #58a7ff;
+}
+
+div.status {
+  background-color: #fffbcd;
+  border: 1px solid #ffbf54;
+}
+
+div.sections {
+  width: 100%;
+  padding: 0;
+}
+
+div.section {
+  float: left;
+}

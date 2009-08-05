@@ -1,0 +1,18 @@
+/* fix main selector improper position issue */
+#main-selector { position: relative; height: 395px; width: 1000px; }
+.front-image-selector-list {
+  position: absolute;
+  float: none !important;
+  left: 0;
+  top: 0;
+}
+.front-image {
+  position: absolute;
+  float: none !important;
+  top: 0;
+  right: 0;
+}
+/* fix scrollable container issue */
+/*.scrollable-container { display: none; }*/
+/* fix footer */
+#footer-background { background-image: none; }

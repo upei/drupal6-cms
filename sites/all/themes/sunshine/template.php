@@ -29,7 +29,7 @@ function sunshine_build_css_cache($css_files) {
   $checksum = md5($data);
   $filename_cache = 'sunshine.cache.css';
   // Create the CSS file.
-  if (md5(file_get_contents($csspath.'/'.$filename_cache)) != $checksum) {
+  if ((!file_exists($csspath.'/'.$filename_cache)) || (md5(file_get_contents($csspath.'/'.$filename_cache)) != $checksum)) {
     drupal_set_message('Sunshine CSS cache has been rebuilt.');
     file_save_data($data, $csspath .'/'. $filename_cache, FILE_EXISTS_REPLACE);
   }
