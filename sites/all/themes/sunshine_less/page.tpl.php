@@ -7,16 +7,12 @@
   <?php print $head ?>
   <?php print $styles ?>
 <!--[if IE 6]><link rel="stylesheet" type="text/css" href="<?php print base_path() . path_to_theme() ?>/css/ie6fix.css" /><![endif]-->
-  <?php print _import_override_css_files(array("/css/sunshine.css"/*, "/misc/ui-theme/ui.generated.css"*/)); ?>
   <?php print $scripts ?>
   <?php include 'site-includes/page-setup-scripts.php'; ?>
 </head>
 <body>
-<?php include 'site-includes/00.010-administration-panel.php'; ?>
 <?php if (!empty($admin)) print $admin; ?>
-<? if (function_exists('_print_additional_info')) {
-  _print_additional_info();
-}?>
+<?php include 'site-includes/00.010-administration-panel.php'; ?>
 <div id="primary-navigation">
   <?php include "site-includes/00-primarynav.php"; ?>
 </div>
@@ -35,13 +31,5 @@
   <?php include 'site-includes/03-footer.php'; ?>
   <div style="clear:both"></div>
 </div>
-<?php 
-	if ( $_SERVER['REMOTE_ADDR'] == '137.149.3.48' || $_SERVER['REMOTE_ADDR'] == '137.149.3.28') {
-  		$_ga = 'UA-7323270-1';
-	}else {
-  		$_ga = 'UA-7323270-2';
-	} 
-	include ('site-includes/04-quantcast.php');
-?>
 </body>
 </html>

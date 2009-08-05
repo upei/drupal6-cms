@@ -1,10 +1,15 @@
-// $Id: README.txt,v 1.1.2.1 2009/05/01 10:07:32 deciphered Exp $
+// $Id: README.txt,v 1.1.2.6 2009/07/03 07:06:50 deciphered Exp $
 
-The FileField Paths module extends the default functionality of Drupals Upload
-module and the FileField module by adding the ability to use node tokens in
-destination paths and filenames.
+The FileField Paths module extends the default functionality of Drupals core
+Upload module, the FileField module and many other File Upload modules by adding
+the ability to use node tokens in destination paths and filenames.
+
+In simple terms, FileField Paths allows you to automatically sort and rename
+your uploaded files using token based replacement patterns to maintain a nice
+clean filesystem.
 
 FileField Paths was written and is maintained by Stuart Clark (deciphered).
+- http://stuar.tc/lark
 
 
 Features
@@ -12,11 +17,17 @@ Features
 
 * Configurable file paths now use node tokens instead of user tokens.
 * Configurable filenames.
-* Support for the ImageField module.
-* Support for the core Upload module.
+* Support for:
+  * Drupal core Upload module.
+  * FileField module.
+  * ImageField module.
+  * ImageField Crop module.
+  * Image module.
+  * Comment Upload module.
 * File path and filename cleanup options:
   * Filter out words and punctuation by taking advantage of the Pathauto module.
   * Convert unicode characters into US-ASCII with the Transliteration module.
+* Automatically updates unprocessed file paths in the node body on save.
 * Retroactive updates - rename and/or move previously uploaded files (Use with
   caution)
 
@@ -34,6 +45,40 @@ Recommended Modules
 * File Aliases      - http://drupal.org/project/file_aliases
 * Pathauto          - http://drupal.org/project/pathauto
 * Transliteration   - http://drupal.org/project/transliteration
+
+
+Usage/Configuration
+--------------------------
+
+Once installed, FileField Paths needs to be configured for each file type you
+wish to use.
+
+* FileField/ImageField module
+
+  Settings can be found on the fields configuration page in 'Page settings >
+  FileField Path settings'.
+  http://[www.yoursite.com/path/to/drupal]/admin/content/node-type/[node-type]/fields/[field-name] 
+
+
+* Upload module
+
+  Settings can be found on the content types configuration page in 'Workflow
+  settings > Upload Path settings'.
+  http://[www.yoursite.com/path/to/drupal]/admin/content/node-type/[node-type]
+
+
+* Image module
+
+  Settings can be found on the Images configuration page in 'Image file settings
+  > Image Path settings'.
+  http://[www.yoursite.com/path/to/drupal]/admin/settings/image
+
+
+* Comment Upload module
+
+  Settings can be found on the content types configuration page in 'Comment
+  settings > Comment Upload Path settings'.
+  http://[www.yoursite.com/path/to/drupal]/admin/content/node-type/[node-type]
 
 
 Frequently Asked Questions

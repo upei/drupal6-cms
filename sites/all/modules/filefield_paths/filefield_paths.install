@@ -1,5 +1,5 @@
 <?php
-// $Id: filefield_paths.install,v 1.6.2.2 2009/04/17 01:50:39 deciphered Exp $
+// $Id: filefield_paths.install,v 1.6.2.3 2009/05/22 03:28:14 deciphered Exp $
 
 /**
  * @file
@@ -22,6 +22,22 @@ function filefield_paths_schema() {
   );
 
   return $schema;
+}
+
+/**
+ * Implementation of hook_schema_alter().
+ *
+ * @param $schema
+ *   The system-wide schema
+ */
+function filefield_paths_schema_alter(&$schema) {
+  $schema['files']['fields']['origname'] = array(
+    'description' => 'Original name of the file.',
+    'type' => 'varchar',
+    'length' => 255,
+    'not null' => TRUE,
+    'default' => '',
+  );
 }
 
 /**
