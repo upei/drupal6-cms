@@ -1,5 +1,5 @@
 <?php
-// $Id: auto_nodetitle.module,v 1.20.2.1 2008/06/08 13:10:07 fago Exp $
+// $Id: auto_nodetitle.module,v 1.20.2.5 2009/04/21 08:52:10 fago Exp $
 
 /**
  * @file
@@ -42,26 +42,46 @@ function auto_nodetitle_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
-/*
- * Gets the node object, modifies the title, and updates the node in the form_state
+/**
+ * Makes sure the node preview is shown right.
+ * It gets the node object, modifies the title, and updates the node in the form_state.
  */
 function auto_nodetitle_node_form_submit($form, &$form_state) {
-  $setting = auto_nodetitle_get_setting($form_state['values']['type']);
-  if ($setting == AUTO_NODETITLE_ENABLED || ($setting == AUTO_NODETITLE_OPTIONAL && empty($form_state['values']['title']))) {
-    $node = node_submit($form_state['values']);
-    auto_nodetitle_set_title($node);
-    $form_state['values'] = (array)$node;
+  // Only do something, if the user clicked the preview button.
+  if (isset($form_state['clicked_button']['#submit']) && in_array('node_form_build_preview', $form_state['clicked_button']['#submit'])) {
+    $setting = auto_nodetitle_get_setting($form_state['values']['type']);
+    if ($setting == AUTO_NODETITLE_ENABLED || ($setting == AUTO_NODETITLE_OPTIONAL && empty($form_state['values']['title']))) {
+      $node = node_submit($form_state['values']);
+      auto_nodetitle_set_title($node);
+      $form_state['values'] = (array)$node;
+    }
   }
 }
 
-/*
+/**
+ * Implementation of hook_nodeapi().
+ */
+function auto_nodetitle_nodeapi(&$node, $op) {
+  if ($op == 'presave' && auto_nodetitle_is_needed($node)) {
+    auto_nodetitle_set_title($node);
+  }
+}
+
+/**
+ * Returns whether the auto nodetitle has to be set.
+ */
+function auto_nodetitle_is_needed($node) {
+  return empty($node->auto_nodetitle_applied) && ($setting = auto_nodetitle_get_setting($node->type)) && !($setting == AUTO_NODETITLE_OPTIONAL && !empty($node->title));
+}
+
+/**
  * Sets the automatically generated nodetitle for the node
  */
 function auto_nodetitle_set_title(&$node) {
   $types = node_get_types();
   $pattern = variable_get('ant_pattern_'. $node->type, '');
   if (trim($pattern)) {
-    $node->changed = time(); 
+    $node->changed = time();
     $node->title = _auto_nodetitle_patternprocessor($pattern, $node);
   }
   else if ($node->nid) {
@@ -69,6 +89,38 @@ function auto_nodetitle_set_title(&$node) {
   }
   else {
     $node->title = t('@type', array('@type' => $types[$node->type]->name));
+  }
+  // With that flag we ensure we don't apply the title two times to the same node.
+  $node->auto_nodetitle_applied = TRUE;
+}
+
+/**
+ * Implementation of hook_node_operations().
+ */
+function auto_nodetitle_node_operations() {
+  $operations = array(
+    'nodetitle_update' => array(
+      'label' => t('Update automatic nodetitles'),
+      'callback' => 'auto_nodetitle_operations_update',
+    ),
+  );
+  return $operations;
+}
+
+/**
+ * Callback function for updating node titles.
+ */
+function auto_nodetitle_operations_update($nodes) {
+  foreach ($nodes as $nid) {
+    $node = node_load($nid);
+    if ($node && auto_nodetitle_is_needed($node)) {
+      $previous_title = $node->title;
+      auto_nodetitle_set_title($node);
+      // Only save if the title has actually changed.
+      if ($node->title != $previous_title) {
+        node_save($node);
+      }
+    }
   }
 }
 
@@ -146,10 +198,9 @@ function auto_nodetitle_node_settings_form(&$form) {
     );
   }
   else {
-    // if user doesn't have PHP permission, their submission will reset PHP evaluation
     $form['auto_nodetitle']['auto_nodetitle_php'] = array(
       '#type' => 'value',
-      '#value' => 0,
+      '#value' => variable_get('ant_php_'. $form['#node_type']->type, ''),
     );
   }
 }
@@ -170,4 +221,27 @@ function auto_nodetitle_eval($code, $node) {
   $output = ob_get_contents();
   ob_end_clean();
   return $output;
+}
+
+/**
+ * Implementation of hook_node_type().
+ */
+function auto_nodetitle_node_type($op, $info) {
+  switch ($op) {
+    case 'delete':
+      variable_del('ant_'. $info->type);
+      variable_del('ant_pattern_'. $info->type);
+      variable_del('ant_php_'. $info->type);
+      break;
+    case 'update':
+      if (!empty($info->old_type) && $info->old_type != $info->type) {
+        variable_set('ant_'. $info->type, auto_nodetitle_get_setting($info->old_type));
+        variable_set('ant_pattern_'. $info->type, variable_get('ant_pattern_'. $info->old_type, ''));
+        variable_set('ant_php_'. $info->type, variable_get('ant_php_'. $info->old_type, ''));
+        variable_del('ant_'. $info->old_type);
+        variable_del('ant_pattern_'. $info->old_type);
+        variable_del('ant_php_'. $info->old_type);
+      }
+      break;
+  }
 }

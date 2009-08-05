@@ -315,8 +315,8 @@ if($bucket == "wf"){
     <div style="clear:both"></div>
     
     <div id="footer">
-      <?php if ($footer_region) { ?>
-        <div id="footer-region"><?php print $footer_region?></div>
+      <?php if ($footer) { ?>
+        <div id="footer-region"><?php print $footer; ?></div>
       <?php } ?>
       <?php if ($footer_message) { ?>
         <div id="footer-message">
