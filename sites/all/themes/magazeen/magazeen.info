@@ -1,0 +1,39 @@
+; $Id: magazeen.info,v 1.5.2.2 2009/05/04 07:31:23 zinv Exp $
+
+; The name and description of the theme used on the admin/build/themes page.
+name = Magazeen
+description = A bold magazine theme from <a href="http://wefunction.com/">Function</a> and <a href="http://smashingmagazine.com/">Smashing Magazine</a>.
+version = VERSION
+core = 6.x
+engine = phptemplate
+
+; The screenshot used on the admin/build/themes page.
+screenshot = images/screenshot.png
+
+; This section adds CSS files to your theme.
+stylesheets[all][] = css/general.css
+stylesheets[all][] = css/904-front-page-story.css
+stylesheets[all][] = css/905-front-page-gallery.css
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/typography.css
+stylesheets[print][] = css/print.css
+
+; scripts
+scripts[] = js/tools.scrollable.min.js
+scripts[] = js/fancyzoom.min.js
+
+; Set the conditional stylesheets that are processed by IE.
+conditional-stylesheets[if IE][all][] = css/iefix.css
+
+; The regions defined in Magazeen's default page.tpl.php file.
+regions[right] = Sidebar
+regions[dock] = Top Dock
+regions[content] = Main Content
+regions[footerleft] = Left Footer Box
+regions[footerright] = Right Footer Box
+; Information added by drupal.org packaging script on 2009-05-04
+version = "6.x-2.0-alpha2"
+core = "6.x"
+project = "magazeen"
+datestamp = "1241458370"
+

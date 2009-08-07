@@ -1,0 +1,566 @@
+﻿/* $Id: typography.css,v 1.1.2.1 2009/05/04 07:34:40 zinv Exp $ */
+/*
+Magazeen : Typography
+
+/* TABLE OF CONTENTS
+00 - Basic Typography.
+01 - Header - Header, Logo, search, navigation.
+02 - Main Content - Post boxes, post meta, etc.
+03 - Sidebar - sidebar.
+04 - Footer - Categories, About.
+
+/* ----------------------------------------------*/
+/*
+/* 00 - BASIC TYPOGRAPHY
+/* ----------------------------------------------*/
+body {
+	color: #5E6568;
+	font: 0.75em/19px Arial, Helvetica, sans-serif;
+}
+
+strong, th, thead td, h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+
+cite, em, dfn {
+	font-style: italic;
+}
+
+del {
+	color: #990000;
+	text-decoration: line-through;
+}
+
+ins, dfn {
+	border-bottom: 1px solid #ccc;
+	color: #009999;
+}
+
+small, sup, sub {
+	font-size: 85%;
+}
+
+abbr, acronym {
+	font-size: 85%;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+a abbr, a acronym {
+	border: none;
+}
+
+abbr[title], acronym[title], dfn[title] {
+	border-bottom: 1px solid #ccc;
+	cursor: help;
+}
+
+sup {
+	vertical-align: super;
+}
+
+sub {
+	vertical-align: sub;
+}
+
+p {
+	margin: 1em 0;
+}
+
+/** Blockquote **/
+blockquote:before {
+	color: #69c;
+	content: open-quote;
+	display: block;
+	font-size: 700%;
+	height: 0;
+	margin: .15em 0 0 -0.4em;
+	width: 50px;
+}
+
+blockquote {
+	background: #f8fbfc;
+	border: 1px solid #edeff0;
+	margin: 3em;
+	padding: 0 1em 0.9em 3em;
+}
+
+code {
+	color: #0f8eb3;
+	font: 1.17em Georgia, "Times New Roman", Times, serif;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	width: 80%;
+}
+
+pre {
+	background: #f4f1ec url('../images/code.gif') repeat;
+	border: 1px solid #bbced7;
+	color: #3e3e3e;
+	font: 0.92em Georgia, "Times New Roman", Times, serif;
+	line-height: 200%;
+	margin: 0 auto;
+	padding: 5px 20px;
+}
+
+/** Headings **/
+h1 {
+	font-size: 2.47em;
+	line-height: 1.3em;
+}
+
+h2 {
+	font-size: 1.6em;
+	line-height: 1.3em;
+}
+
+h3 {
+	font-size: 1.3em;
+	line-height: 1.3em;
+}
+
+h4, h5, h6 {
+	font-size: 1.1em;
+	line-height: 1.3em;
+}
+
+/** Link **/
+a:link, a:visited {
+	color: #F23183;
+	text-decoration: none;
+}
+
+a:hover, .node h2 a:hover,a :active, a.active {
+	color: #000;
+}
+
+/** Mission **/
+#mission {
+	color: #666;
+	font: italic normal normal 2.5em/1.4em "Warnock Pro", "Goudy Old Style", Palatino, "Book Antiqua", Georgia, serif;
+}
+
+/* 01 - HEADER
+/* ----------------------------------------------*/
+#site-slogan {
+	color: #B9B9B9;
+	font: 0.83em Verdana, Arial, Helvetica, sans-serif;
+}
+
+h1#site-name, div#site-name {
+	font: bold 3.53em Verdana, Arial, Helvetica, sans-serif;
+	margin: -.24em 0 0;
+}
+
+/** Logo **/
+#logo a {
+	color: #FEFEFE;
+}
+
+/** Search **/
+#search-theme-form .form-text {
+	background: none;
+	border: 0;
+	color: #AEA592;
+	float: left;
+	font-size: 0.92em;
+	height: auto;
+	padding: 3px 10px 5px 25px;
+	width: 165px;
+}
+
+/** Navigation **/
+#navigation ul li a:link, #navigation ul li a:active, #navigation ul li a:visited {
+	color: #34393e;
+	display: block;
+	font: bold 1.08em Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 13px 15px;
+}
+
+#navigation ul li a:hover {
+	color: #000;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#navigation ul.pages li.active-trail a:link, #navigation ul.pages li.active-trail a:active, #navigation ul.pages li.active-trail a:visited {
+	/* Crazy margins to pull up the hover image above the borders.*/
+	background: url('../images/navigation-hover.png') repeat-x bottom center;
+	color: #f1f8ff;
+	margin: -3px 0 0 0;
+	padding: 15px 15px 14px 15px;
+	position: relative;
+}
+
+/* 02 - MAIN CONTENT
+/* ----------------------------------------------*/
+h2.post-title {
+	font: bold 2.8em Arial, Helvetica, sans-serif;
+}
+
+h2.post-title a {
+	color: #30393D;
+}
+
+h2.post-title a:hover {
+	color: #54798B;
+}
+
+#content-header h1 {
+	border-bottom: 1px #C0C0C0 dashed;
+	color:#587682;
+	margin-bottom: 15px;
+}
+
+.comment-count a:link, .comment-count a:active, .comment-count a:visited {
+	color: #FFF;
+	display: block;
+	font: bold 1.75em Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 10px 20px;
+}
+
+.comment-count a {
+	background: #f23183;
+	display: block;
+	height: auto;
+	left: -10px;
+	position: absolute;
+	top: -10px;
+	width: auto;
+}
+
+.comment-count a:hover {
+	background: #ea2f7e;
+}
+
+.post-info {
+	color: #81888d;
+	font: 0.92em Georgia, "Times New Roman", Times, serif;
+	text-align: right;
+}
+
+.post-info span {
+	display: block;
+	font-size: 1.3em;
+}
+
+.post-info .date {
+	font-size: 1.1em;
+	margin: .2em 0 0;
+}
+
+.post-info span a:link, .post-info span a:active, .post-info span a:visited {
+	color: #1e1c1a;
+	text-decoration: none;
+}
+
+.post-info span a:hover {
+	color: #f23183;
+}
+
+.author h3.title a {
+	color: #000;
+}
+
+.author {
+	color: #3c4d54;
+	float: left;
+	font: 1.5em Arial, Helvetica, sans-serif;
+	height: auto;
+	margin: .2em 0 0 0;
+	width: auto;
+}
+
+.author a:link, .author a:active, .author a:visited {
+	color: #a3aeb2;
+}
+
+.author .name, .author .name a:link, .author .name a:active, .author .name a:visited {
+	color: #6b8894;
+	display: inline;
+}
+
+.author span {
+	font: .6em Georgia, "Times New Roman", Times, serif;
+}
+
+.comment-text {
+	color: #74868d;
+	font: 1.00em Arial, Helvetica, sans-serif;
+	line-height: 19px;
+}
+
+/** Post Footer **/
+.continue-reading a:link, .continue-reading a:active, .continue-reading a:visited {
+	color: #bd4478;
+	font: bold italic 1.17em Georgia, "Times New Roman", Times, serif;
+}
+
+.continue-reading a:hover {
+	color: #f2307f;
+}
+
+.taxonomy .vocab-term a {
+	color: #7f7d7e;
+	display: inline-block;
+	font: 1em Georgia, "Times New Roman", Times, serif;
+	height: 25px;
+	line-height: 2;
+	outline: 0;
+	vertical-align: top;
+}
+
+/** Comments **/
+h3.post-title-small {
+	color: #30393D;
+	font-size: 1em;
+	padding: 10px 0;
+}
+
+#comment-form .form-item label {
+	font-weight: normal;
+}
+
+.form-item .description {
+	display: block;
+	font-size: 0.85em;
+}
+
+/** Pager **/
+.item-list .pager {
+	font-size: .9em;
+	padding: .7em 0 1em;
+}
+
+.item-list .pager a {
+	background: #fff;
+	border: .1em solid #ddd;
+	color: #F2307F;
+	padding: .5em .7em;
+}
+
+.pager a:hover, .pager a:active, .pager a:focus {
+	background: #F23183;
+	border-color: #F23183;
+	color: #fff;
+}
+
+.item-list .pager .pager-current {
+	color: #fff;
+}
+
+/* 03 - SIDEBAR
+/* ----------------------------------------------*/
+.sidebar .block h2 {
+	color: #587682;
+	font: bold 2.25em Arial, Helvetica, sans-serif;
+}
+
+.sidebar a.active {
+	background: #F3F8FA;
+	color: #34393E;
+}
+
+.sidebar li a {
+	border-bottom: 1px solid #D9E1E6;
+	color: #5A656A;
+	display: block;
+	font: bold 1.2em Arial, Helvetica, sans-serif;
+	height: 1%;
+	padding: 7px;
+}
+
+.sidebar li a:hover {
+	background: #f3fafd;
+	color: #34393E;
+}
+
+.sidebar .more-link a {
+	color: #A6B5BC;
+	font: bold 1.2em Arial, Helvetica, sans-serif;
+}
+
+.sidebar .more-link a:hover {
+	color: #5A656A;
+}
+
+/* 05 - MISCELLANEOUS
+/* ----------------------------------------------*/
+/** Poll.module **/
+.poll .percent {
+	font-size: .9em;
+}
+
+/** User profiles. **/
+.profile dt {
+	color: #898989;
+	font-size: 0.92em;
+	font-weight: normal;
+	line-height: 1.3em;
+	margin-bottom: 0.45em;
+	margin-top: 1.4em;
+}
+
+/** Login Block **/
+#user-login-form {
+	text-align: center;
+}
+
+#user-login-form ul {
+	text-align: left; /* LTR */
+}
+
+/** Aggregator.module **/
+#aggregator .feed-item-title {
+	font-size: 160%;
+	line-height: 130%;
+}
+
+#aggregator .feed-item-categories {
+	font-size: 0.92em;
+}
+
+#aggregator .feed-item-meta {
+	color: #898989;
+	font-size: 0.92em;
+}
+
+/** Collapsible fieldsets **/
+#autocomplete li.selected, tr.selected td, tr.selected td.active {
+	background: #027ac6;
+	color: #fff;
+}
+
+tr.selected td a:link, tr.selected td a:visited, tr.selected td a:active {
+	color: #d3e7f4;
+}
+
+/** TABLE **/
+thead th {
+	border-bottom: 2px solid #d3e7f4;
+	color: #494949;
+	font-weight: bold;
+}
+
+th a:link, th a:visited {
+	color: #6f9dbd;
+}
+
+/** Admin Styles **/
+div.admin-panel dd {
+	color: #898989;
+	font-size: .92em;
+	line-height: 1.3em;
+	margin-bottom: .65em;
+	margin-top: -.2em;
+}
+
+/** Inputs **/
+.form-text, .form-textarea {
+	background: #fdfefe url('../images/post-box-top.png') repeat-x top center;
+	border: 1px solid #dce7ed;
+	color: #76716c;
+	margin: 0;
+	padding: 5px;
+}
+
+.form-text:focus, .form-text:hover, .form-textarea:focus, .form-textarea:hover {
+	color: #000;
+	border: 1px #91EAF2 solid;
+}
+
+/*******************************************************************
+* Color Module: Don't touch                                       *
+*******************************************************************/
+/*
+/* 04 - FOOTER
+/* ----------------------------------------------*/
+#footer h2.title {
+	color: #fefefe;
+	font: bold 1.75em Arial, Helvetica, sans-serif;
+	margin: 0 0 20px 0;
+}
+
+.footer-left ul li a {
+	background: url('../images/footer-cat-right.gif') no-repeat top right;
+	display: block;
+	float: left;
+	height: 23px;
+	line-height: 23px;
+	margin: 0;
+	padding: 0 9px 0 0;
+	width: auto;
+}
+
+.footer-left ul li a:link, .footer-left ul li a:active, .footer-left ul li a:visited {
+	color: #a7a7a7;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.footer-left ul li:hover, .footer-left ul li:hover a {
+	background-position: 0% -23px;
+	color: #171615;
+	cursor: pointer;
+}
+
+.footer-left ul li:hover a {
+	background-position: 100% -23px;
+}
+
+.footer-right p {
+	color: #b2b2b2;
+	font: 0.92em Arial, Helvetica, sans-serif;
+	line-height: 17px;
+	margin: 0 0 10px 0;
+}
+
+p.copyright {
+	font: 0.92em Arial, Helvetica, sans-serif;
+	color: #404040;
+	margin: 10px 0 0 0;
+}
+
+#footer-message {
+	color: #404040;
+}
+
+/** Tabs **/
+ul.primary li a {
+	background-color: #ddd;
+	border-color: #C0C0C0;
+	font-weight: bold;
+	color: #777;
+	margin-right: 1px;
+	padding: 3px 10px;
+	-moz-border-radius-topleft: 4px;
+	-webkit-border-top-left-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	-webkit-border-top-right-radius: 4px;
+}
+
+ul.primary li a:hover {
+	background-color: #fff;
+	border-color: #c0c0c0;
+	color: #000;
+}
+
+ul.primary li.active a, ul.primary li.active a:hover {
+	background-color: #fff;
+	border-bottom-color: #fff;
+	color: #000;
+}
+
+ul.secondary a {
+	border: 1px solid #c0c0c0;
+	color: #777;
+	padding: 3px 8px;
+}
+
+ul.secondary a:hover, ul.secondary a.active, ul.secondary a.active:hover {
+	background: #fff;
+	border: 1px solid #c0c0c0;
+	color: #000;
+}

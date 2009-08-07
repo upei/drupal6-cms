@@ -1,0 +1,486 @@
+﻿/* $Id: general.css,v 1.1.2.1 2009/05/04 07:34:40 zinv Exp $ */
+/*
+Magazeen : General
+
+/* ----------------------------------------------*/
+/*
+/** RESET **/
+html, body, div, span, p, blockquote, pre, code, ul, ol, li, h1, h2, h3, h4, h5, h6, form, fieldset, legend, label, input, textarea, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	max-width: 150em;
+	min-height: 100%;
+	min-width: 80em;
+}
+
+/** Menu.module **/
+tr.menu-disabled {
+	opacity: 0.5;
+}
+
+tr.odd td.menu-disabled {
+	background-color: #edf5fa;
+}
+
+tr.even td.menu-disabled {
+	background-color: #fff;
+}
+
+/** Poll.module **/
+.poll {
+	margin-top: 10px;
+}
+
+.poll .bar {
+	background: #fff url('../images/poll-bg.png') repeat-x 0 -10px;
+	border: solid #f0f0f0;
+	border-width: 0 1px 1px;
+}
+
+.poll .bar .foreground {
+	background: #71a7cc url('../images/poll-bg.png') repeat-x 0 2px;
+}
+
+/** User profiles. **/
+.profile {
+	margin-top: 1.5em;
+}
+
+.profile h3 {
+	border-bottom: 0;
+	margin-bottom: 1em;
+}
+
+.profile dl {
+	margin: 0;
+}
+
+.profile dd {
+	margin-bottom: 1.6em;
+}
+
+/** Color.module **/
+#palette .form-item {
+	border: 1px solid #fff;
+}
+
+#palette .item-selected {
+	background: #fff url('../images/gradient-inner.png') repeat-x 0 0;
+	border: 1px solid #d9eaf5;
+}
+
+#palette .form-text {
+	background: none;
+	margin-top: 3px;
+	padding: 0;
+}
+
+/** Aggregator.module **/
+#aggregator {
+	margin-top: 1em;
+}
+
+#aggregator .feed-item {
+	border-bottom: 1px solid #e9eff3;
+	margin: -1.5em -31px 1.75em;
+	padding: 1.5em 31px;
+}
+
+/** book.module **/
+##book-outline {
+	min-width: 0;
+}
+
+/** Collapsible fieldsets **/
+fieldset {
+	background: #fff url('../images/gradient-inner.png') repeat-x 0 0;
+	border: 1px solid #d9eaf5;
+	margin: 1em 0;
+	padding: 1em;
+}
+
+div.admin-panel {
+	background: #fff url('../images/gradient-inner.png') repeat-x 0 0;
+	padding: 1em 1em 1.5em;
+}
+
+tr.even, tr.odd, tbody th {
+	border: solid #d3e7f4;
+	border-width: 1px 0;
+}
+
+tr.odd, tr.info {
+	background-color: #edf5fa;
+}
+
+tr.odd td.active {
+	background-color: #ddecf5;
+}
+
+tr.even td.active {
+	background-color: #e6f1f7;
+}
+
+td.region, td.module, td.container, td.category {
+	background-color: #d4e7f3;
+	border-bottom: 1px solid #bbd9ee;
+	border-top: 1.5em solid #fff;
+	color: #455067;
+	font-weight: bold;
+}
+
+/*******************************************************************
+* Color Module: Don't touch                                       *
+*******************************************************************/
+/*
+/** help **/
+.help {
+	background: #fff;
+	border: 1px solid #C0C0C0;
+	margin: 0 auto 1em;
+	padding: 0.9em 1.2em;
+}
+
+/** Message **/
+div.messages, div.status, div.warning, div.error {
+	background-color: #ffc;
+	border: 2px solid #ff7;
+	margin: 0 auto 1em;
+	padding: 0.9em 1.2em;
+}
+
+div.messages ul {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+/* Normal priority messages */
+div.status {
+	background-color: #D6F3C7;
+	border-color: #259A0E;
+}
+
+/* Medium priority messages */
+div.warning {
+	border-color: #fc0;
+}
+
+div.warning, tr.warning, body.section-admin tr.warning {
+	background-color: #ffc;
+	color: #000; /* Drupal core uses #220 */;
+}
+
+/* High priority messages. */
+div.error {
+	/* border: 1px solid #d77; */ /* Drupal core uses: 1px solid #d77 */
+  border-color: #c00;
+}
+
+div.error, tr.error, body.section-admin tr.error {
+	background-color: #fee;
+	color: #900; /* Drupal core uses #200 */;
+}
+
+/** Autocomplete **/
+#autocomplete li {
+	cursor: default;
+	margin: 0;
+	padding: 2px;
+}
+
+/** Form **/
+input.form-text, textarea {
+	padding: 5px;
+}
+
+.form-submit {
+	margin-bottom: 10px;
+}
+
+.form-item, .form-checkboxes, .form-radios {
+	margin: 10px 0;
+}
+
+.form-item input.error, .form-item textarea.error, .form-item select.error {
+	border: 2px solid #c00;
+}
+
+.form-required {
+	color: #c00;
+}
+
+.form-checkboxes .form-item, .form-radios .form-item {
+	margin: 4px 0;
+}
+
+.container-inline div, .container-inline label {
+	display: inline;
+}
+
+/* Targets IE 7. Fixes background image in field sets. */
+*:first-child + html fieldset {
+	background-color: transparent;
+	background-position: 0 .75em;
+	padding: 0 1em 1em;
+}
+
+*:first-child + html fieldset > .description, *:first-child + html fieldset .fieldset-wrapper .description {
+	padding-top: 1em;
+}
+
+fieldset legend {
+	/* Fix disappearing legend in FFox */
+  display: block;
+}
+
+*:first-child + html fieldset legend, *:first-child + html fieldset.collapsed legend {
+	display: inline;
+}
+
+html.js fieldset.collapsed {
+	background: transparent;
+	padding-top: 0;
+	padding-bottom: .6em;
+}
+
+html.js fieldset.collapsible {
+	padding-top: 0;
+}
+
+html.js fieldset.collapsible legend a {
+	background: url('../images/menu-arrow.gif') no-repeat 0% 140%;
+/* LTR */	padding-left: 20px; /* LTR */;
+}
+
+html.js fieldset.collapsed legend a {
+	background: url('../images/menu-arrow.gif') no-repeat 0% 12%; /* LTR */
+}
+
+/** Tabs **/
+.tabs {
+	margin-top: 10px;
+}
+
+ul.primary {
+	margin: 0;
+	padding: 0 0 3px 10px;
+}
+
+ul.secondary {
+	background: #ededed;
+	margin: 0 0 10px;
+	padding: 10px;
+}
+
+ul.secondary li {
+	border-right: none;
+	padding: 0 2px;
+}
+
+/** Admin Styles **/
+div.admin-panel, div.admin-panel .description, div.admin-panel .body, div.admin, div.admin .left, div.admin .right, div.admin .expert-link, div.item-list, .menu {
+	margin: 0;
+	padding: 0;
+}
+
+div.admin .left {
+	float: left; /* LTR */;
+	width: 48%;
+}
+
+div.admin .right {
+	float: right; /* LTR */;
+	width: 48%;
+}
+
+div.admin-panel .description {
+	margin-bottom: 1.5em;
+}
+
+div.admin-panel dl {
+	margin: 0;
+}
+
+div.admin-panel dd {
+	color: #898989;
+	font-size: 1em;
+	line-height: 1.3em;
+	margin-top: -.2em;
+	margin-bottom: .65em;
+}
+
+table.system-status-report th {
+	border-color: #d3e7f4;
+}
+
+tr.taxonomy-term-preview {
+	opacity: 0.5;
+}
+
+tr.taxonomy-term-divider-top {
+	border-bottom: none;
+}
+
+tr.taxonomy-term-divider-bottom {
+	border-top: 1px dotted #CCC;
+}
+
+/** Table **/
+table {
+	margin: 1em 0;
+	width: 100%;
+}
+
+td, th {
+	padding: .3em .5em;
+}
+
+#system-themes-form td {
+	padding: .3em 0;
+}
+
+tr.even {
+	background-color: #fff;
+}
+
+tr.even:hover, tr.odd:hover {
+	background-color: #FFFFCC;
+	border: solid #e8e884;
+	border-width: 1px 0;
+}
+
+tr.drag {
+	background-color: #fffff0;
+}
+
+tr.drag {
+	background-color: #fffff0;
+}
+
+tr.drag-previous {
+	background-color: #ffd;
+	border-color: #FFFFCC #e8e884 #e8e884 #FFFFCC;
+	border-style: solid;
+	border-width: 1px;
+}
+
+tr:first-child td.region, tr:first-child td.module, tr:first-child td.container, tr:first-child td.category {
+	border-top-width: 0;
+}
+
+/* Animated throbber */
+html.js input.form-autocomplete {
+	background-image: url('../images/throbber.gif');
+	background-position: 100% 7px;
+/* LTR */	background-repeat: no-repeat;
+}
+
+html.js input.throbbing {
+	background-position: 100% -18px; /* LTR */
+}
+
+/** Rollover edit links for blocks **/
+div.block.with-block-editing {
+	position: relative;
+}
+
+div.block.with-block-editing div.edit {
+	background-color: #fff;
+	border: 1px solid #eee;
+	display: none;
+	font-size: .8em;
+	padding: 0 .2em;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 40;
+}
+
+div.block.with-block-editing:hover div.edit {
+	display: block;
+}
+
+/** LISTS **/
+.item-list ul li {
+	list-style: inherit;
+	margin: 0;
+	padding: 0;
+}
+
+ul.menu li, li.leaf, li.active-trail, li.collapsed, li.expanded {
+	list-style-image: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style-type: disc;
+}
+
+ul ul {
+	list-style-type: circle;
+}
+
+ul ul ul {
+	list-style-type: square;
+}
+
+ul ul ul ul {
+	list-style-type: circle;
+}
+
+ol {
+	list-style-type: decimal;
+}
+
+ol ol {
+	list-style-type: lower-alpha;
+}
+
+ol ol ol {
+	list-style-type: decimal;
+}
+
+ul, ol {
+	margin-left: 0;
+	padding-left: 2em;
+}
+
+.block ul, .item-list ul {
+	margin: 1em 0;
+	padding: 0 0 0 2em;
+}
+
+ul ul, ul ol, ol ol, ol ul, .block ul ul, .block ul ol, .block ol ol, .block ol ul, .item-list ul ul, .item-list ul ol, .item-list ol ol, .item-list ol ul {
+	margin: 0;
+}
+
+dd {
+	margin: .3em 0 0 1.5em;
+	padding: 0;
+}
+
+/** CLEARFIX **/
+.clearfix:after {
+	clear: both;
+	content: " ";
+	display: block;
+	height: 0;
+	line-height: 0;
+	visibility: hidden;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+html[xmlns] .clearfix {
+	display: block;
+}
+
+* html .clearfix {
+	height: 1%;
+}

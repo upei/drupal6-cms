@@ -1,0 +1,508 @@
+﻿/* $Id: style.css,v 1.1.2.1 2009/05/04 07:34:40 zinv Exp $ */
+/*
+Magazeen : Style
+
+/* TABLE OF CONTENTS
+00 - Main Structure - Columns, etc.
+01 - Header - Header, Logo, search, navigation.
+02 - Dock - Top dock.
+03 - Main Content - Post boxes, post meta, etc.
+04 - Sidebar - sidebar.
+05 - Footer - Categories, About.
+
+/* ----------------------------------------------*/
+/*
+/* 00 - MAIN STRUCTURE
+/* ----------------------------------------------*/
+body {
+	background: #e2eef4;
+}
+
+.container {
+	/* The container is a class simply because of the multiple full-span elements.*/
+	height: auto;
+	margin: 0 auto;
+	width: 940px;
+}
+
+/** Various Columns **/
+.no-sidebars .main-content {
+	width: 940px;
+}
+
+.one-sidebar .main-content {
+	width: 580px;
+}
+
+#logo-title, #site-name, .left, .alignleft {
+	float: left;
+}
+
+.right, .alignright {
+	float: right;
+}
+
+.aligncenter {
+	display: block;
+	margin: 0 auto;
+}
+
+/* 01 - HEADER
+/* ----------------------------------------------*/
+#header {
+	background: #171615 url('../images/header.png') repeat-x top;
+	height: 177px;
+}
+
+/** Logo **/
+#logo {
+	float: left;
+	height: auto;
+	padding: 60px 0 0;
+	position: absolute;
+	width: 580px;
+}
+
+/** Search **/
+#search-theme-form {
+	background: url('../images/searchform-back.png') no-repeat center left;
+	float: right;
+	height: auto;
+	margin: 70px 20px 0 0;
+	width: 284px;
+}
+
+#search-submit {
+	border: 0;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+}
+
+/** Navigation **/
+#navigation {
+	background: #FFF url('../images/navigation.gif') repeat-x bottom center;
+	border-bottom: 1px solid #f6fafc;
+}
+
+#navigation ul.pages {
+	float: left;
+	height: auto;
+	list-style: none;
+	margin: 0 auto;
+	padding: 0;
+	width: 880px;
+}
+
+#navigation ul li {
+	float: left;
+	margin: 0 3px;
+	overflow: visible;
+}
+
+#rss {
+	float: right;
+	margin: 13px 15px 0 0;
+}
+
+/* 02 - DOCK
+/* ----------------------------------------------*/
+#dock {
+	background: #eff6f9 url('../images/dock.png') repeat-x bottom center;
+	border-bottom: 1px solid #f9fbfd;
+}
+
+.dock-back {
+	background: url('../images/dock-back.png') no-repeat bottom center;
+	padding: 20px 0;
+}
+
+/* 03 - MAIN CONTENT
+/* ----------------------------------------------*/
+#page {
+	background: url('../images/main-content.png') no-repeat top center;
+	border-bottom: 10px solid #d0dce2;
+	border-top: 1px solid #d4e0e6;
+	padding: 20px 0;
+}
+
+.node {
+	margin: 0 0 25px 0;
+}
+
+.no-sidebars .main-content h2.post-title, .no-sidebars .main-content h3.post-title-small {
+	width: 100%;
+}
+
+.post-box, #content, #node-form {
+	background: #fdfefe url('../images/post-box-top.png') repeat-x top center;
+	border: 1px solid #dce7ed;
+	border-bottom: 1px solid #cfdbe1;
+	border-top: 0;
+}
+
+.post, #content-inner, .node-form {
+	border: 1px solid #FFF;
+	border-bottom: 1px solid #e8ebec;
+	padding: 37px 22px 11px;
+	position: relative;
+	z-index: 4;
+}
+
+.page-node #content, .page-node #content-inner, .page-taxonomy #content, .page-taxonomy #content-inner, .page-comment #content, .page-comment #content-inner, .page-blog #content, .page-blog #content-inner {
+	background: none;
+	border: 0;
+	padding: 0;
+}
+
+.full-node .post {
+	padding: 20px 22px;
+}
+
+.node-type-list, #node-delete-confirm, #book-outline {
+	background: #fdfefe url('../images/post-box-top.png') repeat-x top center;
+	border: 1px solid #dce7ed;
+	padding: 22px 22px 11px;
+}
+
+h2.post-title, h3.post-title-small {
+	border-bottom: 4px #30393D solid;
+	height: auto;
+	padding: 15px 0 5px;
+	width: 380px;
+}
+
+.post-info {
+	border-bottom: 4px #889398 solid;
+	bottom: 0;
+	height: auto;
+	margin: 0;
+	padding: 10px 5px;
+	position: absolute;
+	right: 0;
+	width: 190px;
+}
+
+.post-meta {
+	border-bottom: 1px solid #FFF;
+	margin: 0 0 23px;
+	padding: 0;
+	position: relative;
+}
+
+.post .picture {
+	display: block;
+	height: auto;
+	position: absolute;
+	right: -10px;
+	top: -10px;
+	width: auto;
+}
+
+.author {
+	float: left;
+	height: auto;
+	margin: 2px 0 0 0;
+	width: auto;
+}
+
+/** Post Footer **/
+.post-footer {
+	background: #fcfdfe;
+	border-top: 1px solid #FFF;
+	height: 19px;
+	padding: 23px;
+	position: relative;
+	z-index: 100;
+}
+
+.continue-reading {
+	float: left;
+	height: auto;
+	width: 180px;
+}
+
+.category-menu {
+	float: right;
+	height: auto;
+	padding-right: 10px;
+	position: absolute;
+	right: 10px;
+	text-align: right;
+	width: 350px;
+}
+
+.indicator {
+	background: url('../images/expand.gif') no-repeat center left;
+	display: inline-block;
+	height: 5px;
+	margin-top: 10px;
+	vertical-align: top;
+	width: 7px;
+}
+
+.taxonomy {
+	display: inline;
+	list-style: none;
+	padding: 0;
+}
+
+.vocab-name {
+	font-weight: bold;
+	line-height: 23px;
+	padding-left: 2px;
+}
+
+.category-menu ul.taxonomy ul.vocab-list, .category-menu ul.taxonomy li.vocab-term {
+	background: transparent;
+	display: inline;
+	padding: 0 0 0 2px;
+}
+
+/** Comments **/
+.commentlist {
+	position: relative;
+}
+
+.comment {
+	border-color: #F3F8FA #FFFFFF #D9E1E6;
+	border-style: solid;
+	border-width: 1px;
+	padding: 30px;
+}
+
+.comment ul.links {
+	float: right;
+}
+
+#comments div.first {
+	border-top-color: #FFFFFF;
+	padding: 45px 30px 30px;
+}
+
+#comments div.last {
+	border-bottom-width: 2px;
+}
+
+#comments .odd {
+	background: #F3F8FA;
+}
+
+#comments .even {
+	background: #F9FCFD;
+}
+
+.comment-author {
+	height: auto;
+	margin: 1em 0;
+	width: auto;
+}
+
+.comment-author .picture {
+	float: left;
+	margin: 0 10px 0 0;
+}
+
+.picture img {
+	background: #fff;
+	border: 1px #ddd solid;
+	padding: 2px;
+}
+
+#comments .box {
+	background: #E0EDF3 none repeat scroll 0 0;
+	margin: 1em 0;
+	padding: 1.5em;
+}
+
+#comment-form .form-submit, #node-form .form-submit, #node-form .form-submit {
+	background: url('../images/submit-comment.png') no-repeat top center;
+	border: 0;
+	color: #FFF;
+	cursor: pointer;
+	display: inline-block;
+	height: 30px;
+	margin: 20px 5px 10px 0;
+	outline: 0;
+	width: 127px;
+}
+
+#comment-form .form-submit:hover, #node-form .form-submit:hover {
+	background: url('../images/submit-comment.png') no-repeat bottom;
+}
+
+.comment .date {
+	display: block;
+}
+
+.comment .new {
+	margin-left: 2px;
+	position: absolute;
+}
+
+.new {
+	color: #EA2F7E;
+}
+
+/** Comment preview **/
+.preview {
+	padding-bottom: 15px;
+}
+
+.comment-preview {
+	background: #F3F8FA;
+}
+
+.preview .node {
+	background: none;
+}
+
+/** Pager **/
+.item-list .pager li {
+	margin: .2em 0;
+	padding: 0;
+}
+
+.item-list .pager .pager-current {
+	background: #F23183;
+	border: 1px solid #F23183;
+	margin: .2em;
+	padding: 0.5em .7em;
+}
+
+/* 04 - SIDEBAR
+/* ----------------------------------------------*/
+.sidebar {
+	margin-right: 20px;
+	width: 320px;
+}
+
+.sidebar .block h2 {
+	background: url('../images/sidebar-top.png') no-repeat top center;
+	height: 55px;
+	padding: 28px 0 0 20px;
+	width: 285px;
+}
+
+.sidebar .block {
+	background: url('../images/sidebar-middle.png') repeat-y;
+	margin: 0 0 20px 15px;
+	padding: 0;
+}
+
+.sidebar .block-inner {
+	background: url('../images/sidebar-bottom.png') no-repeat bottom center;
+	padding: 0 0 56px;
+}
+
+.sidebar .block .content {
+	margin: auto;
+	width: 245px;
+}
+
+.sidebar ul {
+	list-style: none;
+	padding: 0;
+}
+
+.sidebar ul li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.sidebar ul li ul {
+	list-style: none;
+	padding-left: 2em;
+}
+
+.sidebar .more-link {
+	margin: 1.3em 0 0;
+	position: absolute;
+}
+
+/* Block */
+#dock .block {
+	background: #f5fbfe;
+	border: 1px #d8e8f0 solid;
+	margin: 1em 1.5em 1em 0;
+	padding: .9em 1.2em;
+}
+
+#dock .block h2 {
+	color: #587682;
+	margin: 0 0 4px;
+	padding: 5px 8px;
+}
+
+#dock .block .content {
+	background: #ebf6fb;
+	border: 1px #fff solid;
+	padding: 2px 12px 9px;
+}
+
+.block-region {
+	background: none;
+	border: 2px dashed #348fc7;
+	padding: 1em;
+	text-align: center;
+}
+
+#content .block {
+	margin: 20px 0 0;
+}
+
+/*******************************************************************
+* Color Module: Don't touch                                       *
+*******************************************************************/
+/*
+/* 05 - FOOTER
+/* ----------------------------------------------*/
+#footer {
+	background: #171615 url('../images/footer-stroke.gif') repeat-x top center;
+	border-bottom: 1px solid #1e1d1d;
+	border-top: 1px solid #171615;
+	height: auto;
+	padding: 30px 0;
+	width: auto;
+}
+
+#footer ul {
+	list-style: none;
+	padding: 0;
+}
+
+.footer-divider {
+	background: url('../images/footer-divider.gif') repeat-y top left;
+}
+
+#footer .footer-left {
+	float: left;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	width: 360px;
+}
+
+#footer .footer-right {
+	float: right;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	width: 580px;
+}
+
+.footer-left ul li {
+	background: url('../images/footer-cat-left.gif') no-repeat top left;
+	float: left;
+	height: auto;
+	margin: 5px 0;
+	padding: 0 0 0 9px;
+	width: 150px;
+}
+
+#footer-message {
+	background: #0c0b0b;
+	margin: 0;
+	padding: 15px 0;
+}

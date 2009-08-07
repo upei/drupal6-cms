@@ -1,0 +1,66 @@
+﻿/* $Id: preview.css,v 1.1.2.1 2009/05/04 07:32:29 zinv Exp $ */
+/* Positioning */
+#preview {
+	overflow: hidden;
+	max-width: 100%;
+}
+
+#preview, #preview #img {
+	width: 507px;
+	height: 430px;
+}
+
+#preview #gradient {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 110px;
+	z-index: 2;
+}
+
+#preview #text {
+	position: absolute;
+	left: 20px;
+	width: 270px;
+	top: 147px;
+	height: 120px;
+	z-index: 4;
+}
+
+#preview #img {
+	position: relative;
+	z-index: 3;
+}
+
+#preview #gradient .gradient-line {
+	height: 10px;
+	overflow: hidden;
+}
+
+/* Basic styles to match */
+#preview {
+	font: 12px/170% Verdana;
+}
+
+#preview h2 {
+	margin: 0;
+	padding: 0;
+	font: bold 140%/130% Helvetica, Arial, sans-serif normal;
+	color: #30393D !important;
+}
+
+#preview p {
+	margin: 3.5em 1em;
+	font-size: 80%;
+	line-height: 150%;
+}
+
+#preview a:link, #preview a:visited {
+	text-decoration: none;
+	font-weight: normal;
+}
+
+#preview a:hover {
+	text-decoration: underline;
+}
