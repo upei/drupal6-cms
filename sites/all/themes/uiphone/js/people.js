@@ -59,7 +59,7 @@ PeopleManager.prototype = {
               html += '<dt>department</dt>';
               html += '<dd>' + row.Department + '</dd>';
               html += '<dt>location</dt>';
-              html += '<dd>' + row.Building + ' ' + row.Room + '</dd>';
+              html += '<dd><a href="' + Drupal.settings.basePath + 'location/detail?name=' + row.Building + '">' + row.Building + ' ' + row.Room + '</a></dd>';
               html += '<dt>tel</dt>';
               if (row.Phone.match(/^(566|620|894)/)) {
                 row.Phone = '(902)'+row.Phone;

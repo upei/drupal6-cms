@@ -95,60 +95,62 @@ LocationManager.prototype.detail = function() {
   jQuery.ajax({
     'type': 'GET',
     'dataType': 'json',
-    'url': this.detailAPI + this.q.nid,
+    'url': this.detailAPI + (this.q.name ? this.q.name + '/' : 'all/' ) + (this.q.nid ? this.q.nid: 'all'),
     'success': function(data, status) {
       data = data[0];
-      row = data.rows[0];
-      var tabs = {
-        'Map': function() {
-          var html = '';
-          html += '<div id="gmap"></div>';
-          return html;
-        },
-        "What's Here": function() {
-          var html = '';
-          html += '<div class="description">' + row.occupants + "</div>\n";
-          return html;
-        },
-        'Description': function() {
-          var html = '';
-          html += '<h2>' + row.title + "</h2>\n";
-          html += '<div class="description">';
-          if (row.building_number > 0) {
-            html += '<p>Building number: ' + row.building_number + '</p>';
+      if (rows.length > 0) {
+        row = data.rows[0];
+        var tabs = {
+          'Map': function() {
+            var html = '';
+            html += '<div id="gmap"></div>';
+            return html;
+          },
+          "What's Here": function() {
+            var html = '';
+            html += '<div class="description">' + row.occupants + "</div>\n";
+            return html;
+          },
+          'Description': function() {
+            var html = '';
+            html += '<h2>' + row.title + "</h2>\n";
+            html += '<div class="description">';
+            if (row.building_number > 0) {
+              html += '<p>Building number: ' + row.building_number + '</p>';
+            }
+            html += row.description + "</div>\n";
+            return html;
           }
-          html += row.description + "</div>\n";
-          return html;
+        };
+        var bar = '<ul class="tabs">';
+        var cont = '<div class="detail">';
+        var index = 0;
+        for (var tab in tabs) {
+          bar += '<li><a href="#tab-' + index + '">' + tab + "</a></li>\n";
+          cont += '<div id="tab-' + index + '">' + tabs[tab]() + "</div>\n";
+          index = index + 1;
         }
-      };
-      var bar = '<ul class="tabs">';
-      var cont = '<div class="detail">';
-      var index = 0;
-      for (var tab in tabs) {
-        bar += '<li><a href="#tab-' + index + '">' + tab + "</a></li>\n";
-        cont += '<div id="tab-' + index + '">' + tabs[tab]() + "</div>\n";
-        index = index + 1;
-      }
-      bar += "</ul>\n";
-      cont += "</div>\n";
-      ctr.html(bar + cont);
-      // enable map
-      loc.map('gmap', row.latitude, row.longitude);
-      // click on tab
-      ctr.find('.tabs a').click(function() {
-        var id = $(this).attr('href');
-        $(this)
-          .parent()
-            .siblings().removeClass('active')
+        bar += "</ul>\n";
+        cont += "</div>\n";
+        ctr.html(bar + cont);
+        // enable map
+        loc.map('gmap', row.latitude, row.longitude);
+        // click on tab
+        ctr.find('.tabs a').click(function() {
+          var id = $(this).attr('href');
+          $(this)
+            .parent()
+              .siblings().removeClass('active')
+              .end()
+            .addClass('active');
+          ctr.find(id)
+            .siblings().hide()
             .end()
-          .addClass('active');
-        ctr.find(id)
-          .siblings().hide()
-          .end()
-          .show();
-        return false;
-      });
-      ctr.find('.tabs li:first a').click();
+            .show();
+          return false;
+        });
+        ctr.find('.tabs li:first a').click();
+      }
     },
     'error': function(request, status, err) {
       ctr.html(Drupal.t('Sorry, an error occurs.') + '<br/>' + status);
