@@ -64,7 +64,7 @@ PeopleManager.prototype = {
               if (row.Phone.match(/^(566|620|894)/)) {
                 row.Phone = '(902)'+row.Phone;
               }
-              html += '<dd>' + row.Phone + '</dd>';
+              html += '<dd><a href="tel://' + row.Phone + '">' + row.Phone + '</a></dd>';
               html += '<dt>email</dt>';
               html += '<dd><a href="mailto:' + row.Email + '">' + row.Email + '</a></dd>';
               html += '</dl><div style="clear:both;"></div></div>';
