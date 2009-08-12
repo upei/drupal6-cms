@@ -12,10 +12,13 @@
       </div>
     <div>
       <? foreach ($rows as $row): ?>
-      <div style="display:none; max-width: 500px;"  id="onelinegallery-<?=$row['nid']?>">
+      <div style="display:none; min-width: 350px; max-width: 500px;"  id="onelinegallery-<?=$row['nid']?>">
         <?=$row['image']?>
         <h2><?=$row['title']?></h2>
         <div><?=$row['description']?></div>
+        <? if ($row['link']): ?>
+          <div><?=$row['link']?></div>
+        <? endif; ?>
       </div>
       <? endforeach; ?>
       </div>
