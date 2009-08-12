@@ -85,9 +85,8 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 
 	echo "Beginning copy of content in /$1.  This may take several minutes."
 
-	# Need to include fix-ie.css file explicitly
-	HTTRACK_OPTS="--sockets=10 --timeout=90 --retries=5 --host-control=1 --robots=0 -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
-	HTTRACK_OPTIONS="+${source_site}/$bucket/link/*
+	HTTRACK_OPTS="-T30 -R2 -H1 -s0 -O ${cache_directory}/$bucket -N %h%p/%n%[page:-].%t -f -q -z -%p -b0"
+	HTTRACK_OPTIONS="${source_site}/$bucket/link/*
       -${source_site}/news/newsfeed/*
       -${source_site}/$bucket/files/*
       +${source_site}/$bucket/sites/all/*
@@ -99,12 +98,12 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 		httrack http://${source_site}/$1 \
 	    http://${source_site}/$bucket/hidden/links -* \
 		  +${source_site}/$1* \
-			-r20 $HTTRACK_OPTIONS
+			-r20 ${HTTRACK_OPTIONS}
 	else
 		# we need to go upstairs, but only direct links. old pages are not removed.
 		httrack http://${source_site}/$1/$2 -* \
 		  +${source_site}/$1/$2* \
-			$HTTRACK_OPTIONS -r3 -X0 \
+			${HTTRACK_OPTIONS} -r3 -X0 \
 			+*.jpg +*.png +*.gif +*.js +*.css
 	fi
 	
@@ -113,7 +112,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	  httrack http://${source_site}/$bucket \
 	    http://${source_site}/$bucket/hidden/links -* \
 		  +${source_site}/$bucket* \
-			-r20 $HTTRACK_OPTIONS
+			-r20 ${HTTRACK_OPTIONS}
 	fi
 
 	echo `date` $1 mirror finished >> ${log_filename}

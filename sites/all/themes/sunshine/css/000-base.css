@@ -28,7 +28,7 @@ a:hover { text-decoration: underline; }
 
 /* default button styles */
 input[type="submit"] {
-  background-image: url("/misc/i/buttonback25.png");
+  background-image: url("../images/buttonback25.png");
   background-repeat: repeat-x;
   border: 1px outset #ccc;
   padding-left: 15px;
@@ -38,7 +38,7 @@ input[type="submit"] {
   border-radius: 3px;
   overflow: visible;
 }
-input[type="submit"]:active { border-style: inset; background-image: url("/misc/i/buttonbackactive25.png"); }
+input[type="submit"]:active { border-style: inset; background-image: url("../images/buttonbackactive25.png"); }
 
 /* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
 /* vertical-align: middle --> vertical-align: top */

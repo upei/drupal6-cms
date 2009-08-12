@@ -1,0 +1,55 @@
+﻿/* $Id: iefix.css,v 1.1.2.1 2009/05/04 07:34:40 zinv Exp $ */
+/*
+Magazeen : IEfix
+
+CSS targeted specifically for Internet Explorer for Windows.
+
+Properties starting with an underscore _ are for IE 5 and 6 only.
+Properties starting with head:first-child+body are for IE7 only.
+Properties with a child selector (>) or sibling selector (+) are for IE7 only.
+
+/* ----------------------------------------------*/
+/*
+/* Prevent fieldsets from shifting when changing collapsed state. */
+html.js fieldset.collapsible {
+	position: static;
+	top: -1em;
+}
+
+html.js fieldset.collapsed {
+	margin-bottom: 1em;
+	top: 0;
+}
+
+tr.menu-disabled {
+	/* Use filter to emulate CSS3 opacity */
+	filter: alpha(opacity=50);
+}
+
+tr.taxonomy-term-preview {
+	filter: alpha(opacity=50);
+}
+
+#attach-hide label, #uploadprogress div.message {
+	/* Fading elements in IE causes the text to bleed unless they have a background. */
+	background-color: #ffffff;
+}
+
+fieldset {
+	/* Don't draw backgrounds on fieldsets in IE, as they look really bad. */
+	background: none;
+}
+
+div.admin .left {
+	margin-left: .1em;
+}
+
+/** Drupal admin tables **/
+.section-admin #content tr.even th, .section-admin #content tr.even td, .section-admin #content tr.odd th, .section-admin #content tr.odd td {
+	border-bottom: 1px solid #ccc; /* IE doesn't display borders on table rows */
+}
+
+/** Drupal nodes **/
+.node-unpublished .node-inner > * {
+	position: relative; /* Otherwise these elements will appear below the "Unpublished" text. */
+}

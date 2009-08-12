@@ -7,6 +7,7 @@
   <?php print $head ?>
   <?php print $styles ?>
 <!--[if IE 6]><link rel="stylesheet" type="text/css" href="<?php print base_path() . path_to_theme() ?>/css/ie6fix.css" /><![endif]-->
+  <style type="text/css">@import url("/css/upeisu.css");</style>
   <?php print $scripts ?>
   <?php include 'site-includes/page-setup-scripts.php'; ?>
 </head>

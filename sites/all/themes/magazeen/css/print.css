@@ -1,0 +1,60 @@
+﻿/* $Id: print.css,v 1.1.2.1 2009/05/04 07:34:40 zinv Exp $ */
+/*
+Magazeen : Print
+
+/* ----------------------------------------------*/
+/*
+/* underline all links */
+a:link, a:visited {
+	color: #000 !important;
+	text-decoration: underline !important;
+}
+
+/* Don't underline header */
+#site-name a:link, #site-name a:visited {
+	text-decoration: none !important;
+}
+
+/* CSS2 selector to add visible href after links */
+#content a:link:after, #content a:visited:after {
+	content: " (" attr(href) ") ";
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+/* Un-float the content */
+#content, .one-sidebar .main-content {
+	float: none;
+	width: 100%;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+#header {
+	height: 0;
+}
+
+#logo {
+	padding: 0;
+}
+
+#page, h2.post-title, h3.post-title-small {
+	width: 100%;
+}
+
+/* Turn off any background colors or images */
+body, #header, #page, #main-content #content, #content-inner {
+	color: #000;
+	background-color: transparent !important;
+	background-image: none !important;
+}
+
+.post-meta, #page, h2.post-title, h3.post-title-small, .post-info {
+	border: none;
+}
+
+/* Hide sidebars and nav elements */
+#search-theme-form, #navigation, #dock, .sidebar, .comment-count, #footer, .breadcrumb, div.tabs, .links, .taxonomy, .book-navigation, .forum-topic-navigation, .pager, .rss {
+	display: none;
+	visibility: hidden;
+}
