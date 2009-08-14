@@ -56,6 +56,10 @@ LocationManager.prototype.search = function() {
       // list all rows
       var rows = loc.sort(data.rows);
       if (rows.length > 0) {
+        // redirect if we have only one result
+        if (rows.length == 1) {
+          document.location.href = Drupal.settings.basePath + 'location/detail?nid=' + rows[0].nid;
+        }
         var html = '<ul class="results">';
         for (var i=0; i<rows.length; i++) {
           var row = rows[i];
