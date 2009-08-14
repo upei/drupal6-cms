@@ -320,5 +320,4 @@ function campus_management_theme_registry_alter(&$reg) {
       $reg[$key]['theme paths'][] = path_to_theme();
     }
   }
-  var_dump($reg);
 }
