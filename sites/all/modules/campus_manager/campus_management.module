@@ -310,3 +310,14 @@ function campus_management_filter($op, $delta = 0, $format = -1, $text = '', $ca
     break;
   }
 }
+
+function campus_management_theme_registry_alter(&$reg) {
+  foreach (array_keys($reg) as $key) {
+    if (!array_key_exists(drupal_get_path('theme', 'sunshine'), $reg[$key]['theme paths'])) {
+      $reg[$key]['theme paths'][] = drupal_get_path('theme', 'sunshine');
+    }
+    if (!array_key_exists(path_to_theme(), $reg[$key]['theme paths'])) {
+      $reg[$key]['theme paths'][] = path_to_theme();
+    }
+  }
+}
