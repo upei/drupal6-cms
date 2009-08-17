@@ -40,6 +40,10 @@ input[type="submit"] {
 }
 input[type="submit"]:active { border-style: inset; background-image: url("../images/buttonbackactive25.png"); }
 
+/* field group settings */
+fieldset { border: 1px solid #666; }
+fieldset.collapsible.collapsed { border: 0; background-color: #eee; }
+
 /* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
 /* vertical-align: middle --> vertical-align: top */
 /* This moves the 'inside banner menu' to the top right corner of the banner */
