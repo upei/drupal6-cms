@@ -5,6 +5,7 @@
 /* 000 base */
 a { color: #7a2424; }
 h1, h2, h3, h4, h5, h6 { color: #000; }
+fieldset.collapsible.collapsed { background-color: #ffe8c7; }
 
 /* 003 suckerfish */
 #suckerfishmenu { background-color: #ddd; -webkit-border-radius: 5px; -moz-border-radius: 5px; }

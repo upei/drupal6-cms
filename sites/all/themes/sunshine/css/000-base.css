@@ -42,7 +42,7 @@ input[type="submit"]:active { border-style: inset; background-image: url("../ima
 
 /* field group settings */
 fieldset { border: 1px solid #666; }
-fieldset.collapsible.collapsed { border: 0; background-color: #eee; }
+fieldset.collapsible.collapsed { border: 0; }
 form fieldset { padding: 0.5em 1em; }
 
 /* Shawn and Dave changed from padding: 0.5 0 0.5 0 --> padding: 0 0.5 0 0.5 */
