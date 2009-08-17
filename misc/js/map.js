@@ -1,5 +1,6 @@
 upei = {}
 upei.MapManager = {
+  version: '0.2',
   create: function(map_id) {
     map = new GMap2( document.getElementById(map_id), { backgroundColor: '#fff' } );
 
@@ -8,7 +9,7 @@ upei.MapManager = {
     return map;
   },
   mapBounds: function() {
-    return new GLatLngBounds(new GLatLng(46.2514795465, -63.144328), new GLatLng(46.262567, -63.1334033165));
+    return new GLatLngBounds(new GLatLng(46.2514783836, -63.144346), new GLatLng(46.262562, -63.1335834371));
   },
   addCampusOverlay: function(map) {
     /*
@@ -37,7 +38,7 @@ upei.MapManager = {
           mercator.fromPixelToLatLng( new GPoint( (tile.x+1)*256, (tile.y)*256 ) , zoom )
       );
       if (mapBounds.intersects(tileBounds)) {
-          return 'http://www.upei.ca/misc/maps/' + zoom+"/"+tile.x+"/"+y+".png";
+          return 'http://www.upei.ca/misc/maps/' + zoom+"/"+tile.x+"/"+y+".png?v=" + upei.MapManager.version;
       } else {
           return "http://www.upei.ca/misc/maps/none.png";
       }

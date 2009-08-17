@@ -34,6 +34,12 @@
         <span class="label">Phone:</span>
         <span class="value"><?=$field_phone[0]['view']?></span>
       </div>
+      <?php if ($field_email[0]): ?>
+      <div class="field field-field-email">
+        <span class="label">Email:</span>
+        <span class="value"><?= $field_email[0]['safe']?></span>
+      </div>
+      <?php endif; ?>
     </fieldset>
   </div>
   <div class="content">

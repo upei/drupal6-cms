@@ -19,7 +19,7 @@ PeopleManager.prototype = {
         if (rows.length > 0) {
           // check if we have only one result
           if (rows.length == 1) {
-            document.location.href = Drupal.settings.basePath + 'people/detail?email=' + rows[0].Email;
+            // document.location.href = Drupal.settings.basePath + 'people/detail?email=' + rows[0].Email;
           }
           var html = '<ul class="results">';
           for (var i = 0; i < rows.length; i++) {
@@ -59,12 +59,13 @@ PeopleManager.prototype = {
               html += '<dt>department</dt>';
               html += '<dd>' + row.Department + '</dd>';
               html += '<dt>location</dt>';
-              html += '<dd><a href="' + Drupal.settings.basePath + 'location/detail?name=' + row.Building + '">' + row.Building + ' ' + row.Room + '</a></dd>';
+              // html += '<dd><a href="' + Drupal.settings.basePath + 'location/detail?name=' + row.Building + '">' + row.Building + ' ' + row.Room + '</a></dd>';
+              html += '<dd>' + row.Building + ' ' + row.Room + '</dd>';
               html += '<dt>tel</dt>';
               if (row.Phone.match(/^(566|620|894)/)) {
                 row.Phone = '(902)'+row.Phone;
               }
-              html += '<dd><a href="tel://' + row.Phone + '">' + row.Phone + '</a></dd>';
+              html += '<dd><a href="tel:' + row.Phone + '">' + row.Phone + '</a></dd>';
               html += '<dt>email</dt>';
               html += '<dd><a href="mailto:' + row.Email + '">' + row.Email + '</a></dd>';
               html += '</dl><div style="clear:both;"></div></div>';

@@ -58,7 +58,7 @@ LocationManager.prototype.search = function() {
       if (rows.length > 0) {
         // redirect if we have only one result
         if (rows.length == 1) {
-          document.location.href = Drupal.settings.basePath + 'location/detail?nid=' + rows[0].nid;
+          // document.location.href = Drupal.settings.basePath + 'location/detail?nid=' + rows[0].nid;
         }
         var html = '<ul class="results">';
         for (var i=0; i<rows.length; i++) {
@@ -98,7 +98,7 @@ LocationManager.prototype.detail = function() {
     'url': this.detailAPI + (this.q.name ? this.q.name + '/' : 'all/' ) + (this.q.nid ? this.q.nid: 'all'),
     'success': function(data, status) {
       data = data[0];
-      if (rows.length > 0) {
+      if (data.rows.length > 0) {
         row = data.rows[0];
         var tabs = {
           'Map': function() {
@@ -192,7 +192,7 @@ LocationManager.prototype.map = function(map_id, lat, lon) {
        map.setCenter(center, 16);
      }
     }
-    this.addNameOverlay(map);
+    // this.addNameOverlay(map);
     map.addControl(new GSmallZoomControl3D());
     map.addControl(new GScaleControl);
     map.disableContinuousZoom();

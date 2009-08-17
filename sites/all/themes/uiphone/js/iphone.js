@@ -16,7 +16,7 @@ $.extend($, {
     '/emergency/cem/endpoint/json'
     ),
   news: new NewsManager(
-    '/news/newsfeed/ajax/json/1+2+3+6/all'
+    '/news/newsfeed/ajax/json/6/all'
     ),
 });
 
@@ -36,7 +36,7 @@ $(function() {
     $.location.latitude = undefined;
     $.location.longitude = undefined;
   }
-  if (navigator.geolocation) {
+  if (navigator.geolocation && document.location.href.match(/upei\.ca\/m\/location/)) {
     navigator.geolocation.watchPosition(foundLocation, noLocation);
   }
   /* skip the address bar */

@@ -89,6 +89,7 @@ elif [ -d ${cache_directory}/$bucket ] || [ $ignore_exist ] ; then
 	HTTRACK_OPTIONS="${source_site}/$bucket/link/*
       -${source_site}/news/newsfeed/*
       -${source_site}/$bucket/files/*
+      -${source_site}/$bucket/*/field_email
       +${source_site}/$bucket/sites/all/*
 			+${photo_site}/d/*
 			${HTTRACK_OPTS}"
