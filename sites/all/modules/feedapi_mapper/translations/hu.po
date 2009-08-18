@@ -1,0 +1,219 @@
+# Hungarian translation of feedapi_mapper (6.x-1.0-beta9)
+# Copyright (c) 2009 by the Hungarian translation team
+# Generated from files:
+#  feedapi_mapper_node.inc,v 1.1.2.4 2009/04/20 13:31:04 alexb
+#  feedapi_mapper.module,v 1.1.2.7.2.26 2009/04/20 13:32:34 alexb
+#  feedapi_mapper.install,v 1.1.4.1 2008/09/08 11:41:13 alexb
+#  feedapi_mapper/feedapi_mapper.info: n/a
+#  feedapi_mapper.api.php,v 1.1.2.2 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_content.inc,v 1.1.2.4.2.4 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_date.inc,v 1.1.2.3.2.6 2009/04/30 19:36:07 alexb
+#  feedapi_mapper_emimage.inc,v 1.1.2.3 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_emvideo.inc,v 1.1.2.3 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_link.inc,v 1.1.2.4.2.4 2009/04/20 16:01:34 alexb
+#  feedapi_mapper_location.inc,v 1.1.2.3 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_taxonomy.inc,v 1.1.4.4 2009/04/20 13:31:04 alexb
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: feedapi_mapper (6.x-1.0-beta9)\n"
+"POT-Creation-Date: 2009-06-25 17:51+0200\n"
+"PO-Revision-Date: 2009-06-24 21:49+0200\n"
+"Last-Translator: Balogh Zoltán\n"
+"Language-Team: Hungarian http://forditas.mindworks.hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: mappers/feedapi_mapper_node.inc:20
+msgid "Title"
+msgstr "Cím"
+
+#: feedapi_mapper.module:262
+msgid "Update"
+msgstr "Frissítés"
+
+#: mappers/feedapi_mapper_node.inc:20
+msgid "Body"
+msgstr "Törzs"
+
+#: feedapi_mapper.install:12
+msgid "The primary identifier for the feed."
+msgstr "A hírcsatorna elsődleges azonosítója."
+
+#: feedapi_mapper.info:0
+msgid "FeedAPI Add On"
+msgstr "FeedAPI bővítmény"
+
+#: feedapi_mapper.api.php:81
+msgid "Maps a string or an array of strings to myfields."
+msgstr ""
+"Leképez egy karaktersorozatot vagy karaktersorozatok tömbjét a "
+"saját mezőkbe."
+
+#: feedapi_mapper.module:10,12
+msgid "FeedAPI Mapper - maps feed item elements to node fields"
+msgstr ""
+"<em>FeedAPI Mapper</em> - leképezi a hírcsatorna elemek részeit a "
+"tartalom mezőibe"
+
+#: feedapi_mapper.module:79
+msgid "(!module_name module)"
+msgstr "(!module_name modul)"
+
+#: feedapi_mapper.module:168
+msgid "Map feed item elements to feed item node fields."
+msgstr ""
+"Leképezi a hírcsatorna elemek részeit a hírcsatorna elem tartalom "
+"mezőibe."
+
+#: feedapi_mapper.module:203
+msgid "Feed item example"
+msgstr "Hírcsatorna elem példa"
+
+#: feedapi_mapper.module:206
+msgid ""
+"All feed items of this feed merged into one. Here you can see which "
+"feed item elements are available for mapping. As this view is derived "
+"from the actual feed items on this feed, there might be more mappable "
+"elements than those listed here."
+msgstr ""
+"Ennek a hírcsatornának minden eleme egybe lesz fűzve. Itt "
+"látható, hogy mely hírcsatorna elem részek elérhetők "
+"leképezésre. Mivel ez a nézet a hírcsatorna aktuális elemeiből "
+"származik, lehet sokkal több leképezhető elem is, mint amely fel "
+"van sorolva."
+
+#: feedapi_mapper.module:232
+msgid "Description of available mappers"
+msgstr "Az elérhető leképezők leírása"
+
+#: feedapi_mapper.module:233
+msgid ""
+"This is a list of mappers available for the <em>feed item</em> content "
+"type for this feed."
+msgstr ""
+"Ez a listája az ehhez a hírcsatornához elérhető leképzőknek a "
+"<em>feed item</em> tartalomtípushoz."
+
+#: feedapi_mapper.module:246
+msgid "Edit mapping"
+msgstr "Leképzések szerkesztése"
+
+#: feedapi_mapper.module:247
+msgid ""
+"This is a list of feed item elements that are available for mapping. "
+"Choose a mapping from the drop down to map a feed item element to a "
+"node field."
+msgstr ""
+"Ez a listája azoknak a hírcsatorna elem részeknek, melyek "
+"elérhetők a leképezés számára. Ki kell választani egy "
+"leképezést a legördülő listákból ahhoz, hogy a hírcsatorna "
+"elem valamely része leképződjön egy tartalom mezőbe."
+
+#: feedapi_mapper.module:467
+msgid "Error in recursion _feedapi_mapper_next_element_path()"
+msgstr "Hiba a _feedapi_mapper_next_element_path() rekurzióban"
+
+#: feedapi_mapper.module:565
+msgid "No mapping"
+msgstr "Nincs leképezés"
+
+#: feedapi_mapper.module:574
+msgid "Map to @field (@module)"
+msgstr "Leképezés: @field (@module)"
+
+#: feedapi_mapper.module:22,32
+msgid "Map"
+msgstr "Leképezés"
+
+#: feedapi_mapper.module:0
+msgid "feedapi_mapper"
+msgstr "feedapi_mapper"
+
+#: feedapi_mapper.install:9
+msgid "Store date for the feedapi mapper"
+msgstr "Adatot tárol a <em>FeedAPI Mapper</em> számára"
+
+#: feedapi_mapper.info:0
+msgid "FeedAPI Mapper"
+msgstr "FeedAPI Mapper"
+
+#: feedapi_mapper.info:0
+msgid "Maps feed item elements to node fields."
+msgstr "Leképezi a hírcsatorna elemek részeit a tartalom mezőibe."
+
+#: mappers/feedapi_mapper_content.inc:12
+msgid "Maps a string or a number to this CCK field."
+msgstr ""
+"Leképez egy karaktersorozatot vagy egy számot ebbe a <em>CCK</em> "
+"mezőbe."
+
+#: mappers/feedapi_mapper_date.inc:13
+msgid "Maps a date to a date CCK field."
+msgstr "Leképez egy dátumot egy <em>CCK date</em> mezőbe."
+
+#: mappers/feedapi_mapper_emimage.inc:13
+msgid ""
+"Maps a link to a image to the Embedded Media Image CCK field. Use the "
+"original_url element for mapping to this field."
+msgstr ""
+"Leképez egy hivatkozást egy képhez a <em>CCK Embedded Media "
+"Image</em> mezőbe. Az <em>original_url</em> elemet kell használni a "
+"leképezéséhez ebbe a mezőbe."
+
+#: mappers/feedapi_mapper_emvideo.inc:13
+msgid ""
+"Maps a link to a video to the Embedded Media Video CCK field. Use the "
+"original_url element for mapping to this field."
+msgstr ""
+"Leképez egy hivatkozást egy videóhoz a <em>CCK Embedded Media "
+"Video</em> mezőbe. Az <em>original_url</em> elemet kell használni a "
+"leképezéséhez ebbe a mezőbe."
+
+#: mappers/feedapi_mapper_link.inc:12
+msgid "Maps a URL to this link CCK field."
+msgstr "Leképez egy webcímet ebbe a <em>CCK link</em> mezőbe."
+
+#: mappers/feedapi_mapper_location.inc:11
+msgid "Maps pairs of geographic coordinates to the location of a node."
+msgstr ""
+"Leképez földrajzi koordináta párokat a tartalom „hely” "
+"mezőjébe."
+
+#: mappers/feedapi_mapper_location.inc:14
+msgid "Latitude"
+msgstr "Földrajzi szélesség"
+
+#: mappers/feedapi_mapper_location.inc:14
+msgid "Longitude"
+msgstr "Földrajzi hosszúság"
+
+#: mappers/feedapi_mapper_node.inc:17
+msgid ""
+"Maps a feed element to a title, created date or a body of a node. Note "
+"that standard field mapping by FeedAPI still applies. For example if "
+"there is no feed element mapped to the node body you will still find "
+"the description in node body because that is how FeedAPI stores nodes."
+msgstr ""
+"Leképez egy hírcsatorna elemet a címbe, a létrehozási dátumba, "
+"vagy a tartalom törzsébe. Megjegyzendő, hogy a normál "
+"<em>FeedAPI</em> mezőleképezés a törzsbe is megtörténik. "
+"Például, ha nincs leképzendő hírcsatorna elem a törzsbe, akkor "
+"még mindig ott lesz a <em>description</em> a tartalom törzsében, "
+"mivel a <em>FeedAPI</em> így tárolja le a tartalmat."
+
+#: mappers/feedapi_mapper_node.inc:20
+msgid "Published date"
+msgstr "Közzétételi dátum"
+
+#: mappers/feedapi_mapper_taxonomy.inc:11
+msgid ""
+"Maps a string or an array of strings to taxonomy terms. Chose a "
+"vocabulary from sub options."
+msgstr ""
+"Leképez egy karaktersorozatot vagy karaktersorozatok tömbjét "
+"taxonómia kifejezésekbe. Ki kell választani egy szótárat az "
+"allehetőségekből."
+

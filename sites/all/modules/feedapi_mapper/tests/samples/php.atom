@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:php="http://php.net/ns/releases">
+  <title>PHP.net releases</title>
+  <link href="/releases.atom" rel="self"/>
+  <icon>/images/news/php-logo.gif</icon>
+  <author>
+    <name>Webmaster</name>
+    <uri>http://php.net/contact</uri>
+    <email>php-webmaster@lists.php.net</email>
+  </author>
+  <id>http://php.net/releases/index.php</id>
+  <updated>2009-04-08T00:00:00-05:00</updated>
+  <entry>
+    <title>PHP 5.2.9 released!</title>
+    <php:version>5.2.9</php:version>
+    <published>2009-02-26T00:00:00-06:00</published>
+    <summary type="html">There is a new PHP release in town!</summary>
+    <link rel="enclosure" title="PHP 5.2.9 (tar.bz2)" href="/get/php-5.2.9.tar.bz2/from/this/mirror">
+      <php:md5>280d6cda7f72a4fc6de42fda21ac2db7</php:md5>
+      <php:releaseDate>2009-02-26T00:00:00-06:00</php:releaseDate>
+    </link>
+    <link rel="enclosure" title="PHP 5.2.9 (tar.gz)" href="/get/php-5.2.9.tar.gz/from/this/mirror">
+      <php:md5>98b647561dc664adefe296106056cf11</php:md5>
+      <php:releaseDate>2009-02-26T00:00:00-06:00</php:releaseDate>
+    </link>
+    <link rel="enclosure" title="PHP 5.2.9-2 zip package" href="/get/php-5.2.9-2-Win32.zip/from/this/mirror">
+      <php:md5>316b9c81bab08e6547a730315ea2abfd</php:md5>
+      <php:releaseDate>2009-04-08T00:00:00-05:00</php:releaseDate>
+      <php:notes>Updated 9th of April: Added the missing oci8 DLL&lt;br /&gt;
+The PECL package will &lt;em&gt;not&lt;/em&gt; be released for
+this version. The 5.2.6 PECL package does however work with this release</php:notes>
+    </link>
+    <link rel="enclosure" title="PHP 5.2.9-2 installer" href="/get/php-5.2.9-2-win32-installer.msi/from/this/mirror">
+      <php:md5>e2162faa3467aed01651df4269aa6944</php:md5>
+      <php:releaseDate>2009-04-08T00:00:00-05:00</php:releaseDate>
+      <php:notes>Updated 9th of April: Added the missing oci8 DLL</php:notes>
+    </link>
+    <link rel="enclosure" title="PHP 5.2.9 Win32 Debug Pack" href="/get/php-debug-pack-5.2.9-2-Win32.zip/from/this/mirror">
+      <php:md5>b52e9a152e105c7391c832fdfe0fa06f</php:md5>
+      <php:releaseDate>2009-04-08T00:00:00-05:00</php:releaseDate>
+    </link>
+    <link rel="enclosure" title="PHP 5.2.9-2 Non-thread-safe zip package" href="/get/php-5.2.9-2-nts-Win32.zip/from/this/mirror">
+      <php:md5>8f85777941f7722fcbfe08e7de358f7d</php:md5>
+      <php:releaseDate>2009-04-08T00:00:00-05:00</php:releaseDate>
+      <php:notes>Updated 9th of April: Added the missing oci8 DLL&lt;br /&gt;
+The PECL package will &lt;em&gt;not&lt;/em&gt; be released for
+this version. The 5.2.6 PECL package does however work with this release</php:notes>
+    </link>
+    <link rel="enclosure" title="PHP 5.2.9-2 Non-thread-safe installer" href="/get/php-5.2.9-2-nts-win32-installer.msi/from/this/mirror">
+      <php:md5>4e7a1bec2b268d3d2d28cb89f629b680</php:md5>
+      <php:releaseDate>2009-04-08T00:00:00-05:00</php:releaseDate>
+      <php:notes>Updated 9th of April: Added the missing oci8 DLL</php:notes>
+    </link>
+    <link rel="enclosure" title="PHP 5.2.9 Non-thread-safe Win32 Debug Pack" href="/get/php-debug-pack-5.2.9-2-nts-Win32.zip/from/this/mirror">
+      <php:md5>4b7b695a257527f2896312f98dc30fd3</php:md5>
+      <php:releaseDate>2009-04-08T00:00:00-05:00</php:releaseDate>
+    </link>
+    <updated>2009-04-08T00:00:00-05:00</updated>
+    <content src="/releases/5_2_9.php" type="application/xhtml+xml"/>
+    <id>http://php.net/releases/5_2_9.php</id>
+  </entry>
+  <entry>
+    <title>PHP 5.3.0RC1 released!</title>
+    <php:version>5.3.0RC1</php:version>
+    <published>2009-03-24T00:00:00-05:00</published>
+    <content type="html">Please check out the new Release Canidate on &lt;a href="http://qa.php.net"&gt;http://qa.php.net&lt;/a&gt;</content>
+    <updated>2009-03-24T00:00:00-05:00</updated>
+    <id>http://php.net/releases.php#5.3.0RC1</id>
+  </entry>
+</feed>

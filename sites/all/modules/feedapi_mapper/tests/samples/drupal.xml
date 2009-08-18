@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xml:base="http://drupal.org"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+ <title>drupal.org</title>
+ <link>http://drupal.org</link>
+ <description>Drupal.org is the official website of Drupal, an open source content management platform.  Equipped with a powerful blend of features, Drupal supports a variety of websites ranging from personal weblogs to large community-driven websites.</description>
+ <language>en</language>
+<item>
+ <title>Drupal 6.11 and 5.17 released</title>
+ <link>http://drupal.org/drupal-6.11</link>
+ <description>&lt;div style=&quot;float: right; padding: 0.8em; background-color: #0174BB; font-size: 1.2em; margin: 0 0 0.3em 0.3em; text-align: center;&quot;&gt;&lt;a href=&quot;http://ftp.drupal.org/files/projects/drupal-6.11.tar.gz&quot; style=&quot;color: white; text-decoration: underline; line-height: 1.5em;&quot;&gt;Download Drupal 6.11&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://ftp.drupal.org/files/projects/drupal-5.17.tar.gz&quot; style=&quot;color: white; text-decoration: underline; line-height: 1.5em;&quot;&gt;Download Drupal 5.17&lt;/a&gt;&lt;/div&gt;
+
+&lt;p style=&quot;position: inherit;&quot;&gt;Drupal 6.11 and 5.17, maintenance releases fixing problems reported using the bug tracking system, as well as a &lt;strong&gt;critical security vulnerability&lt;/strong&gt;, are now available for download. Drupal 6.11 also fixes performance issues with the menu cache and update status cache among other smaller issues.&lt;/p&gt;
+&lt;p style=&quot;position: inherit;&quot;&gt;&lt;strong&gt;&lt;a href=&quot;/upgrade/&quot;&gt;Upgrading&lt;/a&gt; your existing Drupal 5 and 6 sites is strongly recommended.&lt;/strong&gt; There are no new features in these releases. For more information about the Drupal 6.x release series, consult the &lt;a href=&quot;http://drupal.org/drupal-6.0&quot;&gt;Drupal 6.0 release announcement&lt;/a&gt;, more information on the 5.x releases can be found in &lt;a href=&quot;http://drupal.org/drupal-5.0&quot;&gt;Drupal 5.0 release announcement&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/drupal-6.11&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <pubDate>Wed, 29 Apr 2009 23:36:36 +0000</pubDate>
+ <dc:creator>Drupal Security Team</dc:creator>
+ <guid isPermaLink="false">449082 at http://drupal.org</guid>
+</item>
+<item>
+ <title>RDF in Drupal 7 code sprint</title>
+ <link>http://drupal.org/node/443824</link>
+ <description>&lt;p&gt;There are only a few months left before the code freeze on September 1st. Now that &lt;a href=&quot;http://api.drupal.org/api/group/field/7&quot;&gt;Fields API&lt;/a&gt; has settled in core, it&#039;s time to extend it with some &lt;a href=&quot;http://en.wikipedia.org/wiki/Semantic_Web&quot;&gt;RDF semantics&lt;/a&gt;. &lt;a href=&quot;http://www.deri.ie/&quot;&gt;DERI Galway&lt;/a&gt; is hosting an &lt;a href=&quot;http://groups.drupal.org/node/21469&quot;&gt;RDF in Drupal code sprint&lt;/a&gt; from May 11th until May 14th.&lt;/p&gt;
+&lt;p&gt;This sprint builds on Dries&#039; ideas expressed in his recent posts &lt;a href=&quot;http://buytaert.net/drupal-the-semantic-web-and-search&quot;&gt;Drupal, the semantic web and search&lt;/a&gt; and &lt;a href=&quot;http://buytaert.net/rdfa-and-drupal&quot;&gt;RDFa and Drupal&lt;/a&gt;. With RDF in the core of Drupal and RDFa output by default, it&#039;s dozens of thousands of websites which will all of a sudden start publishing their data as RDF.&lt;/p&gt;
+&lt;p&gt;So far, &lt;a href=&quot;http://drupal.org/user/52142&quot;&gt;Stéphane Corlosquet&lt;/a&gt;, &lt;a href=&quot;http://drupal.org/user/66163&quot;&gt;Florian Loretan&lt;/a&gt;, &lt;a href=&quot;http://drupal.org/user/64383&quot;&gt;Benjamin Melançon&lt;/a&gt; and &lt;a href=&quot;http://drupal.org/user/298545&quot;&gt;Rolf Guescini&lt;/a&gt; have signed up. How about you?&lt;/p&gt;
+&lt;p&gt;Some others are willing to come but cannot afford the trip until some funding is secured. To help us fund the sprint and bring more Drupal rockstars on board, please consider making a donation using the &lt;a href=&quot;http://drupal.org/node/443824/&quot;&gt;ChipIn widget&lt;/a&gt; on this page. The money will be used to cover flight, food and hotel costs for the sprinters. All sprinters are generously donating their time to make this happen. It would also be great to fly in a few additional people with extensive testing and Fields experience. Any excess money will be used to add more people, or will be donated to the Drupal Association.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/443824&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/443824#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <pubDate>Fri, 24 Apr 2009 11:30:01 +0000</pubDate>
+ <dc:creator>scor</dc:creator>
+ <guid isPermaLink="false">443824 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Core patch review sprint this weekend!</title>
+ <link>http://drupal.org/node/443102</link>
+ <description>&lt;p&gt;Have you been looking for an excuse to play around a bit with Drupal 7, and have an interest in helping to directly shape it? Would you like to not only see how Drupal core contributors collaborate together, but become one yourself? Do you have an itch you&#039;d like scratched and are willing to help scratch others&#039; in return? Would you like to be exposed to new and interesting areas of Drupal you might not have otherwise experienced? Are you exceptionally good at finding faults and breaking things?&lt;/p&gt;
+&lt;p&gt;If so, drop by #drupal-dev on irc.freenode.net this weekend (April 25 and 26) for a patch review sprint! (&lt;a href=&quot;http://drupal.org/node/442368&quot; rel=&quot;nofollow&quot;&gt;What is a patch review sprint?&lt;/a&gt; / &lt;a href=&quot;http://www.lullabot.com/videocast/using-irc-your-browser&quot; rel=&quot;nofollow&quot;&gt;How to connect to IRC?&lt;/a&gt;) While somewhat informal, there will be people around all weekend to help get new patch reviewers started and to help guide seasoned contributors to important patches.&lt;/p&gt;
+&lt;p&gt;Our goal is to try and knock the &lt;a href=&quot;http://drupal.org/project/issues/search/drupal?version[0]=156281&amp;amp;status[0]=8&amp;amp;status[1]=14&quot; rel=&quot;nofollow&quot;&gt;core patches to review&lt;/a&gt; queue down to zero (or as close to it as possible) by trying out patches to see how they work, and recommending ways that they can be improved. The &lt;a href=&quot;http://drupal.org/node/442368&quot; rel=&quot;nofollow&quot;&gt;Patch review sprints&lt;/a&gt; page has more information on how patch reviews work, a handy cheat-sheet of all the commands you need, and a list of prerequisites in order to participate.&lt;/p&gt;
+&lt;p&gt;Please note that &quot;coding skills&quot; is &lt;em&gt;not&lt;/em&gt; on the list of prerequisites. While people with coding skills can perform certain types of reviews better than non-coders, non-coders can also perform certain types of reviews better than coders. In short: &lt;strong&gt;everyone is welcome!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Hope to see you there! :)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/443102&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/443102#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/120">Drupal 7.x</category>
+ <category domain="http://drupal.org/taxonomy/term/903">Planet Drupal</category>
+ <pubDate>Thu, 23 Apr 2009 18:35:18 +0000</pubDate>
+ <dc:creator>webchick</dc:creator>
+ <guid isPermaLink="false">443102 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Introducing Drupal&#039;s Google Summer of Code Students and Projects</title>
+ <link>http://drupal.org/node/440838</link>
+ <description>&lt;p&gt;Drupal is excited to announce that we have &lt;a href=&quot;http://socghop.appspot.com/org/home/google/gsoc2009/drupal&quot;&gt;18 amazing projects&lt;/a&gt; in this year&#039;s &lt;a href=&quot;http://socghop.appspot.com/&quot;&gt;Google Summer of Code&lt;/a&gt;. This is the fifth year that Drupal has participated in the program, bringing the total investment made by Google in Drupal through the SoC to &lt;strong&gt;over $400,000&lt;/strong&gt;. This investment has resulted in numerous modules and core improvements, but more importantly it has brought in many long time contributors to the drupal project and helped keep numerous other contributors engaged and active in the community.&lt;/p&gt;
+&lt;p&gt;As usual we had way more great proposals than we had slots, but for the first time we have a &lt;strong&gt; father-son team (Jim and Jimmy Berry) working on SoC projects!&lt;/strong&gt; Jimmy Berry actually convinced his dad to apply.  We always try and expand the Drupal family/community with each Summer of Code, but the variety in projects and students of this year takes it to a whole new level!&lt;/p&gt;
+&lt;p&gt;This year&#039;s Summer of Code projects &lt;strong&gt;focus on integrating Drupal with other APIs&lt;/strong&gt;, improving and &lt;strong&gt; enhancing many module suites&lt;/strong&gt;, and helping to build &lt;strong&gt;new functionalities&lt;/strong&gt; that will help keep Drupal at the cutting edge of what&#039;s possible with a CMS. Most of the projects still require co-mentors, and we&#039;ll be trying to connect these students with the community in a real world setting, so if you&#039;re interested in helping out with community bonding or code review, or even if you just want to keep tabs on the SoC progress,  join us over at the &lt;a href=&quot;http://groups.drupal.org/soc-2009&quot;&gt;Summer of Code group&lt;/a&gt; - it&#039;s not too late for you to help out!&lt;/p&gt;
+&lt;p&gt;Please help me in thanking Google for their support of Drupal and all Free &amp;amp; Open Source Software projects, and please welcome our Summer of Code 2009 Students.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/440838&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/440838#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/102">Drupal 6.x</category>
+ <category domain="http://drupal.org/taxonomy/term/120">Drupal 7.x</category>
+ <pubDate>Wed, 22 Apr 2009 20:27:39 +0000</pubDate>
+ <dc:creator>Alex UA</dc:creator>
+ <guid isPermaLink="false">440838 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Support Drupal by Voting in the Webby People’s Choice Award Competition!</title>
+ <link>http://drupal.org/node/436948</link>
+ <description>&lt;p&gt;The &lt;a href=&quot;http://www.webbyawards.com/webbys/current.php?media_id=96&amp;amp;season=13&quot;&gt;nominations&lt;/a&gt; for the 13th Annual &lt;a href=&quot;http://www.webbyawards.com/&quot;&gt;Webby Awards&lt;/a&gt; were recently announced, and they include a number of sites built in Drupal! Presented by the International Academy of Digital Arts and Sciences, the Webby Award is the leading international award honoring excellence on the Internet. It’s like the Oscars for websites.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&quot;picture&quot; href=&quot;http://pv.webbyawards.com&quot; title=&quot;Vote for Drupal-based sites in the Webbys&quot;&gt;&lt;img src=&quot;http://drupal.org/files/issues/voteforus_black_low.png&quot; alt=&quot;Vote for Drupal-based sites in the Webbys&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In addition to the juried awards, which are decided by a 650-person judging academy whose members include Internet co-inventor Vinton Cerf, R/GA’s Chief Bob Greenberg, “Simpsons” creator Matt Groening, Arianna Huffington, and Harvey Weinstein, all nominees are also eligible to win a Webby People’s Voice Award, which is voted online by the global Web community. &lt;/p&gt;
+&lt;p&gt;This is where you come in! From now until April 30th, you can cast your vote at &lt;a href=&quot;http://pv.webbyawards.com&quot; title=&quot;http://pv.webbyawards.com&quot;&gt;http://pv.webbyawards.com&lt;/a&gt; – this is a great opportunity for the community to come out, show their support, and get out the word that some of the best sites in the world are powered by Drupal. We’ve created a list of all the known Drupal sites sorted by the category in which they were nominated below; please let us know in the comments if we’ve missed any.&lt;/p&gt;
+&lt;p&gt;Winners will be announced on May 5th, 2009 and honored at a star-studded ceremony in New York City on June 8th hosted by Seth Meyers.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/436948&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/436948#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <pubDate>Tue, 21 Apr 2009 17:05:40 +0000</pubDate>
+ <dc:creator>gdemet</dc:creator>
+ <guid isPermaLink="false">436948 at http://drupal.org</guid>
+</item>
+<item>
+ <title>DrupalCon DC Website: A Conference Archive</title>
+ <link>http://drupal.org/node/431830</link>
+ <description>&lt;p&gt;Do you want to know &lt;a href=&quot;http://dc2009.drupalcon.org/session/drupal-7-whats-done-whats-coming-and-how-you-can-help&quot;&gt;what&#039;s been done and what&#039;s coming in Drupal 7&lt;/a&gt;, &lt;a href=&quot;http://dc2009.drupalcon.org/session/hacker-proof-your-code-advanced-drupal-security&quot;&gt;how to make your site hacker proof&lt;/a&gt;, or see &lt;a href=&quot;http://dc2009.drupalcon.org/session/why-i-hate-drupal&quot;&gt;why walkah hates Drupal&lt;/a&gt;? Just visit &lt;a href=&quot;http://dc2009.drupalcon.org/&quot;&gt;dc2009.drupalcon.org&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The videos of more than 100 presentations that were given at DrupalCon DC are now freely available from the conference website, alongside information about the speaker and about the session topic. A ton of great information was shared at DrupalCon DC, and we wanted to continue to get it out to anyone who&#039;s interested. To this end, we turned the DrupalCon DC website into a conference archive with video of each session embedded in it so that anyone who missed a session, missed the entire conference, or just learned what Drupal is last week can still benefit from the knowledge shared in Washington, DC. &lt;/p&gt;
+&lt;p&gt;Go to &lt;a href=&quot;http://dc2009.drupalcon.org/&quot;&gt;dc2009.drupalcon.org&lt;/a&gt; to watch session videos, and thanks again to the crew that recorded all of the sessions!&lt;br /&gt;
+&lt;center&gt;&lt;br /&gt;
+&lt;a href=&quot;http://dc2009.drupalcon.org/&quot;&gt;&lt;img src=&quot;http://farm4.static.flickr.com/3394/3437459361_64290f10dc.jpg&quot; /&gt;&lt;/a&gt;&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/431830&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/431830#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/28">Events</category>
+ <pubDate>Fri, 17 Apr 2009 15:21:08 +0000</pubDate>
+ <dc:creator>Ian Ward</dc:creator>
+ <guid isPermaLink="false">431830 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Drupal community hits Galway and helps three Irish charities</title>
+ <link>http://drupal.org/node/427410</link>
+ <description>&lt;p&gt;&lt;a class=&quot;picture&quot; href=&quot;http://www.flickr.com/photos/14027651@N04/3420386213/&quot; title=&quot;The main room was packed with newbies&quot;&gt;&lt;img src=&quot;http://drupal.org/files/dcgal_newbies_room.jpg&quot; width=&quot;240&quot; height=&quot;180&quot; alt=&quot;Room packed with newbies&quot; /&gt;&lt;/a&gt;We&#039;re stacking up karma points during this recession: over the weekend more than sixty people gathered at the &lt;a href=&quot;http://www.deri.ie/&quot;&gt;DERI Institute&lt;/a&gt; in Galway, Ireland to talk, learn, and exchange ideas about &lt;a href=&quot;http://drupal.org/&quot;&gt;Drupal&lt;/a&gt;. Various experts in web design attended coming from all over Ireland and as far as Scotland, England and the US.  The best turn out was in absolute newbies - over half of the group who had traveled from all over Ireland. &lt;/p&gt;
+&lt;p&gt;As an incentive to push the &lt;a href=&quot;http://buytaert.net/drupal-learning-curve&quot;&gt;learning curves&lt;/a&gt; we worked together to provide 3 Irish charities: &lt;a href=&quot;http://www.zikomo.org/&quot;&gt;Zikomo&lt;/a&gt;, &lt;a href=&quot;http://www.ruralsa.ie/&quot;&gt;Rural Science Association&lt;/a&gt; and &lt;a href=&quot;http://www.shadowboxireland.com/&quot;&gt;Shadowbox Theatre&lt;/a&gt; with brand spanking new websites!&lt;/p&gt;
+&lt;p&gt;The plan was conceived 5 months ago when &lt;a href=&quot;http://www.flickr.com/photos/add1sun/3412166357/&quot;&gt;Alan Burke&lt;/a&gt; (&lt;a href=&quot;http://drupal.org/user/35997&quot;&gt;alanburke&lt;/a&gt;) and &lt;a href=&quot;http://www.flickr.com/photos/add1sun/3412174477/&quot;&gt;Stéphane Corlosquet&lt;/a&gt; (&lt;a href=&quot;http://drupal.org/user/52142&quot;&gt;scor&lt;/a&gt;) were brainstorming what to do for the next &lt;a href=&quot;http://groups.drupal.org/node/18452&quot;&gt;Irish Drupal event&lt;/a&gt; to bring it home to Galway.  They wanted to do something different and make it over 2 days to take advantage of the presentation style of a BarCamp and to include a site-building challenge.  Realizing they would need a great deal of help they recruited &lt;a href=&quot;http://www.flickr.com/photos/add1sun/3412170489/&quot;&gt;Stella Power&lt;/a&gt; (&lt;a href=&quot;http://drupal.org/user/66894&quot;&gt;stella&lt;/a&gt;), &lt;a href=&quot;http://www.flickr.com/photos/fiona_flickr/3414934407/&quot;&gt;Heather James&lt;/a&gt; (&lt;a href=&quot;http://drupal.org/user/740&quot;&gt;heather&lt;/a&gt;) for their expertise from organizing the previous &lt;a href=&quot;http://groups.drupal.org/node/15343&quot;&gt;DrupalCamp in Dublin&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We, the organizers, were impressed by the number of people who turned up as we expected 40-50.  The rooms filled up fast and we had barely enough food for everybody.  Alan had the insight to have a giant kettle available to provide plenty of tea and coffee with &quot;loads of biccies&quot; to all the attendees.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/427410&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/427410#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <pubDate>Tue, 14 Apr 2009 10:42:08 +0000</pubDate>
+ <dc:creator>scor</dc:creator>
+ <guid isPermaLink="false">427410 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Form Follows Fun: The Making of Digital Dollhouse</title>
+ <link>http://drupal.org/node/430222</link>
+ <description>&lt;p&gt;&lt;a name=&quot;frontpage&quot; href=&quot;/node/430222&quot;&gt;&lt;img align=&quot;right&quot; src=&quot;/files/images/digitaldollhouse-home_sm.thumbnail.jpg&quot; height=&quot;217&quot; width=&quot;287&quot; hspace=&quot;10&quot; alt=&quot;The Digital Dollhouse front page&quot; title=&quot;The design of the front page went through many iterations. The Design, Shop and Share motifs endured and are featured throughout the site.&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.digitaldollhouse.com/&quot;&gt;Digital Dollhouse&lt;/a&gt; is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Virtual_world&quot; rel=&quot;nofollow&quot;&gt;virtual world&lt;/a&gt; where girls of all ages are empowered to become their own interior designers. Members can paint, furnish and decorate their own virtual dream houses complete with plants, pets and dolls, and even purchase and regift items in a &lt;a href=&quot;http://en.wikipedia.org/wiki/Virtual_economy&quot; rel=&quot;nofollow&quot;&gt;virtual economy&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Designed and built in Drupal from the ground up, Digital Dollhouse uses Drupal as a front- and back-end engine and Flash for the primary front-end game play. Drupal was selected as a development platform because of its robust and extensible framework and excellent integration with Flash/Flex applications. The high quality and availability of third-party modules greatly helped in the decision, as well. We found that Drupal is an excellent choice for managing virtual worlds with virtual goods and currencies.&lt;/p&gt;
+&lt;p&gt;The heart of Digital Dollhouse&amp;rsquo;s business model is &lt;a href=&quot;http://en.wikipedia.org/wiki/Virtual_goods&quot; rel=&quot;nofollow&quot;&gt;virtual goods micro-transactions&lt;/a&gt;. A member can visit the online store (which Digital Dollhouse calls the &amp;ldquo;Boutique&amp;rdquo;), purchase an item and then play with it in a virtual dollhouse (which we named the &amp;ldquo;playarea&amp;rdquo;). &lt;a href=&quot;/project/userpoints&quot;&gt;Userpoints&lt;/a&gt; proved to be a robust and outstanding solution for all of our virtual currency needs. Digital Dollhouse is also greatly indebted to the developers of the &lt;a href=&quot;/project/invite&quot;&gt;Invite&lt;/a&gt;, &lt;a&gt;Buddylist&lt;/a&gt;, &lt;a href=&quot;/project/votingapi&quot;&gt;Voting API&lt;/a&gt;, &lt;a href=&quot;http://ubercart.org/&quot;&gt;Ubercart&lt;/a&gt; and &lt;a href=&quot;/project/userpoints_ubercart&quot;&gt;Ubercart Userpoints&lt;/a&gt; modules.&lt;/p&gt;
+&lt;p&gt;In 2008, &lt;strong&gt;Jesyca Durchin&lt;/strong&gt; and and &lt;strong&gt;David Schnepp&lt;/strong&gt; of &lt;a href=&quot;http://digitalplayspace.com/&quot;&gt;Digital Playspace&lt;/a&gt; chose &lt;a href=&quot;http://exaltations.net/&quot;&gt;Exaltation of Larks&lt;/a&gt;, a development and design firm in Boston and Los Angeles, to lead the development of Digital Dollhouse. From the beginning, there were many indications that Digital Dollhouse would be a success.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/430222&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/430222#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/25">Drupal showcase</category>
+ <pubDate>Fri, 10 Apr 2009 18:51:21 +0000</pubDate>
+ <dc:creator>christefano</dc:creator>
+ <guid isPermaLink="false">430222 at http://drupal.org</guid>
+</item>
+<item>
+ <title>&quot;I Form&quot; - Danish health magazine case study</title>
+ <link>http://drupal.org/node/419484</link>
+ <description>&lt;p&gt;&lt;a href=&quot;http://iform.dk&quot;&gt;&lt;img src=&quot;http://drupal.org/files/forside-02.png&quot; alt=&quot;Frontpage&quot; align=&quot;right&quot; width=&quot;350&quot; /&gt;&lt;/a&gt;Bonnier Publications A/S publish magazines in Denmark, Norway, Sweden, Finland and Holland. All the magazines have websites, some of which are quite significant and have a large amount of traffic and reasonable revenue, while others are simple presentation sites. Altogether Bonnier Publications (BP) has more than 40 sites in five different languages.&lt;/p&gt;
+&lt;p&gt;For many years, BP has used the Java-based CMS Polopoly for all their sites, but this has not been optimal and especially programming the sites was far too slow, even for the smallest adjustments.&lt;/p&gt;
+&lt;p&gt;During the summer of 2008, BP decided that their CMS technology needed replacing to enable their editorial staff and sales departments to take full advantage of the Internet&#039;s dynamic potential. They chose Drupal CMS, and &lt;a href=&quot;http://peytz.dk&quot;&gt;Peytz &amp;amp; Co.&lt;/a&gt; was appointed strategic partner and asked to handle the platform migration.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/419484&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/419484#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/25">Drupal showcase</category>
+ <category domain="http://drupal.org/taxonomy/term/102">Drupal 6.x</category>
+ <pubDate>Thu, 09 Apr 2009 15:08:41 +0000</pubDate>
+ <dc:creator>andershal</dc:creator>
+ <guid isPermaLink="false">419484 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Book: Drupal 6 JavaScript and jQuery</title>
+ <link>http://drupal.org/node/422396</link>
+ <description>&lt;p&gt;&lt;img src=&quot;http://drupal.org/files/drupal-6-javascript-jquery.jpg&quot; alt=&quot;Drupal 6 javascript jquery&quot; align=&quot;right&quot; /&gt;&lt;br /&gt;
+In &lt;a href=&quot;http://drupal.org/node/312303&quot;&gt;October of 2008&lt;/a&gt;, Packt Publishing launched a pilot program called RAW (Read As we Write). In the RAW program, draft versions of each chapter are released as the author writes them. The initial book chosen for the pilot was &lt;a href=&quot;http://www.packtpub.com/drupal-6-javascript-and-jquery/book&quot;&gt;Drupal 6 JavaScript and jQuery&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;At the end of March, Packt sent the finished book to the printers. The final version, improved by copious feedback from the Drupal community, is now available in both &lt;a href=&quot;http://www.packtpub.com/drupal-6-javascript-and-jquery/book&quot;&gt;e-book and soft cover&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Packt typically offers a discount of 10% to all Drupal.org users (as I understand it, that offer is also good for &lt;a href=&quot;http://www.packtpub.com/drupal-6-module-development/book&quot;&gt;Learning Drupal 6 Module Development&lt;/a&gt;). But the community&#039;s involvement has been great on this project. To say thanks, Packt is allowing me to share my discount code here. To get &lt;em&gt;15%&lt;/em&gt; off of the purchase price of this book, order the book from &lt;a href=&quot;http://packtpub.com&quot;&gt;PacktPub.com&lt;/a&gt; and enter the following code in the promotional code box during checkout: &lt;strong&gt;DrupalJSjQ15&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Packt also &lt;a href=&quot;http://www.packtpub.com/article/packt_open_source_project_royalty_scheme&quot;&gt;contributes a portion&lt;/a&gt; of every book sale back to Drupal. So purchasing any Packt book on Drupal provides financial support for the project.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/422396&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/422396#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/102">Drupal 6.x</category>
+ <pubDate>Wed, 08 Apr 2009 22:23:20 +0000</pubDate>
+ <dc:creator>mbutcher</dc:creator>
+ <guid isPermaLink="false">422396 at http://drupal.org</guid>
+</item>
+<item>
+ <title>TheWrap.com Case Study</title>
+ <link>http://drupal.org/node/422260</link>
+ <description>&lt;p&gt;&lt;a href=&quot;http://www.thewrap.com&quot;&gt;&lt;img src=&quot;http://drupal.org/files/issues/Picture%209_15.png&quot; height=&quot;180&quot; width=&quot;280&quot; align=&quot;right&quot; /&gt;&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#039;http://en.wikipedia.org/wiki/Sharon_Waxman&#039;&gt;Sharon Waxman&lt;/a&gt;, a former Hollywood correspondent for The New York Times, has a new Hollywood News site called TheWrap.com.  In 2008, Sharon and her team reviewed various content management platforms for the news site and after considering the various available options, decided to use Drupal as their content management platform.&lt;/p&gt;
+&lt;p&gt;In July 2008, &lt;a href=&#039;http://www.appnovation.com&#039;&gt;Appnovation Technologies&lt;/a&gt; was chosen to develop the site. The site development went through various iterations of development cycle, and the site was completed in December 2008. The site was launched on January 19th. &lt;/p&gt;
+&lt;p&gt;In February, the site had over 130,000 visits and 650,000 page views. In just one month, it grew to over 240,000 unique visits and over 900,000 page views.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/422260&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/422260#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/25">Drupal showcase</category>
+ <category domain="http://drupal.org/taxonomy/term/77">Drupal 5.x</category>
+ <pubDate>Tue, 07 Apr 2009 15:23:34 +0000</pubDate>
+ <dc:creator>arnold leung</dc:creator>
+ <guid isPermaLink="false">422260 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Vote for Drupal to be in the 2009 Webware 100 </title>
+ <link>http://drupal.org/node/422148</link>
+ <description>&lt;p&gt;&lt;a&gt;&lt;img src=&quot;http://drupal.org/files/webware100-09_vote_l.jpg&quot; alt=&quot; CNet Webware 100 Winner&quot; class=&quot;picture&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Every year, CNet goes to the people and asks what the best Web 2.0 applications and services are. The people have spoken, and Drupal has been nominated, along with 299 others. To put Drupal into the coveted top 100, we need you to &lt;a href=&quot;http://www.cnet.com/html/ww/100/2009/poll/social.html?tag=mncol&quot;&gt;vote&lt;/a&gt;. Voting continues until April 30, so don&#039;t wait, vote now.&lt;/p&gt;
+&lt;p&gt;Drupal &lt;a href=&quot;http://drupal.org/node/152770&quot;&gt;won in 2007&lt;/a&gt;, and &lt;a href=&quot;http://drupal.org/Drupal-wins-2008-webware-100-award&quot;&gt;again in 2008&lt;/a&gt;. Can Drupal win in 2009? We sure hope so, but it will take &lt;a href=&quot;http://www.cnet.com/html/ww/100/2009/poll/social.html?tag=mncol&quot;&gt;your help&lt;/a&gt;. Please take a few seconds of your time to &lt;a href=&quot;http://www.cnet.com/html/ww/100/2009/poll/social.html?tag=mncol&quot;&gt;vote and help make Drupal a Webware 100 winner&lt;/a&gt; in 2009. Drupal is in the Social Networking &amp;amp; Publishing category.&lt;/p&gt;
+&lt;p&gt;In addition to voting you can put &lt;a href=&quot;http://drupal.org/files/webware100-09_vote_l.jpg&quot;&gt;this fine graphic&lt;/a&gt; in your own blog posts encouraging others to vote for Drupal as well. Please link to either of the following: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.webware.com/100&quot; title=&quot;http://www.webware.com/100&quot;&gt;http://www.webware.com/100&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.cnet.com/html/ww/100/2009/poll/social.html?tag=mncol&quot; title=&quot;http://www.cnet.com/html/ww/100/2009/poll/social.html?tag=mncol&quot;&gt;http://www.cnet.com/html/ww/100/2009/poll/social.html?tag=mncol&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;Thank you!&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/422148&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/422148#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/902">Drupal News</category>
+ <pubDate>Fri, 03 Apr 2009 17:14:05 +0000</pubDate>
+ <dc:creator>robertDouglass</dc:creator>
+ <guid isPermaLink="false">422148 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Wellstone Action: A Drupal Process Case Study</title>
+ <link>http://drupal.org/node/413910</link>
+ <description>&lt;p&gt;&lt;a href=&quot;http://www.wellstone.org&quot;&gt;&lt;img src=&quot;/files/issues/wellstone_home.png&quot; alt=&quot;Wellstone Action!&quot; width=&quot;250&quot; height=&quot;181&quot; hspace=&quot;10&quot; vspace=&quot;10&quot; align=&quot;right&quot; /&gt;&lt;/a&gt;
+&lt;p&gt; &lt;a href=&quot;http://www.wellstone.org/&quot;&gt;Wellstone Action!&lt;/a&gt; is a national center for training and leadership development for the progressive movement. Founded in January 2003, Wellstone Action trains, educates, mobilizes and organizes a large network of progressive individuals and organizations. &lt;/p&gt;
+&lt;p&gt;The original Wellstone.org website was built using a proprietary CMS system. As the site aged and communications needs evolved, staff had to increasingly work around that system and it&#039;s constraints. As such, part of the motivation for a new website was to not only present information clearly, but to do so in a way that was open to evolution and improvement over time, making Drupal and ideal fit for their needs.&lt;/p&gt;
+&lt;p&gt;Wellstone Action&#039;s Drupal-powered website  launched in  the Spring of 2008. With roughly a year of operating perspective, we can begin to assess the overall effectiveness of the project. Accordingly, this case-study is intended to: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;http://drupal.org/node/413910#process&quot;&gt;Document the process&lt;/a&gt; used to manage this project and make  decisions &lt;/li&gt;
+&lt;li&gt;Discuss the &lt;a href=&quot;http://drupal.org/node/413910#success&quot;&gt;overall success&lt;/a&gt; of the project (and thereby evaluate the process)&lt;/li&gt;
+&lt;li&gt;Spark more &lt;a href=&quot;http://drupal.org/node/413910#conversation&quot;&gt;conversation&lt;/a&gt; in the Drupal community about the best ways to produce the best possible results for all of our clients and their Drupal projects&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/413910&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/413910#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/25">Drupal showcase</category>
+ <pubDate>Thu, 02 Apr 2009 06:24:07 +0000</pubDate>
+ <dc:creator>dgorton</dc:creator>
+ <guid isPermaLink="false">413910 at http://drupal.org</guid>
+</item>
+<item>
+ <title>How we will make Drupal 7 simple to use</title>
+ <link>http://drupal.org/node/418560</link>
+ <description>&lt;p&gt;The Drupal core developers have a long history of making user experience improvements.  The developers have made it easier to install, to update, to internationalize, to customize, to theme, to find help, to recover from errors, and to interact.  A few years ago, the Drupal project lead, Dries, wrote about &lt;a href=&quot;http://buytaert.net/ockhams-razor-principle-of-content-management-systems&quot;&gt;The Ockham&#039;s Razor Principle of Content Management Systems&lt;/a&gt; which stated&lt;br /&gt;
+&lt;blockquote&gt;Given two functionally equivalent content management systems, the simplest one should be selected.&lt;/blockquote&gt;&lt;/p&gt;
+&lt;p&gt;  In order to make Drupal 7 the simplest CMS to use, Mark Boulton and I have developed a user experience strategy as part of an &lt;a href=&quot;http://acquia.com/blog/mark-boulton-help-drupal-7&quot;&gt;effort previously announced by Dries&lt;/a&gt;.  You don&#039;t have to be an expert core developer or user experience designer to help us make Drupal simpler to use.  Even the simple act of reading this strategy or mentioning to someone that we are working on making Drupal easier to use can make a difference.  With that in mind we have drafted strategy statements and goals which we hope to use as ’stars to sail our ship by’ on this project.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/418560&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/418560#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/120">Drupal 7.x</category>
+ <category domain="http://drupal.org/taxonomy/term/902">Drupal News</category>
+ <pubDate>Tue, 31 Mar 2009 20:43:04 +0000</pubDate>
+ <dc:creator>leisareichelt</dc:creator>
+ <guid isPermaLink="false">418560 at http://drupal.org</guid>
+</item>
+<item>
+ <title>DrupalCon DC: The Numbers and the Community Behind the Conference</title>
+ <link>http://drupal.org/node/414526</link>
+ <description>&lt;p&gt;We finished crunching the numbers from DrupalCon DC. You can check out all the final figures – including attendance stats and financial numbers – in &lt;a href=&quot;http://dc2009.drupalcon.org/news/drupalcon-dc-numbers-community-profit-and-sustainability&quot;&gt;DrupalCon DC By the Numbers: Community, Profit, and Sustainability&lt;/a&gt; posted on the DrupalCon DC website. Give it a read, and please post any feedback or questions you have.&lt;br /&gt;
+&lt;center&gt;&lt;br /&gt;
+&lt;a href=&quot;http://dc2009.drupalcon.org/news/drupalcon-dc-numbers-community-profit-and-sustainability&quot;&gt;&lt;img src=&quot;http://farm4.static.flickr.com/3560/3385628055_db0eac33c8_o.jpg&quot; width=&quot;700&quot; /&gt;&lt;/a&gt;&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/414526&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/414526#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/28">Events</category>
+ <pubDate>Thu, 26 Mar 2009 14:05:49 +0000</pubDate>
+ <dc:creator>bonniebogle</dc:creator>
+ <guid isPermaLink="false">414526 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Publius Project - Harvard University Case Study</title>
+ <link>http://drupal.org/node/386278</link>
+ <description>&lt;p&gt;
+The &lt;a href=&quot;http://publius.cc&quot;&gt;Publius Project&lt;/a&gt; is an effort of Harvard University&#039;s &lt;a href=&quot;http://cyber.law.harvard.edu/&quot;&gt;Berkman Center for Internet &amp;amp; Society&lt;/a&gt;.  The mission of the Publius Project is to foster public dialogue and create a durable public record on the question of how the Internet should be controlled, and by whom.  The project brings together a distinguished collection of Internet observers, scholars, innovators, entrepreneurs, activists, technologists, and other experts to write short essays on this topic.  The Publius Project approached &lt;a href=&quot;http://dharmatech.org/&quot;&gt;DharmaTech&lt;/a&gt; because its existing WordPress site was too limited and &amp;quot;blog-centric.&amp;quot;  The Publius Project needed an easy-to-use website that effectively created a forum for discussing the pressing issues revolving around how cyberspace is governed.
+&lt;/p&gt;
+&lt;p&gt;
+Mia Moran of &lt;a href=&quot;http://emtype.com/&quot;&gt;Emtype&lt;/a&gt; provided the graphic design for the project. &lt;a href=&quot;http://cyber.law.harvard.edu/people/cnolan&quot;&gt;Caroline Nolan&lt;/a&gt; of the Berkman Center served as project coordinator for the Publius Project.  Jason Hill of DharmaTech was the lead programmer and Tony Guzman of DharmaTech was the project manager.
+&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/386278&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/386278#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/25">Drupal showcase</category>
+ <category domain="http://drupal.org/taxonomy/term/77">Drupal 5.x</category>
+ <pubDate>Mon, 23 Mar 2009 18:12:59 +0000</pubDate>
+ <dc:creator>dharmatech</dc:creator>
+ <guid isPermaLink="false">386278 at http://drupal.org</guid>
+</item>
+<item>
+ <title>All DrupalCon DC 2009 Session Videos are Now Online</title>
+ <link>http://drupal.org/DrupalCon-DC-2009-Session-Videos</link>
+ <description>&lt;p&gt;&lt;img src=&quot;http://drupal.org/files/issues/dc2009dcslide.png&quot; width=&quot;150&quot; height=&quot;101&quot; style=&quot;float: right;&quot; /&gt;&lt;br /&gt;
+Links to all 102 videos were made available on March 13, 2009:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;d.o - &lt;a href=&quot;http://drupal.org/node/385952&quot;&gt;DrupalCon DC 2009 Videos&lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;archive.org - search for &lt;a href=&quot;http://www.archive.org/search.php?query=drupalcon%20dc&quot;&gt;drupalcon dc&lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://dc2009.drupalcon.org/schedule&quot;&gt;dc2009.drupalcon.org&lt;/a&gt; (in the comments of each session)
+&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;A list of the 9 sessions that were not recorded can be found at:&lt;br /&gt;
+&lt;a href=&quot;http://dc2009.drupalcon.org/news/almost-all-session-videos-drupalcon-dc-now-online#comment-4498&quot; title=&quot;http://dc2009.drupalcon.org/news/almost-all-session-videos-drupalcon-dc-now-online#comment-4498&quot;&gt;http://dc2009.drupalcon.org/news/almost-all-session-videos-drupalcon-dc-...&lt;/a&gt;&lt;br /&gt;
+If you have of a recording of any of these and/or any BoF sessions, please post them online and let everyone at d.o know. :o)&lt;/p&gt;
+&lt;h2&gt;Some Stats&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;76 sessions (68%) were online within 24 hours
+&lt;/li&gt;&lt;li&gt;83 sessions (75%) were online within 48 hours
+&lt;/li&gt;&lt;li&gt;102 sessions (92%) were online within 5 days of the conference, including:
+&lt;ul&gt;
+&lt;li&gt;97 presentation sessions
+&lt;/li&gt;&lt;li&gt;4 keynote sessions
+&lt;/li&gt;&lt;li&gt;1 closing session
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/DrupalCon-DC-2009-Session-Videos&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/DrupalCon-DC-2009-Session-Videos#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/102">Drupal 6.x</category>
+ <pubDate>Fri, 20 Mar 2009 16:01:55 +0000</pubDate>
+ <dc:creator>ronaldmulero</dc:creator>
+ <guid isPermaLink="false">400250 at http://drupal.org</guid>
+</item>
+<item>
+ <title>The Google Summer of Code is Back for 2009!</title>
+ <link>http://drupal.org/node/406548</link>
+ <description>&lt;p&gt;Earlier today, Google announced the &lt;a href=&quot;http://socghop.appspot.com/program/accepted_orgs/google/gsoc2009&quot;&gt;list of organizations that have been selected for the Google Summer of Code 2009&lt;/a&gt;, and we are thrilled to announce that Drupal has been selected once again! This will mark the Drupal project&#039;s fifth year of participation in this fantastic program, which provides a great opportunity for the Drupal community to grow our ranks of dedicated and talented new contributors, award existing long-term contributors, and get some exciting new coding projects done at the same time! More information about the program is available in the &lt;a href=&quot;http://socghop.appspot.com/document/show/program/google/gsoc2009/faqs&quot;&gt;Google Summer of Code FAQ&lt;/a&gt; and &lt;a href=&quot;http://socghop.appspot.com/document/show/program/google/gsoc2009/timeline&quot;&gt;program timeline&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/406548&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/406548#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/102">Drupal 6.x</category>
+ <category domain="http://drupal.org/taxonomy/term/120">Drupal 7.x</category>
+ <pubDate>Wed, 18 Mar 2009 21:14:01 +0000</pubDate>
+ <dc:creator>Alex UA</dc:creator>
+ <guid isPermaLink="false">406548 at http://drupal.org</guid>
+</item>
+<item>
+ <title>New pages and RSS feeds for security announcements</title>
+ <link>http://drupal.org/node/406142</link>
+ <description>&lt;h3&gt;Separate Security Announcements by Type&lt;/h3&gt;
+&lt;p&gt;To make the impact of different security advisories and announcements easier to see, they are now separated by type.&lt;/p&gt;
+&lt;p&gt;Drupal core security advisories:  &lt;a href=&quot;http://drupal.org/security&quot; title=&quot;http://drupal.org/security&quot; rel=&quot;nofollow&quot;&gt;http://drupal.org/security&lt;/a&gt;&lt;br /&gt;
+RSS feed for Drupal core:  &lt;a href=&quot;http://drupal.org/security/rss.xml&quot; title=&quot;http://drupal.org/security/rss.xml&quot; rel=&quot;nofollow&quot;&gt;http://drupal.org/security/rss.xml&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Contributed project security advisories: &lt;a href=&quot;http://drupal.org/security/contrib&quot; title=&quot;http://drupal.org/security/contrib&quot; rel=&quot;nofollow&quot;&gt;http://drupal.org/security/contrib&lt;/a&gt;&lt;br /&gt;
+RSS feed for contributed projects: &lt;a href=&quot;http://drupal.org/security/contrib/rss.xml&quot; title=&quot;http://drupal.org/security/contrib/rss.xml&quot; rel=&quot;nofollow&quot;&gt;http://drupal.org/security/contrib/rss.xml&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Public service announcements: &lt;a href=&quot;http://drupal.org/security/psa&quot; title=&quot;http://drupal.org/security/psa&quot; rel=&quot;nofollow&quot;&gt;http://drupal.org/security/psa&lt;/a&gt;&lt;br /&gt;
+RSS feed for announcements: &lt;a href=&quot;http://drupal.org/security/psa/rss.xml&quot; title=&quot;http://drupal.org/security/psa/rss.xml&quot; rel=&quot;nofollow&quot;&gt;http://drupal.org/security/psa/rss.xml&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;We encourage those using RSS readers to track security-related developments to subscribe to all three of these feeds.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;All posts to each of these three forums will still be sent to the one security announcements e-mail list.  To subscribe to that e-mail list, once logged in, go to your user profile page and subscribe to the security newsletter on the Edit » My newsletters tab.&lt;/p&gt;
+&lt;p&gt;All future public service announcements will only be posted to the &lt;em&gt;Public service announcements&lt;/em&gt; page and feed.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/406142&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <category domain="http://drupal.org/taxonomy/term/1852">Security advisories for Drupal core</category>
+ <category domain="http://drupal.org/taxonomy/term/903">Planet Drupal</category>
+ <pubDate>Wed, 18 Mar 2009 15:51:17 +0000</pubDate>
+ <dc:creator>pwolanin</dc:creator>
+ <guid isPermaLink="false">406142 at http://drupal.org</guid>
+</item>
+<item>
+ <title>New book published: Drupal 6 Social Networking</title>
+ <link>http://drupal.org/node/344141</link>
+ <description>&lt;p&gt;&lt;img src=&quot;http://drupal.org/files/1847196101.jpg&quot; width=&quot;150&quot; height=&quot;150&quot; style=&quot;float: right;&quot; /&gt;&lt;a href=&quot;http://www.packtpub.com/build-social-networking-website-with-drupal-6/book/mid/021208i3zmfn&quot;&gt;Drupal 6 Social Networking&lt;/a&gt;, by &lt;a href=&quot;http://www.michaelpeacock.co.uk&quot;&gt;Michael Peacock&lt;/a&gt;, is a new book from Packt Publishing, aimed at readers wishing to create a Social Networking website.  With Social Networking being a very powerful and popular concept on the Internet, this book discusses the benefits of creating your own Social Network over utilising existing Social Networks, and guides the reader through setting up a Social Network of their own.  &lt;/p&gt;
+&lt;p&gt;After discussing Social Networking concepts, the book covers the basics of Drupal including installation, configuration and administration, before looking at building a powerful Social Networking website, including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;User generated content with Drupal core modules&lt;/li&gt;
+&lt;li&gt;Managing users and enhancing their profiles &lt;/li&gt;
+&lt;li&gt;Enabling user interaction and communication as well as communicating with our users&lt;/li&gt;
+&lt;li&gt;Creating a simple map-based module to show how we can extend the network with custom features by creating our own modules&lt;/li&gt;
+&lt;li&gt;Customising the theme, and creating custom themes giving the Social Network a unique look of its own&lt;/li&gt;
+&lt;li&gt;Deploying the Social Network, and keeping it running smoothly&lt;/li&gt;
+&lt;li&gt;Promoting the Social Network so that its user base, and community contributions grow&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/344141&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/344141#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/102">Drupal 6.x</category>
+ <pubDate>Wed, 11 Mar 2009 22:59:59 +0000</pubDate>
+ <dc:creator>mdev</dc:creator>
+ <guid isPermaLink="false">344141 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Drupalcon D.C Survey</title>
+ <link>http://drupal.org/node/396950</link>
+ <description>&lt;p&gt;[Update: The Survey Monkey account is now increased.]&lt;/p&gt;
+&lt;p&gt;Did you attend &lt;a href=&quot;http://dc2009.drupalcon.org/&quot;&gt;Drupalcon D.C&lt;/a&gt;? Did you want to attend Drupalcon D.C but couldn&#039;t make it? &lt;img src=&quot;/files/drupalcon_dc_2009.png&quot; width=&quot;150&quot; height=&quot;150&quot; style=&quot;float: right;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;We have lots of questions and you have answers!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Take the &lt;a href=&quot;http://www.surveymonkey.com/s.aspx?sm=v4S9d_2fF7UEKJoEx5A2z3ZQ_3d_3d&quot;&gt;Drupalcon D.C survey&lt;/a&gt; and help make Drupalcon your conference! We are looking for responses from those who attended &lt;em&gt;and&lt;/em&gt; those who were unable to attend the conference. We want to hear from you.&lt;/p&gt;
+&lt;p&gt;Help make future DrupalCons, including &lt;a href=&quot;http://drupal.org/node/374199&quot;&gt;DrupalCon Paris 2009&lt;/a&gt;, even better!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.surveymonkey.com/s.aspx?sm=v4S9d_2fF7UEKJoEx5A2z3ZQ_3d_3d&quot;&gt;Click over to take the survey&lt;/a&gt;.&lt;/p&gt;
+</description>
+ <comments>http://drupal.org/node/396950#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/902">Drupal News</category>
+ <pubDate>Tue, 10 Mar 2009 14:12:54 +0000</pubDate>
+ <dc:creator>jredding</dc:creator>
+ <guid isPermaLink="false">396950 at http://drupal.org</guid>
+</item>
+<item>
+ <title>News from the Documentation Sprint at DrupalCon DC</title>
+ <link>http://drupal.org/node/394806</link>
+ <description>&lt;p&gt;&lt;a href=&quot;http://www.flickr.com/photos/add1sun/3338930559/&quot; title=&quot;066/365: Drupalcon DC Doc Sprint by add1sun, on Flickr&quot;&gt;&lt;img src=&quot;http://farm4.static.flickr.com/3537/3338930559_0c3d604c7c_m.jpg&quot; width=&quot;240&quot; height=&quot;180&quot; alt=&quot;066/365: Drupalcon DC Doc Sprint&quot; style=&quot;float:left;padding-right:10px;&quot; /&gt;&lt;/a&gt;Today&#039;s &lt;a href=&quot;http://dc2009.drupalcon.org/session/documentation-sprint&quot;&gt;Documentation Sprint&lt;/a&gt; at &lt;a href=&quot;http://dc2009.drupalcon.org/&quot;&gt;DrupalCon DC&lt;/a&gt; was a brilliantly productive success! For folks who are unfamiliar with the sprint concept, as I was before today, here&#039;s what happened: folks gathered both physically in DC and virtually on &lt;a href=&quot;http://drupal.org/irc&quot;&gt;IRC&lt;/a&gt; (#drupal-docs) to come up with a list of documentation tasks that need tackling. We then divided up into small, ad-hoc teams to collaboratively tackle those tasks.&lt;/p&gt;
+&lt;p&gt;By our conservative estimate, more than 70 people showed up in person. Folks also participated online in a great demonstration of the potential for real-time collaboration despite geographical distance. All of the work was done in the hopes of creating cleaner, clearer, and more accessible and useful documentation for members of the Drupal community, whatever their skill level or familiarity with Drupal might be. Likewise, people at all levels of familiarity and experience with Drupal participated in the documentation sprint itself.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/394806&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/394806#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <pubDate>Sun, 08 Mar 2009 00:14:18 +0000</pubDate>
+ <dc:creator>jackaponte</dc:creator>
+ <guid isPermaLink="false">394806 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Code and documentation sprints today</title>
+ <link>http://drupal.org/node/394132</link>
+ <description>&lt;p&gt;Following the final day of DrupalCon presentations, we&#039;re hosting a code and documentation sprint, both at the DrupalCon conference facility and online. You can help! Documentation sprinters are &lt;a href=&quot;http://drupal.org/node/388470&quot; rel=&quot;nofollow&quot;&gt;coordinating tasks on wiki-style pages&lt;/a&gt; and talking on IRC at #drupal-docs (&lt;a href=&quot;http://drupal.org/irc&quot; rel=&quot;nofollow&quot;&gt;see instructions for joining&lt;/a&gt;).&lt;/p&gt;
+</description>
+ <comments>http://drupal.org/node/394132#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <category domain="http://drupal.org/taxonomy/term/102">Drupal 6.x</category>
+ <category domain="http://drupal.org/taxonomy/term/120">Drupal 7.x</category>
+ <pubDate>Sat, 07 Mar 2009 16:00:38 +0000</pubDate>
+ <dc:creator>David Strauss</dc:creator>
+ <guid isPermaLink="false">394132 at http://drupal.org</guid>
+</item>
+<item>
+ <title>The Knight Foundation Announces $485,380 in Funding for Six Drupal Projects</title>
+ <link>http://drupal.org/node/393554</link>
+ <description>&lt;p&gt;Six new Drupal projects will make it easier for anyone to join the digital conversation by lowering the barriers to online publishing. These projects have received a portion of the $485,380 in funding provided by John S. and James L. Knight Foundation through the Knight Drupal Initiative (KDI). The winners of the Knight Drupal Initiative were announced at the DrupalCon conference in Washington, DC.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/393554&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/393554#comments</comments>
+ <category domain="http://drupal.org/news">News and announcements</category>
+ <pubDate>Fri, 06 Mar 2009 22:29:41 +0000</pubDate>
+ <dc:creator>emmajane</dc:creator>
+ <guid isPermaLink="false">393554 at http://drupal.org</guid>
+</item>
+<item>
+ <title>Sony Music sponsors major multilingual improvements in Drupal 6</title>
+ <link>http://drupal.org/node/383954</link>
+ <description>&lt;table style=&quot;margin-left: 0.5em;&quot; align=&quot;right&quot;&gt;
+&lt;caption align=&quot;bottom&quot; style=&quot;border: 0; padding: 0;&quot;&gt;&lt;em&gt;P!nk&#039;s site was the first rolled out on Sony Music&#039;s new multilingual platform&lt;/em&gt;&lt;/caption&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: 0; padding: 0;&quot;&gt;&lt;a href=&quot;http://pinkspage.com&quot;&gt;&lt;img src=&quot;http://drupal.org/files/pink_0.png&quot; alt=&quot;P!nk&#039;s site&quot; /&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Over the past two and a half months, Sony Music rolled out some of their top musical artist sites in new multilingual versions based on Drupal 6. &lt;a href=&quot;http://www.pinkspage.com&quot;&gt;P!nk&lt;/a&gt;, &lt;a href=&quot;http://www.beyonceonline.com&quot;&gt;Beyonce&lt;/a&gt;, &lt;a href=&quot;http://www.britney.com&quot;&gt;Britney Spears&lt;/a&gt;, &lt;a href=&quot;http://www.johnlegend.com&quot;&gt;John Legend&lt;/a&gt;, &lt;a href=&quot;http://www.kellyofficial.com&quot;&gt;Kelly Clarkson&lt;/a&gt; and &lt;a href=&quot;http://blog.thefray.net&quot;&gt;The Fray&lt;/a&gt; were among the first to go multilingual, with many more on the way.&lt;/p&gt;
+&lt;p&gt;Before introducing multilingual support, Sony Music had a solid platform built on Drupal 5 from which they delivered dozens of major artist websites with interactive and social networking features. But having their sites in English only presented significant barriers. Going multilingual would allow them to expand fan bases and reach out to new audiences.&lt;/p&gt;
+&lt;p&gt;In addition to their team of in-house developers and other contractors, Sony Music sponsored &lt;a href=&quot;http://civicactions.com&quot;&gt;CivicActions&lt;/a&gt; to improve internationalization support in Drupal, contributing back all development work. CivicActions guided the internationalization of Sony Music&#039;s platform and ensured stability as they upgraded from Drupal 5 to Drupal 6.&lt;/p&gt;
+&lt;p&gt;Accomplishing these aims required an intensive focus on reviewing and upgrading the large selection of core and contributed modules Sony Music relies on. Sony Music&#039;s investment in improving the Drupal platform demonstrates the sound business case for contributing back.&lt;/p&gt;
+&lt;p&gt;Here&#039;s a summary of how we approached the work and how this project produced internationalization improvements throughout Drupal core and contrib that can be used on any site wanting to serve users in multiple languages and countries.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://drupal.org/node/383954&quot; target=&quot;_blank&quot;&gt;read more&lt;/a&gt;&lt;/p&gt;</description>
+ <comments>http://drupal.org/node/383954#comments</comments>
+ <category domain="http://drupal.org/taxonomy/term/25">Drupal showcase</category>
+ <category domain="http://drupal.org/taxonomy/term/102">Drupal 6.x</category>
+ <pubDate>Tue, 03 Mar 2009 23:01:56 +0000</pubDate>
+ <dc:creator>nedjo</dc:creator>
+ <guid isPermaLink="false">383954 at http://drupal.org</guid>
+</item>
+</channel>
+</rss>

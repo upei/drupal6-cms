@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_mapper_date.inc,v 1.1.2.3.2.11 2009/07/17 13:39:44 alexb Exp $
+// $Id: feedapi_mapper_date.inc,v 1.1.2.3.2.12 2009/07/27 15:48:36 alexb Exp $
 
 /**
  * On behalf implementation of hook_feedapi_mapper for date field from content.module (CCK),
@@ -406,12 +406,16 @@ class date_constructor {
       $this->value['date2'] = date_create($this->end_datetime, timezone_open($this->to_tz));      
     }
 
-    $this->value['offset'] = date_offset_get($this->value['date']);
-    $this->value['offset2'] = date_offset_get($this->value['date2']);
-    date_timezone_set($this->value['date'], timezone_open($this->db_tz));
-    date_timezone_set($this->value['date2'], timezone_open($this->db_tz));
-    $this->value['value'] = date_format($this->value['date'], $this->format);
-    $this->value['value2'] = date_format($this->value['date2'], $this->format);
+    if (isset($this->value['date'])) {
+      $this->value['offset'] = date_offset_get($this->value['date']);
+      date_timezone_set($this->value['date'], timezone_open($this->db_tz));
+      $this->value['value'] = date_format($this->value['date'], $this->format);
+    }
+    if (isset($this->value['date2'])) {
+      $this->value['offset2'] = date_offset_get($this->value['date2']);
+      date_timezone_set($this->value['date2'], timezone_open($this->db_tz));
+      $this->value['value2'] = date_format($this->value['date2'], $this->format);
+    }
     $this->value['timezone'] = $this->to_tz;
   }
 }

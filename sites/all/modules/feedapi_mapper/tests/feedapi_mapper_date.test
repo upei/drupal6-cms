@@ -1,0 +1,84 @@
+<?php
+// $Id: feedapi_mapper_date.test,v 1.1.2.2 2009/07/13 19:59:52 alexb Exp $
+
+require_once(drupal_get_path('module', 'feedapi_mapper') . '/tests/feedapi_mapper_test.inc');
+
+/**
+ * Class for testing feedapi_mapper_date (Date fields).
+ */
+class FeedApiMapperDateTestCase extends FeedApiMapperTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('FeedAPI Mapper Date'),
+      'description' => t('Test FeedAPI Mapper support for Date fields'),
+      'group' => t('FeedAPI Mapper'),
+    );
+  }
+
+  /**
+   * SimpleTest core method: code run before each and every test method.
+   */
+  function setUp() {
+    // Always call the setUp() function from the parent class.
+    @parent::setUp(
+      'feedapi',
+      'feedapi_node',
+      'parser_simplepie',
+      'parser_common_syndication',
+      'feedapi_mapper',
+      'content',
+      'date',
+      'date_api',
+      'date_timezone'
+    );
+
+    // Create users.
+    $this->admin_user = $this->drupalCreateUser(
+      array(
+        'administer content types',
+        'administer feedapi',
+        'administer nodes',
+        'administer site configuration',
+        'advanced feedapi options',
+        'create feed content',
+      )
+    );
+  }
+
+
+  function testDateMapping() {
+    $options = array(
+      'fields' => array(
+        'alpha' => 'date',
+        'beta' => 'datestamp',
+        'gamma' => 'datetime',
+      ),
+      'filename' => 'drupal.xml',
+      // 'mappers' => array('node', 'date'),
+      'mapping' => array(
+        serialize(array('title')) => serialize(array('node', 'title')),
+        serialize(array('description')) => serialize(array('node', 'body')),
+        serialize(array('options', 'timestamp')) => serialize(array('date', 'field_beta', 'start_stamp')),
+        // @todo: find source data with more dates
+      ),
+    );
+
+    $this->drupalLogin($this->admin_user);
+    $this->enableParsers(TRUE, FALSE);
+    $feed_url = $this->setupFeed($options);
+
+    // Check one of the nodes
+    $this->drupalGet('admin/content/node/overview');
+    $this->clickLink('DrupalCon DC Website: A Conference Archive');
+    $this->assertRaw('<h2 class="with-tabs">DrupalCon DC Website: A Conference Archive</h2>');
+    $this->assertText('Fri, 04/17/2009 - 15:21');
+    $this->assertText('The videos of more than 100 presentations');
+
+    // $this->assertText('http://drupal.org/node/431830#comments', 'Found comments text');
+    // $this->assertText('1239981668', 'Found timestamp integer');
+
+    $this->deleteFeed($feed_url);
+    $this->drupalLogout();
+  }
+}
