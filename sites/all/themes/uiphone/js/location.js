@@ -101,6 +101,19 @@ LocationManager.prototype.detail = function() {
       if (data.rows.length > 0) {
         row = data.rows[0];
         var tabs = {
+          'Description': function() {
+            var html = '';
+            html += '<h2>' + row.title + "</h2>\n";
+            html += '<div class="description">';
+            if (row.building_number > 0) {
+              html += '<p>Building number: ' + row.building_number + '</p>';
+            }
+            if (row.picture) {
+              html += '<p>' + row.picture + '</p>';
+            }
+            html += row.description + "</div>\n";
+            return html;
+          },
           'Map': function() {
             var html = '';
             html += '<div id="gmap"></div>';
@@ -109,16 +122,6 @@ LocationManager.prototype.detail = function() {
           "What's Here": function() {
             var html = '';
             html += '<div class="description">' + row.occupants + "</div>\n";
-            return html;
-          },
-          'Description': function() {
-            var html = '';
-            html += '<h2>' + row.title + "</h2>\n";
-            html += '<div class="description">';
-            if (row.building_number > 0) {
-              html += '<p>Building number: ' + row.building_number + '</p>';
-            }
-            html += row.description + "</div>\n";
             return html;
           }
         };
