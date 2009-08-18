@@ -1,0 +1,4 @@
+/* fieldset legend in node-form */
+.node-form legend { font-weight: bold; }
+/* date in node-form */
+.node-form .container-inline-date { clear: none; float: left }

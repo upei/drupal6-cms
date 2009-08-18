@@ -214,6 +214,7 @@ $css_files = array(
   '911-event-timeline.css',
   '920-node.css',
   '925-node-person.css',
+  '930-node-form.css',
   '990-misc.css',
 
   'sunshine.css',
