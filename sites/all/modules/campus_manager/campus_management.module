@@ -321,3 +321,13 @@ function campus_management_theme_registry_alter(&$reg) {
     }
   }
 }
+
+// form alter for og audience name
+function campus_management_form_node_alter(&$form, $form_state, $form_id) {
+  if ($form['og_nodeapi']['visible']['og_groups_visible']) {
+    $form['og_nodeapi']['visible']['og_groups_visible']['#title'] = t('Groups');
+  }
+  if ($form['og_nodeapi']['visible']['og_groups']) {
+    $form['og_nodeapi']['visible']['og_groups']['#title'] = t('Groups');
+  }
+}
