@@ -269,6 +269,7 @@ END;
 drupal_add_js($javascript, 'inline', 'footer', false, false);
 
 /* XXX add rss feed to home page. this is a workaround.  */
+if (function_exists('_get_bucket')) {
 switch (_get_bucket()) {
 case 'home':
 case 'news':
@@ -279,6 +280,7 @@ case 'news':
   else {
     drupal_set_html_head($_rss_feed); // drupal 6
   }
+}
 }
 /* END */
 
