@@ -1,0 +1,368 @@
+<?php
+
+// $Id: search_ranking.module,v 1.24 2008/09/03 15:58:03 blucches Exp $
+
+/**
+ * This module created as part of a Google Summer of Code 2008 project
+ *
+ * This module provides a back port of code that was committed to DRUPAL 7 
+ * HEAD that allows site administrators to define a ranking order for search
+ * results based on different search scoring metrics.
+ *
+ *
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function search_ranking_menu() {
+  $items['search_ranking/js'] = array(
+    'title' => 'Javascript Search',
+    'page callback' => 'search_ranking_js',
+    'access arguments' => array('administer search'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function search_ranking_menu_alter(&$callbacks) {
+  $callbacks['search/node/%menu_tail']['page callback'] = 'search_ranking_view';
+  $callbacks['search/node/%menu_tail']['file'] = 'search_ranking.pages.inc';
+  $callbacks['search/node/%menu_tail']['file path'] = drupal_get_path('module', 'search_ranking');
+  $callbacks['search/search_ranking/%menu_tail']['access callback'] = false;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function search_ranking_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'search_admin_settings') {
+    unset($form['content_ranking']);
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function search_ranking_theme() {
+  return array(
+    'search_result' => array(
+      'arguments' => array('result' => NULL, 'type' => NULL),
+      'template' => 'search-result-search_ranking',
+    )
+  );
+}
+
+/**
+ * Implementation of hook_search().
+ */
+function search_ranking_search($op = 'search', $keys = NULL) {
+  switch ($op) {
+    case 'name':
+      return t('Content');
+
+    case 'reset':
+      db_query("UPDATE {search_dataset} SET reindex = %d WHERE type = 'node'", time());
+      return;
+
+    case 'status':
+      $total = db_result(db_query('SELECT COUNT(*) FROM {node} WHERE status = 1'));
+      $remaining = db_result(db_query("SELECT COUNT(*) FROM {node} n LEFT JOIN {search_dataset} d ON d.type = 'node' AND d.sid = n.nid WHERE n.status = 1 AND d.sid IS NULL OR d.reindex <> 0"));
+      return array('remaining' => $remaining, 'total' => $total);
+
+    case 'admin':
+      $path = drupal_get_path('module', 'search_ranking');
+      drupal_add_js($path .'/search_ranking.admin.js', 'module');
+      drupal_add_css($path .'/search_ranking.admin.css', 'module');
+      
+      $form = array();
+      // Output form for defining rank factor weights.
+      $form['search_ranking'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Content ranking'),
+        '#attributes' => array('id' => 'search_ranking'),
+      );
+      $form['search_ranking']['#theme'] = 'node_search_admin';
+      $form['search_ranking']['info'] = array(
+        '#value' => '<em>' . t('The following numbers control which properties the content search should favor when ordering the results. Higher numbers mean more influence, zero means the property is ignored. Changing these numbers does not require the search index to be rebuilt. Changes take effect immediately. To disable any factor, set its value to 0 and it will not be included in the search query.') . '</em>'
+      );
+      
+      $form['search_ranking']['notice'] = array(
+        '#type' => 'markup',
+        '#value' => '<div id="search_ranking_notice" class="warning"><span class="warning">*</span> '. t("Changes to search ranking settings will not be saved until the <em>Save configuration</em> button is clicked") .'</div>',
+        '#weight' => -1,
+      );
+      
+      // Note: reversed to reflect that higher number = higher ranking.
+      $options = drupal_map_assoc(range(0, 10));
+      foreach (module_invoke_all('ranking') as $var => $values) {
+        $form['search_ranking']['factors']['node_rank_'. $var] = array(
+          '#title' => $values['title'],
+          '#type' => 'select',
+          '#options' => $options,
+          '#default_value' => variable_get('node_rank_'. $var, 0),
+        );
+      }
+      
+      $form['test_results'] = array(
+        '#title' => t('Test Search Ranking'),
+        '#type' => 'fieldset',
+      );
+      $form['test_results']['sample_search'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Keywords'),
+      );
+      $form['test_results']['sample_search_submit'] = array(
+        '#type' => 'button',
+        '#value' => t('Test search results'),
+        '#ahah' => array(
+          'event' => 'click',
+          'path' => 'search_ranking/js',
+          'wrapper' => 'search-results',
+          'method' => 'replace',
+          'effect' => 'fade'
+        ),
+        '#suffix' => '<div id="search-results"></div>',
+      );
+      
+      return $form;
+
+    case 'search':
+      // Build matching conditions
+      list($join1, $where1) = _db_rewrite_sql();
+      $arguments1 = array();
+      $conditions1 = 'n.status = 1';
+
+      if ($type = search_query_extract($keys, 'type')) {
+        $types = array();
+        foreach (explode(',', $type) as $t) {
+          $types[] = "n.type = '%s'";
+          $arguments1[] = $t;
+        }
+        $conditions1 .= ' AND (' . implode(' OR ', $types) . ')';
+        $keys = search_query_insert($keys, 'type');
+      }
+
+      if ($category = search_query_extract($keys, 'category')) {
+        $categories = array();
+        foreach (explode(',', $category) as $c) {
+          $categories[] = "tn.tid = %d";
+          $arguments1[] = $c;
+        }
+        $conditions1 .= ' AND (' . implode(' OR ', $categories) . ')';
+        $join1 .= ' INNER JOIN {term_node} tn ON n.vid = tn.vid';
+        $keys = search_query_insert($keys, 'category');
+      }
+
+      if ($languages = search_query_extract($keys, 'language')) {
+        $categories = array();
+        foreach (explode(',', $languages) as $l) {
+          $categories[] = "n.language = '%s'";
+          $arguments1[] = $l;
+        }
+        $conditions1 .= ' AND (' . implode(' OR ', $categories) . ')';
+        $keys = search_query_insert($keys, 'language');
+      }
+
+      // Get the ranking expressions.
+      $rankings = _search_ranking_rankings();
+
+      // When all search factors are disabled (ie they have a weight of zero),
+      // the default score is based only on keyword relevance.
+      if ($rankings['total'] == 0) {
+        $total = 1;
+        $arguments2 = array();
+        $join2 = '';
+        $select2 = 'i.relevance AS score';
+      }
+      else {
+        $total = $rankings['total'];
+        $arguments2 = $rankings['arguments'];
+        $join1 = implode(' ', $rankings['join']);
+        $join2 = '';
+        $select2 = '('. implode(' + ', $rankings['score']) .') AS score';
+        // $conditions1 .= ' AND ('. implode($rankings['where']) .')';
+      }
+
+      // Do search.
+      $find = do_search($keys, 'node', 'INNER JOIN {node} n ON n.nid = i.sid ' . $join1 . ' INNER JOIN {users} u ON n.uid = u.uid', $conditions1 . (empty($where1) ? '' : ' AND ' . $where1), $arguments1, $select2, $join2, $arguments2);
+      // Load results.
+      $results = array();
+      foreach ($find as $item) {
+        // Build the node body.
+        $node = node_load($item->sid);
+        $node->build_mode = NODE_BUILD_SEARCH_RESULT;
+        $node = node_build_content($node, FALSE, FALSE);
+        $node->body = drupal_render($node->content);
+
+        // Fetch comments for snippet.
+        $node->body .= module_invoke('comment', 'nodeapi', $node, 'update index');
+        // Fetch terms for snippet.
+        $node->body .= module_invoke('taxonomy', 'nodeapi', $node, 'update index');
+
+        $extra = node_invoke_nodeapi($node, 'search result');
+
+        $results[] = array(
+          'link' => url('node/' . $item->sid, array('absolute' => TRUE)),
+          'type' => check_plain(node_get_types('name', $node)),
+          'title' => $node->title,
+          'user' => theme('username', $node),
+          'date' => $node->changed,
+          'node' => $node,
+          'extra' => $extra,
+          'score' => $total ? ($item->score / $total) : 0,
+          'snippet' => search_excerpt($keys, $node->body),
+        );
+      }
+      return $results;
+  }
+}
+
+/**
+ * Implementation of hook_cron().
+ *
+ * Store the timestamp of the oldest node for recency normalization.
+ */
+function search_ranking_cron() {
+  $oldest_time = db_result(db_query_range("SELECT changed FROM {node} ORDER BY changed ASC", 0, 1));
+  variable_set('node_rank_recent_oldest_time', $oldest_time);
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ *
+ * Tally internal links for search ranking factor.
+ */
+function search_ranking_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if ($op == 'update index') {
+    // If internal links ranking is turned on then we keep track of links counts.
+    if (variable_get('node_rank_links', '0') > 0) {
+      // Count the number of links pointing to the node being indexed.
+      $query = db_query("SELECT COUNT(*) links FROM {search_node_links} WHERE type = 'node' AND nid = %d", $node->nid);
+      $count = db_result($query);
+      // Update totals.
+      if ($count) {
+        $query = db_query("UPDATE {search_node_links_totals} SET count = %d WHERE type = 'node' AND sid = %d", $count, $node->nid);
+        if (!db_affected_rows()) {
+          db_query("INSERT INTO {search_node_links_totals} (sid, type, count) VALUES (%d, 'node', %d)", $node->nid, $count);
+        }
+      }
+      else {
+        db_query("DELETE FROM {search_node_links_totals} WHERE sid = %d AND type = 'node'", $node->nid);
+      }
+    }
+  }
+}
+
+
+/**
+ * Implementation of hook_ranking().
+ */
+function search_ranking_ranking() {
+  // Create the ranking array and add the basic ranking options.
+  $oldest_time = variable_get('node_rank_recent_oldest_time', 0);
+  $ranking = array(
+    'relevance' => array(
+      'title' => t('Keyword relevance'),
+      'score' => 'i.relevance',
+    ),
+    'sticky' => array(
+      'title' => t('Node is Sticky'),
+      'score' => 'n.sticky',
+    ),
+    'promote' => array(
+      'title' => t('Node is Promoted'),
+      'score' => 'n.promote',
+    ),
+    'recent' => array(
+      'title' => t('Recently posted'),
+      'score' => 'POW(2.718, -5 * (1 - (n.changed - %d) / %d))',
+      'arguments' => array(
+        $oldest_time,
+        time() - $oldest_time
+      ),
+    ),
+    'links' => array(
+      'title' => t('Incoming Links (Requires re-indexing site.)'),
+      'score' => '2.0 - 2.0 / (1.0 + search_node_links_totals.count)',
+      'join' => 'LEFT JOIN {search_node_links_totals} search_node_links_totals ON search_node_links_totals.sid = i.sid',
+    ),
+  );
+  
+  if (module_exists('comment')) {
+    include('search_ranking.comment.inc');
+  }
+  if (module_exists('statistics') && variable_get('statistics_count_content_views', 0)) {
+    include('search_ranking.statistics.inc');
+  }
+  return $ranking;
+}
+
+
+/**
+ * Combine all of the rankings for use in the SQL query.
+ */
+function _search_ranking_rankings() {
+  $rankings = array(
+    'total' => 0, 'join' => array(), 'score' => array(), 'args' => array(), 'where' => array()
+  );
+  if ($ranking = module_invoke_all('ranking')) {
+    foreach ($ranking as $rank => $values) {
+      if ($node_rank = variable_get('node_rank_'. $rank, 0)) {
+        // if the join doesn't already exist, add it
+        if (isset($values['join']) && !isset($rankings['join'][$values['join']])) {
+          $rankings['join'][$values['join']] = $values['join'];
+        }
+
+        // add the weighted score multiplier value, handle NULL gracefully
+        $rankings['score'][] = '%f * COALESCE(('. $values['score'] .'), 0)';
+
+        // add the the weighted score multiplier value
+        $rankings['total'] += $node_rank;
+        $rankings['arguments'][] = $node_rank;
+        
+        // add the other terms
+        if (isset($values['arguments'])) {
+          $rankings['arguments'] = array_merge($rankings['arguments'], $values['arguments']);
+        }
+      }
+    }
+  }
+  return $rankings;
+}
+
+/**
+* Menu callback.
+*/
+function search_ranking_js() {
+  $factors = array();
+  foreach ($_POST as $key => $value) {
+   if (strpos($key, 'node_rank_') === 0) {
+     $factors[$key] = $value;
+   }
+  }
+  $old_conf = $GLOBALS['conf'];
+  foreach ($factors as $key => $value) {
+   $GLOBALS['conf'][$key] = $value;
+  }
+  // Sample search for word from search index.
+  // ORDER BY word DESC so that we don't try to search for a number in the index.
+  $search = check_plain($_POST['sample_search']);
+  
+  $old_path = $_GET['q'];
+  menu_set_active_item('search/node/' . trim($search));
+  $keys = search_get_keys();
+  $results = search_data($keys, 'search_ranking');
+  if ($results) {
+   $results = theme('box', t('Search results'), $results);
+  }
+  else {
+   $results = theme('box', t('Your search yielded no results'), search_help('search#noresults', drupal_help_arg()));
+  }
+  menu_set_active_item($old_path);
+  $GLOBALS['conf'] = $old_conf;
+  drupal_json(array('status' => TRUE, 'data' => t('Sample search for %name: !results', array('%name' => $search, '!results' => $results))));
+}

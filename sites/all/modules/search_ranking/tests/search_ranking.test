@@ -1,0 +1,98 @@
+<?php
+// $Id: search_ranking.test,v 1.14 2008/07/13 21:58:29 blucches Exp $
+
+/**
+ * @file
+ * Base testing class for search ranking.  Each ranking factor implementation
+ * should extend this class and implement their own test functions.
+ */
+class SearchRankingTest extends DrupalWebTestCase {
+  
+  // Store an array of the created nodes for use in test functions.
+  var $nodes = array();
+  // Generic search query based on the base class's createNodes content.
+  var $keys = 'test';
+  
+  /**
+   * Implementation setUp().
+   *
+   * We handle the installation of additional modules so that other modules
+   * can cleanly extend our SearchRanking test class.
+   */
+  function setUp() {
+    parent::setUp();
+    $core = array('search', 'search_ranking', 'statistics', 'comment');
+    $install = array_unique(array_merge(func_get_args(), $core));
+    drupal_install_modules($install);
+    $this->createNodes();
+    $this->cronIndex();
+  }
+
+  /**
+   * Create a set of 20 identical nodes and add them to the search index.
+   */
+  function createNodes() {
+    // Create 20 identical nodes
+    $edit['title']  = 'SimpleTest test node title!';
+    $edit['body']   = 'SimpleTest test body!';
+    for ($i = 1; $i <21; $i++) {
+      $this->nodes[] = $this->drupalCreateNode($edit);
+    }
+  }
+
+  /**
+   * Run a fake cron job that indexes all the nodes.
+   */
+  function cronIndex() {
+    module_invoke_all('update_index');
+    search_update_totals();
+  }
+
+  /**
+   * Perform a search on the search index.
+   */
+  function searchNodes($keys) {
+    $results = module_invoke('search_ranking', 'search', 'search', $keys);
+    return $results;
+  }
+
+  /**
+   * Test that each of the hook_ranking() implementations returns desired results.
+   *
+   * @param $ranking string
+   * Which ranking factor is being tested.
+   *
+   * @param $nodes array
+   * A keyed array of node ids with node objects in order of expected result
+   * listing. array('3' => $node3, '5' => $node5)
+   *
+   * @param $keys string
+   * A string with search terms.
+   */
+  final function assertRanking($ranking, $nodes, $keys) {
+    $i = 0;
+    $results = search_ranking_search('search', $keys);
+    foreach ($nodes as $node) {
+      $this->assertEqual($results[$i]['node']->nid, $node->nid, t('Ranking factor: @ranking. Node @nid ranked correctly at: #@position.', array('@ranking' => $ranking, '@nid' => $node->nid, '@position' => $i + 1)));
+      $i++;
+    }
+  }
+  
+  /**
+   * Test that a particular node is not ranking at the top.  Use this to make
+   * sure that changing the ranking factor isn't resulting in a false positive.
+   *
+   * @param $ranking string
+   * The ranking factor being tested.
+   *
+   * @param $nid int
+   * Node id of the node being tested.
+   *
+   * @param $keys string
+   * A string with search terms.
+   */
+  final function assertNotFirst($ranking, $nid, $keys) {
+    $results = search_ranking_search('search', $keys);
+    $this->assertNotEqual($results[0]['node']->nid, $nid, t('Ranking factor: @ranking. Node @nid is not ranked at the top.', array('@ranking' => $ranking, '@nid' => $nid)));
+  }
+}

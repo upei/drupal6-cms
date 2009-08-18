@@ -1,0 +1,50 @@
+<?php
+// $Id: search_ranking_statistics.test,v 1.1 2008/08/10 07:13:59 blucches Exp $
+
+/**
+ * Tests that the statistics nodes ranking modifier brings nodes with the visits to the top of results.
+ */
+class SearchRankingStatistics extends SearchRankingTest {
+  
+  /**
+   * Implementation of getInfo().
+   */
+  function getInfo() {
+    return array(
+      'name' => t('Search Ranking: Statistics'),
+      'description' => t('Tests that the statistics nodes ranking modifier brings nodes with the most visits to the top of results.'),
+      'group' => t('Search'),
+    );
+  }
+  
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp('statistics');
+  }
+  
+  /**
+   * Sticky nodes should rank higher now.
+   */
+  function testStatistics() {
+    $ranking = 'Node Visits';
+    
+    // Test nodes to be modified are not currently #1
+    variable_set('node_rank_statistics', 0);
+    $this->assertNotFirst($ranking, $this->nodes[5]->nid, $this->keys);
+    $this->assertNotFirst($ranking, $this->nodes[12]->nid, $this->keys);
+    
+    variable_set('statistics_count_content_views', 1);
+    variable_set('statistics_enable_access_log', 1);
+    
+    $this->drupalGet('node/'. $this->nodes[5]->nid);
+    
+    $this->drupalGet('node/'. $this->nodes[12]->nid);    
+    $this->drupalGet('node/'. $this->nodes[12]->nid);
+    
+    variable_set('node_rank_statistics', 5);
+    $this->assertRanking($ranking, array($this->nodes[12], $this->nodes[5]), $this->keys);
+    variable_set('node_rank_statistics', 0);
+  }
+}

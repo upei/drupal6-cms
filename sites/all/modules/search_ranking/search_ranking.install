@@ -1,0 +1,44 @@
+<?php
+
+// $Id: search_ranking.install,v 1.4 2008/08/22 07:05:18 blucches Exp $
+
+
+function search_ranking_install() {
+  drupal_install_schema('search_ranking');
+}
+
+function search_ranking_uninstall() {
+  drupal_uninstall_schema('search_ranking');
+}
+
+function search_ranking_schema() {
+  $schema['search_node_links_totals'] = array(
+    'description' => t('Stores a count of inbound links used to alter the search score rankings.'),
+    'fields' => array(
+      'sid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('The {search_dataset}.sid of the searchable item containing the link to the node.'),
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 16,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => t('The {search_dataset}.type of the searchable item containing the link to the node.'),
+      ),
+      'count' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('The number of links that point to the node, {search_dataset}.sid'),
+      ),
+    ),
+    'primary key' => array('sid'),
+    'indexes' => array('sid' => array('sid'), 'type' => array('type')),
+  );
+  return $schema;
+}

@@ -1,0 +1,73 @@
+<?php
+// $Id: search_ranking_comments.test,v 1.2 2008/08/10 07:29:49 blucches Exp $
+
+/**
+ * Tests that the comments nodes ranking modifier brings nodes with the most comments to the top of results.
+ */
+class SearchRankingComments extends SearchRankingTest {
+  
+  /**
+   * Implementation of getInfo().
+   */
+  function getInfo() {
+    return array(
+      'name' => t('Search Ranking: Comments'),
+      'description' => t('Tests that the comments nodes ranking modifier brings nodes with the most comments to the top of results.'),
+      'group' => t('Search'),
+    );
+  }
+  
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp('comment');
+  }
+  
+
+  /**
+   * Sticky nodes should rank higher now.
+   */
+  function testComments() {
+    $ranking = 'Comments';
+    
+    // Test nodes to be modified are not currently #1
+    variable_set('node_rank_comments', 0);
+    $this->assertNotFirst($ranking, $this->nodes[5]->nid, $this->keys);
+    $this->assertNotFirst($ranking, $this->nodes[12]->nid, $this->keys);
+    
+    // Setup comment array for saving.
+    $edit = array(
+      'nid' => $this->nodes[5]->nid,
+      'subject' => 'comment subject',
+      'comment' => 'comment content',
+      'uid' => 1,
+      'pid' => 0,
+      'format' => 1,
+      'cid' => 0,
+      'status' => COMMENT_PUBLISHED,
+    );
+    
+    // Save node 5 comment.
+    comment_save($edit);
+    
+    // Save node 12 comments.
+    $edit['nid'] = $this->nodes[12]->nid;
+    comment_save($edit);
+    comment_save($edit);
+    
+    // Run cron to make sure comments are indexed during search test.
+    variable_set('node_rank_comments', 5);
+    $this->cronIndex();
+    $this->assertRanking($ranking, array($this->nodes[12], $this->nodes[5]), $this->keys);
+    
+    // Test again with node 5 having more comments.
+    $edit['nid'] = $this->nodes[5]->nid;
+    comment_save($edit);
+    comment_save($edit);
+    
+    $this->cronIndex();
+    $this->assertRanking($ranking, array($this->nodes[5], $this->nodes[12]), $this->keys);
+    variable_set('node_rank_comments', 0);
+  }
+}

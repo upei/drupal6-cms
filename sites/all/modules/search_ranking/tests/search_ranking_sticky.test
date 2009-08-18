@@ -1,0 +1,42 @@
+<?php
+// $Id: search_ranking_sticky.test,v 1.3 2008/08/10 07:12:57 blucches Exp $
+
+/**
+ * Tests that the sticky nodes ranking modifier brings promoted nodes to the top of results.
+ */
+class SearchRankingSticky extends SearchRankingTest {
+  
+  /**
+   * Implementation of getInfo().
+   */
+  function getInfo() {
+    return array(
+      'name' => t('Search Ranking: Sticky'),
+      'description' => t('Tests that the sticky nodes ranking modifier brings promoted nodes to the top of results.'),
+      'group' => t('Search'),
+    );
+  }
+  
+  /**
+   * Sticky nodes should rank higher now.
+   */
+  function testSticky() {
+    $ranking = 'Node Sticky';
+    
+    // Test nodes to be modified are not currently #1
+    variable_set('node_rank_sticky', 0);
+    $this->assertNotFirst($ranking, $this->nodes[5]->nid, $this->keys);
+    $this->assertNotFirst($ranking, $this->nodes[12]->nid, $this->keys);
+    
+    // Adjust ranking factor and node metrics and test results
+    $this->nodes[5]->sticky = 1;
+    node_save($this->nodes[5]);
+    
+    $this->nodes[12]->sticky = 1;
+    node_save($this->nodes[12]);
+    
+    variable_set('node_rank_sticky', 5);
+    $this->assertRanking($ranking, array($this->nodes[12], $this->nodes[5]), $this->keys);
+    variable_set('node_rank_sticky', 0);
+  }
+}

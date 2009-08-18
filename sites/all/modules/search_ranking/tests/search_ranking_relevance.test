@@ -1,0 +1,46 @@
+<?php
+// $Id: search_ranking_relevance.test,v 1.4 2008/08/10 07:12:57 blucches Exp $
+
+/**
+ * Tests keyword relevance ranking.
+ */
+class SearchRankingRelevance extends SearchRankingTest {
+  
+  /**
+   * Implementation of getInfo().
+   */
+  function getInfo() {
+    return array(
+      'name' => t('Search Ranking: Relevance'),
+      'description' => t('Tests keyword relevance ranking.'),
+      'group' => t('Search'),
+    );
+  }
+  
+  /**
+   * Promoted nodes should rank higher now.
+   */
+  function testRelevance() {
+    $ranking = 'Keyword Relevance';
+    
+    // Test nodes to be modified are not currently #1
+    variable_set('node_rank_relevance', 0);
+    $this->assertNotFirst($ranking, $this->nodes[12]->nid, $this->keys);
+    $this->assertNotFirst($ranking, $this->nodes[15]->nid, $this->keys);
+    
+    // Adjust ranking factor and node metrics and test results
+    $this->nodes[12]->body .= ' test debug test';
+    node_save($this->nodes[12]);
+    
+    $this->nodes[15]->body .= ' test test test';
+    node_save($this->nodes[15]);
+    
+    node_load(null, null, true);
+        
+    $this->cronIndex();
+    
+    variable_set('node_rank_relevance', 5);
+    $this->assertRanking($ranking, array($this->nodes[15], $this->nodes[12]), $this->keys);
+    variable_set('node_rank_relevance', 0);
+  }
+}

@@ -1,0 +1,11 @@
+; $Id: search_ranking.info,v 1.4 2008/06/28 03:39:09 blucches Exp $
+name = Search ranking
+description = "Adds a new search tab to search page that includes node ranking factors in result ordering."
+core = 6.x
+dependencies[] = search
+; Information added by drupal.org packaging script on 2008-09-03
+version = "6.x-1.4"
+core = "6.x"
+project = "search_ranking"
+datestamp = "1220458232"
+

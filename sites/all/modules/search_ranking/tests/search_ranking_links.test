@@ -1,0 +1,57 @@
+<?php
+// $Id: search_ranking_links.test,v 1.1 2008/09/03 16:03:48 blucches Exp $
+
+/**
+ * Tests that nodes with the most incoming links are ranked higher in search results.
+ */
+class SearchRankingLinks extends SearchRankingTest {
+  
+  /**
+   * Implementation of getInfo().
+   */
+  function getInfo() {
+    return array(
+      'name' => t('Search Ranking: Links'),
+      'description' => t('Tests that nodes with the most incoming links are ranked higher in search results.'),
+      'group' => t('Search'),
+    );
+  }
+  
+  /**
+   * Sticky nodes should rank higher now.
+   */
+  function testLinks() {
+    global $base_url;
+    $ranking = 'Links';
+    
+    // Test nodes to be modified are not currently #1
+    variable_set('node_rank_links', 0);
+    $this->assertNotFirst($ranking, $this->nodes[5]->nid, $this->keys);
+    $this->assertNotFirst($ranking, $this->nodes[12]->nid, $this->keys);
+    
+    // Remember we are scoring nodes who have links pointing to them higher, not nodes with links inside the body.
+    $this->nodes[17]->body .= ' '. l('Node link', $base_url .'/node/'. $this->nodes[12]->nid);
+    $this->nodes[17]->format = 1;
+    
+    $this->nodes[15]->body .= ' '. l('Second link', $base_url .'/node/'. $this->nodes[12]->nid);
+    $this->nodes[15]->format = 1;
+    
+    $this->nodes[10]->body .= ' '. l('Third link', $base_url .'/node/'. $this->nodes[5]->nid);
+    $this->nodes[10]->format = 1;
+    
+    node_save($this->nodes[17]);
+    node_save($this->nodes[15]);
+    node_save($this->nodes[10]);
+    
+    node_load($this->nodes[10], null, true);
+    
+    // Run cron to make sure comments are indexed during search test.
+    variable_set('node_rank_links', 5);
+
+    $this->cronIndex();
+    $this->cronIndex();
+    
+    $this->assertRanking($ranking, array($this->nodes[12], $this->nodes[5]), $this->keys);
+    variable_set('node_rank_links', 0);
+  }
+}
