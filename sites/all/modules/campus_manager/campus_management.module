@@ -312,6 +312,8 @@ function campus_management_filter($op, $delta = 0, $format = -1, $text = '', $ca
 }
 
 function campus_management_theme_registry_alter(&$reg) {
+  global $theme;
+  if (preg_match("/sunshine($|_)/", $theme)) {
   foreach (array_keys($reg) as $key) {
     if (!array_key_exists(drupal_get_path('theme', 'sunshine'), $reg[$key]['theme paths'])) {
       $reg[$key]['theme paths'][] = drupal_get_path('theme', 'sunshine');
@@ -320,14 +322,6 @@ function campus_management_theme_registry_alter(&$reg) {
       $reg[$key]['theme paths'][] = path_to_theme();
     }
   }
+  }
 }
 
-// form alter for og audience name
-function campus_management_form_node_alter(&$form, $form_state, $form_id) {
-  if ($form['og_nodeapi']['visible']['og_groups_visible']) {
-    $form['og_nodeapi']['visible']['og_groups_visible']['#title'] = t('Groups');
-  }
-  if ($form['og_nodeapi']['visible']['og_groups']) {
-    $form['og_nodeapi']['visible']['og_groups']['#title'] = t('Groups');
-  }
-}

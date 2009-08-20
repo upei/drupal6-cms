@@ -1,7 +1,17 @@
 /*styles for the buttons links at the top of the page*/
 .view-buttons img{margin:0px;padding:0px;float:left;}
 .view-buttons .views-field-field-buttonimage-fid{float:left;margin-right:5px;}
-.view-buttons .views-field-field-buttonlink-url{text-decoration:underline;font-size:0.8em;font-weight:bold;margin-top:5px;}
+.view-buttons .views-field-field-buttonlink-url{
+  text-decoration:underline;
+  font-size:0.8em;
+  font-weight:bold;
+  margin-top:5px;
+  margin-right:5px;
+  width:80px;
+  float:right;
+  text-align:center;
+}
+
 .view-buttons .views-row-odd,.view-buttons .views-row-even{
     padding:5px 5px 1px 5px;
     margin:5px 1px 0px 4px;
@@ -11,3 +21,4 @@
     height:29px;
     background: url("../images/buttonback.png") no-repeat;
  }
+

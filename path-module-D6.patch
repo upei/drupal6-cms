@@ -1,0 +1,26 @@
+diff --git a/modules/path/path.module b/modules/path/path.module
+index 5c66e06..045b72a 100644
+--- a/modules/path/path.module
++++ b/modules/path/path.module
+@@ -97,17 +97,18 @@ function path_set_alias($path = NULL, $alias = NULL, $pid = NULL, $language = ''
+     }
+     else {
+       // Update the existing alias.
+-      db_query("UPDATE {url_alias} SET src = '%s', dst = '%s', language = '%s' WHERE pid = %d", $path, $alias, $language, $pid);
++      db_query("UPDATE {url_alias} SET src = '%s', dst = '%s' WHERE pid = %d AND language = '%s'", $path, $alias, $pid, $language);
+     }
+   }
+   else if ($path && $alias) {
+     // Check for existing aliases.
+     if ($alias == drupal_get_path_alias($path, $language)) {
+       // There is already such an alias, neutral or in this language.
+-      // Update the alias based on alias; setting the language if not yet done.
+-      db_query("UPDATE {url_alias} SET src = '%s', dst = '%s', language = '%s' WHERE dst = '%s'", $path, $alias, $language, $alias);
++      db_query("UPDATE {url_alias} SET src = '%s' WHERE dst = '%s' AND language = '%s'", $path, $alias, $language);
+     }
+     else {
++      // Ensure that no similar aliases exist.
++      db_query("DELETE FROM {url_alias} WHERE dst = '%s' AND language = '%s'", $alias, $language);
+       // A new alias. Add it to the database.
+       db_query("INSERT INTO {url_alias} (src, dst, language) VALUES ('%s', '%s', '%s')", $path, $alias, $language);
+     }
