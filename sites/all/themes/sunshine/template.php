@@ -1,5 +1,19 @@
 <?php
 // $Id$
+//
+function sunshine_theme(&$reg, $type, $theme, $path) {
+  if (preg_match("/sunshine($|_)/", $theme)) {
+    foreach (array_keys($reg) as $key) {
+      if (!array_key_exists(drupal_get_path('theme', 'sunshine'), $reg[$key]['theme paths'])) {
+        $reg[$key]['theme paths'][] = drupal_get_path('theme', 'sunshine');
+      }   
+      if (!array_key_exists(path_to_theme(), $reg[$key]['theme paths'])) {
+        $reg[$key]['theme paths'][] = path_to_theme();
+      }   
+    }
+  }
+  return array();
+}
 
 function sunshine_build_css_cache($css_files) {
   $data = '';
