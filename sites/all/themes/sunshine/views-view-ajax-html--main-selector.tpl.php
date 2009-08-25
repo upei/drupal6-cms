@@ -56,7 +56,7 @@ $(function() {
   </ul>
 
   <div class="front-image" style="background-image:url(<?=$first['image-url']?>);">
-    <div class="front-image-hover" style="background-image:url(http://cms.upei.ca/misc/pic/swoosh.png);">
+    <div class="front-image-hover" style="background-image:url(<?=$first['swoosh-url']?>);">
       <div class="front-image-content">
         <h2 class="front-image-text"><?=$first['link-title']?></h2>
         <div class="front-image-description"><?=$first['body']?></div>

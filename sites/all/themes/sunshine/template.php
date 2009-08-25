@@ -285,3 +285,9 @@ case 'news':
 }
 /* END */
 
+function sunshine_preprocess_block(&$vars) {
+  $subject = db_result(db_query("SELECT title from {blocks} where bid=%d", $vars['block']->bid));
+  if($subject) {
+    $vars['block']->subject = $subject;
+  }
+}
