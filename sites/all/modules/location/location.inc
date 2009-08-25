@@ -1,5 +1,5 @@
 <?php
-// $Id: location.inc,v 1.95.2.1 2009/01/09 17:34:39 bdragon Exp $
+// $Id: location.inc,v 1.95.2.3 2009/07/08 20:53:22 bdragon Exp $
 
 /**
  * @defgroup Location Location: An API for working with locations.
@@ -37,7 +37,7 @@ include_once drupal_get_path('module', 'location') .'/earth.inc';
  * @ingroup Location
  */
 function location_map_link($location = array(), $link_text = 'See map: ') {
-  if (!isset($location['country']) && $location['country'] != 'xx') {
+  if (!isset($location['country']) || $location['country'] == 'xx') {
     return '';
   }
 
@@ -94,6 +94,7 @@ function location_get_postalcode_data($location = array()) {
   if (is_null($location['postal_code']) || is_null($location['country']) || empty($location['country']) || empty($location['postal_code']) || $location['postal_code'] == 'xx') {
     return NULL;
   }
+  location_load_country($location['country']);
   $country_specific_function = 'location_get_postalcode_data_'. $location['country'];
   if (function_exists($country_specific_function)) {
     return $country_specific_function($location);
