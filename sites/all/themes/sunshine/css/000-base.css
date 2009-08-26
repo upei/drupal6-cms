@@ -92,3 +92,5 @@ div.sections {
 div.section {
   float: left;
 }
+
+.filefield-element .widget-edit, .filefield-element .widget-preview { float: none; }
