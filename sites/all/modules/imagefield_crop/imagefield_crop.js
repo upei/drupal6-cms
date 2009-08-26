@@ -5,57 +5,49 @@ Drupal.behaviors.imagefield_crop = function (context) {
   setTimeout(attachJcrop, 1000, context);
 
   function attachJcrop(context) {
-    if ($('#cropbox', context).length == 0) {
+    if ($('.cropbox', context).length == 0) {
       // no cropbox, probably an image upload (http://drupal.org/node/366296)
       return;
     }
-    var api = $.Jcrop($('#cropbox', context), {
-      onChange: showPreview, 
-      onSelect: setCoords,
-      aspectRatio: Drupal.settings.imagefield_crop.ratio,
-      boxWidth: Drupal.settings.imagefield_crop.box_width,
-      boxHeight: Drupal.settings.imagefield_crop.box_height
-      //    setSelect: getDimensions()
-    });   
-    var dim = getDimensions();
-    api.animateTo(dim);
-  };
-  
-  
-  function setCoords(c) {
-    setDimensions(c.x, c.y, c.w, c.h);
-  };
-  
-  function showPreview(c) {
-    
-    var rx = Drupal.settings.imagefield_crop.preview.width / c.w;
-    var ry = Drupal.settings.imagefield_crop.preview.height / c.h;
-    
-    $('.jcrop-preview', context).css({
-      width: Math.round(rx * Drupal.settings.imagefield_crop.preview.orig_width) + 'px',
-      height: Math.round(ry * Drupal.settings.imagefield_crop.preview.orig_height) + 'px',
-      marginLeft: '-' + Math.round(rx * c.x) + 'px',
-      marginTop: '-' + Math.round(ry * c.y) + 'px'
+    var api = $('.cropbox', context).each(function() {
+      var self = $(this);
+      var src = self.attr('src');
+      if (src.indexOf('?') > 0) {
+        src = src.substring(0, src.indexOf('?'));
+      }
+      var widget = self.parent().parent();
+      $(this).Jcrop({
+        onChange: function(c) {
+          var preview = self.parent().parent().parent().find('.widget-preview');
+          var rx = Drupal.settings.imagefield_crop.preview[src].width / c.w;
+          var ry = Drupal.settings.imagefield_crop.preview[src].height / c.h;
+          $('.jcrop-preview', preview).css({
+            width: Math.round(rx * Drupal.settings.imagefield_crop.preview[src].orig_width) + 'px',
+            height: Math.round(ry * Drupal.settings.imagefield_crop.preview[src].orig_height) + 'px',
+            marginLeft: '-' + Math.round(rx * c.x) + 'px',
+            marginTop: '-' + Math.round(ry * c.y) + 'px'
+          });
+        },
+        onSelect: function(c) {
+            $(".edit-image-crop-x", widget).val(c.x);
+            $(".edit-image-crop-y", widget).val(c.y);
+            if (c.w) $(".edit-image-crop-width", widget).val(c.w);
+            if (c.h) $(".edit-image-crop-height", widget).val(c.h);
+            $(".edit-image-crop-changed", widget).val(1);
+        },
+        aspectRatio: Drupal.settings.imagefield_crop.ratio,
+        boxWidth: Drupal.settings.imagefield_crop.box_width,
+        boxHeight: Drupal.settings.imagefield_crop.box_height,
+        setSelect: [
+          parseInt($(".edit-image-crop-x", widget).val()),
+          parseInt($(".edit-image-crop-y", widget).val()),
+          parseInt($(".edit-image-crop-width", widget).val()),
+          parseInt($(".edit-image-crop-height", widget).val())
+        ]
+      });
     });
-    
   };
   
-  // get select box dimensions from the form
-  function getDimensions() {
-    x =  parseInt($(".edit-image-crop-x", context).val()); 
-    y =  parseInt($(".edit-image-crop-y", context).val());
-    w =  parseInt($(".edit-image-crop-width", context).val());
-    h =  parseInt($(".edit-image-crop-height", context).val());
-    return [x, y, x+w, y+h];
-  };
-  
-  function setDimensions(x, y, w, h) {
-    $(".edit-image-crop-x", context).val(x);
-    $(".edit-image-crop-y", context).val(y);
-    if (w) $(".edit-image-crop-width", context).val(w);
-    if (h) $(".edit-image-crop-height", context).val(h);
-    $(".edit-image-crop-changed", context).val(1);
-  };
 };
 
 

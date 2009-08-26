@@ -231,7 +231,7 @@ function imagefield_crop_widget_validate($element) {
 
 function theme_imagefield_crop_cropbox($file = NULL, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE) {
   // REFACTOR: consider multiple images
-  $attributes = array_merge((array)$attributes + array('id' => 'cropbox'));
+  $attributes = array_merge((array)$attributes + array('class' => 'cropbox'));
   $output = theme('imagefield_image', $file, $alt, $title, $attributes, $getsize);
   $element = array(
     '#type' => 'element',
@@ -261,7 +261,8 @@ function theme_imagefield_crop_dynamic_preview($file, $resolution) {
     );
     // REFACTOR: Support multiple fields (i.e. add element delta to setting array)
     $output = '';
-    $output .= '<script type="text/javascript">Drupal.settings.imagefield_crop.preview = '. drupal_to_js($settings) .'</script>';
+    drupal_add_js('Drupal.settings.imagefield_crop.preview = {};', 'inline');
+    $output .= '<script type="text/javascript">Drupal.settings.imagefield_crop.preview["'.$url.'"] = '. drupal_to_js($settings) .'</script>';
     $output .= '<div class="jcrop-preview-wrapper" style="width:'. $width .'px;height:'. $height .'px;overflow:hidden;"><img src="'. check_url($url) .'" alt="'.
       check_plain($alt) .'" title="'. check_plain($title) .'" class="jcrop-preview" /></div>';
     return $output;
