@@ -35,9 +35,9 @@ Drupal.behaviors.imagefield_crop = function (context) {
             if (c.h) $(".edit-image-crop-height", widget).val(c.h);
             $(".edit-image-crop-changed", widget).val(1);
         },
-        aspectRatio: Drupal.settings.imagefield_crop.ratio,
-        boxWidth: Drupal.settings.imagefield_crop.box_width,
-        boxHeight: Drupal.settings.imagefield_crop.box_height,
+        aspectRatio: Drupal.settings.imagefield_crop.box[src].ratio,
+        boxWidth: Drupal.settings.imagefield_crop.box[src].box_width,
+        boxHeight: Drupal.settings.imagefield_crop.box[src].box_height,
         setSelect: [
           parseInt($(".edit-image-crop-x", widget).val()),
           parseInt($(".edit-image-crop-y", widget).val()),
