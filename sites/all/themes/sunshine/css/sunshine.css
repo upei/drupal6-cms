@@ -8,7 +8,7 @@ h1, h2, h3, h4, h5, h6 { color: #000; }
 fieldset.collapsible.collapsed { background-color: #ffe8c7; }
 
 /* 003 suckerfish */
-#suckerfishmenu { background-color: #ddd; -webkit-border-radius: 5px; -moz-border-radius: 5px; }
+#suckerfishmenu { background: url(../images/navbar.png) top left no-repeat transparent; -webkit-border-radius: 5px; -moz-border-radius: 5px; height: 25px; }
 #suckerfishmenu a { color: #000; }
 #suckerfishmenu a:hover { background-color: transparent; text-decoration: underline; }
 #suckerfishmenu .content > ul.menu ul { border: 1px solid #333; }
