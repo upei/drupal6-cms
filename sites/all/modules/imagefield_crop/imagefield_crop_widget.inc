@@ -188,9 +188,7 @@ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
       '#value' => theme('imagefield_crop_dynamic_preview', $crop_display, $field['widget']['resolution']),
     );
   
-  $url = file_create_url($crop_display['filepath']);
-    
-  if (!isset($added_js[$url])) {
+  if (!isset($added_js[$field['field_name']])) {
     // Add settings only once (for ahah).
     $settings = array(
       'ratio' => $ratio,
@@ -198,11 +196,12 @@ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
       'box_height' => (integer)$bheight,
     );
     $settings = array( 'box' => array(
-      $url => $settings,
-      )
+        $field['field_name'] => $settings,
+      ),
+      'preview' => array('fields' => $field['field_name']),
     );
     drupal_add_js(array('imagefield_crop' => $settings), 'setting');
-    $added_js[$url] = TRUE;
+    $added_js[$field['field_name']] = TRUE;
   }
 
   return $element;
@@ -270,11 +269,7 @@ function theme_imagefield_crop_dynamic_preview($file, $resolution) {
     // REFACTOR: Support multiple fields (i.e. add element delta to setting array)
     $output = '';
     if (!isset($added_js[$url])) {
-      $settings = array( 'preview' => array(
-        $url => $settings,
-        )
-      );
-      drupal_add_js(array('imagefield_crop' => $settings), 'setting');
+      $output .= "<script type='text/javascript'>Drupal.settings.imagefield_crop.preview['$url']=".drupal_to_js($settings)."</script>";
       $added_js[$url] = TRUE;
     }
     $output .= '<div class="jcrop-preview-wrapper" style="width:'. $width .'px;height:'. $height .'px;overflow:hidden;"><img src="'. check_url($url) .'" alt="'.

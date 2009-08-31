@@ -6,9 +6,9 @@
   border: 0;
 }
 .page-staff .node-person .right, .page-faculty .node-person .right { margin-left: 12px; }
-.view-staff .views-row-odd, .view-staff .views-row-even,
-  .view-faculty .views-row-odd, .view-faculty .views-row-even { width: 375px; float: left; }
-.view-staff .views-row-odd, .view-faculty .views-row-odd { clear: left; }
+#real-content .view-staff .views-row-odd, #real-content .view-staff .views-row-even,
+  #real-content .view-faculty .views-row-odd, #real-content .view-faculty .views-row-even { width: 375px; float: left; }
+#real-content .view-staff .views-row-odd, #real-content .view-faculty .views-row-odd { clear: left; }
 
 /* break 60em limit of .node .content */
 .node .view-staff { width: 750px; }

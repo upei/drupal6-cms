@@ -11,11 +11,17 @@ Drupal.behaviors.imagefield_crop = function (context) {
     }
     var api = $('.cropbox', context).each(function() {
       var self = $(this);
+      // get the src attribute for multiple image support
       var src = self.attr('src');
       if (src.indexOf('?') > 0) {
         src = src.substring(0, src.indexOf('?'));
       }
       var widget = self.parent().parent();
+      // get the name attribute for imagefield name
+      var field = widget.find('input[type=hidden]:first').attr('name');
+      if (field) {
+        field = field.substring(0, field.indexOf('['));
+      }
       $(this).Jcrop({
         onChange: function(c) {
           var preview = self.parent().parent().parent().find('.widget-preview');
@@ -35,9 +41,9 @@ Drupal.behaviors.imagefield_crop = function (context) {
             if (c.h) $(".edit-image-crop-height", widget).val(c.h);
             $(".edit-image-crop-changed", widget).val(1);
         },
-        aspectRatio: Drupal.settings.imagefield_crop.box[src].ratio,
-        boxWidth: Drupal.settings.imagefield_crop.box[src].box_width,
-        boxHeight: Drupal.settings.imagefield_crop.box[src].box_height,
+        aspectRatio: Drupal.settings.imagefield_crop.box[field].ratio,
+        boxWidth: Drupal.settings.imagefield_crop.box[field].box_width,
+        boxHeight: Drupal.settings.imagefield_crop.box[field].box_height,
         setSelect: [
           parseInt($(".edit-image-crop-x", widget).val()),
           parseInt($(".edit-image-crop-y", widget).val()),
