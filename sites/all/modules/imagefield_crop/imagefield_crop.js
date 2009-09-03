@@ -11,20 +11,26 @@ Drupal.behaviors.imagefield_crop = function (context) {
     }
     var api = $('.cropbox', context).each(function() {
       var self = $(this);
+
       // get the src attribute for multiple image support
       var src = self.attr('src');
       if (src.indexOf('?') > 0) {
         src = src.substring(0, src.indexOf('?'));
       }
-      var widget = self.parent().parent();
+
       // get the name attribute for imagefield name
+      var widget = self.parent().parent();
       var field = widget.find('input[type=hidden]:first').attr('name');
       if (field) {
         field = field.substring(0, field.indexOf('['));
       }
       $(this).Jcrop({
         onChange: function(c) {
-          var preview = self.parent().parent().parent().find('.widget-preview');
+          var preview = widget.parent().find('.widget-preview');
+          // skip newly added blank fields
+          if (undefined == Drupal.settings.imagefield_crop.preview[src]) {
+            return;
+          }
           var rx = Drupal.settings.imagefield_crop.preview[src].width / c.w;
           var ry = Drupal.settings.imagefield_crop.preview[src].height / c.h;
           $('.jcrop-preview', preview).css({
