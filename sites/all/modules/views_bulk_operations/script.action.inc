@@ -1,8 +1,8 @@
 <?php
-// $Id: script.action.inc,v 1.1.2.1 2009/02/12 23:09:49 kratib Exp $
+// $Id: script.action.inc,v 1.1.2.3 2009/07/23 07:22:40 kratib Exp $
 
 function views_bulk_operations_script_action_info() {
-  if (!user_access('administer site configuration')) return array();
+  if (!module_exists('actions_permissions') && !user_access('administer site configuration')) return array();
   return array('views_bulk_operations_script_action' => array(
     'type' => 'system',
     'description' => t('Execute arbitrary PHP script'),
@@ -11,7 +11,7 @@ function views_bulk_operations_script_action_info() {
 }
 
 function views_bulk_operations_script_action(&$object, $context) {
-  if (!user_access('administer site configuration')) {
+  if (!module_exists('actions_permissions') && !user_access('administer site configuration')) {
     global $user;
     $msg = 'An attempt to execute arbitrary PHP script action by user <a href="user/!uid">%user</a> was blocked because of lack of permission.';
     $arg = array('%user' => $user->name, '!uid' => $user->uid);
@@ -27,7 +27,7 @@ function views_bulk_operations_script_action_form($context) {
     '#type' => 'textarea',
     '#title' => t('PHP script'),
     '#description' => t('Type the PHP snippet that will run upon execution of this action. You can use variables <code>&$object</code> and <code>$context</code> in your snippet.
-                         Note that it is up to the script to save the node once it\'s done modifying it.'),
+                         Note that it is up to the script to save the object once it\'s done modifying it.'),
   );
   return $form;
 }

@@ -18,7 +18,7 @@
 #admin-panel .content {
   display: none;
   position: absolute;
-  z-index: 9;
+  z-index: 999;
   border: 1px solid #843434;
   background-color: #ffe8c7;
   padding: 6px;

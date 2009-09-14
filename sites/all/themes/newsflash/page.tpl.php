@@ -7,7 +7,7 @@
   <?php print $head ?>
   <?php print $styles ?>
 <link rel="stylesheet" type="text/css" href="<?php print base_path() . path_to_theme() ?>/css/general_style.css" />
-<?php  print _import_override_css_files(); ?>
+<?php  print _import_override_css_files(array(base_path() . drupal_get_path('theme', 'sunshine') . '/css/005-admin-navigation.css')); ?>
 <script type="text/javascript" src="/misc/swfobject.js"></script>
 
 <style type="text/css">
@@ -159,6 +159,7 @@ if($bucket == "wf"){
   <?php } ?>
 </head>
 <body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
+<?php include 'site-includes/00.010-administration-panel.php'; ?>
  <?php include "mods/google.php";?> 
   <div id="page">
     <div id="header" class="clear-block">

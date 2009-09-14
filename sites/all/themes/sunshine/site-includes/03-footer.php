@@ -12,7 +12,7 @@
 
 $date = date('Y');
 print "<br />University of Prince Edward Island, 550 University Avenue, Charlottetown, PE, Canada C1A 4P3<br />
-&copy; $date | University of Prince Edward Island | All Rights Reserved ";
+<!-- &copy; $date | University of Prince Edward Island | All Rights Reserved --> ";
 ?>		
 
 </div>
