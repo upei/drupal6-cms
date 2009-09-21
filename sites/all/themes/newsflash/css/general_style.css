@@ -304,7 +304,8 @@ border-bottom: 1px solid #ccc;
 {border-bottom:1px solid #cccccc;padding-bottom:10px;margin-bottom:10px;}
 .view-faculty .views-field-title a, .view-Faculty .views-field-title a, .view-staff .views-field-title a, .view-Staff .views-field-title a
 {margin-bottom:0px;padding:3px;font-size:16px;border-bottom:0px solid #aaa;font-weight:bold;text-decoration:underline;}
-.view-faculty .imagefield-field_faculty_photo{margin-top:3px;}
+.view-faculty .views-field-field-faculty-photo-fid{margin:3px 5px 0px 0px;}
+.view-faculty .views-field-field-faculty-photo-fid img{margin:0px 10px 0px 0px;}
 
 
 .view-faculty .views-field-teaser, .view-Faculty .views-field-teaser, .view-staff .views-field-teaser

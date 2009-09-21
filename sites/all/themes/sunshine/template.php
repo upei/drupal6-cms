@@ -213,6 +213,7 @@ $css_files = array(
   '910-tooltip.css',
   '911-event-timeline.css',
   '920-node.css',
+  '923-node-media.css',
   '925-node-person.css',
   '930-node-form.css',
   '990-misc.css',

@@ -1,0 +1,43 @@
+/* fields in left column */
+.node-media .left { float: left; width: 250px; }
+.node-media .right { float: right; width: 200px; }
+.node-media .field-field-image img { -webkit-border-radius: 5px; -moz-border-radius: 5px; margin: 0 12px 5px 0 !important; }
+.node-media .field-field-image-data-title, .node-media .field-field-story-image-data-title { font-size: 0.8em; }
+.node-media .field-field-pull-quote {
+  font-style: italic;
+  font-size: 1.5em;
+  width: 250px;
+  float: left;
+  margin: 1em 0;
+  padding-top: 2em;
+  background: #fff url('/css/images/dquote.png') no-repeat left top;
+}
+/** h1 for page-media */
+.page-media h1 { margin-left: 265px; width: 22.2em; }
+.node-media fieldset { border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; padding: 1em; }
+.node-media legend { font-weight: bold; }
+.node-media .field .label { display: block; font-weight: bold; }
+.node-media .field .value { display: block; }
+.node-media .links ul, .node-media .links li { margin: 0; padding: 0; display: block; }
+/* content */
+.node-media .content { width: 40em; margin-left: 265px; }
+.node-media .body { font-size: 1.2em; }
+#real-content .view-media .views-field-created, #real-content .view-newsfeed .views-field-timestamp, .node-media .date {
+  color: #666; background-color: #eee; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;
+  padding: 0.2em 0 0.2em 1em; margin-bottom: 1em; font-style: italic; 
+}
+.node-media .content p, .view-media .views-field-body p { margin-bottom: 1.5em; word-wrap: break-word; }
+
+/* media with fields */
+#real-content .view-media .views-row-odd, #real-content .view-media .views-row-even, #real-content .view-newsfeed .views-row-odd, #real-content .view-newsfeed .views-row-even { margin-bottom: 3em; }
+#real-content .view-media .views-field-field-image-fid { float: left; width: 300px; }
+#real-content .view-media .views-field-field-image-fid img { -webkit-border-radius: 5px; -moz-border-radius: 5px; float: right; margin: 1em 0;}
+#real-content .view-media .views-field-title, #real-content .view-newsfeed .views-field-title {
+  font-family: "Minion Pro", Georgia, "Times New Roman", Times, serif;
+  font-size: 1.5em; font-weight: bold; margin-bottom: 0.5em;
+  margin-left: 345px;
+}
+#real-content .view-media .views-field-created, #real-content .view-newsfeed .views-field-timestamp { margin-left: 345px; font-style: italic; margin-bottom: 1.25em; width: 48em; }
+#real-content .view-media .views-field-body, #real-content .view-newsfeed .views-field-description { margin: 0 0 0 345px; font-size: 1.2em; width: 40em; word-wrap: break-word; }
+#real-content .view-media .views-field-view-node { float: right; margin-right: 10em; }
+#real-content .view-media .views-field-nothing { clear: both; }

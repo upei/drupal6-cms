@@ -325,3 +325,211 @@ function campus_management_theme_registry_alter(&$reg) {
   }
 }
 
+/** node api to handle misc stuff */
+function campus_management_nodeapi($node, $op, $a3 = NULL, $a4 = NULL) {
+  if ($node->type) {
+    $func = 'campus_management_' . $node->type . '_' . $op;
+  }
+  if (function_exists($func)) {
+    $params = array();
+    $params[] =& $node;
+    $params[] = $a3;
+    $params[] = $a4;
+    call_user_func_array($func, $params);
+  }
+}
+
+// deal with hook form alter
+
+// XXX dirty jobs. these functions depend on the content.
+// properly generate slide image
+
+function campus_management_slide_view(&$node) {
+  $path = url(file_create_path("slide/{$node->nid}/result.png"));
+  $node->content['body']['#value'] = '<h2>Resulted Image:</h2><p><a href="'.$path.'"><img height="480" width="640" src="'.$path.'" /></a></p>';
+}
+
+define('SLIDE_ONE_COLUMN', 1);
+define('SLIDE_ONE_COLUMN_LEFT', 2);
+define('SLIDE_ONE_COLUMN_RIGHT', 3);
+define('SLIDE_TWO_COLUMNS', 4);
+
+function _slide_annotate_image(&$image, &$draw, $x, $y, $fontsize, $linespacing, $text) {
+  $draw->push();
+  $values = explode("\n", $text);
+  foreach ($values as $value) {
+    $image->annotateImage($draw, $x, $y, 0, $value);
+    $y += $fontsize * $linespacing;
+  }
+  $draw->pop();
+  return $image;
+}
+
+function campus_management_slide_presave(&$node) {
+  $width = 1024;
+  $height = 768;
+
+  if (!class_exists('imagick')) {
+    drupal_set_message('Please install PECL Imagick to enable canvas drawing');
+    return;
+  }
+  // check if imageapi_gd toolkit is there
+  $path = file_create_path("slide/{$node->nid}/result." . end(explode('.', $node->field_slide_background[0]['filepath'])));
+  // use imageapi to open image
+  $canvas = new imagick();
+  $canvas->newImage($width, $height, new ImagickPixel('white'), 'png');
+
+  // get the background image
+  $background = new imagick();
+  $background->readImage($node->field_slide_background[0]['filepath']);
+
+  // composite the background onto the canvas
+  $canvas->compositeImage($background, imagick::COMPOSITE_OVER, 0, 0);
+
+  // delete background
+  unset($background);
+
+  // deal with overlays
+  for ($index = count($node->field_slide_overlay) - 1; $index >=0; $index--) {
+    $field = $node->field_slide_overlay[$index];
+    if (!empty($field['filepath'])) {
+      // create the image instance
+      $image = new imagick();
+      $image->readImage($field['filepath']);
+
+      // composite the image
+      $canvas->compositeImage($image, imagick::COMPOSITE_OVER, 0, 0);
+      unset($image);
+    }
+  }
+
+  // text attribute
+  $pixel = new ImagickPixel('#7a2324');
+  $pixel->setColorValue(imagick::COLOR_OPACITY, 0.25);
+
+  $draw = new ImagickDraw();
+  $draw->setFont(drupal_get_path('theme', 'sunshine') . '/fonts/GenBasB.ttf');
+  $draw->setFontSize(50);
+  $draw->setTextAlignment(imagick::ALIGN_CENTER);
+  $draw->setFillColor(new ImagickPixel('white'));
+ 
+  // slide title
+  if (!empty($node->field_slide_title[0]['value'])) {
+    $title = new imagick();
+    $title->newImage(1024, 80, $pixel, 'png');
+   
+    $title->annotateImage($draw, 512, 55, 0, $node->field_slide_title[0]['value']);
+    $canvas->compositeImage($title, imagick::COMPOSITE_OVER, 0, 0);
+    unset($title);
+  }
+
+  $pixel = new ImagickPixel('black');
+  $pixel->setColorValue(imagick::COLOR_OPACITY, 0.25);
+  $draw->setFont('/var/www-d6/docroot/misc/Helvetica.ttf');
+  $draw->setTextAlignment(imagick::ALIGN_LEFT);
+  $draw->setFillColor(new ImagickPixel('white'));
+  $draw->setFontSize(24);
+
+  switch ($node->field_slide_content_layout[0]['value']) {
+    case SLIDE_ONE_COLUMN:
+      // slide content
+      if (!empty($node->field_slide_content[0]['value'])) {
+        $text = new imagick();
+        $text->newImage(800, 500, $pixel, 'png');
+
+        $value = wordwrap($node->field_slide_content[0]['value'], 68);
+
+        _slide_annotate_image($text, $draw, 30, 40, 24, 1.5, $value);
+        $canvas->compositeImage($text, imagick::COMPOSITE_OVER, 112, 120);
+        unset($text);
+      }
+      break;
+    case SLIDE_ONE_COLUMN_LEFT:
+      // slide content
+      if (!empty($node->field_slide_content[0]['value'])) {
+        $text = new imagick();
+        $text->newImage(450, 500, $pixel, 'png');
+
+        $value = wordwrap($node->field_slide_content[0]['value'], 36);
+
+        _slide_annotate_image($text, $draw, 30, 40, 24, 1.5, $value);
+        $canvas->compositeImage($text, imagick::COMPOSITE_OVER, 41,120);
+
+        unset($text);
+      }
+      break;
+    case SLIDE_ONE_COLUMN_RIGHT:
+      // slide content
+      if (!empty($node->field_slide_content[0]['value'])) {
+        $text = new imagick();
+        $text->newImage(450, 500, $pixel, 'png');
+
+        $value = wordwrap($node->field_slide_content[0]['value'], 36);
+
+        _slide_annotate_image($text, $draw, 30, 40, 24, 1.5, $value);
+        $canvas->compositeImage($text, imagick::COMPOSITE_OVER, 533, 120);
+
+        unset($text);
+      }
+      break;
+
+    case SLIDE_TWO_COLUMNS:
+      // slide content
+      if (!empty($node->field_slide_content[0]['value'])) {
+        $text = new imagick();
+        $text->newImage(450, 500, $pixel, 'png');
+
+        $value = wordwrap($node->field_slide_content[0]['value'], 36);
+
+        _slide_annotate_image($text, $draw, 30, 40, 24, 1.5, $value);
+        $canvas->compositeImage($text, imagick::COMPOSITE_OVER, 41,120);
+
+        unset($text);
+
+        $text = new imagick();
+        $text->newImage(450, 500, $pixel, 'png');
+
+        $value = wordwrap($node->field_slide_content_more[0]['value'], 36);
+
+        _slide_annotate_image($text, $draw, 30, 40, 24, 1.5, $value);
+        $canvas->compositeImage($text, imagick::COMPOSITE_OVER, 533, 120);
+
+        unset($text);
+
+      }
+      break;
+  }
+
+  // slide overlay text
+  if (!empty($node->field_slide_overlay_text[0]['value'])) {
+    $ovtext = new imagick();
+    $ovtext->newImage(1024, 50, new ImagickPixel('transparent'), 'png');
+
+    $value = $node->field_slide_overlay_text[0]['value'];
+    
+    $draw->setFontSize(20);
+
+    $ovtext->annotateImage($draw, 500, 35, 0, $value);
+    $canvas->compositeImage($ovtext, imagick::COMPOSITE_OVER, 0, 718);
+    unset($ovtext);
+  }
+
+  // save the image
+  $canvas->writeImage($path);
+
+  // unset the canvas
+  unset($canvas);
+}
+
+function campus_management_form_slide_node_form_alter(&$form, &$form_state) {
+  unset($form['body_field']);
+  // check if it's a new slide
+  if (!empty($form['changed']['#default_value'])) {
+    $form['resulted-image'] = array(
+      '#type' => 'item',
+      '#title' => t('Resulted image'),
+      '#weight' => '-5',
+      '#value' => '<p><img height="480" width="640" src="'.url(file_create_path("slide/{$form['#node']->nid}/result.png")).'" /></p>',
+    );
+  }
+}
