@@ -22,8 +22,12 @@
 <div class="header">
   <?php print $header; ?>
 </div>
-
 <div class="content">  
+  <?php if ($messages): ?>
+  <div class="rounded">
+    <?php print $messages; ?>
+  </div>
+  <?php endif; ?>
   <?php /* print $help */ ?>
   <?php print $content ?>
   <?php /* print $feed_icons */ ?>

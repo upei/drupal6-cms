@@ -533,3 +533,20 @@ function campus_management_form_slide_node_form_alter(&$form, &$form_state) {
     );
   }
 }
+
+// XXX mobile-survey
+function campus_management_mobile_contest_insert(&$node) {
+  // set the destination
+  $_REQUEST['destination'] = 'page/mobile-contest';
+  // get user agent
+  $node->field_survey_real_device[0]['value'] = $_SERVER['HTTP_USER_AGENT'];
+  $node->field_survey_ip[0]['value'] = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+}
+
+function campus_management_mobile_contest_validate(&$node) {
+  // validate UPEI email address
+  if (!preg_match('/@upei\.ca$/i', $node->field_email[0]['email'])) {
+    form_set_error('error', t('"<em>@email</em>" is not a UPEI email address', array('@email' => $node->field_email[0]['email'])));
+  }
+}
+

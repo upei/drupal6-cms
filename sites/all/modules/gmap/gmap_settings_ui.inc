@@ -282,7 +282,7 @@ function gmap_admin_settings(&$form_state) {
   if (!isset($opts['clustermarker']) || !is_array($opts['clustermarker'])) {
     $opts['clustermarker'] = array();
   }
-  if (!isset($opts['markerclusterer'])) || !is_array($opts['markerclusterer'])) {
+  if (!isset($opts['markerclusterer']) || !is_array($opts['markerclusterer'])) {
     $opts['markerclusterer'] = array();
   }
 

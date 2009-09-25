@@ -128,3 +128,7 @@ video { display: block; margin: 10px auto; }
 @media screen and (min-width: 481px) {
   #gmap { height: 450px; }
 }
+
+#edit-preview {
+    display: none;
+}
