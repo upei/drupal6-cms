@@ -1,5 +1,5 @@
 <?php
-// $Id: views_bonus_plugin_style_export.inc,v 1.5 2008/12/28 03:47:37 neclimdul Exp $
+// $Id: views_bonus_plugin_style_export.inc,v 1.6 2009/05/05 19:47:09 neclimdul Exp $
 /**
  * @file
  * Plugin include file for export style plugin.
@@ -25,6 +25,6 @@ class views_bonus_plugin_style_export extends views_plugin_style {
       $url_options['query'] = $input;
     }
     $image = theme('image', $this->feed_image);
-    $this->view->feed_icon .= l($image, $path, $url_options);
+    $this->view->feed_icon .= l($image, $this->view->get_url(NULL, $path), $url_options);
   }
 }

@@ -1,5 +1,5 @@
 <?php
-// $Id: views_bonus_plugin_style_export_csv.inc,v 1.6 2008/12/28 03:47:37 neclimdul Exp $
+// $Id: views_bonus_plugin_style_export_csv.inc,v 1.7 2009/05/09 20:52:10 neclimdul Exp $
 /**
  * @file
  * Plugin include file for export style plugin.
@@ -38,6 +38,10 @@ class views_bonus_plugin_style_export_csv extends views_bonus_plugin_style_expor
       'default' => TRUE,
       'translatable' => TRUE,
     );
+    $options['seperator'] = array(
+      'default' => ',',
+      'translatable' => TRUE,
+    );
     $options['header'] = array(
       'default' => TRUE,
       'translatable' => FALSE,
@@ -65,10 +69,16 @@ class views_bonus_plugin_style_export_csv extends views_bonus_plugin_style_expor
       '#process' => array('views_process_dependency'),
       '#dependency' => array('edit-style-options-override' => array(FALSE)),
     );
+    $form['seperator'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Seperator'),
+      '#default_value' => !empty($this->options['seperator']) ? $this->options['seperator'] : ',',
+      '#description' => t('This is the seperator that is used to seperate fields. CSV implies comma seperated fields so this should not be changed unless you have specific requirements'),
+    );
     $form['quote'] = array(
       '#type' => 'checkbox',
       '#default_value' => !empty($this->options['quote']),
-      '#title' => t('Quote values. Useful for output that might have commas as part of one of the values.'),
+      '#title' => t('Quote values. Useful for output that might contain your seperator as part of one of the values.'),
     );
     $form['header'] = array(
       '#type' => 'checkbox',

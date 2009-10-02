@@ -1,5 +1,5 @@
 <?php
-// $Id: views_bonus_plugin_style_export_xml.inc,v 1.4 2008/12/28 03:47:37 neclimdul Exp $
+// $Id: views_bonus_plugin_style_export_xml.inc,v 1.5 2009/05/11 06:58:06 neclimdul Exp $
 /**
  * @file
  * Plugin include file for export style plugin.
@@ -30,6 +30,10 @@ class views_bonus_plugin_style_export_xml extends views_bonus_plugin_style_expor
   function option_definition() {
     $options = parent::option_definition();
 
+    $options['provide_file'] = array(
+      'default' => TRUE,
+      'translatable' => FALSE,
+    );
     $options['filename'] = array(
       'default' => 'view-%view.xml',
       'translatable' => FALSE,
@@ -49,13 +53,24 @@ class views_bonus_plugin_style_export_xml extends views_bonus_plugin_style_expor
    * None.
    */
   function options_form(&$form, &$form_state) {
+    $form['provide_file'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Provide as file'),
+      '#default_value' => $this->options['provide_file'],
+      '#description' => t('By deselecting this, the xml file will be provided as a feed instead of a file for download.'),
+      '#dependency' => array(
+        'edit-style-options-override' => array(FALSE),
+      ),
+    );
     $form['filename'] = array(
       '#type' => 'textfield',
       '#title' => t('XML filename'),
       '#default_value' => $this->options['filename'],
       '#description' => t('The filename that will be suggested to the browser for downloading purposes. %view will be replaced with the view name.'),
       '#process' => array('views_process_dependency'),
-      '#dependency' => array('edit-style-options-override' => array(FALSE)),
+      '#dependency' => array(
+        'edit-style-options-provide-file' => array(TRUE),
+      ),
     );
   }
 }
