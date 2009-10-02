@@ -930,11 +930,7 @@ function theme_gmap($element) {
   $mapids[$element['#map']] = TRUE;
 
   // Inline settings extend.
-  $o .= '<script type="text/javascript">'."\n";
-  $o .= "/* <![CDATA[ */\n";
-  $o .= 'jQuery.extend(true, Drupal, { settings: '. drupal_to_js(array('gmap' => array($element['#map'] => $map))) ." });\n";
-  $o .= "/* ]]> */\n";
-  $o .= "</script>\n";
+  drupal_add_js(array('gmap' => array($element['#map'] => $map)), 'setting');
   return $o;
 }
 
