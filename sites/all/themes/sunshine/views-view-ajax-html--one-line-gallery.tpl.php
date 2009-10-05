@@ -26,7 +26,7 @@
     <script type="text/javascript">
       $(function() {
         $('.front-page-gallery .item>a[href]').each(function() {
-          $(this).fancyZoom({directory: '/misc/fancyzoom'});
+          $(this).fancyZoom({directory: 'http://www.upei.ca/misc/fancyzoom'});
           $(this).click(function() {
             var href=$(this).attr('href').substring(1);
             pageTracker._trackPageview(Drupal.settings.basePath + 'click/' + href);

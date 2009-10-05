@@ -56,7 +56,7 @@
        <li><a href="http://www.upei.ca/registrar/calendar_toc" title="">Academic Calendar</a></li>
        <li><a href="http://www.upei.ca/registrar/programs_by_faculty" title="">Programs &amp; Courses</a></li>
        <li><a href="http://www.upei.ca/staff_faculty/search" title="">Search Faculty &amp; Staff</a></li>
-       <li><a href="http://www.upei.ca/currentstudents/files/currentstudents/Campus_Directory_Dec_2007.pdf" title="">Telephone Directory</a></li>
+       <li><a href="http://www.upei.ca/home/files/home/campusdirectory.pdf" title="">Telephone Directory</a></li>
        <li><a href="http://www.upei.ca/home/contactpage" title="">Contact UPEI</a></li>
    </ul>
 
