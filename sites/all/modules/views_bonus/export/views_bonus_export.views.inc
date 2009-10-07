@@ -1,5 +1,5 @@
 <?php
-// $Id: views_bonus_export.views.inc,v 1.5 2008/12/28 02:56:03 neclimdul Exp $
+// $Id: views_bonus_export.views.inc,v 1.6 2009/05/13 07:06:20 neclimdul Exp $
 /**
  * @file
  * Views include file with views hooks.
@@ -26,6 +26,7 @@ function views_bonus_export_views_plugins() {
         'handler' => 'views_bonus_plugin_style_export_csv',
         'parent' => 'views_bonus_export',
         'theme' => 'views_bonus_export_csv',
+        'theme file' => 'views_bonus_export.theme.inc',
         'uses row plugin' => FALSE,
         'uses fields' => TRUE,
         'uses options' => TRUE,
@@ -38,6 +39,7 @@ function views_bonus_export_views_plugins() {
         'handler' => 'views_bonus_plugin_style_export_doc',
         'parent' => 'views_bonus_export',
         'theme' => 'views_bonus_export_doc',
+        'theme file' => 'views_bonus_export.theme.inc',
         'uses row plugin' => FALSE,
         'uses fields' => TRUE,
         'uses options' => TRUE,
@@ -50,6 +52,7 @@ function views_bonus_export_views_plugins() {
         'handler' => 'views_bonus_plugin_style_export_txt',
         'parent' => 'views_bonus_export',
         'theme' => 'views_bonus_export_txt',
+        'theme file' => 'views_bonus_export.theme.inc',
         'uses row plugin' => FALSE,
         'uses fields' => TRUE,
         'uses options' => TRUE,
@@ -62,6 +65,7 @@ function views_bonus_export_views_plugins() {
         'handler' => 'views_bonus_plugin_style_export_xml',
         'parent' => 'views_bonus_export',
         'theme' => 'views_bonus_export_xml',
+        'theme file' => 'views_bonus_export.theme.inc',
         'uses row plugin' => FALSE,
         'uses fields' => TRUE,
         'uses options' => TRUE,
@@ -70,4 +74,3 @@ function views_bonus_export_views_plugins() {
     ),
   );
 }
-

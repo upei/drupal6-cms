@@ -1,5 +1,5 @@
 <?php
-// $Id: views-bonus-export-doc.tpl.php,v 1.1 2008/10/08 05:50:10 neclimdul Exp $
+// $Id: views-bonus-export-doc.tpl.php,v 1.2 2009/04/03 04:22:22 neclimdul Exp $
 /**
  * @file views-view-table.tpl.php
  * Template to display a view as a table.
@@ -13,5 +13,15 @@
  */
 
 ?>
-doc...
-
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  </head>
+  <body>
+<?php 
+$table = theme('views_view_table', $view, $nodes, null);
+$table = preg_replace('/<\/?(a|span) ?.*?>/', '', $table); // strip 'a' and 'span' tags
+print $table;
+?>
+  </body>
+</html>

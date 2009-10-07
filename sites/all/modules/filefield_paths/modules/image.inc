@@ -1,5 +1,5 @@
 <?php
-// $Id: image.inc,v 1.1.2.3 2009/06/18 04:31:54 deciphered Exp $
+// $Id: image.inc,v 1.1.2.5 2009/08/02 23:22:33 deciphered Exp $
 
 /**
  * @file
@@ -10,7 +10,7 @@
  * Implementation of hook_filefield_paths_form_alter().
  */
 function image_filefield_paths_form_alter(&$form, &$ffp) {
-  if ($form['#id'] == 'image-admin-settings') {
+  if (isset($form['#id']) && $form['#id'] == 'image-admin-settings') {
     $ffp['image'] = array(
       'type' => 'image',
       'form_path' => &$form['files']['ffp_image'],
@@ -36,9 +36,11 @@ function image_filefield_paths_form_alter(&$form, &$ffp) {
  * Implementation of hook_filefield_paths_form_submit().
  */
 function image_filefield_paths_form_submit(&$form_state, &$ffp) {
-  $ffp['image'] = array(
-    'type' => 'image',
-  );
+  if (isset($form_state['values']['ffp_image'])) {
+    $ffp['image'] = array(
+      'type' => 'image',
+    );
+  }
 }
 
 /**
@@ -56,7 +58,6 @@ function image_filefield_paths_get_fields(&$node, &$ffp) {
     foreach ($node->images as $name => &$file) {
       if (isset($info[$name])) {
         $file_info = pathinfo($file);
-  
         $ffp['#files'][] = array(
           'field' => array(
             'filepath' => &$file,
@@ -68,7 +69,6 @@ function image_filefield_paths_get_fields(&$node, &$ffp) {
           'name' => 'image',
           'new' => $node->new_file
         );
-  
         $ffp['#types']['image'] = TRUE;
       }
     }

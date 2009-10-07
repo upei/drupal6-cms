@@ -1,5 +1,5 @@
 <?php
-// $Id: filefield.inc,v 1.1.2.4 2009/06/17 02:54:28 deciphered Exp $
+// $Id: filefield.inc,v 1.1.2.6 2009/08/02 23:22:33 deciphered Exp $
 
 /**
  * @file
@@ -32,7 +32,7 @@ function filefield_filefield_paths_form_alter(&$form, &$ffp) {
  * Implementation of hook_filefield_paths_form_submit().
  */
 function filefield_filefield_paths_form_submit(&$form_state, &$ffp) {
-  if ($form_state['values']['form_id'] != 'node_type_form') {
+  if (isset($form_state['values']['form_id']) && $form_state['values']['form_id'] != 'node_type_form') {
     $ffp[$form_state['values']['field_name']] = array(
       'type' => $form_state['values']['type_name'],
     );
@@ -45,7 +45,7 @@ function filefield_filefield_paths_form_submit(&$form_state, &$ffp) {
  * Implementation of hook_filefield_paths_get_fields().
  */
 function filefield_filefield_paths_get_fields(&$node, &$ffp) {
-  if (is_object($node) && $node->form_id == $node->type .'_node_form') {
+  if (is_object($node)) {
     $content_type = content_types($node->type);
 
     foreach ($content_type['fields'] as $field) {
@@ -57,7 +57,9 @@ function filefield_filefield_paths_get_fields(&$node, &$ffp) {
             'module' => $field['module'],
             'name' => $field['field_name'],
             'widget' => $field['widget']['module'],
-            'new' => (!empty($file['filepath']) && !empty($file['data']['process'])) ? TRUE : FALSE
+            'new' => (!empty($file['filepath']) && !empty($file['data']['process']))
+              ? TRUE
+              : FALSE
           );
           unset($file['data']['process']);
 
