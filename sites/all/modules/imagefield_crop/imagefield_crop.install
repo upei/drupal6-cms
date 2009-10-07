@@ -1,5 +1,5 @@
 <?php
-// $Id: imagefield_crop.install,v 1.1.2.1 2009/01/29 10:12:10 yhager Exp $
+// $Id: imagefield_crop.install,v 1.1.2.2 2009/09/13 11:33:22 yhager Exp $
 
 /**
  * Upgrade to Drupal 6.
@@ -20,3 +20,25 @@ function imagefield_crop_update_6000() {
 
   return $ret;
 }
+
+/**
+ * Implementation of hook_requirements().
+ */
+function imagefield_crop_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  
+  if ($phase == 'runtime') {
+    if (count(imageapi_get_available_toolkits()) == 0) {
+      $requirements['imagefield_crop_toolkits'] = array(
+        'title' => $t('Imagefield crop Toolkit'),
+        'value' => $t('No ImageAPI toolkits available'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('Imagefield crop requires a Toolkit such as ImageAPI GD or ImageAPI ImageMagick to function. Go to !modules and enable one of them.', array('!modules' => l('admin/build/modules', 'admin/build/modules'))),
+      );
+    }
+  }
+
+  return $requirements;
+}
+
