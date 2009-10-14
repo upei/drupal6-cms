@@ -1,0 +1,52 @@
+<?php
+// $Id: simplenews_scheduler.install,v 1.2.2.3 2009/09/16 08:08:46 sgabe Exp $
+
+/**
+ * @file
+ * Install and uninstall functions for the Simplenews Scheduler module.
+ */
+
+
+/**
+ * Implementation of hook_install().
+ */
+function simplenews_scheduler_install() {
+  drupal_install_schema('simplenews_scheduler');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function simplenews_scheduler_schema() {
+  $schema['simplenews_scheduler'] = array(
+    'fields' => array(
+      'sid'                => array('type' => 'int', 'length' => 10, 'auto_increment' => TRUE, 'not null' => TRUE),
+      'snid'               => array('type' => 'int', 'length' => 10, 'not null' => TRUE, 'default' => 0),
+      'run_count'          => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+      'run_limit'          => array('type' => 'int', 'not null' => TRUE),
+      'last_run'           => array('type' => 'int', 'length' => 14, 'not null' => TRUE, 'default' => 0),
+      'sched_interval'     => array('type' => 'varchar', 'length' => 10),
+      'sched_start'        => array('type' => 'int', 'length' => 11, 'not null' => TRUE),
+      'sched_stop'         => array('type' => 'int', 'length' => 1, 'not null' => TRUE),
+      'sched_stop_date'    => array('type' => 'int', 'length' => 11, 'not null' => TRUE, 'default' => 1577923199), // Default stop date is Wednesday, January 1st 2020, 23:59:59
+      'sched_stop_edition' => array('type' => 'int', 'length' => 10, 'not null' => TRUE, 'default' => 0)
+    ),
+    'primary key' => array('sid'),
+  );
+  $schema['simplenews_scheduler_editions'] = array(
+    'fields' => array(
+      'edition_snid' => array('type' => 'int', 'length' => 10, 'not null' => TRUE, 'default' => 0),
+      'snid'         => array('type' => 'int', 'length' => 10, 'not null' => TRUE, 'default' => 0),
+      'date_issued'  => array('type' => 'int', 'length' => 11, 'not null' => TRUE, 'default' => 0)
+    )
+  );
+  return $schema;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function simplenews_scheduler_uninstall() {
+  // Remove tables.
+  drupal_uninstall_schema('simplenews_scheduler');
+}

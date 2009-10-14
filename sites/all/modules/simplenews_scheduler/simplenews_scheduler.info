@@ -1,0 +1,12 @@
+; $Id: simplenews_scheduler.info,v 1.2.2.3 2009/09/16 08:08:26 sgabe Exp $
+name = Simplenews Scheduler
+description = "Allows a schedule to be set for sending (and resending) a Simplenews item."
+dependencies[] = simplenews
+dependencies[] = date
+package = Mail
+; Information added by drupal.org packaging script on 2009-09-16
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "simplenews_scheduler"
+datestamp = "1253104601"
+

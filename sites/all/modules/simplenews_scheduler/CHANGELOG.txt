@@ -1,0 +1,8 @@
+// $Id: CHANGELOG.txt,v 1.1.2.1 2009/09/16 08:09:32 sgabe Exp $ 
+
+Simplenews Scheduler 6.x-1.x-dev, 2009-09-16
+--------------------------------------------
+- Better code formatting and reviewed code with Coder module.
+- Modified taxonomy term saving with taxonomy_node_save() function.
+- New features: stop sending based on given date or number of editions.
+- Better multilingual support with included translation template.
