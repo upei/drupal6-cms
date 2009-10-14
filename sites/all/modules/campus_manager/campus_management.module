@@ -374,7 +374,7 @@ function campus_management_slide_presave(&$node) {
     return;
   }
   // check if imageapi_gd toolkit is there
-  $path = file_create_path("slide/{$node->nid}/result." . end(explode('.', $node->field_slide_background[0]['filepath'])));
+  $path = file_create_path("slide/{$node->nid}/result.png");
   // use imageapi to open image
   $canvas = new imagick();
   $canvas->newImage($width, $height, new ImagickPixel('white'), 'png');
