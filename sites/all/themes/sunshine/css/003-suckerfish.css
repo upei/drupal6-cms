@@ -6,6 +6,7 @@ http://www.htmldog.com/articles/suckerfish/dropdowns/
 http://www.alistapart.com/articles/horizdropdowns
 */
 
+#suckerfishmenu{text-align:center;}
 #suckerfishmenu	.block {
   display: block;
   margin: 0 auto;
