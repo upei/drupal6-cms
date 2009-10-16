@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync.inc,v 1.1 2009/07/17 14:28:10 gzfelix Exp $
+// $Id: xmlsync.inc,v 1.2 2009/10/16 18:58:09 gzfelix Exp $
 
 function xmlsync_cleanstring($s, $clean_slash = TRUE) {
   if (function_exists('_pathauto_include'))

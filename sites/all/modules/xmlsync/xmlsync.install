@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync.install,v 1.3 2009/07/17 14:28:10 gzfelix Exp $
+// $Id: xmlsync.install,v 1.4 2009/10/16 18:58:09 gzfelix Exp $
 
 function xmlsync_schema() {
   $schema['xmlsync'] = array(
