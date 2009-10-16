@@ -95,61 +95,59 @@ function xmlsync_form(&$node) {
     '#default_value' => $node->url,
     '#weight' => -1,
   );
-
-  $form['root_xpath'] = array(
+  $form['xpath'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Required XPath queries'),
+    '#collapsed' => FALSE,
+    '#collapsible' => TRUE,
+  );
+  $form['xpath']['root_xpath'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the document\'s root element'),
     '#default_value' => $node->root_xpath,
-    '#weight' => -1,
   );
 
-  $form['record_xpath'] = array(
+  $form['xpath']['record_xpath'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the record element'),
     '#default_value' => $node->record_xpath,
-    '#weight' => -1,
   );
   
-  $form['document_title_xpath'] = array(
+  $form['xpath']['document_title_xpath'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the document title'),
     '#default_value' => $node->document_title_xpath,
-    '#weight' => -1,
   );
 
-  $form['document_description_xpath'] = array(
+  $form['xpath']['document_description_xpath'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the document description'),
     '#default_value' => $node->document_description_xpath,
-    '#weight' => -1,
   );
 
-  $form['record_id_xpath'] = array(
+  $form['xpath']['record_id_xpath'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the record id'),
     '#default_value' => $node->record_id_xpath,
-    '#weight' => -1,
   );
 
-  $form['record_title_xpath'] = array(
+  $form['xpath']['record_title_xpath'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the record title'),
     '#default_value' => $node->record_title_xpath,
-    '#weight' => -1,
   );
 
-  $form['record_description_xpath'] = array(
+  $form['xpath']['record_description_xpath'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the record description'),
     '#default_value' => $node->record_description_xpath,
-    '#weight' => -1,
   );
 
   $form['update_frequency'] = array(
