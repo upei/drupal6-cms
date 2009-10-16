@@ -33,7 +33,14 @@ function xmlsync_cleanstring($s, $clean_slash = TRUE) {
 
 function _xmlsync_create_alias($node, $record) {
   // get the doc data
-  $doc = simplexml_load_string($record->data);
+  $body = preg_replace('/xmlns="[^"]+"/', '', $record->data);
+  $doc = new DOMDocument();
+  if (!$doc->loadXML($body)) {
+    drupal_set_message(t('Unable to parse record.'));
+    return;
+  }
+  $x = new DOMXPath($doc);
+  
   // grep all replacements in the node
   if(preg_match_all('#(\[([^\]]+)\])#u', $node->record_alias_template, $matches)) {
     $patterns = $matches[1];
@@ -41,7 +48,11 @@ function _xmlsync_create_alias($node, $record) {
     $replacments = array();
     // get the result
     foreach($xpaths as $xpath) {
-      $s = strval(array_pop($doc->xpath($xpath)));
+      // get the node value
+      foreach ($x->query($xpath) as $e) {
+        $s = $e->nodeValue;
+        break;
+      }
       // check NULL if needed
       if (NULL == $s) $s = '';
       // update replacement patterns
@@ -80,50 +91,65 @@ function _xmlsync_update_url_content(&$node) {
 
 function _xmlsync_extract_content(&$node) {
   // load simple xml element
-  $doc = simplexml_load_string($node->body);
-  if (!$doc) {
+  $body = preg_replace('/xmlns="[^"]+"/', '', $node->body);
+  $doc = new DOMDocument();
+  if (!$doc->loadXML($body)) {
     form_set_error('body', t('XML content is not well-formed.'));
     return;
   }
-
-  $feed = array_pop($doc->xpath('/feed'));
-  $attr = $feed->attributes();
+  
+  $xpath = new DOMXPath($doc);
+  
+  // get the feed
+  $feed = NULL;
+  foreach ($xpath->query($node->root_xpath) as $e) {
+    $feed = $e;
+    break;
+  }
   // update title if no title is provided
+  foreach ($xpath->query($node->document_title_xpath) as $e) {
+    $node->xml_title = $e->nodeValue;
+    break;
+  }
+
   if (empty($node->title)) {
-    if ($feed) {
-      $title = $attr['title'];
-    }
+    $node->title = $node->xml_title;
     if (empty($title)) {
       $title = t('XMLSync feed');
     }
     $node->title = $title;
   }
-  $node->xml_title = $attr['title'];
-  $node->xml_description = $attr['description'];
-  $node->entity_count = $attr['total'];
+
+  // description
+  foreach ($xpath->query($node->document_description_xpath) as $e) {
+    $node->xml_description = $e->nodeValue;
+  }
+  // entity count
+  $node->entity_count = $xpath->evaluate('count(' . $node->record_xpath . ')');
   
-  // get all indexes
-  $keys = $doc->xpath('/feed/indexes/key');
-  $keys = array_map('strval', $keys);
-  
-  $node->entities = array();  
   // load all xml entities
-  foreach ($doc->xpath('/feed/node') as $key => $entity) {
+  $node->entities = array();
+  foreach ($xpath->query($node->record_xpath) as $entity) {
     $rec = new stdclass();
     $rec->nid = $node->nid;
     $rec->vid = $node->vid;
-    foreach ($keys as $id => $key) {
-      $name = 'index' . $id . '_name';
-      $value = 'index' . $id . '_value';
-      $rec->$name = $key;
-      $rec->$value = strval(array_pop($entity->xpath("$key")));
-    }
-    $rec->data = $entity->data->asXML();
+    $rec->data = $doc->saveXML($entity);
     // grab attributes
-    $attr = $entity->attributes();
-    $rec->entity_id = $attr['id'];
-    $rec->entity_title = $attr['title'];
-    $rec->entity_description = $attr['description'];
+    // id
+    foreach ($xpath->query($node->record_id_xpath, $entity) as $e) {
+      $rec->entity_id = $e->nodeValue;
+      break;
+    }
+    // title
+    foreach ($xpath->query($node->record_title_xpath, $entity) as $e) {
+      $rec->entity_title = $e->nodeValue;
+      break;
+    }
+    // description
+    foreach ($xpath->query($node->record_description_xpath, $entity) as $e) {
+      $rec->entity_description = $e->nodeValue;
+      break;
+    }
     // add the record to node
     $node->entities[] = $rec;
   }
