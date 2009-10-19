@@ -1,4 +1,66 @@
-May 12, 2009
+October 16, 2009
+        Fix #605264: check node alias also when accessing the print_mail form
+October 14, 2009
+        SA-CONTRIB-2009-073: remove XSS vulnerability in PF URLs list and unathorized access to node titles
+        Update changelog
+October 13, 2009
+        Fix #521776: support wkhtmltopdf in Windows
+        Fix #599840: use the real page path and not the current URL when determining link visibility
+October 8, 2009
+        Fix #552882: register dompdf's autoload function to prevent fatal errors
+October 7, 2009
+        Fix #578990: enable tokens in the wkhtmltopdf options string
+October 3, 2009
+        Fix #582360: don't complain about missing e-mail addresses when there's a blank line at the end
+        Fix #582104: look for PDF libraries in sites/all/libraries
+        Fix #572848 by aether: Use theme_username() for print_mail_form defaults
+        Fix #566138: add setting to close the window when both the new window and send to printer are enabled
+September 12, 2009
+        Updated Hungarian translation
+September 10, 2009
+        Fix #554940: escape mysql query string
+August 20, 2009
+        SA-CONTRIB-2009-052: remove multiple XSS vulnerabilities
+        Try to fix #495946: Don't repeat module updates when already performed in the 5.x version
+        Fix #544890 by dereine: use node_load with nid only to allow caching
+July 15, 2009
+        Fix #519320: typo in setting non-blocking wkhtmltopdf pipes
+        Fix #517828: replace the euro sign with an HTML entity
+July 9, 2009
+        add new 'access send to friend' and 'access PDF version' permissions to any role which has 'access print'
+        Stop using @mainpage in API documentation comments
+July 3, 2009
+        Fix #495814: remove the word core from .info file
+        Fix #495898: handle node/nid/tab paths correctly
+        Fix #480916: only use cached node type when processing comments
+        Fix #495386: make local anchor links navigable inside the PDF
+June 15, 2009
+        Fix #484926: Increase stylesheet URL max field size to 250
+        Update dompdf download URL
+June 7, 2009
+        Re-enable the use of build_mode (when using CCK, version >= 6.x-2.3 is needed)
+        revert icon changes
+        Fix #472920: deny access to paths starting with print/print
+June 5, 2009
+        Fix #481350: Don't show book link in links area when only that option is disabled
+        Fix #478196: use CSS instead of break tags to arrange block links vertically
+May 28, 2009
+        Fix #468342: Add mail and PDF-specific access permissions
+May 21, 2009
+        Fix #469458: Web version passes XML 1.0 Strict validation test
+May 20, 2009
+        Add some help text to content-type settings to explain that the module-wide settings must be enabled.
+        Add option to auto-configure the TCPDF library (on by default)
+        Only remove queries from img URLs which TCPDF will try to access locally
+May 17, 2009
+        Updated German translation by Frank Tartler
+        Updated Hungarian translation by Zoltan Balogh
+        Use image scale 1 with TCPDF >= 4.6.002
+May 16, 2009
+        by Zoltan Balogh: Updated Hungarian translation
+May 13, 2009
+        Move title after the meta content-type tag to prevent XSS attacks
+        Update translations and .pot to current code
         Update changelog
         Coder fixes
         Fix #457528: When using TCPDF remove queries from the image URL

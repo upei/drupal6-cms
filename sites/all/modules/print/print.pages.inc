@@ -1,5 +1,5 @@
 <?php
-// $Id: print.pages.inc,v 1.1.2.49 2009/05/13 16:18:06 jcnventura Exp $
+// $Id: print.pages.inc,v 1.1.2.56 2009/10/14 22:54:52 jcnventura Exp $
 
 /**
  * @file
@@ -8,6 +8,8 @@
  * This file is included by the core PF module, and includes all the
  * functions necessary to generate a PF version of the original page
  * in HTML format.
+ *
+ * @ingroup print
  */
 
 $_print_urls = PRINT_URLS_DEFAULT;
@@ -87,7 +89,7 @@ function print_controller($path, $cid = NULL, $format = PRINT_HTML_FORMAT, $teas
     }
   }
   $parts = explode('/', $path);
-  if (is_numeric($parts[0])) {
+  if (is_numeric($parts[0]) && (count($parts) == 1)) {
     $print = _print_generate_node($path, $cid, $format, $teaser, $message);
   }
   else {
@@ -160,7 +162,9 @@ function _print_var_generator($node, $message = NULL, $cid = NULL) {
   $print_css = variable_get('print_css', PRINT_CSS_DEFAULT);
   $print_logo_options = variable_get('print_logo_options', PRINT_LOGO_OPTIONS_DEFAULT);
   $print_logo_url = variable_get('print_logo_url', PRINT_LOGO_URL_DEFAULT);
+  $print_html_new_window = variable_get('print_html_new_window', PRINT_HTML_NEW_WINDOW_DEFAULT);
   $print_html_sendtoprinter = variable_get('print_html_sendtoprinter', PRINT_HTML_SENDTOPRINTER_DEFAULT);
+  $print_html_windowclose = variable_get('print_html_windowclose', PRINT_HTML_WINDOWCLOSE_DEFAULT);
   $print_sourceurl_enabled = variable_get('print_sourceurl_enabled', PRINT_SOURCEURL_ENABLED_DEFAULT);
   $print_sourceurl_forcenode = variable_get('print_sourceurl_forcenode', PRINT_SOURCEURL_FORCENODE_DEFAULT);
   $print_sourceurl_date = variable_get('print_sourceurl_date', PRINT_SOURCEURL_DATE_DEFAULT);
@@ -178,7 +182,7 @@ function _print_var_generator($node, $message = NULL, $cid = NULL) {
 
   if (!empty($print_css)) {
     $replace_pairs = array('%b' => base_path(), '%t' => path_to_theme());
-    $user_css = strip_tags(strtr($print_css, $replace_pairs));
+    $user_css = check_url(strtr($print_css, $replace_pairs));
   }
   else {
     drupal_add_css(drupal_get_path('module', 'print') .'/css/print.css');
@@ -218,7 +222,8 @@ function _print_var_generator($node, $message = NULL, $cid = NULL) {
     }
   }
 
-  $print['sendtoprinter'] = $print_html_sendtoprinter ? ' onload="window.print();"' : '';
+  $window_close = ($print_html_new_window && $print_html_windowclose) ? 'window.close();' : '';
+  $print['sendtoprinter'] = $print_html_sendtoprinter ? " onload='window.print();$window_close'" : '';
 
   switch ($print_logo_options) {
     case 0: // none
@@ -231,25 +236,24 @@ function _print_var_generator($node, $message = NULL, $cid = NULL) {
       $logo_url = strip_tags($print_logo_url);
       break;
   }
-  $print['logo'] = $logo_url ? "<img class='print-logo' src='$logo_url' alt='' />\n" : '';
+  $print['logo'] = $logo_url ? "<img class='print-logo' src='". check_url($logo_url) ."' alt='' />\n" : '';
 
   switch ($print_footer_options) {
     case 0: // none
       $footer = '';
       break;
     case 1: // theme's
-      $footer = filter_xss_admin(variable_get('site_footer', FALSE)) ."\n". theme('blocks', 'footer');
-      $logo_url = theme_get_setting('logo');
+      $footer = variable_get('site_footer', FALSE) ."\n". theme('blocks', 'footer');
       break;
     case 2: // user-specifed
       $footer = $print_footer_user;
       break;
   }
-  $print['footer_message'] = $footer;
+  $print['footer_message'] = filter_xss_admin($footer);
 
   $published_site = variable_get('site_name', 0);
   if ($published_site) {
-    $print_text_published = variable_get('print_text_published', t('Published on %site_name'));
+    $print_text_published = filter_xss(variable_get('print_text_published', t('Published on %site_name')));
     $published = t($print_text_published, array('%site_name' => $published_site));
     $print['site_name'] = $published .' ('. l($base_url, $base_url) .')';
   }
@@ -269,11 +273,11 @@ function _print_var_generator($node, $message = NULL, $cid = NULL) {
       $url .= '#comment-$cid';
     }
     $retrieved_date = format_date(time(), 'small');
-    $print_text_retrieved = variable_get('print_text_retrieved', t('retrieved on %date'));
+    $print_text_retrieved = filter_xss(variable_get('print_text_retrieved', t('retrieved on %date')));
     $retrieved = t($print_text_retrieved, array('%date' => $retrieved_date));
     $print['printdate'] = $print_sourceurl_date ? " ($retrieved)" : '';
 
-    $source_url = variable_get('print_text_source_url', t('Source URL'));
+    $source_url = filter_xss(variable_get('print_text_source_url', t('Source URL')));
     $print['source_url'] = '<strong>'. $source_url . $print['printdate'] .':</strong> '. l($url, $url);
   }
   else {
@@ -284,11 +288,11 @@ function _print_var_generator($node, $message = NULL, $cid = NULL) {
     $node_type = $node->type;
 
     if (theme_get_setting("toggle_node_info_$node_type")) {
-      $print_text_by = variable_get('print_text_by', t('By %author'));
+      $print_text_by = filter_xss(variable_get('print_text_by', t('By %author')));
       $by_author = ($node->name ? $node->name : variable_get('anonymous', t('Anonymous')));
       $print['submitted'] = t($print_text_by, array('%author' => $by_author));
 
-      $print_text_created = variable_get('print_text_created', t('Created %date'));
+      $print_text_created = filter_xss(variable_get('print_text_created', t('Created %date')));
       $created_datetime = format_date($node->created, 'small');
       $print['created'] = t($print_text_created, array('%date' => $created_datetime));
     }
@@ -309,7 +313,7 @@ function _print_var_generator($node, $message = NULL, $cid = NULL) {
   $breadcrumb = drupal_get_breadcrumb();
   if (!empty($breadcrumb)) {
     $breadcrumb[] = menu_get_active_title();
-    $print['breadcrumb'] = implode(' > ', $breadcrumb);
+    $print['breadcrumb'] = filter_xss(implode(' > ', $breadcrumb));
   }
   else {
     $print['breadcrumb'] = '';
@@ -323,9 +327,9 @@ function _print_var_generator($node, $message = NULL, $cid = NULL) {
     $pfp_links = '';
     if ($max) {
       for ($i = 0; $i < $max; $i++) {
-        $pfp_links .= '['. ($i + 1) .'] '. $urls[$i] ."<br />\n";
+        $pfp_links .= '['. ($i + 1) .'] '. check_plain($urls[$i]) ."<br />\n";
       }
-      $links = variable_get('print_text_links', t('Links'));
+      $links = filter_xss(variable_get('print_text_links', t('Links')));
       $print['pfp_links'] = "<p><strong>$links:</strong><br />$pfp_links</p>";
     }
   }
@@ -544,7 +548,7 @@ function _print_generate_node($nid, $cid = NULL, $format = PRINT_HTML_FORMAT, $t
   global $_print_urls;
 
   // We can take a node id
-  $node = node_load(array('nid' => $nid));
+  $node = node_load($nid);
   if (!$node) {
     // Node not found
     drupal_not_found();
@@ -561,7 +565,7 @@ function _print_generate_node($nid, $cid = NULL, $format = PRINT_HTML_FORMAT, $t
   $node->printing = TRUE;
 
   //use the proper build_mode
-//  $node->build_mode = NODE_BUILD_PRINT;
+  $node->build_mode = NODE_BUILD_PRINT;
 
   // Turn off Pagination by the Paging module
   unset($node->pages);
@@ -660,6 +664,12 @@ function _print_generate_node($nid, $cid = NULL, $format = PRINT_HTML_FORMAT, $t
 function _print_generate_path($path, $format = PRINT_HTML_FORMAT, $teaser = FALSE, $message = NULL) {
   global $_print_urls;
 
+  // Handle node tabs
+  $parts = explode('/', $path);
+  if (is_numeric($parts[0]) && (count($parts) > 1)) {
+    $path = 'node/'. $path;
+  }
+
   $path = drupal_get_normal_path($path);
 
   menu_set_active_item($path);
@@ -723,7 +733,7 @@ function _print_generate_path($path, $format = PRINT_HTML_FORMAT, $teaser = FALS
 function _print_generate_book($nid, $format = PRINT_HTML_FORMAT, $teaser = FALSE, $message = NULL) {
   global $_print_urls;
 
-  $node = node_load(array('nid' => $nid));
+  $node = node_load($nid);
   if (!$node) {
     // Node not found
     drupal_not_found();

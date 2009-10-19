@@ -1,5 +1,5 @@
 <?php
-// $Id: print_mail.inc,v 1.2.2.22 2009/05/13 16:18:06 jcnventura Exp $
+// $Id: print_mail.inc,v 1.2.2.26 2009/10/03 16:52:09 jcnventura Exp $
 
 /**
  * @file
@@ -7,6 +7,8 @@
  *
  * This file is included by the print_mail module and includes the
  * mail form display, validation and submit hooks.
+ *
+ * @ingroup print
  */
 
 require_once(drupal_get_path('module', 'print') .'/print.pages.inc');
@@ -116,19 +118,19 @@ function print_mail_form($form_state) {
   );
 
   if ($user->uid != 0) {
-    $user_name = $user->name;
+    $user_name = check_plain(strip_tags(theme('username', $user)));
     $form['fld_from_addr']['#default_value'] = $user->mail;
     $form['fld_from_addr']['#disabled'] = TRUE;
     $form['fld_from_addr']['#value'] = $user->mail;
-    $form['fld_from_name']['#default_value'] = $user->name;
+    $form['fld_from_name']['#default_value'] = $user_name;
   }
   else {
     $user_name = t('Someone');
   }
   $site_name = variable_get('site_name', t('an interesting site'));
-  $print_mail_text_subject = variable_get('print_mail_text_subject', t('!user has sent you a message from !site'));
+  $print_mail_text_subject = filter_xss(variable_get('print_mail_text_subject', t('!user has sent you a message from !site')));
   $form['fld_subject']['#default_value'] = t($print_mail_text_subject, array('!user' => $user_name, '!site' => $site_name, '!title' => $title));
-  $print_mail_text_content = variable_get('print_mail_text_content', '');
+  $print_mail_text_content = filter_xss(variable_get('print_mail_text_content', ''));
   $form['txt_message']['#default_value'] = t($print_mail_text_content);
 
   return $form;
@@ -177,7 +179,7 @@ function print_mail_form_validate($form, &$form_state) {
   }
 
   // All new-lines are replaced by commas
-  $to_addrs = preg_replace('![\r|\n|,]+!', ',', $form_state['values']['txt_to_addrs']);
+  $to_addrs = preg_replace('![\r|\n|,]+!', ',', trim($form_state['values']['txt_to_addrs']));
   // Create an array from the string
   $to_array = explode(',', $to_addrs);
   // Verify each element of the array
@@ -242,7 +244,7 @@ function print_mail_form_submit($form, &$form_state) {
     }
     $cid = isset($form_state['values']['cid']) ? $form_state['values']['cid'] : NULL;
 
-    $print_mail_text_message = variable_get('print_mail_text_message', t('Message from sender'));
+    $print_mail_text_message = filter_xss_admin(variable_get('print_mail_text_message', t('Message from sender')));
     $sender_message = $print_mail_text_message .':<br /><br /><em>'. nl2br(check_plain($form_state['values']['txt_message'])) .'</em>';
 
     $print = print_controller($form_state['values']['path'], $cid, PRINT_MAIL_FORMAT, $form_state['values']['chk_teaser'], $sender_message);
@@ -299,7 +301,7 @@ function print_mail_form_submit($form, &$form_state) {
         watchdog('print_mail', '%name [%from] sent %page to [%to]', array('%name' => $form_state['values']['fld_from_name'], '%from' => $form_state['values']['fld_from_addr'], '%page' => $form_state['values']['path'], '%to' => $form_state['values']['txt_to_addrs']));
         $site_name = variable_get('site_name', t('us'));
         $print_mail_text_confirmation = variable_get('print_mail_text_confirmation', t('Thank you for spreading the word about !site.'));
-        drupal_set_message(t($print_mail_text_confirmation, array('!site' => $site_name)));
+        drupal_set_message(check_plain(t($print_mail_text_confirmation, array('!site' => $site_name))));
 
         $nodepath = drupal_get_normal_path($form_state['values']['path']);
         db_query("UPDATE {print_mail_page_counter} SET sentcount = sentcount + %d, sent_timestamp = %d WHERE path = '%s'", count($addresses), time(), $nodepath);

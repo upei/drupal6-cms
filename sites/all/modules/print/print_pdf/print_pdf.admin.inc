@@ -1,5 +1,5 @@
 <?php
-// $Id: print_pdf.admin.inc,v 1.1.2.16 2009/04/27 22:53:50 jcnventura Exp $
+// $Id: print_pdf.admin.inc,v 1.1.2.21 2009/10/13 21:52:30 jcnventura Exp $
 
 /**
  * @file
@@ -7,6 +7,8 @@
  *
  * This file is included by the PDF version module, and includes the
  * settings form.
+ *
+ * @ingroup print
  */
 
 /**
@@ -164,6 +166,12 @@ function print_pdf_settings() {
       '#default_value' => variable_get('print_pdf_page_orientation', PRINT_PDF_PAGE_ORIENTATION_DEFAULT),
       '#description' => t('Choose the page orientation of the generated PDF.'),
     );
+    $form['settings']['print_pdf_autoconfig'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Auto-configure the TCPDF settings'),
+      '#default_value' => variable_get('print_pdf_autoconfig', PRINT_PDF_AUTOCONFIG_DEFAULT),
+      '#description' => t('(TCPDF only) If you disable this option, the TCDPF settings in tcpdf/config/tcpdf_config.php file must be configured manually.'),
+    );
     $form['settings']['print_pdf_font_family'] = array(
       '#type' => 'textfield',
       '#title' => t('Font Family'),
@@ -185,7 +193,7 @@ function print_pdf_settings() {
       '#type' => 'textfield',
       '#title' => t('wkhtmltopdf options'),
       '#default_value' => variable_get('print_pdf_wkhtmltopdf_options', PRINT_PDF_WKHTMLTOPDF_OPTIONS),
-      '#description' => t('(wkhtmltopdf only) Set any additional options to be passed to the wkhtmltopdf executable.'),
+      '#description' => t('(wkhtmltopdf only) Set any additional options to be passed to the wkhtmltopdf executable. Tokens may be used in these options (see list below).'),
     );
     $form['settings']['print_pdf_xvfb_options'] = array(
       '#type' => 'textfield',
@@ -252,7 +260,10 @@ function _print_pdf_settings_validate($form, &$form_state) {
 function _print_pdf_tools() {
   $tools = array_keys(file_scan_directory(drupal_get_path('module', 'print'), '^dompdf_config.inc.php$'));
   $tools = array_merge($tools, array_keys(file_scan_directory(drupal_get_path('module', 'print'), '^tcpdf.php$')));
-  $tools = array_merge($tools, array_keys(file_scan_directory(drupal_get_path('module', 'print'), '^wkhtmltopdf$')));
+  $tools = array_merge($tools, array_keys(file_scan_directory(drupal_get_path('module', 'print'), '^wkhtmltopdf(.exe)?$')));
+  $tools = array_merge($tools, array_keys(file_scan_directory(PRINT_PDF_LIB_PATH, '^dompdf_config.inc.php$')));
+  $tools = array_merge($tools, array_keys(file_scan_directory(PRINT_PDF_LIB_PATH, '^tcpdf.php$')));
+  $tools = array_merge($tools, array_keys(file_scan_directory(PRINT_PDF_LIB_PATH, '^wkhtmltopdf$')));
 
   $num_tools = count($tools);
 

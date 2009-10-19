@@ -1,5 +1,5 @@
 <?php
-// $Id: print.admin.inc,v 1.1.2.25 2009/03/27 01:12:35 jcnventura Exp $
+// $Id: print.admin.inc,v 1.1.2.29 2009/10/03 15:18:23 jcnventura Exp $
 
 /**
  * @file
@@ -7,6 +7,8 @@
  *
  * This file is included by the core PF module, and includes the
  * settings form.
+ *
+ * @ingroup print
  */
 
 /**
@@ -25,9 +27,11 @@ function print_main_settings() {
     '#title' => t('Stylesheet URL'),
     '#default_value' => variable_get('print_css', PRINT_CSS_DEFAULT),
     '#size' => 60,
-    '#maxlength' => 64,
+    '#maxlength' => 250,
     '#description' => t('The URL to your custom print cascading stylesheet, if any. When none is specified, the default module CSS file is used.') .'<br />'.
-                      t('Macros: %b (base path: "%base"), %t (path to theme: "%theme")', array('%base' => base_path(), '%theme' => path_to_theme())),
+                      t('Macros: %b (base path: "%base"), %t (path to theme: "%theme")', array('%base' => base_path(), '%theme' => path_to_theme())) .'<br />'.
+                      t('Requires the <em>administer site configuration</em> permission.'),
+    '#disabled' => !user_access('administer site configuration'),
   );
 
   $form['settings']['print_urls'] = array(
@@ -145,6 +149,8 @@ function print_main_settings() {
  * Validate print_main_settings form.
  */
 function _print_main_settings_validate($form, &$form_state) {
+  global $base_url;
+
   // Check for a new uploaded logo, and use that instead.
   if ($file = file_save_upload('print_logo_upload', array('file_validate_is_image' => array()))) {
     $parts = pathinfo($file->filename);
@@ -156,6 +162,13 @@ function _print_main_settings_validate($form, &$form_state) {
     if (file_copy($file, $filename, FILE_EXISTS_REPLACE)) {
       $form_state['values']['print_logo_options'] = 2;
       $form_state['values']['print_logo_url'] = base_path() . $file->filepath;
+    }
+  }
+
+  // Check that the stylesheet URL is a local URL, if it is an absolute URL, then it must start with the site's base URL
+  if (preg_match('!^http://.*!', $form_state['values']['print_css'], $matches)) {
+    if (!preg_match("!^$base_url/!", $matches[0])) {
+      form_set_error('print_css', t("Stylesheet URL must be a relative path or start with the site's base URL"));
     }
   }
 }
@@ -278,6 +291,13 @@ function print_html_settings() {
     '#title' => t('Send to printer'),
     '#default_value' => variable_get('print_html_sendtoprinter', PRINT_HTML_SENDTOPRINTER_DEFAULT),
     '#description' => t("Automatically calls the browser's print function when the printer-friendly version is displayed."),
+  );
+
+  $form['settings']['print_html_windowclose'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Close window after sending to printer'),
+    '#default_value' => variable_get('print_html_windowclose', PRINT_HTML_WINDOWCLOSE_DEFAULT),
+    '#description' => t("When the above options are enabled, this option will close the window after its contents are printed."),
   );
 
   $form['settings']['print_robots_settings'] = array(

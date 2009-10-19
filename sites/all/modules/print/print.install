@@ -1,9 +1,11 @@
 <?php
-// $Id: print.install,v 1.1.4.15 2009/03/17 20:55:06 jcnventura Exp $
+// $Id: print.install,v 1.1.4.19 2009/10/03 15:18:24 jcnventura Exp $
 
 /**
  * @file
  * Install file of the print module
+ *
+ * @ingroup print
  */
 
 /**
@@ -47,6 +49,7 @@ function print_uninstall() {
   variable_del('print_html_book_link');
   variable_del('print_html_new_window');
   variable_del('print_html_sendtoprinter');
+  variable_del('print_html_windowclose');
   variable_del('print_robots_noindex');
   variable_del('print_robots_nofollow');
   variable_del('print_robots_noarchive');
@@ -135,8 +138,13 @@ function print_schema() {
  */
 function print_update_6000() {
   global $conf;
-
   $ret = array();
+
+  $lastversion = drupal_get_installed_schema_version('print');
+  if (($lastversion >= 5300) && ($lastversion < 6000)) {
+    return $ret;
+  }
+
   if (isset($conf['print_settings'])) {
     $print_settings = variable_get('print_settings', '');
     variable_set('print_logo_options', ($print_settings['logo_url'] ? 2 : 1));
@@ -183,6 +191,11 @@ function print_update_6000() {
  */
 function print_update_6001() {
   $ret = array();
+  $lastversion = drupal_get_installed_schema_version('print');
+  if (($lastversion >= 5301) && ($lastversion < 6000)) {
+    return $ret;
+  }
+
   menu_rebuild();
   return $ret;
 }
@@ -191,6 +204,12 @@ function print_update_6001() {
  * Update to version 6.x-1.1
  */
 function print_update_6002() {
+  $ret = array();
+  $lastversion = drupal_get_installed_schema_version('print');
+  if (($lastversion >= 5302) && ($lastversion < 6000)) {
+    return $ret;
+  }
+
   $schema['print_node_conf'] = array(
     'fields' => array(
       'nid' => array(
@@ -247,7 +266,6 @@ function print_update_6002() {
     'primary key' => array('path'),
   );
 
-  $ret = array();
   db_create_table($ret, 'print_node_conf', $schema['print_node_conf']);
   db_create_table($ret, 'print_page_counter', $schema['print_page_counter']);
   return $ret;
@@ -257,8 +275,14 @@ function print_update_6002() {
  * Update to version 6.x-1.2
  */
 function print_update_6003() {
-  // Delete custom text strings set to the default
   $ret = array();
+
+  $lastversion = drupal_get_installed_schema_version('print');
+  if (($lastversion >= 5303) && ($lastversion < 6000)) {
+    return $ret;
+  }
+
+  // Delete custom text strings set to the default
   $vars = array(
     'print_html_link_text' => 'Printer-friendly version',
     'print_text_published' => 'Published on %site_name',

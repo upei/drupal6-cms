@@ -1,9 +1,11 @@
 <?php
-// $Id: print_mail.module,v 1.1.2.33 2009/05/13 01:11:46 jcnventura Exp $
+// $Id: print_mail.module,v 1.1.2.42 2009/10/15 23:43:27 jcnventura Exp $
 
 /**
  * @file
  * Displays Printer-friendly versions of Drupal pages.
+ *
+ * @ingroup print
  */
 
 define('PRINTMAIL_PATH', 'printmail');
@@ -23,6 +25,13 @@ define('PRINT_MAIL_HOURLY_THRESHOLD', 3);
 define('PRINT_MAIL_TEASER_DEFAULT_DEFAULT', 1);
 define('PRINT_MAIL_TEASER_CHOICE_DEFAULT', 1);
 define('PRINT_MAIL_JOB_QUEUE_DEFAULT', 0);
+
+/**
+ * Implementation of hook_perm().
+ */
+function print_mail_perm() {
+  return array('access send to friend');
+}
 
 /**
  * Implementation of hook_theme().
@@ -49,9 +58,13 @@ function print_mail_menu() {
     'title' => 'Send page by e-mail',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('print_mail_form'),
-    'access arguments' => array('access print'),
+    'access callback' => '_print_mail_access',
+    'access arguments' => array('access send to friend'),
     'type' => MENU_CALLBACK,
     'file' => 'print_mail.inc',
+  );
+  $items[PRINTMAIL_PATH .'/'. PRINTMAIL_PATH] = array(
+    'access callback' => FALSE,
   );
   $items['admin/settings/print/email'] = array(
     'title' => 'e-mail',
@@ -192,8 +205,7 @@ function print_mail_nodeapi(&$node, $op = 'view', $teaser, $page) {
       // Insert content corner links
       $print_mail_link_pos = variable_get('print_mail_link_pos', array(PRINT_MAIL_LINK_POS_DEFAULT => PRINT_MAIL_LINK_POS_DEFAULT));
       if (($teaser === FALSE) && !empty($print_mail_link_pos['corner']) &&
-          !isset($node->printing)) {
-//          isset($node->build_mode) && ($node->build_mode == NODE_BUILD_NORMAL)) {
+          isset($node->build_mode) && ($node->build_mode == NODE_BUILD_NORMAL)) {
         $link = print_mail_insert_link(NULL, $node);
         if ($link) {
           $node->content['print_links']['#value'] = preg_replace('!</span>$!', $link .'</span>', $node->content['print_links']['#value']);
@@ -265,6 +277,35 @@ function print_mail_job_queue_functions() {
 }
 
 /**
+ * Access callback to check a combination of user_acess() and page access
+ *
+ * @param $permission
+ *   permission required to view the page
+ * @return
+ *   TRUE if the user has permission to view the page, FALSE otherwise
+ */
+function _print_mail_access($permission) {
+  $page_access = TRUE;
+  $parts = explode('/', $_GET['q']);
+  if (count($parts) > 1) {
+    unset($parts[0]);
+    $path = implode('/', $parts);
+    if (is_numeric($parts[1])) {
+      $path = 'node/'. $path;
+    }
+    else {
+      $path = drupal_get_normal_path($path);
+    }
+    // If the destination page is not accessible, don't show the form
+    if (!($router_item = menu_get_item($path)) || (!$router_item['access'])) {
+      $page_access = FALSE;
+    }
+  }
+
+  return (user_access($permission) && $page_access);
+}
+
+/**
  * Auxiliary function to assign the per-node settings to the node object fields
  *
  * @param $node
@@ -318,7 +359,7 @@ function _print_mail_node_conf_modify($nid, $link, $comments, $url_list) {
 function theme_print_mail_format_link() {
   $print_mail_link_class  = variable_get('print_mail_link_class', PRINT_MAIL_LINK_CLASS_DEFAULT);
   $print_mail_show_link = variable_get('print_mail_show_link', PRINT_MAIL_SHOW_LINK_DEFAULT);
-  $print_mail_link_text = variable_get('print_mail_link_text', t('Send to friend'));
+  $print_mail_link_text = filter_xss(variable_get('print_mail_link_text', t('Send to friend')));
 
   $img = drupal_get_path('module', 'print') .'/icons/mail_icon.gif';
   $title = t('Send this page by e-mail.');
@@ -407,14 +448,14 @@ function print_mail_insert_link($path = NULL, $node = NULL) {
  *   PRINT_ALLOW_BOOK_LINK if a link is allowed in a book node
  */
 function print_mail_link_allowed($args) {
-  if (!empty($args['teaser']) || !user_access('access print')) {
+  if (!empty($args['teaser']) || !user_access('access send to friend')) {
     // If showing only the teaser or the user is not allowed or link is disabled
     return FALSE;
   }
   if (!empty($args['path'])) {
     $nid = preg_replace('!^node/!', '', drupal_get_normal_path($args['path']));
     if (is_numeric($nid)) {
-      $args['node'] = node_load(array('nid' => $nid));
+      $args['node'] = node_load($nid);
     }
   }
   if (!empty($args['node'])) {
@@ -433,7 +474,7 @@ function print_mail_link_allowed($args) {
     $print_mail_node_link_visibility = variable_get('print_mail_node_link_visibility', PRINT_MAIL_NODE_LINK_VISIBILITY_DEFAULT);
     $print_mail_node_link_pages = variable_get('print_mail_node_link_pages', PRINT_MAIL_NODE_LINK_PAGES_DEFAULT);
 
-    if (!_print_page_match($print_mail_node_link_visibility, $print_mail_node_link_pages)) {
+    if (!_print_page_match($print_mail_node_link_visibility, "node/". $node->nid, $print_mail_node_link_pages)) {
       // Page not in visibility list
       return FALSE;
     }
@@ -476,7 +517,7 @@ function print_mail_link_allowed($args) {
     $print_mail_sys_link_visibility = variable_get('print_mail_sys_link_visibility', PRINT_MAIL_SYS_LINK_VISIBILITY_DEFAULT);
     $print_mail_sys_link_pages = variable_get('print_mail_sys_link_pages', PRINT_MAIL_SYS_LINK_PAGES_DEFAULT);
 
-    return _print_page_match($print_mail_sys_link_visibility, $print_mail_sys_link_pages);
+    return _print_page_match($print_mail_sys_link_visibility, $_GET['q'], $print_mail_sys_link_pages);
   }
   return FALSE;
 }
