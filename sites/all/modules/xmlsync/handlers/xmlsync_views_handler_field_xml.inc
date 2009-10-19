@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync_views_handler_field_xml.inc,v 1.3 2009/07/17 14:28:10 gzfelix Exp $
+// $Id: xmlsync_views_handler_field_xml.inc,v 1.2.2.1 2009/10/16 19:06:25 gzfelix Exp $
 
 class xmlsync_views_handler_field_xml extends views_handler_field {
 

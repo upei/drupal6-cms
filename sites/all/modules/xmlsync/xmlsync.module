@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync.module,v 1.6 2009/10/16 18:58:09 gzfelix Exp $
+// $Id: xmlsync.module,v 1.2.2.1 2009/10/16 19:06:25 gzfelix Exp $
 
 include_once './' . drupal_get_path('module', 'xmlsync') . '/xmlsync.inc';
 
