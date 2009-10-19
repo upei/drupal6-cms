@@ -1,26 +1,38 @@
 <?php
-/*
- * The implementation of the Porter Stemmer is free software,
- * and is © 2005 Richard Heyes (http://www.phpguru.org/). Certain elements
- * were borrowed from the (broken) implementation by Jon Abernathy.
- *
- * It was modified by Steven Wittens for PHP4 compatibility and Drupal integration.
+// $Id: porterstemmer.module,v 1.2.2.3 2009/10/08 16:22:10 jhodgdon Exp $
+
+/**
+ * @file
+ * This is an implementation of the Porter 2 Stemming algorithm from
+ *   http://snowball.tartarus.org/algorithms/english/stemmer.html
+ * by Jennifer Hodgdon of Poplar ProductivityWare, www.poplarware.com
  */
 
 /**
-* Implementation of hook_search_preprocess
-*/
+ * Implementation of hook_search_preprocess().
+ *
+ * Stems the words in $text, using the Porter Stemmer 2 algorithm.
+ */
 function porterstemmer_search_preprocess(&$text) {
-  // Split words from noise and remove apostrophes
-  $words = preg_split('/([^a-zA-Z]+)/', str_replace("'", '', $text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
-  // Process each word
-  $odd = true;
+  // Convert text to lower case, and replace special apostrophes with regular
+  // apostrophes
+  $text = drupal_strtolower(str_replace('’', "'", $text));
+
+  // Split into words
+  $words = preg_split('/(' . PORTERSTEMMER_BOUNDARY . '+)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+  if (!count( $words )) {
+    return $text;
+  }
+
+  // Process each word, skipping delimiters
+  $isword = !preg_match('/' . PORTERSTEMMER_BOUNDARY . '/', $words[0] );
   foreach ($words as $k => $word) {
-    if ($odd) {
-      $words[$k] = Stem($word);
+    if ($isword) {
+      $words[$k] = porterstemmer_stem($word);
     }
-    $odd = !$odd;
+    $isword = !$isword;
   }
 
   // Put it all back together
@@ -28,399 +40,682 @@ function porterstemmer_search_preprocess(&$text) {
 }
 
 /**
-* Implementation of hook_help().
-*/
+ * Implementation of hook_help().
+ */
 function porterstemmer_help($section = 'admin/help#search') {
   switch ($section) {
     case 'admin/modules#description':
-      return t('Implements the Porter-Stemmer algorithm to improve English searching.');
+      return t('Implements the Porter-Stemmer version 2 algorithm to improve English searching.');
   }
 }
 
 /**
-* Regex for matching a consonant
-*/
-define('regex_consonant', '(?:[bcdfghjklmnpqrstvwxz]|(?<=[aeiou])y|^y)');
+ * Implementation of hook_sbp_excerpt_match().
+ */
+function porterstemmer_sbp_excerpt_match( $key, $text, $offset, $boundary ) {
+  // Stem the keyword down to its root form.
+  $key = porterstemmer_stem( $key );
 
+  // In many cases, the root word is a substring of the full word, but not
+  // all. The cases where it is not, the root ends in e, i, or y, and if this
+  // last letter is removed, the root is a substring of the full word.
+  // So remove these letters at the end of the root.
 
-/**
-* Regex for matching a vowel
-*/
-define('regex_vowel', '(?:[aeiou]|(?<![aeiou])y)');
+  $didit = FALSE;
+  porterstemmer_suffix( $key, 'i', '', $didit, NULL, 2 ) OR
+    porterstemmer_suffix( $key, 'e', '', $didit, NULL, 2 ) OR
+    porterstemmer_suffix( $key, 'y', '', $didit, NULL, 2 );
 
+  // Look for this modified key at the start of a word.
 
-/**
-* Stems a word. Simple huh?
-*
-* @param  string $word Word to stem
-* @return string       Stemmed word
-*/
-function stem($word)
-{
-    if (strlen($word) <= 2) {
-        return $word;
+  $match = array();
+  if (!preg_match('/'. $boundary . $key . '/iu', $text, $match, PREG_OFFSET_CAPTURE, $offset )) {
+    // didn't match our modified key.
+    return FALSE;
+  }
+
+  // If we get here, we have a potential match. Find the end of the word we
+  // actually matched, so it can be highlighted (making sure it's a real match
+  // for our key).
+  $newmatch = array();
+  foreach ( $match as $item ) {
+    $pos = $match[0][1];
+    // Note: Do not use drupal_strlen/drupal_substr here! Need the real PHP
+    // string lengths/pos.
+    if (preg_match('/' . $boundary . '/iu', $text, $newmatch,
+        PREG_OFFSET_CAPTURE, $pos + strlen($key))) {
+      $keyfound = substr($text, $pos, $newmatch[0][1] - $pos);
+      $foundstem = porterstemmer_stem( $keyfound );
+      porterstemmer_suffix( $foundstem, 'i', '', $didit, NULL, 2 ) OR
+        porterstemmer_suffix( $foundstem, 'e', '', $didit, NULL, 2 ) OR
+        porterstemmer_suffix( $foundstem, 'y', '', $didit, NULL, 2 );
+
+      if ($foundstem == $key) {
+        return array('where' => $pos, 'keyword' => $keyfound);
+      }
     }
+  }
 
-    $word = step1ab($word);
-    $word = step1c($word);
-    $word = step2($word);
-    $word = step3($word);
-    $word = step4($word);
-    $word = step5($word);
-
-    return $word;
+  // If we get here, none of the potential matches worked out.
+  return FALSE;
 }
 
+/**
+ * Regular expression defining a vowel for Porter Stemmer purposes.
+ */
+define('PORTERSTEMMER_VOWEL', '[aeiouy]');
 
 /**
-* Step 1
-*/
-function step1ab($word)
-{
-    // Part a
-    if (substr($word, -1) == 's') {
+ * Regular expression defining not-a-vowel for Porter Stemmer purposes.
+ */
+define('PORTERSTEMMER_NOT_VOWEL', '[^aeiouy]');
 
-           replace($word, 'sses', 'ss')
-        OR replace($word, 'ies', 'i')
-        OR replace($word, 'ss', 'ss')
-        OR replace($word, 's', '');
+/**
+ * Regular expression defining not-a-vowel and not w, x, Y,
+ * for Porter Stemmer purposes.
+ */
+define('PORTERSTEMMER_NOT_VOWEL_WXY', '[^aeiouywxY]');
+
+/**
+ * Regular expression defining a double consonant for Porter Stemmer purposes.
+ */
+define('PORTERSTEMMER_DOUBLE', '(bb|dd|ff|gg|mm|nn|pp|rr|tt)');
+
+/**
+ * Regular expression defining an li-ending for Porter Stemmer purposes.
+ */
+define('PORTERSTEMMER_LI_END', '[cdeghkmnrt]');
+
+/**
+ * Regular expression defining a word boundary for Porter Stemmer purposes
+ * (anything not a letter or an apostrophe).
+ */
+define('PORTERSTEMMER_BOUNDARY', "[^a-zA-Z']+");
+
+/**
+ * Stems a word, using the Porter Stemmer 2 algorithm.
+ *
+ * @param $word
+ *   Word to stem.
+ * @return
+ *   Stemmed word
+ */
+function porterstemmer_stem($word) {
+  // Each of these helper functions returns TRUE if it is time to stop
+  // stemming and return. If everything is fine, they modify params by
+  // reference, as necessary, for the next function.
+
+  $r1 = 0; // position of R1 region in original word
+  $r2 = 0; // position of R1 region in original word
+  porterstemmer_prestemming($word, $r1, $r2) OR
+    porterstemmer_exception1($word) OR
+    porterstemmer_step0($word) OR
+    porterstemmer_step1a($word) OR
+    porterstemmer_exception2($word) OR
+    porterstemmer_step1b($word, $r1) OR
+    porterstemmer_step1c($word) OR
+    porterstemmer_step2($word, $r1) OR
+    porterstemmer_step3($word, $r1, $r2) OR
+    porterstemmer_step4($word, $r2) OR
+    porterstemmer_step5($word, $r1, $r2);
+
+  porterstemmer_poststemming( $word );
+  return $word;
+}
+
+/**
+ * Returns TRUE if word is too short to continue stemming.
+ */
+function porterstemmer_too_short($word, $reset = FALSE) {
+  static $min_chars = 0;
+  if ( !$min_chars || $reset ) {
+    // Get Search module's idea of minimum characters
+    $min_chars = intval( variable_get('minimum_word_size', 3));
+    // Porter algorithm cannot handle less than 2 characters
+    if ( $min_chars < 2 ) {
+      $min_chars = 2;
     }
+  }
 
-    // Part b
-    if (substr($word, -2, 1) != 'e' OR !replace($word, 'eed', 'ee', 0)) { // First rule
-        $v = regex_vowel;
+  if ( drupal_strlen($word) < $min_chars ) {
+    return TRUE;
+  }
 
-        // ing and ed
-        if (   preg_match("#$v+#", substr($word, 0, -3)) && replace($word, 'ing', '')
-            OR preg_match("#$v+#", substr($word, 0, -2)) && replace($word, 'ed', '')) { // Note use of && and OR, for precedence reasons
+  return FALSE;
+}
 
-            // If one of above two test successful
-            if (    !replace($word, 'at', 'ate')
-                AND !replace($word, 'bl', 'ble')
-                AND !replace($word, 'iz', 'ize')) {
+/**
+ * Replaces word and calculates return value for steps.
+ *
+ * If $tmp is long enough, replaces $word with $tmp and returns FALSE
+ * to continue stemming process. If $tmp is too short, no replacement
+ * and returns TRUE to end stemming process.
+ */
+function porterstemmer_step_ending(&$word, $tmp) {
+  if ( porterstemmer_too_short( $tmp)) {
+    return TRUE;
+  }
 
-                // Double consonant ending
-                if (    doubleConsonant($word)
-                    AND substr($word, -2) != 'll'
-                    AND substr($word, -2) != 'ss'
-                    AND substr($word, -2) != 'zz') {
+  $word = $tmp;
+  return FALSE;
+}
 
-                    $word = substr($word, 0, -1);
+/**
+ * Replaces one word ending with another, if tests pass.
+ *
+ * The return value is TRUE of the ending is present at the end
+ * of the word, and FALSE if the ending is not present. The found
+ * word ending is also replaced with the given replacement, only if
+ * the additional regular expression (if present) matches and if the
+ * word is at least the given length.
+ *
+ * @param $word
+ *    Word to performm search/replace on.
+ * @param $oldend
+ *    Ending to check for.
+ * @param $newend
+ *    Replacement ending.
+ * @param $didit
+ *    Set to TRUE in the case that a replacement is done; left alone
+ *    otherwise.
+ * @param $other
+ *    Extra regular expression; must match to allow ending replacement.
+ * @param $minlen
+ *    Minimum word length required to allow ending replacement. For
+ *    instance, to see if a particular ending is in the R1 region,
+ *    pass in $r1 + length of ending as the minimum word length.
+ * @return
+ *    TRUE if ending was at the end of the word, FALSE if not.
+ */
+function porterstemmer_suffix(&$word, $oldend, $newend, &$didit, $other = NULL, $minlen = 1) {
+  // Check to see if the ending is there
+  $end_regexp = '/' . $oldend . '$/';
+  if (!preg_match( $end_regexp, $word )) {
+    // ending isn't even there
+    return FALSE;
+  }
 
-                } else if (m($word) == 1 AND cvc($word)) {
-                    $word .= 'e';
-                }
-            }
-        }
+  // Does word match other regular expression?
+  if ($other && !preg_match($other, $word)) {
+    // no match, so just return without replacing
+    return TRUE;
+  }
+
+  // Is word long enough?
+  if (drupal_strlen($word) < $minlen) {
+    // too short, so just return without replacing
+    return TRUE;
+  }
+
+  // Replace word ending
+  $word = preg_replace($end_regexp, $newend, $word);
+  $didit = TRUE;
+  return TRUE;
+}
+
+/**
+ * Checks to see if a word is considered "short" in Porter Stemmer 2.
+ *
+ * A word is "short" if region R1 doesn't exist, and if it ends in a
+ * short syllable. A short syllable is consonant, followed by vowel,
+ * followed by consonant not w, x, Y; or else vowel starting a word,
+ * followed by a non-vowel.
+ *
+ * @param $word
+ *   Word to check.
+ * @param $r1
+ *   Start position of R1 region in word.
+ * @return
+ *   TRUE if the word is short, false if not.
+ */
+function porterstemmer_short_word( $word, $r1 ) {
+
+  if (drupal_strlen($word) > $r1) {
+    // R1 region exists, so this is not a short word
+    return FALSE;
+  }
+
+  // Does it end in one type of short syllable?
+  if (preg_match('/^' . PORTERSTEMMER_VOWEL . PORTERSTEMMER_NOT_VOWEL . '$/',
+      $word)) {
+    return TRUE;
+  }
+
+  // Does it end in the other type of short syllable?
+  if (preg_match('/' . PORTERSTEMMER_NOT_VOWEL . PORTERSTEMMER_VOWEL .
+      PORTERSTEMMER_NOT_VOWEL_WXY . '$/', $word)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Pre-processes a word for the Porter Stemmer 2 algorithm.
+ *
+ * Checks for too-short words, removes initial apostrophes, sets y to
+ * Y (so as not to be considered a vowel) if y is at start of word or
+ * after a vowel. Then calculates the position of the R1 and R2
+ * regions in the word.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @param $r1
+ *   Returns the start position of the "R1" region in the word.
+ * @param $r2
+ *   Returns the start position of the "R2" region in the word.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_prestemming(&$word, &$r1, &$r2) {
+  if (porterstemmer_too_short($word)) {
+    return TRUE;
+  }
+
+  $tmp = $word;
+
+  // Remove initial apostrophe
+  $tmp = preg_replace("/^'/", '', $tmp);
+  if (porterstemmer_too_short($tmp)) {
+    return TRUE;
+  }
+
+  // y -> Y if we should treat it as consonant
+  $tmp = preg_replace('/^y/', 'Y', $tmp);
+  $before = 'not going to match';
+  while ( $before != $tmp ) {
+    // Do this replacement one by one, to avoid unlikely yyyy issues
+    $before = $tmp;
+    // Note: do not use count param to preg_replace - added in 5.10!!
+    $tmp = preg_replace('/(' . PORTERSTEMMER_VOWEL . ')y/', '$1Y',
+      $tmp, 1);
+  }
+
+  // This y/Y step should not have changed the word length
+  $word = $tmp;
+
+  // Find R1 and R2. R1 is the region after the first non-vowel
+  // following a vowel. R2 is the region after the first non-vowel
+  // following a vowel in R1.
+  $max = drupal_strlen($word);
+  $r1 = $max;
+  $r2 = $max;
+  $matches = array();
+  $rdef = '/^' . PORTERSTEMMER_NOT_VOWEL . '*' .
+    PORTERSTEMMER_VOWEL . '+(' . PORTERSTEMMER_NOT_VOWEL . ')/';
+
+  // Exceptions to R1: If word begins with 'gener', 'commun', or 'arsen',
+  // R1 is the remainder of the word.
+  if ( preg_match( '/^(gener|commun|arsen)/', $word, $matches )) {
+    $r1 = drupal_strlen( $matches[1] );
+  }
+  elseif (preg_match( $rdef, $word, $matches, PREG_OFFSET_CAPTURE)) {
+    $r1 = $matches[1][1] + 1;
+  };
+  $R1 = drupal_substr($word, $r1);
+  if ($R1 && preg_match( $rdef, $R1, $matches, PREG_OFFSET_CAPTURE)) {
+    $r2 = $r1 + $matches[1][1] + 1;
+  };
+
+  return FALSE;
+}
+
+/**
+ * Turn Y back into y to undo pre-processing.
+ */
+function porterstemmer_poststemming(&$word) {
+  $word = str_replace('Y', 'y', $word);
+}
+
+/**
+ * Step 0 of the algorithm: remove possessive endings.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_step0(&$word) {
+  $tmp = $word;
+  $didit = FALSE;
+  porterstemmer_suffix($tmp, "'s'", '', $didit) OR
+    porterstemmer_suffix($tmp, "'s", '', $didit) OR
+    porterstemmer_suffix($tmp, "'", '', $didit);
+
+  return porterstemmer_step_ending( $word, $tmp );
+}
+
+
+/**
+ * Step 1a of algorithm: plurals, etc.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_step1a(&$word) {
+  $tmp = $word;
+  $didit = FALSE;
+
+  $done = porterstemmer_suffix($tmp, 'sses', 'ss', $didit);
+
+  // ies/ied endings -- have different replacements depending on
+  // if there is more than one letter preceeding. So make sure to
+  // test/replace for both conditions.
+
+  if ( !$done && porterstemmer_suffix($tmp, 'ies', 'ie', $didit, '/^.?ies$/')) {
+    if ( !$didit ) {
+      porterstemmer_suffix($tmp, 'ies', 'i', $didit);
     }
+    $done = TRUE;
+  }
 
-    return $word;
-}
-
-
-/**
-* Step 1c
-*
-* @param string $word Word to stem
-*/
-function step1c($word)
-{
-    $v = regex_vowel;
-
-    if (substr($word, -1) == 'y' && preg_match("#$v+#", substr($word, 0, -1))) {
-        replace($word, 'y', 'i');
+  if ( !$done && porterstemmer_suffix($tmp, 'ied', 'ie', $didit, '/^.?ied$/')) {
+    if ( !$didit ) {
+      porterstemmer_suffix($tmp, 'ied', 'i', $didit);
     }
+    $done = TRUE;
+  }
 
-    return $word;
+  if ( !$done ) {
+    porterstemmer_suffix($tmp, 'ss', 'ss', $didit) OR
+    porterstemmer_suffix($tmp, 'us', 'us', $didit) OR
+    // only delete s at end of word if there is at least one vowel that
+    // is not immediately before the s
+    porterstemmer_suffix($tmp, 's', '', $didit,
+      '/' . PORTERSTEMMER_VOWEL . '.+s$/');
+  }
+
+  return porterstemmer_step_ending( $word, $tmp );
 }
 
 
 /**
-* Step 2
-*
-* @param string $word Word to stem
-*/
-function step2($word)
-{
-    switch (substr($word, -2, 1)) {
-        case 'a':
-               replace($word, 'ational', 'ate', 0)
-            OR replace($word, 'tional', 'tion', 0);
-            break;
+ * Step 1b of algorithm: eed, eedly, ed, edly, ing, ingly
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @param $r1
+ *   Position of start of R1 region in word.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_step1b(&$word, $r1) {
+  $tmp = $word;
+  $didit = FALSE;
 
-        case 'c':
-               replace($word, 'enci', 'ence', 0)
-            OR replace($word, 'anci', 'ance', 0);
-            break;
+  // Replace these endings if in R1 region
+  $done = ( porterstemmer_suffix($tmp, 'eedly', 'ee', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'eed', 'ee', $didit, NULL, $r1 + 3));
 
-        case 'e':
-            replace($word, 'izer', 'ize', 0);
-            break;
+  // Delete these endings if there's a vowel before the ending
+  $didit = FALSE;
+  if ( !$done ) {
+    porterstemmer_suffix($tmp, 'edly', '', $didit,
+      '/' . PORTERSTEMMER_VOWEL . '.*edly$/' ) OR
+      porterstemmer_suffix($tmp, 'ed', '', $didit,
+        '/' . PORTERSTEMMER_VOWEL . '.*ed$/' ) OR
+      porterstemmer_suffix($tmp, 'ingly', '', $didit,
+        '/' . PORTERSTEMMER_VOWEL . '.*ingly$/' ) OR
+      porterstemmer_suffix($tmp, 'ing', '', $didit,
+        '/' . PORTERSTEMMER_VOWEL . '.*ing$/' );
+  }
 
-        case 'g':
-            replace($word, 'logi', 'log', 0);
-            break;
-
-        case 'l':
-               replace($word, 'entli', 'ent', 0)
-            OR replace($word, 'ousli', 'ous', 0)
-            OR replace($word, 'alli', 'al', 0)
-            OR replace($word, 'bli', 'ble', 0)
-            OR replace($word, 'eli', 'e', 0);
-            break;
-
-        case 'o':
-               replace($word, 'ization', 'ize', 0)
-            OR replace($word, 'ation', 'ate', 0)
-            OR replace($word, 'ator', 'ate', 0);
-            break;
-
-        case 's':
-               replace($word, 'iveness', 'ive', 0)
-            OR replace($word, 'fulness', 'ful', 0)
-            OR replace($word, 'ousness', 'ous', 0)
-            OR replace($word, 'alism', 'al', 0);
-            break;
-
-        case 't':
-               replace($word, 'biliti', 'ble', 0)
-            OR replace($word, 'aliti', 'al', 0)
-            OR replace($word, 'iviti', 'ive', 0);
-            break;
+  // If we did one of these replacements, post-process...
+  if ( $didit ) {
+    $done = porterstemmer_suffix($tmp, 'at', 'ate', $didit) OR
+      porterstemmer_suffix($tmp, 'bl', 'ble', $didit) OR
+      porterstemmer_suffix($tmp, 'iz', 'ize', $didit);
+    if (!$done &&
+      preg_match('/' . PORTERSTEMMER_DOUBLE . '$/', $tmp)) {
+      // drop last letter if it's a double-letter ending
+      $tmp = drupal_substr($tmp, 0, -1);
+      $done = TRUE;
     }
-
-    return $word;
-}
-
-
-/**
-* Step 3
-*
-* @param string $word String to stem
-*/
-function step3($word)
-{
-    switch (substr($word, -2, 1)) {
-        case 'a':
-            replace($word, 'ical', 'ic', 0);
-            break;
-
-        case 's':
-            replace($word, 'ness', '', 0);
-            break;
-
-        case 't':
-              replace($word, 'icate', 'ic', 0)
-            OR replace($word, 'iciti', 'ic', 0);
-            break;
-
-        case 'u':
-            replace($word, 'ful', '', 0);
-            break;
-
-        case 'v':
-            replace($word, 'ative', '', 0);
-            break;
-
-        case 'z':
-            replace($word, 'alize', 'al', 0);
-            break;
+    if ( !$done && porterstemmer_short_word($tmp, $r1)) {
+      $tmp = $tmp . 'e';
     }
+  }
 
-    return $word;
+  return porterstemmer_step_ending($word, $tmp);
 }
-
 
 /**
-* Step 4
-*
-* @param string $word Word to stem
-*/
-function step4($word)
-{
-    switch (substr($word, -2, 1)) {
-        case 'a':
-            replace($word, 'al', '', 1);
-            break;
+ * Step 1c of algorithm: y suffixes
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_step1c(&$word) {
+  $tmp = $word;
+  $didit = FALSE;
 
-        case 'c':
-               replace($word, 'ance', '', 1)
-            OR replace($word, 'ence', '', 1);
-            break;
+  // Replace y or Y by i if the letter before is not a vowel,
+  // and that non-vowel is not the beginning of the word.
 
-        case 'e':
-            replace($word, 'er', '', 1);
-            break;
+  $ytest = '/.' . PORTERSTEMMER_NOT_VOWEL . '[Yy]$/';
+  porterstemmer_suffix($tmp, 'Y', 'i', $didit, $ytest ) OR
+    porterstemmer_suffix($tmp, 'y', 'i', $didit, $ytest );
 
-        case 'i':
-            replace($word, 'ic', '', 1);
-            break;
-
-        case 'l':
-               replace($word, 'able', '', 1)
-            OR replace($word, 'ible', '', 1);
-            break;
-
-        case 'n':
-               replace($word, 'ant', '', 1)
-            OR replace($word, 'ement', '', 1)
-            OR replace($word, 'ment', '', 1)
-            OR replace($word, 'ent', '', 1);
-            break;
-
-        case 'o':
-            if (substr($word, -4) == 'tion' OR substr($word, -4) == 'sion') {
-               replace($word, 'ion', '', 1);
-            } else {
-                replace($word, 'ou', '', 1);
-            }
-            break;
-
-        case 's':
-            replace($word, 'ism', '', 1);
-            break;
-
-        case 't':
-               replace($word, 'ate', '', 1)
-            OR replace($word, 'iti', '', 1);
-            break;
-
-        case 'u':
-            replace($word, 'ous', '', 1);
-            break;
-
-        case 'v':
-            replace($word, 'ive', '', 1);
-            break;
-
-        case 'z':
-            replace($word, 'ize', '', 1);
-            break;
-    }
-
-    return $word;
+  return porterstemmer_step_ending($word, $tmp);
 }
-
 
 /**
-* Step 5
-*
-* @param string $word Word to stem
-*/
-function step5($word)
-{
-    // Part a
-    if (substr($word, -1) == 'e') {
-        if (m(substr($word, 0, -1)) > 1) {
-            replace($word, 'e', '');
+ * Step 2 of algorithm: misc endings in region R1.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @param $r1
+ *   Position of start of R1 region in word.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_step2(&$word, $r1) {
+  $tmp = $word;
+  $didit = FALSE;
 
-        } else if (m(substr($word, 0, -1)) == 1) {
+  // Search for the longest of these suffixes, and if found in R1, replace
+  porterstemmer_suffix($tmp, 'ational', 'ate', $didit, NULL, $r1 + 7) OR
+    porterstemmer_suffix($tmp, 'fulness', 'ful', $didit, NULL, $r1 + 7) OR
+    porterstemmer_suffix($tmp, 'iveness', 'ive', $didit, NULL, $r1 + 7) OR
+    porterstemmer_suffix($tmp, 'ization', 'ize', $didit, NULL, $r1 + 7) OR
+    porterstemmer_suffix($tmp, 'ousness', 'ous', $didit, NULL, $r1 + 7) OR
+    porterstemmer_suffix($tmp, 'biliti', 'ble', $didit, NULL, $r1 + 6) OR
+    porterstemmer_suffix($tmp, 'lessli', 'less', $didit, NULL, $r1 + 6) OR
+    porterstemmer_suffix($tmp, 'tional', 'tion', $didit, NULL, $r1 + 6) OR
+    porterstemmer_suffix($tmp, 'aliti', 'al', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'ation', 'ate', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'alism', 'al', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'entli', 'ent', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'fulli', 'ful', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'iviti', 'ive', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'ousli', 'ous', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'abli', 'able', $didit, NULL, $r1 + 4) OR
+    porterstemmer_suffix($tmp, 'alli', 'al', $didit, NULL, $r1 + 4) OR
+    porterstemmer_suffix($tmp, 'ator', 'ate', $didit, NULL, $r1 + 4) OR
+    porterstemmer_suffix($tmp, 'anci', 'ance', $didit, NULL, $r1 + 4) OR
+    porterstemmer_suffix($tmp, 'enci', 'ence', $didit, NULL, $r1 + 4) OR
+    porterstemmer_suffix($tmp, 'izer', 'ize', $didit, NULL, $r1 + 4) OR
+    porterstemmer_suffix($tmp, 'bli', 'ble', $didit, NULL, $r1 + 3) OR
+    // ogi is only replaced if preceeded by l
+    porterstemmer_suffix($tmp, 'ogi', 'og', $didit,
+      '/logi$/', $r1 + 3) OR
+    // li is only replaced if preceeded by a valid li-ending
+    porterstemmer_suffix($tmp, 'li', '', $didit,
+      '/' . PORTERSTEMMER_LI_END . 'li$/', $r1 + 2);
 
-            if (!cvc(substr($word, 0, -1))) {
-                replace($word, 'e', '');
-            }
-        }
-    }
-
-    // Part b
-    if (m($word) > 1 AND doubleConsonant($word) AND substr($word, -1) == 'l') {
-        $word = substr($word, 0, -1);
-    }
-
-    return $word;
+  return porterstemmer_step_ending($word, $tmp);
 }
-
 
 /**
-* Replaces the first string with the second, at the end of the string. If third
-* arg is given, then the preceding string must match that m count at least.
-*
-* @param  string $str   String to check
-* @param  string $check Ending to check for
-* @param  string $repl  Replacement string
-* @param  int    $m     Optional minimum number of m() to meet
-* @return bool          Whether the $check string was at the end
-*                       of the $str string. True does not necessarily mean
-*                       that it was replaced.
-*/
-function replace(&$str, $check, $repl, $m = null)
-{
-    $len = 0 - strlen($check);
+ * Step 3 of algorithm: misc endings in region R1.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @param $r1
+ *   Position of start of R1 region in word.
+ * @param $r2
+ *   Position of start of R2 region in word.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_step3(&$word, $r1, $r2) {
+  $tmp = $word;
+  $didit = FALSE;
 
-    if (substr($str, $len) == $check) {
-        $substr = substr($str, 0, $len);
-        if (is_null($m) OR m($substr) > $m) {
-            $str = $substr . $repl;
-        }
+  porterstemmer_suffix($tmp, 'ational', 'ate', $didit, NULL, $r1 + 7) OR
+    porterstemmer_suffix($tmp, 'tional', 'tion', $didit, NULL, $r1 + 6) OR
+    porterstemmer_suffix($tmp, 'alize', 'al', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'ative', '', $didit, NULL, $r2 + 5) OR
+    porterstemmer_suffix($tmp, 'icate', 'ic', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'iciti', 'ic', $didit, NULL, $r1 + 5) OR
+    porterstemmer_suffix($tmp, 'ical', 'ic', $didit, NULL, $r1 + 4) OR
+    porterstemmer_suffix($tmp, 'ness', '', $didit, NULL, $r1 + 4) OR
+    porterstemmer_suffix($tmp, 'ful', '', $didit, NULL, $r1 + 3);
 
-        return true;
-    }
-
-    return false;
+  return porterstemmer_step_ending($word, $tmp);
 }
-
 
 /**
-* What, you mean it's not obvious from the name?
-*
-* m() measures the number of consonant sequences in $str. if c is
-* a consonant sequence and v a vowel sequence, and <..> indicates arbitrary
-* presence,
-*
-* <c><v>       gives 0
-* <c>vc<v>     gives 1
-* <c>vcvc<v>   gives 2
-* <c>vcvcvc<v> gives 3
-*
-* @param  string $str The string to return the m count for
-* @return int         The m count
-*/
-function m($str)
-{
-    $c = regex_consonant;
-    $v = regex_vowel;
+ * Step 4 of algorithm: misc endings in region R2.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @param $r2
+ *   Position of start of R2 region in word.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_step4(&$word, $r2) {
+  $tmp = $word;
+  $didit = FALSE;
 
-    $str = preg_replace("#^$c+#", '', $str);
-    $str = preg_replace("#$v+$#", '', $str);
+  porterstemmer_suffix($tmp, 'ement', '', $didit, NULL, $r2 + 5) OR
+    porterstemmer_suffix($tmp, 'able', '', $didit, NULL, $r2 + 4) OR
+    porterstemmer_suffix($tmp, 'ance', '', $didit, NULL, $r2 + 4) OR
+    porterstemmer_suffix($tmp, 'ence', '', $didit, NULL, $r2 + 4) OR
+    porterstemmer_suffix($tmp, 'ible', '', $didit, NULL, $r2 + 4) OR
+    porterstemmer_suffix($tmp, 'ment', '', $didit, NULL, $r2 + 4) OR
+    porterstemmer_suffix($tmp, 'ant', '', $didit, NULL, $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'ate', '', $didit, NULL, $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'ent', '', $didit, NULL, $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'ion', '', $didit, '/[st]ion$/', $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'ism', '', $didit, NULL, $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'iti', '', $didit, NULL, $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'ive', '', $didit, NULL, $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'ize', '', $didit, NULL, $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'ous', '', $didit, NULL, $r2 + 3) OR
+    porterstemmer_suffix($tmp, 'al', '', $didit, NULL, $r2 + 2) OR
+    porterstemmer_suffix($tmp, 'er', '', $didit, NULL, $r2 + 2) OR
+    porterstemmer_suffix($tmp, 'ic', '', $didit, NULL, $r2 + 2);
 
-    preg_match_all("#($v+$c+)#", $str, $matches);
-
-    return count($matches[1]);
+  return porterstemmer_step_ending($word, $tmp);
 }
-
 
 /**
-* Returns true/false as to whether the given string contains two
-* of the same consonant next to each other at the end of the string.
-*
-* @param  string $str String to check
-* @return bool        Result
-*/
-function doubleConsonant($str)
-{
-    $c = regex_consonant;
+ * Step 5 of algorithm: e, l endings in region R1/R2.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @param $r1
+ *   Position of start of R1 region in word.
+ * @param $r2
+ *   Position of start of R2 region in word.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_step5(&$word, $r1, $r2) {
+  $tmp = $word;
+  $didit = FALSE;
+  $done = FALSE;
 
-    return preg_match("#$c{2}$#", $str, $matches) AND $matches[0]{0} == $matches[0]{1};
+  // Delete l at end of word if in R2 and preceded by another l
+  $done = porterstemmer_suffix( $tmp, 'll', 'l', $didit, NULL, $r2 + 1 );
+
+  // Delete e at end of word if in R2, or in R1 and not preceded by
+  // a short syllable
+  $len = drupal_strlen( $tmp );
+  if ( !$done && preg_match( '/e$/', $tmp ) &&
+    ( $len > $r2 ||
+      ( $len > $r1 &&
+        !preg_match( '/^' . PORTERSTEMMER_VOWEL . PORTERSTEMMER_NOT_VOWEL .
+          'e$/', $tmp ) &&
+        !preg_match( '/' . PORTERSTEMMER_NOT_VOWEL . PORTERSTEMMER_VOWEL .
+          PORTERSTEMMER_NOT_VOWEL_WXY . 'e$/', $tmp )))) {
+    $tmp = drupal_substr( $tmp, 0, -1 );
+  }
+
+  return porterstemmer_step_ending($word, $tmp);
 }
-
 
 /**
-* Checks for ending CVC sequence where second C is not W, X or Y
-*
-* @param  string $str String to check
-* @return bool        Result
-*/
-function cvc($str)
-{
-    $c = regex_consonant;
-    $v = regex_vowel;
+ * Checks exceptions for Porter Stemmer.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_exception1(&$word) {
+  // Special cases for stemming. Don't add anything in this list that
+  // is shorter than the minimum allowed length!
+  $repl = array(
+    'skis' => 'ski',
+    'skies' => 'sky',
+    'dying' => 'die',
+    'lying' => 'lie',
+    'tying' => 'tie',
+    'idly' => 'idl',
+    'gently' => 'gentl',
+    'ugly' => 'ugli',
+    'early' => 'earli',
+    'only' => 'onli',
+    'singly' => 'singl',
+    'sky' => 'sky',
+    'news' => 'news',
+    'howe' => 'howe',
+    'atlas' => 'atlas',
+    'cosmos' => 'cosmos',
+    'bias' => 'bias',
+    'andes' => 'andes',
+  );
 
-    return     preg_match("#($c$v$c)$#", $str, $matches)
-           AND strlen($matches[1]) == 3
-           AND $matches[1]{2} != 'w'
-           AND $matches[1]{2} != 'x'
-           AND $matches[1]{2} != 'y';
+  // If our word is in that list, we're done.
+  if ( isset( $repl[ $word ])) {
+    $word = $repl[ $word ];
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
+/**
+ * Checks exceptions for Porter Stemmer after Step 1a.
+ *
+ * @param $word
+ *   Word to stem, modified in place if successful.
+ * @return
+ *   TRUE if it is time to stop stemming, FALSE to continue.
+ */
+function porterstemmer_exception2(&$word) {
+  // The following words are to be left invariant.
+  $repl = array(
+    'inning' => 1,
+    'outing' => 1,
+    'canning' => 1,
+    'herring' => 1,
+    'earring' => 1,
+    'proceed' => 1,
+    'exceed' => 1,
+    'succeed' => 1,
+  );
 
-?>
+  if ( isset( $repl[ $word ])) {
+    return TRUE;
+  }
+
+  return FALSE;
+}

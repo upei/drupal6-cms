@@ -1,19 +1,24 @@
-Readme
-------
+// $Id: INSTALL.txt,v 1.2 2009/07/14 23:38:47 jhodgdon Exp $
 
-This module implements the Porter-Stemmer algorithm to improve English-language
-searching with the Drupal built-in search.module.
-
-It reduces each word in the index to its basic root or stem (e.g. 'blogging' to
-'blog') so that variations on a word ('blogs', 'blogger', 'blogging', 'blog') are
-considered equivalent when searching. This generally results in more relevant
-results.
+For general information about this module, check the README.txt file.
 
 Installation
 ------------
 
-1. Copy the porterstemmer.module to the Drupal modules/ directory.
+1. Unzip the files, and upload them as a subdirectory of the
+sites/all/modules directory of your Drupal installation (or the
+location you normally use for contributed modules).
 
-2. Go to 'administer > modules', and enable the porterstemmer.module
+2. Go to 'Administer > Site building > Modules', and enable the Porter
+Stemmer module.
 
-3. Go to 'administer > settings > search' and click 'Re-index site'.
+3. Go to 'Administer > Site configuration > Search settings' and click
+'Re-index site'.  You should do this step whenever you upgrade to a
+new version of the Porter Stemmer module, so that the search index is
+rebuilt with any changes to the stemming algorithm.
+
+4. Ensure that cron has run at least once, to build the search
+index. On larger sites, it may take several cron runs to complete the
+search index. You can check progress on the Search Settings page, and
+you can run cron manually by visiting 'Reports > Status report', and
+clicking on 'Run cron manually'.

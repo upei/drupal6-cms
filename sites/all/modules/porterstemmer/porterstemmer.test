@@ -1,0 +1,600 @@
+<?php
+// $Id: porterstemmer.test,v 1.1.2.1 2009/08/26 19:22:49 jhodgdon Exp $
+
+/**
+ * @file
+ * Tests for the Porter Stemmer module.
+ * By Jennifer Hodgdon of Poplar ProductivityWare, www.poplarware.com
+ * Based on sample words from
+ *   http://snowball.tartarus.org/algorithms/english/stemmer.html
+ * which are stored in a separate file (testwords.txt).
+ */
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 1.
+ */
+class PorterStemmerOutput1UnitTest extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 1'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+
+  /**
+   * Tests the first 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 0, 2000 );
+  }
+
+  /**
+   * Runs a unit test for a portion of words in the test file.
+   *
+   * The output of the porterstemmer_stem() function is tested against
+   * known input/output pairs from
+   *   http://snowball.tartarus.org/algorithms/english/stemmer.html
+   *
+   * Note that words whose input or stemmed version is less than 3
+   * characters are always skipped.
+   *
+   * @param $skipto
+   *    Line of file to start on (count starts at 0), not counting short ones.
+   * @param $runto
+   *    Number of lines to test, not counting short ones.
+   */
+  function _run_porterstemmer_stem_test( $skipto = 0, $runto = 2000 ) {
+
+    // Open word file
+    $file = drupal_get_path('module', 'porterstemmer') . '/testwords.txt';
+
+    $handle = @fopen($file, "r");
+    $this->assertTrue($handle, "Open file containing words to test", 'Startup');
+    if ( !$handle ) {
+      // no point doing rest of test...
+      return;
+    }
+
+    // Set min characters for search to 2 so we test whole word list
+    variable_set( 'minimum_word_size', 2 );
+    porterstemmer_too_short( '', TRUE );
+
+    $ran = 0;
+    $skipped = 0;
+
+    while ( !feof( $handle ) && $ran < $runto ) {
+      // Read a line of the file, and split into words
+      $line = fgets($handle, 4096);
+      $words = preg_split( "/\s+/", $line, -1, PREG_SPLIT_NO_EMPTY );
+      if ( count( $words ) < 2 ) {
+        continue;
+      }
+
+      $in = $words[0];
+      $right = $words[1];
+      // Skip words less than 2 characters, which is minimum for Porter
+      if ( drupal_strlen( $in ) < 2 ||
+        drupal_strlen( $right ) < 2 ) {
+        continue;
+      }
+
+      $skipped++;
+      if ( $skipped < $skipto ) {
+        continue;
+      }
+
+      // Stem the word
+      $stem = porterstemmer_stem( $in );
+
+      // Test correctness
+      $this->assertEqual( $right, $stem, "Stemming $in results in $right (was $stem)",
+        t( 'Stemming test' ));
+      $ran++;
+    }
+    fclose($handle);
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 2.
+ */
+class PorterStemmerOutput2UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 2'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 2000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 3.
+ */
+class PorterStemmerOutput3UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 3'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 4000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 4.
+ */
+class PorterStemmerOutput4UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 4'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 6000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 5.
+ */
+class PorterStemmerOutput5UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 5'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 8000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 6.
+ */
+class PorterStemmerOutput6UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 6'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 10000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 7.
+ */
+class PorterStemmerOutput7UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 7'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 12000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 8.
+ */
+class PorterStemmerOutput8UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 8'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 14000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 9.
+ */
+class PorterStemmerOutput9UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 9'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 16000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 10.
+ */
+class PorterStemmerOutput10UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 10'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 18000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 11.
+ */
+class PorterStemmerOutput11UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 11'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 20000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 12.
+ */
+class PorterStemmerOutput12UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 12'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 22000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 13.
+ */
+class PorterStemmerOutput13UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 13'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 24000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 14.
+ */
+class PorterStemmerOutput14UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 14'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 26000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 15.
+ */
+class PorterStemmerOutput15UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 15'),
+      'description' => t('Test that the stemming function returns the correct stemmed words'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 28000, 2000 );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming internals.
+ */
+class PorterStemmerInternalsUnitTest extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming internals'),
+      'description' => t('Test that various algorithm steps and internal functions are working correctly'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Verify that short words are not stemmed, and longer ones are.
+   */
+  function testStemLength3UnitTest() {
+    // Words 3 letters or less should not be stemmed if min word length is 3
+    variable_set( 'minimum_word_size', 3 );
+    porterstemmer_too_short( '', TRUE );
+
+    $words = array(
+      'a' => 'a',
+      'at' => 'at',
+      'say' => 'say',
+      'fished' => 'fish',
+      'saying' => 'say',
+    );
+
+    foreach ( $words as $in => $out ) {
+      $stem = porterstemmer_stem( $in );
+      $this->assertEqual( $out, $stem, "Stemming length 3 test for $in gives $out (was $stem)", t( 'Stemming length' ));
+    }
+  }
+
+  /**
+   * Verify that short words are not stemmed, and longer ones are.
+   */
+  function testStemLength4UnitTest() {
+    // Words 4 letters or less should not be stemmed if min word length is 4
+    variable_set( 'minimum_word_size', 4 );
+    porterstemmer_too_short( '', TRUE );
+
+    $words = array(
+      'a' => 'a',
+      'at' => 'at',
+      'say' => 'say',
+      'fished' => 'fish',
+      'saying' => 'saying',
+    );
+
+    foreach ( $words as $in => $out ) {
+      $stem = porterstemmer_stem( $in );
+      $this->assertEqual( $out, $stem, "Stemming length 4 test for $in gives $out (was $stem)", t( 'Stemming length' ));
+    }
+  }
+
+  /**
+   * Tests the function that determines if a word is "short".
+   */
+  function testShortWord() {
+    // Test "shortness", using examples from algorithm web page,
+    // as well as several variations on the word "administ...".
+
+    variable_set( 'minimum_word_size', 2 );
+    porterstemmer_too_short( '', TRUE );
+
+    $this->assertFalse( porterstemmer_short_word( 'administered', 2, 'Stemmer steps' ),
+      "administered should not be a short word" );
+
+    $this->assertFalse( porterstemmer_short_word( 'administer', 2, 'Stemmer steps'),
+      "administer should not be a short word" );
+
+    $this->assertFalse( porterstemmer_short_word( 'admin', 2, 'Stemmer steps' ),
+      "admin should not be a short word" );
+
+    $this->assertTrue( porterstemmer_short_word( 'bed', 3, 'Stemmer steps' ),
+      "bed should be a short word" );
+
+    $this->assertTrue( porterstemmer_short_word( 'shed', 4, 'Stemmer steps' ),
+      "shed should be a short word" );
+
+    $this->assertTrue( porterstemmer_short_word( 'shred', 5, 'Stemmer steps' ),
+      "shred should be a short word" );
+
+    $this->assertFalse( porterstemmer_short_word( 'bead', 4, 'Stemmer steps' ),
+      "bead should not be a short word" );
+
+    $this->assertFalse( porterstemmer_short_word( 'beds', 3, 'Stemmer steps' ),
+      "beds should not be a short word" );
+
+    $this->assertFalse( porterstemmer_short_word( 'bake', 3, 'Stemmer steps' ),
+      "bake should not be a short word" );
+
+    $this->assertTrue( porterstemmer_short_word( 'bak', 3, 'Stemmer steps' ),
+      "bak should be a short word" );
+  }
+
+  /**
+   * Test internal steps on the word "administered".
+   */
+  function testAdministered() {
+
+    variable_set( 'minimum_word_size', 2 );
+    porterstemmer_too_short( '', TRUE );
+
+    $r1 = 0;
+    $r2 = 0;
+    $word = 'administered';
+
+    porterstemmer_prestemming( $word, $r1, $r2 );
+
+    // Test calculation of R1 and R2
+    $this->assertEqual( $r1, 2, "R1 for administered should be 2, was $r1", 'Stemmer steps' );
+    $this->assertEqual( $r2, 5, "R2 for administered should be 5, was $r2", 'Stemmer steps' );
+
+    // Test step 1b of the algorithm
+    porterstemmer_step1b($word, $r1);
+    $this->assertEqual( $word, 'administer', "Step1b should be administer, was $word", 'Stemmer steps' );
+
+    // Test step 4 of the algorithm
+    porterstemmer_step4($word, $r2);
+    $this->assertEqual( $word, 'administ', "Step4 should be administ, was $word", 'Stemmer steps' );
+  }
+
+  /**
+   * Test internal steps on the word "baked".
+   */
+  function testBaked() {
+
+    variable_set( 'minimum_word_size', 2 );
+    porterstemmer_too_short( '', TRUE );
+
+    $r1 = 0;
+    $r2 = 0;
+    $word = 'baked';
+
+    porterstemmer_prestemming( $word, $r1, $r2 );
+
+    // Test calculation of R1 and R2
+    $this->assertEqual( $r1, 3, "R1 for baked should be 3, was $r1", 'Stemmer steps' );
+    $this->assertEqual( $r2, 5, "R2 for baked should be 5, was $r2", 'Stemmer steps' );
+
+    // Test step 1b of the algorithm
+    porterstemmer_step1b($word, $r1);
+    $this->assertEqual( $word, 'bake', "Step1b should be bake, was $word", 'Stemmer steps' );
+
+    // Test step 5 of the algorithm
+    porterstemmer_step5($word, $r1, $r2);
+    $this->assertEqual( $word, 'bake', "Step5 should be bake, was $word", 'Stemmer steps' );
+  }
+
+  /**
+   * Test internal steps on the word "geology".
+   */
+  function testGeology() {
+
+    $r1 = 0;
+    $r2 = 0;
+    $word = 'geology';
+
+    variable_set( 'minimum_word_size', 2 );
+    porterstemmer_too_short( '', TRUE );
+
+    porterstemmer_prestemming( $word, $r1, $r2 );
+
+    // Test calculation of R1 and R2
+    $this->assertEqual( $r1, 4, "R1 for geology should be 4, was $r1", 'Stemmer steps' );
+    $this->assertEqual( $r2, 6, "R2 for geology should be 6, was $r2", 'Stemmer steps' );
+
+    // Test step 1c of the algorithm
+    porterstemmer_step1c($word);
+    $this->assertEqual( $word, 'geologi', "Step1c should be geologi, was $word", 'Stemmer steps' );
+
+    // Test step 2 of the algorithm
+    porterstemmer_step2($word, $r1);
+    $this->assertEqual( $word, 'geolog', "Step2 should be geolog, was $word", 'Stemmer steps' );
+  }
+
+  /**
+   * Test internal steps on the words "ies" and "ied".
+   */
+  function testIesIed() {
+
+    $r1a = 0;
+    $r2a = 0;
+    $r1b = 0;
+    $r2b = 0;
+    $worda = 'ied';
+    $wordb = 'ies';
+
+    variable_set( 'minimum_word_size', 2 );
+    porterstemmer_too_short( '', TRUE );
+
+    porterstemmer_prestemming( $worda, $r1a, $r2a );
+    porterstemmer_prestemming( $wordb, $r1b, $r2b );
+
+    // Test step 1a of the algorithm
+
+    porterstemmer_step1a( $worda );
+    porterstemmer_step1a( $wordb );
+
+    $this->assertEqual( $worda, 'ie', "Step1a should be ie, was $worda", 'Stemmer steps' );
+    $this->assertEqual( $wordb, 'ie', "Step1a should be ie, was $wordb", 'Stemmer steps' );
+  }
+}
