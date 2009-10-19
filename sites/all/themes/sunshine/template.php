@@ -292,3 +292,32 @@ function sunshine_preprocess_block(&$vars) {
     $vars['block']->subject = $subject;
   }
 }
+
+function sunshine_preprocess_page(&$vars) {
+  $page_classes = array();
+  // add front
+  if ($vars['is_front']) {
+    $page_classes[] = 'page-front';
+  }
+  else {
+    $page_classes[] = 'page-not-front';
+  }
+
+  // add node type and nid to page_classes
+  if ($vars['node']) {
+    $page_classes[] = 'page-' . $vars['node']->type;
+    $page_classes[] = 'page-nid-' . $vars['node']->nid;
+  }
+
+  // add view-id to page_classes
+  $view = views_get_page_view();
+  if ($view) {
+    $view_name = strtolower(preg_replace('/[^A-Za-z0-9-]/', '-', $view->view->name));
+    $view_id = strtolower(preg_replace('/[^A-Za-z0-9-]/', '-', $view->display->id));
+    $page_classes[] = 'page-view-' . $view_name;
+    $page_classes[] = 'page-view-' . $view_name . '-' . $view_id;
+  }
+
+  $page_classes = array_filter($page_classes);
+  $vars['page_classes'] = implode(' ', $page_classes);
+}
