@@ -38,20 +38,22 @@ jQuery(function() {
   var $ = jQuery;
   $('#event-timeline .anchors').each(function() {
     var anchor = $(this);
-    $.get('http://cms.upei.ca/service/calendar', { calendarid: 'default', format: 'xml', timebegin: anchor.attr('date'), timeend: anchor.attr('date') },
+    $.get('http://cms.upei.ca/service/calendar/' + anchor.attr('date'),
       function(data, textStatus) {
         var doc = $(data);
         doc.find('event').each(function() {
+          var dat = anchor.attr('date');
           var eventid = $(this).find('eventid').text();
           var title = $(this).find('title').text();
           var timebegin = $(this).find('timebegin').text();
-          anchor.append('<li eventid="' + eventid + '"><a class="wi-widget wi-event-bar-normal" href="http://ic.upei.ca/calendar/main.php?view=event&eventid=' +
-            escape(eventid) +
+          var link = $(this).find('link').text();
+          anchor.append('<li eventid="' + dat + '-' + eventid + '"><a class="wi-widget wi-event-bar-normal" href="' +
+            link +
             '" title="' +
             timebegin + ' ' + title +
             '"></a></li>'
           );
-          anchor.next().find('.tooltips').append('<li id="event-' + eventid + '"><span class="wi-widget wi-event-normal"></span><span class="event-content"><strong>' + timebegin + '</strong> ' + title + '</span></li>');
+          anchor.next().find('.tooltips').append('<li id="event-' + dat + '-' + eventid + '"><span class="wi-widget wi-event-normal"></span><span class="event-content"><strong>' + timebegin + '</strong> ' + title + '</span></li>');
           anchor.find('li').hover(
             function() {
               var eventid = $(this).attr('eventid');

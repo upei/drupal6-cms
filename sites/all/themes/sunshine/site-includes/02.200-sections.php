@@ -13,5 +13,5 @@
   </div>
 </div><!-- /section1 -->
 
-<div style="margin:0px auto;margin-top:30px;border-bottom:1px solid #cccccc;width:900px;"></div>
+<!--<div style="margin:0px auto;margin-top:30px;border-bottom:1px solid #cccccc;width:900px;"></div>-->
 <?php endif; ?>

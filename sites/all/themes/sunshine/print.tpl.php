@@ -14,14 +14,12 @@
     <?php if (!empty($print['message'])) print '<div class="print-message">'. $print['message'] .'</div><p />' ?>
     <!-- <div class="print-logo"><?php  print $print['logo'] ?></div> -->
     <!-- <div class="print-site_name"><?php  print $print['site_name'] ?></div> -->
-    <p />
     <!-- <div class="print-breadcrumb"><?php  print $print['breadcrumb'] ?></div> -->
     <div class="bannersection">
 		<div class="print-bannerimage"><img src="/banner/other/lhlogo.jpg"></div>
 		<div class="print-address"></div>
 	</div>
-	<p />
-    <div class="all-content">
+  <div class="all-content">
 	<h1 class="print-title"><?php  print $print['title'] ?></h1>
     <div class="print-info">
 		<div class="print-submitted"><?php  print $print['submitted'] ?></div>
@@ -29,8 +27,6 @@
 		<div class="print-created"><?php  print $print['created'] ?></div>
 	</div>
 	
-	<? $print['content'] = str_replace("<p>&nbsp;</p>", "", $print['content']);?>
-	<? $print['content'] = strip_tags($print['content'], '<p><a><em><strong>');?>
 	<div class="print-content">	<?php  print $print['content'] ?></div>
 	</div>
     
