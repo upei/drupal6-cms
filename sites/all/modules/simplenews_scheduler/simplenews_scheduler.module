@@ -253,6 +253,7 @@ function simplenews_scheduler_new_edition($sched_nid) {
   simplenews_switch_user($node->uid);
   $node = node_build_content($node, FALSE, FALSE);
   $content = drupal_render($node->content);
+  $node->body = $content;
 
    // switch back to the original user.
   simplenews_switch_user();
@@ -287,6 +288,8 @@ function simplenews_scheduler_new_edition($sched_nid) {
   if (($sched_stop == 2 && $edition_no < $sched_stop_edition) || $sched_stop != 2) {
     // mark as new with removeing node id
     unset($node->nid);
+    // change created timestamp
+    $node->created = time();
     // now save it as a new node
     node_save($node);
     // save taxonomy terms

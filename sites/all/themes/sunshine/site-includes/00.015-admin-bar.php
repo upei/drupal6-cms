@@ -5,9 +5,6 @@
   <div id="sidebar-left-close" title="Toggle Left Sidebar"></div>
   </div>
   <div id="sidebar-left-content" class="hidden">
-  <?php global $user; if (in_array('super admin', $user->roles) || in_array('content manager', $user->roles)): ?>
-  <a href="<?=url($_GET['q'], array('query'=>'_nocache=1'))?>">Flush AJAX Cache</a><br />
-  <?php endif; ?>
   <?php print $sidebar_left ?>
   </div>
   <script type="text/javascript">

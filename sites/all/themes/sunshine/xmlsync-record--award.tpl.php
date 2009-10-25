@@ -1,6 +1,6 @@
 <div class="node node-<?=$node->type?>">
  <div id="awardtable">
- <h2 style="margin-left:10px;"><?=x($data,'/data/name')?></h2>
+ <h2 style="margin-left:10px;"><?=x($data,'/node/data/name')?></h2>
  	
  <table border="1" cellspacing="0">
  <tr height="14">
@@ -13,49 +13,49 @@
  </tr>
  <tr>
  	<td style="width:200px;"><strong>Award Maximum:</strong></td>
-  <td><?=x($data, '/data/maximum-amount') ?
-         x($data,'/data/maximum-amount') : t('To Be Determined')?></td>
+  <td><?=x($data, '/node/data/maximum-amount') ?
+         x($data,'/node/data/maximum-amount') : t('To Be Determined')?></td>
  </tr>
  
  <tr>
  	<td><strong>Award Occasion:</strong></td>
-	<td><?=x($data,'/data/occasion')?></td>
+	<td><?=x($data,'/node/data/occasion')?></td>
  </tr>
   <tr>
  	<td><strong>Award Deadline:</strong></td>
-  <td><?=x($data,'/data/deadline') ?
-         x($data,'/data/deadline') : t('No Deadline')?></td>
+  <td><?=x($data,'/node/data/deadline') ?
+         x($data,'/node/data/deadline') : t('No Deadline')?></td>
  </tr>
   <tr>
  	<td><strong>Application Form:</strong></td>
-  <td><?=x($data,'/data/application-form-link') ?
-         l(t('Application Form'), x($data,'/data/application-form-link')) : t('No Application Form')?></td>
+  <td><?=x($data,'/node/data/application-form-link') ?
+         l(t('Application Form'), x($data,'/node/data/application-form-link')) : t('No Application Form')?></td>
  </tr>
   <tr>
  	<td><strong>Award Faculty:</strong></td>
-  <td><?=x($data,'/data/faculty/name') ?
-         x($data,'/data/faculty/name') : t('No Restrictions by Faculty')?></td>
+  <td><?=x($data,'/node/data/faculty/name') ?
+         x($data,'/node/data/faculty/name') : t('No Restrictions by Faculty')?></td>
  </tr>
   <tr>
  	<td><strong>Award Major:</strong></td>
-  <td><?=x($data,'/data/major/name') ?
-         x($data,'/data/major/name') : t('No Restrictions by Major')?></td>
+  <td><?=x($data,'/node/data/major/name') ?
+         x($data,'/node/data/major/name') : t('No Restrictions by Major')?></td>
  </tr>
   <tr>
  	<td><strong>Award Type:</strong></td>
-	<td><?=x($data,'/data/type')?></td>
+	<td><?=x($data,'/node/data/type')?></td>
  </tr>
   <tr>
  	<td><strong>Student Status:</strong> </td>
-	<td><?=x($data,'/data/student-status')?></td>
+	<td><?=x($data,'/node/data/student-status')?></td>
  </tr>
   <tr>
  	<td valign="top"><strong>Award Criteria:</strong></td>
-	<td><?=x($data,'/data/criteria')?></td>
+	<td><?=x($data,'/node/data/criteria')?></td>
  </tr>
  <tr>
  	<td><strong>Award Process: </strong></td>
-	<td><?=x($data,'/data/process')?></td>
+	<td><?=x($data,'/node/data/process')?></td>
  </tr>
  </table>
  </div>

@@ -321,3 +321,7 @@ function sunshine_preprocess_page(&$vars) {
   $page_classes = array_filter($page_classes);
   $vars['page_classes'] = implode(' ', $page_classes);
 }
+
+function sunshine_simplenews_scheduler_title($title, $edition_no) {
+  return $title;
+}

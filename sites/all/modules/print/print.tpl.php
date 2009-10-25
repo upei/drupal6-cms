@@ -19,6 +19,7 @@
     <?php print $print['favicon']; ?>
     <?php print $print['css']; ?>
   </head>
+
   <body<?php print $print['sendtoprinter']; ?>>
     <?php if (!empty($print['message'])) {
       print '<div class="print-message">'. $print['message'] .'</div><p />';

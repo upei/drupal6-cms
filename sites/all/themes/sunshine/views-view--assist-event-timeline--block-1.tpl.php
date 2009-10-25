@@ -8,6 +8,7 @@ $dateArray = array(
   array('date' => date('Y-m-d', mktime(0, 0, 0, date('m', $cd), date('d', $cd) + 4, date('Y', $cd))), 'text' => date('M j', mktime(0, 0, 0, date('m', $cd), date('d', $cd) + 4, date('Y', $cd)))),
 );
 ?>
+<h2><a href="http://ic.upei.ca/events/">Event Timeline</a></h2>
 <div id="event-timeline" class="wi-container">
   <? foreach ($dateArray as $date):?>
   <ul class="anchors" date="<?=$date['date']?>">
