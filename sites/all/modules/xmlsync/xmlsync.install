@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync.install,v 1.2.2.2 2009/10/25 01:29:16 gzfelix Exp $
+// $Id: xmlsync.install,v 1.2.2.3 2009/10/25 01:32:30 gzfelix Exp $
 
 function xmlsync_schema() {
   $schema['xmlsync'] = array(
@@ -19,7 +19,8 @@ function xmlsync_schema() {
       'document_title_xpath' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => '/feed/title'),
       'document_description_xpath' => array('type' => 'varchar', 'length' => 255, 'length' => 255, 'not null' => TRUE, 'default' => '/feed/description'),
       'record_id_xpath' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => 'data/id'),
-      'record_title_xpath' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => 'data/title'),
+      'record_title_xpath' => array('type' => 'varchar', 'length' => 255,
+        'not null' => TRUE, 'default' => 'data/title'),
       'record_description_xpath' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => 'data/description'),
       'last_sync' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
       'record_template_name' => array('type' => 'varchar', 'length' => 50, 'not null' => TRUE, 'default' => ''),

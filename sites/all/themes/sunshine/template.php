@@ -38,10 +38,15 @@ function sunshine_build_css_cache($css_files) {
 }
 
 function _get_override_css_files() {
-	$url_part = _get_sections();
+  $url_part = _get_sections();
 	$mypath = "/var/www-d6/docroot";
   $files = array();
+  // FIXME temporary hack for avc development
+  if (_get_bucket() == 'avc') {
+    return array('/css/avc-sunshine.css');
+  }
 	for($len = 1; $len <= count($url_part); $len++) {
+
 		$url = array_slice($url_part, 0, $len);
 		$file_name = '/css/' . join('_', $url) . '.css';
 		if (is_file($mypath . $file_name)) {

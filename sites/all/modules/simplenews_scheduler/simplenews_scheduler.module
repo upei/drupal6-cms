@@ -1,5 +1,5 @@
 <?php
-// $Id: simplenews_scheduler.module,v 1.11.2.4 2009/09/16 08:09:19 sgabe Exp $
+// $Id: simplenews_scheduler.module,v 1.11.2.5 2009/10/16 18:00:34 sgabe Exp $
 
 /**
  * @file
@@ -111,8 +111,10 @@ function simplenews_scheduler_form_alter(&$form, &$form_state, $form_id) {
         '#default_value'   => $date_str_start,
         '#date_type'       => DATE_DATETIME,
         '#date_format'     => 'm-d-Y - H:i',
+        '#date_label_position' => 'none',
         '#date_increment'  => 1,
         '#date_year_range' => '0:+3',
+      	'#required'        => TRUE,
         '#description'     => t('Intervals work by creating a new node at the desired time and marking this to be sent, 
                                  ensure you have your <a href="@site">site timezones</a> configured and <a href="@user">user timezone</a> configured.', 
                                  array('@site' => url('admin/settings/date-time'), '@user' => url('user/'. $user->uid .'/edit'))),
@@ -131,8 +133,10 @@ function simplenews_scheduler_form_alter(&$form, &$form_state, $form_id) {
         '#default_value'   => $date_str_stop,
         '#date_type'       => DATE_DATETIME,
         '#date_format'     => 'm-d-Y - H:i',
+        '#date_label_position' => 'none',
         '#date_increment'  => 1,
         '#date_year_range' => '0:+3',
+        '#required'        => TRUE,
       );
       
       $form['simplenews']['schedule']['sched_stop_edition'] = array(
@@ -234,10 +238,18 @@ function simplenews_scheduler_cron() {
     $result = db_query("SELECT * FROM {simplenews_scheduler} WHERE %d - last_run > %d AND `sched_interval` = '%s' AND %d < sched_stop_date", $now_time, $seconds, $interval, $now_time);
     while ($row = db_fetch_array($result) ) {
       // if returns with null don't do anything
+      $first_run = intval($row['sched_start']);
+      // because the scheduler runs according to last_run timestamp and the cron
+      // does not run exactly at the scheduled timestamp, this correction fixes
+      // this run's timestamp ($now_time) to the right time by adding a
+      // correct interval.
+      $this_run = $first_run + floor( ($now_time - $first_run) / $seconds ) * $seconds;
+
+      // create a new edition
       $nid = simplenews_scheduler_new_edition($row["snid"]);
       if (isset($nid)) {
-        db_query("UPDATE {simplenews_scheduler} SET last_run = %d WHERE sid = %d", gmmktime(), $row["sid"]);
-        db_query("INSERT INTO {simplenews_scheduler_editions} (snid, edition_snid, date_issued) VALUES (%d, %d, %d)", $row["snid"], $nid, gmmktime());
+        db_query("UPDATE {simplenews_scheduler} SET last_run = %d WHERE sid = %d", $this_run, $row["sid"]);
+        db_query("INSERT INTO {simplenews_scheduler_editions} (snid, edition_snid, date_issued) VALUES (%d, %d, %d)", $row["snid"], $nid, $now_time);
         $node = node_load($nid);
         simplenews_send_node($node);
       }
@@ -253,7 +265,6 @@ function simplenews_scheduler_new_edition($sched_nid) {
   simplenews_switch_user($node->uid);
   $node = node_build_content($node, FALSE, FALSE);
   $content = drupal_render($node->content);
-  $node->body = $content;
 
    // switch back to the original user.
   simplenews_switch_user();
@@ -263,7 +274,7 @@ function simplenews_scheduler_new_edition($sched_nid) {
   if (empty($content_plain)) {
     return;
   }
-  
+
   // store taxonomy terms to save later to the node
   $terms = $node->taxonomy;
 

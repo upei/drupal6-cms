@@ -1,4 +1,9 @@
-// $Id: CHANGELOG.txt,v 1.1.2.1 2009/09/16 08:09:32 sgabe Exp $ 
+// $Id: CHANGELOG.txt,v 1.1.2.2 2009/10/16 18:14:14 sgabe Exp $ 
+
+Simplenews Scheduler 6.x-1.x-dev, 2009-10-16
+--------------------------------------------
+- Fixed missing update procedure.
+- Simpler date selection.
 
 Simplenews Scheduler 6.x-1.x-dev, 2009-09-16
 --------------------------------------------

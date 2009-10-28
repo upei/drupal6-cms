@@ -4,9 +4,9 @@ description = "Allows a schedule to be set for sending (and resending) a Simplen
 dependencies[] = simplenews
 dependencies[] = date
 package = Mail
-; Information added by drupal.org packaging script on 2009-09-16
+; Information added by drupal.org packaging script on 2009-10-17
 version = "6.x-1.x-dev"
 core = "6.x"
 project = "simplenews_scheduler"
-datestamp = "1253104601"
+datestamp = "1255739828"
 
