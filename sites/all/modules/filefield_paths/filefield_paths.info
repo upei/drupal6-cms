@@ -5,9 +5,9 @@ dependencies[] = token
 package = CCK
 core = 6.x
 
-; Information added by drupal.org packaging script on 2009-08-03
+; Information added by drupal.org packaging script on 2009-10-28
 version = "6.x-1.x-dev"
 core = "6.x"
 project = "filefield_paths"
-datestamp = "1249258276"
+datestamp = "1256732070"
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: filefield_paths.module,v 1.19.2.32 2009/08/02 23:22:33 deciphered Exp $
+// $Id: filefield_paths.module,v 1.19.2.34 2009/10/28 04:31:38 deciphered Exp $
 
 /**
  * @file
@@ -14,6 +14,13 @@ function filefield_paths_filefield_paths_field_settings() {
     'file_path' => array(
       'title' => 'File path',
       'sql' => 'filepath',
+
+      'form' => array(
+        'file_path' => array(
+          '#maxlength' => 512,
+          '#size' => 128,
+        ),
+      ),
     ),
 
     'file_name' => array(
@@ -25,7 +32,7 @@ function filefield_paths_filefield_paths_field_settings() {
           '#type' => 'textfield',
           '#title' => t('File name'),
           '#default_value' => '[filefield-onlyname-original].[filefield-extension-original]',
-        )
+        ),
       ),
     )
   );
@@ -115,7 +122,7 @@ function filefield_paths_form_alter(&$form, $form_state, $form_id) {
           }
           unset($keys);
 
-          $field_data['form_path'] = array_merge($field_data['form_path'], $field['form']);
+          $field_data['form_path'] = array_merge_recursive($field_data['form_path'], $field['form']);
         }
 
         $field_data['form_path']['#tree'] = TRUE;
@@ -208,6 +215,17 @@ function filefield_paths_form_alter(&$form, $form_state, $form_id) {
         '#weight' => 10
       );
 
+      // Active updating.
+      $field_data['form_path']['active_updating'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Active updating'),
+        '#default_value' => variable_get("ffp_{$field_data['type']}_{$field_name}", 0),
+        '#description' => t('Actively move and rename previously uploaded files as required') .'.'.
+          '<br /> <strong style="color: #FF0000;">'. t('Warning') .':</strong> '.
+          t('This feature should only be used on developmental servers or with extreme caution') .'.',
+        '#weight' => 11
+      );
+
       if (!in_array('filefield_paths_form_submit', $form['#submit'])) {
         $form['#submit'][] = 'filefield_paths_form_submit';
       }
@@ -282,6 +300,8 @@ function filefield_paths_form_submit($form, &$form_state) {
         $retroactive_update = TRUE;
         filefield_paths_batch_update(arg(5), $field_name, arg(3));
       }
+
+      variable_set("ffp_{$field_data['type']}_{$field_name}", $form_state['values']['ffp_'. $field_name]['active_updating']);
     }
 
     if ($retroactive_update) {
@@ -353,7 +373,7 @@ function filefield_paths_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           if ($field['type'] == 'filefield' && is_array($node->$field['field_name'])) {
 
             foreach ($node->$field['field_name'] as $count => &$file) {
-              if (empty($file['filepath'])) {
+              if (!is_array($file) || empty($file['filepath'])) {
                 continue;
               }
 
@@ -382,7 +402,7 @@ function filefield_paths_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         // Invoke hook_filefield_paths_process_file().
         foreach (module_implements('filefield_paths_process_file') as $module) {
           $function = $module .'_filefield_paths_process_file';
-          $function($file['new'], $file, $ffp['#settings'][$file['name']], $node, $update);
+          $function(($file['new'] || variable_get("ffp_{$node->type}_{$file['name']}", 0)), $file, $ffp['#settings'][$file['name']], $node, $update);
         }
       }
 
@@ -393,7 +413,7 @@ function filefield_paths_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         drupal_write_record('node', $node, 'nid');
         if (!empty($node->revision)) {
           _node_save_revision($node, $user->uid);
-          db_query('UPDATE {node} SET vid = %d WHERE nid = %d', $node->vid, $node->nid);
+          db_query("UPDATE {node} SET vid = %d WHERE nid = %d", $node->vid, $node->nid);
         }
         else {
           _node_save_revision($node, $user->uid, 'vid');
@@ -420,6 +440,20 @@ function filefield_paths_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         }
       }
 
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_content_fieldapi().
+ */
+function filefield_paths_content_fieldapi($op, $field) {
+  switch ($op) {
+    case 'delete instance':
+      db_query(
+        "DELETE FROM {filefield_paths} WHERE type = '%s' AND field = '%s'",
+        $field['type_name'], $field['field_name']
+      );
       break;
   }
 }
@@ -489,30 +523,53 @@ function filefield_paths_filefield_paths_process_file($new, &$file, $settings, &
     if (dirname($file['filepath']['new']) != dirname($file['field']['filepath']) || $file['filename']['new'] != $file['field']['filename']) {
       if (filefield_paths_file_move($file)) {
 
-        // Fix reference to old paths in Body and Teaser
-        // TODO: allow for CCK fields
-        if (isset($node->body)) {
+        // Fix reference to old paths.
+        if (isset($node->body) || module_exists('content')) {
           $file['filepath']['new'] = str_replace($file['filename']['old'], $file['filename']['new'], $file['filepath']['new']);
+          $file_directory_path = variable_get('file_downloads', FILE_DOWNLOADS_PUBLIC) == FILE_DOWNLOADS_PUBLIC ? file_directory_path() : 'system/files';
 
           $pattern = array(
-            'regex' => str_replace('/', '\/', file_directory_path()) .'(.*?)'. str_replace('/', '\/', str_replace(file_directory_path(), '', $file['filepath']['old'])),
-            'regex_enc' => str_replace('/', '\/', drupal_urlencode(file_directory_path())) .'(.*?)'. str_replace('/', '\/', str_replace(drupal_urlencode(file_directory_path()), '', drupal_urlencode($file['filepath']['old']))),
-            'replace' => file_directory_path() .'$1'. str_replace(file_directory_path(), '', $file['filepath']['new']),
+            'regex' => str_replace('/', '\/', $file_directory_path) .'([^"]*?)'. str_replace('/', '\/', str_replace(file_directory_path(), '', $file['filepath']['old'])),
+            'regex_enc' => str_replace('/', '\/', drupal_urlencode($file_directory_path)) .'([^"]*?)'. str_replace('/', '\/', str_replace(drupal_urlencode(file_directory_path()), '', drupal_urlencode($file['filepath']['old']))),
+            'replace' => $file_directory_path .'$1'. str_replace(file_directory_path(), '', $file['filepath']['new']),
           );
 
-          $body = $node->body;
-          $body = preg_replace('/'. $pattern['regex'] .'/s', $pattern['replace'], $body);
-          $body = preg_replace('/'. $pattern['regex_enc'] .'/s', $pattern['replace'], $body);
+          $fields = array();
+          // Get Node fields.
+          if (isset($node->body)) {
+            $fields += array(
+              'body' => &$node->body,
+              'teaser' => &$node->teaser,
+            );
+          }
 
-          $teaser = $node->teaser;
-          $teaser = preg_replace('/'. $pattern['regex'] .'/s', $pattern['replace'], $teaser);
-          $teaser = preg_replace('/'. $pattern['regex_enc'] .'/s', $pattern['replace'], $teaser);
+          // Get CCK fields.
+          if (module_exists('content')) {
+            $cck = content_fields(NULL, $node->type);
+            foreach ($cck as $name => $field) {
+              if ($field['type'] == 'text') {
+                foreach ($node->{$name} as $key => $value) {
+                  if (isset($node->{$name}[$key]['value'])) {
+                    $fields["{$name}_{$key}"] = &$node->{$name}[$key]['value'];
+                  }
+                }
+              }
+            }
+          }
 
-          if ($body != $node->body || $teaser != $node->teaser) {
-            $node->body = $body;
-            $node->teaser = $teaser;
+          // Loop through all fields and process filter.
+          foreach ($fields as $field => &$data) {
+            ${$field} = (preg_match('/'. $pattern['regex'] .'/s', $data))
+              ? preg_replace('/'. $pattern['regex'] .'/s', $pattern['replace'], $data)
+              : preg_replace('/'. $pattern['regex_enc'] .'/s', $pattern['replace'], $data);
 
-            $update->node = TRUE;
+            if (${$field} != $data) {
+              $data = ${$field};
+              // Mark node for update.
+              if ($field == 'body' || $field == 'teaser') {
+                $update->node = TRUE;
+              }
+            }
           }
         }
 
@@ -557,6 +614,10 @@ function filefield_paths_token_values($type, $object = NULL) {
     // Original filename.
     $orig = $item;
     $filename = $object[0]['filename'];
+    $result = db_fetch_object(db_query("SELECT origname FROM {files} WHERE fid = %d", $object[0]['fid']));
+    if (!empty($result->origname)) {
+      $object[0]['origname'] = $result->origname;
+    }
     if (!empty($object[0]['origname'])) {
       $orig = pathinfo($object[0]['origname']);
       $filename = $object[0]['origname'];
@@ -604,6 +665,9 @@ function filefield_paths_process_string($value, $type, $object, $settings = arra
     $value = drupal_strtolower($value);
   }
 
+  // Ensure that there are no double-slash sequences due to empty token values.
+  $value = preg_replace('/\/+/', '/', $value);
+
   return $value;
 }
 
@@ -634,13 +698,10 @@ function _filefield_paths_get_values($type, $object, $pathauto = FALSE) {
       $token = trim($token, "[]");
     }
 
+    if (!function_exists('pathauto_clean_token_values')) {
+      _pathauto_include();
+    }
     $full->values = pathauto_clean_token_values($temp);
-  }
-
-  // Temporary fix: Remove double slashes from token values.
-  // TODO: Remove when #420856 is committed to Pathauto.
-  foreach ($full->values as &$value) {
-    $value = str_replace('//', '/', $value);
   }
 
   return array('tokens' => $full->tokens, 'values' => $full->values);

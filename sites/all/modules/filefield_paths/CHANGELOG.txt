@@ -1,14 +1,21 @@
-// $Id: CHANGELOG.txt,v 1.1.2.15 2009/08/02 23:22:33 deciphered Exp $
+// $Id: CHANGELOG.txt,v 1.1.2.17 2009/10/28 04:31:38 deciphered Exp $
 
 FileField Paths 6.x-1.x-dev, xxxx-xx-xx (development release)
 -----------------------------------
 
+- #614992 by DarrelDuane, Deciphered: Added support for larger Filepath.
+- #614190: Added logic check to prevent processing of "Add another item" string.
+- #606500 by nico059, Deciphered: Added support to replace unprocessed URLs in CCK text fields.
+- #564680 by sp3boy: Improved support for Image module.
 - #536384: Fixed transliteration support.
 - #525354: Fixed implementations of hook_filefield_paths_get_fields().
 - #522678 by chrisirhc: Fixed issue with Filepath variable and ImageField Crop.
 - #515044: Fixed [filefield-onlyname-original] token for PHP > 5.2.
+- #373094: Added Active Updating functionality.
 - Improved replace of unprocessed URLs for FileField Insert.
+- Improved support for private file systems.
 - Added support for the Audio module.
+- Added cleanup of removed field instance settings.
 
 
 FileField Paths 6.x-1.3, 2009-07-03

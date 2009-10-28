@@ -1,5 +1,5 @@
 <?php
-// $Id: filefield.inc,v 1.1.2.6 2009/08/02 23:22:33 deciphered Exp $
+// $Id: filefield.inc,v 1.1.2.7 2009/10/28 03:01:30 deciphered Exp $
 
 /**
  * @file
@@ -102,7 +102,7 @@ function filefield_filefield_paths_update($oid, $field_name) {
     // Flag files for update.
     if (isset($node->$field_name)) {
       foreach ($node->$field_name as &$file) {
-        if (empty($file['filepath'])) {
+        if (!is_array($file) || empty($file['filepath'])) {
           continue;
         }
 
