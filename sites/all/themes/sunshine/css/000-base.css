@@ -94,3 +94,8 @@ div.section {
 }
 
 .filefield-element .widget-edit, .filefield-element .widget-preview { float: none; }
+
+#autocomplete ul li {
+  list-style-type: none;
+  display: block;
+}
