@@ -1,0 +1,5 @@
+name = GMap Campus
+description = GMap functions for campus
+package = Location
+core = 6.x
+dependencies[] = gmap

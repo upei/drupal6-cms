@@ -1,0 +1,28 @@
+<?php
+/**
+ * hook_gmap implementation
+ *
+ * @param $op
+ *  The operator
+ *
+ * @param $map
+ *  The map object
+ *
+ * @return
+ *  Returned objects
+ */
+function gmap_campus_gmap($op, &$map) {
+  // make sure the function is there and call it
+  $function = 'gmap_campus_gmap_' . $op;
+  if (function_exists($function)) {
+    return call_user_func_array($function, array($map));
+  }
+}
+
+/**
+ * Pre theme map actions
+ */
+function gmap_campus_gmap_pre_theme_map(&$map) {
+  $path = drupal_get_path('module', 'gmap_campus');
+  drupal_add_js($path . '/js/overlay.js');
+}
