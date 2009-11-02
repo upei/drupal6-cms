@@ -1,0 +1,37 @@
+<?php
+// $Id: fusioncharts.module,v 1.14 2009/05/12 22:54:50 brmassa Exp $
+/**
+ * @author Bruno Massa http://drupal.org/user/67164
+ * @file
+ * Use FusionCharts on your site.
+ *
+ * @note only hooks are here.
+ */
+
+/**
+ * Immplementation of hook_charts_info().
+ *
+ * Its a Charts module hook. It defines almost all aspects
+ * of a chart provider, like its name, what types of charts
+ * it can perform and what are the restrictions.
+ */
+function fusioncharts_charts_info() {
+  return array(
+    'fusioncharts' => array(
+      'file'    => drupal_get_path('module', 'fusioncharts') .'/fusioncharts.inc',
+      'name'    => t('FusionCharts'),
+      'render'  => '_fusioncharts_charts_render',
+      'types'   => array('line2D', 'hbar2D', 'hbar3D', 'vbar2D', 'vbar3D', 'pie2D', 'pie3D'),
+    ),
+  );
+}
+
+/**
+ * Immplementation of hook_chart_types().
+ */
+function fusioncharts_chart_types() {
+  return array(
+    'hbar3D'    => t('Horizontal Bar 3D'),
+    'vbar3D'    => t('Vertical Bar 3D'),
+  );
+}
