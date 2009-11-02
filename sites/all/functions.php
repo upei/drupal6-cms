@@ -41,3 +41,7 @@ function _get_banner() {
 	}
 	return "/banner/default.jpg";
 }
+
+function custom_url_rewrite_outbound(&$path, &$options, $original_path) {
+  $options['absolute'] = TRUE;
+}

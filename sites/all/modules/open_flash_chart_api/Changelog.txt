@@ -1,0 +1,40 @@
+10/20/2008
+- #323587 by tqm_z: path fix for non-root level installs.
+
+2.6 - 2/27/08
+- Private in function call is a PHP5 only function.  Removed for PHP4 compatibility.
+
+2.5 - 2/24/08
+- Fixed uniqueid so it works on PHP 4. This also fixes the rare occasion that multiple graphs have the same id.
+- Setting inner background would not create a gradient.
+- Fixed the help class from regression.
+
+2.4 - 12/7/07
+- You can set the base path of the swfobject file and the open-flash-chart.swf file separately using functions set_js_path() set_swf_path()
+- Added a function to set the the type of output set_output_type() creating a variable $this->output_type.  Removes the paramater from the render() method.
+- Font size paramater would not work in bar_filled, bar_3d, set_x_legend, Set_y_label_style, set_y_right_label_style, set_y_legend, set_y_right_legend.  
+
+2.3 - 11/25/07
+- Would not create second data line when creating multiple data lines.
+- Fixed issue where creating multiple charts could cause issues for uniqueness of div id.
+
+2.2 - 11/21/07
+- Second argument in hook_help implementation was not needed and gave errors.
+
+2.1 - 11/19/07
+-inner_bg_colour, x_legend, and title functions were formatted incorrectly causing random errors.
+-Path to js file and swf file were incorrect causing it not to work on all installations.
+
+2.0 - 11/19/07
+-Changed the class name to fit more in drupal naming conventions.
+-Renamed methods to provide consistency
+-Renamed some arguments to provide consistency.
+-Documented entire API
+-Added Readme.txt and Changelog.txt
+-Added drupal help hook.
+
+1.1 - 11/15/07
+-Changed version number in .info file to the correct version.
+
+1.0 - 11/15/07
+-Initial Release

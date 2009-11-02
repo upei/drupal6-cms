@@ -12,7 +12,7 @@
   <?php print $scripts ?>
   <?php include 'site-includes/page-setup-scripts.php'; ?>
 </head>
-<body>
+<body class="<?php print $page_classes ?>">
 <?php include 'site-includes/00.010-administration-panel.php'; ?>
 <?php if (!empty($admin)) print $admin; ?>
 <? if (function_exists('_print_additional_info')) {
@@ -27,7 +27,7 @@
   <div style="clear:both"></div>
 </div>
 <?php include 'site-includes/02.100-suckerfish.php'; ?>
-<div id="page" class="<?php print $page_classes ?>">
+<div id="page">
   <?php include 'site-includes/02-page.tpl.php'; ?>
   <div style="clear:both"></div>
 </div>

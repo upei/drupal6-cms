@@ -1,0 +1,13 @@
+; $Id: open_flash_chart_api.info,v 1.2.2.1 2007/11/18 22:21:27 redndahead Exp $
+name = Open Flash Chart API
+description = Allows users and developers to create flash charts.
+version = VERSION
+core = 6.x
+
+
+; Information added by drupal.org packaging script on 2009-02-24
+version = "6.x-2.10"
+core = "6.x"
+project = "open_flash_chart_api"
+datestamp = "1235495441"
+
