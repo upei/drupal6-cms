@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><?= $_SERVER['REQUEST_URI'] == '/home/' ? 'University of Prince Edward Island' : $head_title . ' | University of Prince Edward Island' ?></title>
+  <title><?= $_SERVER['REQUEST_URI'] == '/home/' ? 'University of Prince Edward Island | Atlantic Canada' : $head_title . ' | University of Prince Edward Island' ?></title>
   <link rel="apple-touch-icon shortcut icon" type="image/png" href="http://upei.ca/misc/upei-favicon.png" />
   <style type="text/css">@import url("<?php print base_path() . path_to_theme() ?>/css/reset.css");</style>
 <!--[if IE]><link rel="stylesheet" type="text/css" href="<?php print base_path() . path_to_theme() ?>/css/ie.css" /><![endif]-->
