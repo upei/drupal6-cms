@@ -5,9 +5,9 @@ description     = "Use Google Charts on your site."
 name            = "Google"
 package         = "Charts"
 
-; Information added by drupal.org packaging script on 2009-07-14
-version = "6.x-1.x-dev"
+; Information added by drupal.org packaging script on 2009-05-15
+version = "6.x-1.0-alpha6"
 core = "6.x"
 project = "charts"
-datestamp = "1247573218"
+datestamp = "1242366318"
 

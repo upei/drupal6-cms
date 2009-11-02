@@ -1,5 +1,5 @@
 <?php
-// $Id: charts.inc,v 1.31.2.1 2009/07/14 02:40:43 brmassa Exp $
+// $Id: charts.inc,v 1.31 2009/05/15 01:10:09 brmassa Exp $
 /**
  * @author Bruno Massa http://drupal.org/user/67164
  * @file
@@ -78,35 +78,6 @@ function _chart_series_attributes(&$data, &$value, &$settings) {
 }
 
 /**
- * Even if the series have values with attributes,
- * return only the numeric values of them.
- *
- * @param
- *   Array. A given data series with or without attributes.
- * @return
- *   Array. A data series, but only with the values, without
- *   the attributes.
- */
-function _charts_series_values($series) {
-  $data = array();
-
-  foreach ($series as $index => $value) {
-    if (!is_numeric($index)) {
-      continue;
-    }
-
-    if (is_array($value)) {
-      $data[] = $value['#value'];
-    }
-    else {
-      $data[] = $value;
-    }
-  }
-
-  return $data;
-}
-
-/**
  * Module settings page. Users can set the default layout
  * of their charts.
  *
@@ -146,7 +117,7 @@ function _charts_settings() {
     $default['#color_palettes'] = _charts_settings_color_palette();
     if (empty($default['#color'])) {
       $default['#color_palette'] = current(array_keys($default['#color_palettes']));
-      $default['#color'] = explode(',', $default['#color_palette']);
+      $default['#color'] = explode($default['#color_palette']);
       $default['#color']['background'] = array_shift($default['#color']);
       $default['#color']['text'] = array_shift($default['#color']);
     }
