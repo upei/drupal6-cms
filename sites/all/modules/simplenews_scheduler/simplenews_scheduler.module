@@ -244,8 +244,6 @@ function simplenews_scheduler_cron() {
       // this run's timestamp ($now_time) to the right time by adding a
       // correct interval.
       $this_run = $first_run + floor( ($now_time - $first_run) / $seconds ) * $seconds;
-      // update the run time even if no new edition is created
-      db_query("UPDATE {simplenews_scheduler} SET last_run = %d WHERE sid = %d", $this_run, $row["sid"]);
 
       // create a new edition
       $nid = simplenews_scheduler_new_edition($row["snid"]);
@@ -254,6 +252,8 @@ function simplenews_scheduler_cron() {
         $node = node_load($nid);
         simplenews_send_node($node);
       }
+      // update the run time even if no new edition is created
+      db_query("UPDATE {simplenews_scheduler} SET last_run = %d WHERE sid = %d", $this_run, $row["sid"]);
     }
   }
 }
@@ -275,6 +275,9 @@ function simplenews_scheduler_new_edition($sched_nid) {
   if (empty($content_plain)) {
     return;
   }
+
+  $node->body = $content;
+  $node->content = $content;
 
   // store taxonomy terms to save later to the node
   $terms = $node->taxonomy;

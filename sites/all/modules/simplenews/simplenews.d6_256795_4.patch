@@ -1,0 +1,119 @@
+Index: simplenews.admin.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/simplenews/simplenews.admin.inc,v
+retrieving revision 1.5.2.51
+diff -u -p -r1.5.2.51 simplenews.admin.inc
+--- simplenews.admin.inc	8 May 2009 07:56:43 -0000	1.5.2.51
++++ simplenews.admin.inc	23 Sep 2009 11:52:16 -0000
+@@ -906,6 +906,15 @@ function simplenews_admin_settings_mail(
+   else {
+     $description_extra = '<br />'. t('Cron execution must not exceed the PHP maximum execution time of %max seconds.', array('%max' => ini_get('max_execution_time')));
+   }
++  $cron_user = array('default' => t('Default user'), 'author' => t('Newsletter author'));
++  $form['simplenews_mail_backend']['simplenews_cron_user'] = array(
++    '#type' => 'select',
++    '#title' => t('Cron user'),
++    '#options' => $cron_user,
++    '#default_value' => variable_get('simplenews_cron_user', 'default'),
++    '#description' => t("The user who's permission is used to send the newsletters. The content of the newsletter is determined by the permission of the selected user.") .'<br />'.
++    t('The <em>default</em> user is anonymous when sent by cron and the current user (the one who saved the node) when not using cron. Use <em>node author</em> only when the newsletter is (party) not accessible to anonymous user.'),
++  );
+   $form['simplenews_mail_backend']['simplenews_throttle'] = array(
+     '#type' => 'select',
+     '#title' => t('Cron throttle'),
+Index: simplenews.module
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/simplenews/simplenews.module,v
+retrieving revision 1.76.2.136
+diff -u -p -r1.76.2.136 simplenews.module
+--- simplenews.module	9 Sep 2009 13:32:06 -0000	1.76.2.136
++++ simplenews.module	23 Sep 2009 11:52:17 -0000
+@@ -1391,8 +1391,10 @@ function simplenews_send_node($node, $ac
+ 
+     // To send the newsletter, the node id and target email addresses
+     // are stored in the spool.
++    // To send the newsletter, the node id and target email addresses
++    // are stored in the spool.
+     // When cron is not used the newsletter is send immediately to the emails
+-    // in the spool. When cron is used newsletters are send to addresses in the
++    // in the spool. When cron is used newsletters are send to addresses in the 
+     // spool during the next (and following) cron run.
+     foreach ($mails as $mail) {
+       $data = array_merge($node_data, $mail);
+@@ -1638,13 +1640,23 @@ function simplenews_mail_mail($nid, $vid
+   $account->mail = $mail;
+   $subscription = simplenews_get_subscription($account);
+   $params['context']['account'] = $subscription;
+-
++  if (variable_get('simplenews_cron_user', 'default') != 'default') {
++    // We send the newsletter the using permissions of an other user.
++    // Store the current user to be able to switch back later.
++    simplenews_switch_user();
++  }
++  
+   // Get node data for the mail
+   $node = node_load($nid, $vid);
+   if (is_object($node)) {
+     $params['from'] = _simplenews_set_from($node);
+     $params['context']['newsletter'] = taxonomy_get_term($node->simplenews['tid']);
+     $params['context']['node'] = $node;
++    if (variable_get('simplenews_cron_user', 'default') != 'default') {
++      // Switch user to the node author to use the correct permissions.
++      // After building the newsletter we switch back to the original user.
++      simplenews_switch_user($node->uid);
++    }
+ 
+     // Send mail
+     if (module_exists('mimemail')) {
+@@ -1667,7 +1679,12 @@ function simplenews_mail_mail($nid, $vid
+     else {
+       $message = drupal_mail('simplenews', $key, $subscription->mail, $subscription->language, $params, $params['from']['address'], TRUE);
+     }
+-
++	
++    if (variable_get('simplenews_cron_user', 'default') != 'default') {
++      // Switch back to the original user.
++      simplenews_switch_user();
++    }
++    
+     // Log sent message.
+     if (variable_get('simplenews_debug', FALSE)) {
+       if (module_exists('mimemail')) {
+@@ -2213,6 +2230,37 @@ function simplenews_help($path, $arg) {
+       return $help;
+   }
+ }
++/*
++ * Switch from original user to mail submision user and back.
++ *
++ * Note: taken from mailhandler.module.
++ *
++ * Note: You first need to run simplenews_switch_user without
++ * argument to store the current user. Call simplenews_switch_user
++ * without argument to set the user back to the original user.
++ *
++ * @param $uid The user ID to switch to
++ *
++ */
++function simplenews_switch_user($uid = NULL) {
++  global $user;
++  static $orig_user = array();
++
++  if (isset($uid)) {
++    session_save_session(FALSE);
++    $user = user_load(array('uid' => $uid));
++  }
++  // retrieve the initial user, can be called multiple times
++  else if (count($orig_user)) {
++    $user = array_shift($orig_user);
++    session_save_session(TRUE);
++    array_unshift($orig_user, $user);
++  }
++  // store the initial user
++  else {
++    $orig_user[] = $user;
++  }
++}
+ 
+ /**
+  * Flatten a nested array
