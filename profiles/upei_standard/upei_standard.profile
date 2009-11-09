@@ -19,21 +19,19 @@ function upei_standard_profile_modules() {
     /* ldapauth */
     'ldapauth',
     /* admin */
-    'admin_menu', 'advanced_help', 'node_clone', 'auto_nodetitle',
+    'admin_menu', 'advanced_help', 'auto_nodetitle',
     'page_title', 'imce', 'fckeditor',
     /* ui */
     'jquery_update', 'jquery_ui',
     /* cck modules */
-    'cck', 'content_copy', 'number', 'text', 'fieldgroup',
-    'optionswidgets', 'nodereference', 'userreference',
+    'content', 'content_copy', 'number', 'text', 'fieldgroup',
+    'optionwidgets', 'nodereference', 'userreference',
     'phone', 'link', 'email', 
-    'filefield', 'fieldfield_paths', 'imagefield',
+    'filefield', 'filefield_paths', 'imagefield',
     /* views */
     'views', 'views_bulk_operations', 'views_ui', 'insert_view',
     /* campus */
     'campus_emergency', 'campus_management', 'scrape_manager',
-    /* themes */
-    'sunshine',
   );
 }
 
@@ -169,16 +167,20 @@ function upei_standard_profile_tasks(&$task, $url) {
   variable_set('pathauto_node_article_pattern', 'article/[yyyy]/[mm]/[dd]/[title-raw]'); // default article url
   variable_set('pathauto_reduce_ascii', 1); // reduce path to ASCII-96
 
-  // set default theme
-  variable_set('theme_default', 'sunshine');
-
   // set default file directory path
   variable_set('file_directory_path', conf_path() . '/files');
   variable_set('file_directory_temp', conf_path() . '/files/tmp');
-  
-  // clear all cache
-  cache_clear_all();
 
+  // clear css cache
+  drupal_clear_css_cache();
+  // disable all other themes and enable sunshine theme
+  db_query("UPDATE {system} SET status=0 WHERE type='theme'");
+  db_query("UPDATE {system} SET status=1 WHERE type='theme' and name='sunshine'");
+  // set default theme
+  variable_set('theme_default', 'sunshine');
+  // rebuild theme registry
+  drupal_rebuild_theme_registry();
+  
   // Update the menu router information.
   menu_rebuild();
 }
