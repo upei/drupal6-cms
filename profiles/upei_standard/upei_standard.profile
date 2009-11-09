@@ -170,6 +170,9 @@ function upei_standard_profile_tasks(&$task, $url) {
   // set default file directory path
   variable_set('file_directory_path', conf_path() . '/files');
   variable_set('file_directory_temp', conf_path() . '/files/tmp');
+  // make sure the file directory exists
+  file_create_path();
+  file_create_path('tmp');
 
   // clear css cache
   drupal_clear_css_cache();
