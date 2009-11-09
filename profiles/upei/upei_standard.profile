@@ -32,6 +32,8 @@ function upei_standard_profile_modules() {
     'views', 'views_bulk_operations', 'views_ui', 'insert_view',
     /* campus */
     'campus_emergency', 'campus_management', 'scrape_manager',
+    /* themes */
+    'sunshine',
   );
 }
 
@@ -159,6 +161,23 @@ function upei_standard_profile_tasks(&$task, $url) {
   $theme_settings = variable_get('theme_settings', array());
   $theme_settings['toggle_node_info_page'] = FALSE;
   variable_set('theme_settings', $theme_settings);
+
+  // path auto settings
+  variable_set('pathauto_node_supportfeeds', NULL); // no support feed
+  variable_set('pathauto_node_pattern', ''); // no default node urls
+  variable_set('pathauto_node_page_pattern', 'page/[title-raw]'); // default page url
+  variable_set('pathauto_node_article_pattern', 'article/[yyyy]/[mm]/[dd]/[title-raw]'); // default article url
+  variable_set('pathauto_reduce_ascii', 1); // reduce path to ASCII-96
+
+  // set default theme
+  variable_set('theme_default', 'sunshine');
+
+  // set default file directory path
+  variable_set('file_directory_path', conf_path() . '/files');
+  variable_set('file_directory_temp', conf_path() . '/files/tmp');
+  
+  // clear all cache
+  cache_clear_all();
 
   // Update the menu router information.
   menu_rebuild();
