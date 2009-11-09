@@ -1,3 +1,4 @@
+<?php if (count($rows) > 0): ?>
 <div class="scrollable-container">
   <div class="navi"></div>
   <a class="prevPage"></a>
@@ -42,3 +43,4 @@
     </script>
   </div>
 </div>
+<?php endif; ?>
