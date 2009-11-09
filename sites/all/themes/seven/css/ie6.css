@@ -1,0 +1,10 @@
+/* $Id: ie6.css,v 1.1 2009/10/22 21:25:51 mcrittenden Exp $ */
+
+ul.menu li,
+ul.menu li a,
+ul.links li,
+ul.links li a,
+#page {
+  height: 1%;
+}
+

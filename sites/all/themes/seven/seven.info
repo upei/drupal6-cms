@@ -1,0 +1,34 @@
+; $Id: seven.info,v 1.1 2009/10/22 21:25:51 mcrittenden Exp $
+
+name = Seven
+description = A backport of Drupal 7's admin theme (designed by Mark and Leisa)
+screenshot = screenshot.png
+engine = phptemplate
+core = "6.x"
+
+regions[content_top] = Content Top
+regions[content_bottom] = Content Bottom
+regions[header] = Header
+regions[footer_block] = Footer
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = mission
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+features[] = secondary_links
+
+stylesheets[all][] = css/default.css
+stylesheets[all][] = css/pretty.css
+
+
+; Information added by drupal.org packaging script on 2009-11-06
+version = "6.x-1.0-beta3"
+core = "6.x"
+project = "seven"
+datestamp = "1257523601"
+
