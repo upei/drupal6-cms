@@ -8,7 +8,7 @@
 function upei_standard_profile_modules() {
   return array(
     /* core modules */
-    'color', 'help', 'menu', 'taxonomy', 'dblog', 'php',
+    'color', 'help', 'menu', 'taxonomy', 'dblog', 'php', 'path',
     /* important modules */
     'token', 'pathauto', 'print',
     /* date */
