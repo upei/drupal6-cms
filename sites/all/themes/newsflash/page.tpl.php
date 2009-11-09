@@ -158,7 +158,7 @@ if($bucket == "wf"){
     <?php }  ?>
   <?php } ?>
 </head>
-<body<?php print phptemplate_body_class($sidebar_left, $sidebar_right); ?>>
+<body class="<?php print $body_classes;?> <?php phptemplate_body_class($sidebar_left, $sidebar_right); ?>">
 <?php include 'site-includes/00.010-administration-panel.php'; ?>
  <?php include "mods/google.php";?> 
   <div id="page">

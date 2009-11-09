@@ -42,8 +42,8 @@ function phptemplate_body_class($sidebar_left, $sidebar_right) {
    }
  
    if (isset($class)) {
-     print ' class="'. $class .'"';
-}
+     print $class;
+  }
 
 }
 if (is_null(theme_get_setting('newsflash_style'))) {
@@ -151,4 +151,22 @@ function phptemplate_imagefield_admin_thumbnail($item = null) {
   }
   $thumb_path = imagefield_file_admin_thumb_path($item);
   return '<img class="imagefield-admin-thumb" width="150" src="'. file_create_url($item['filepath']) .'" />';
+}
+
+function newsflash_preprocess_page(&$vars) {
+    if ($vars['body_classes']) {
+    $body_classes = explode(' ', $vars['body_classes']);
+  }
+  else {
+    $body_classes = array();
+  }
+
+  // put node type and node id into body classes
+  if ($vars['node']) {
+    $body_classes[] = 'page-' . $vars['node']->type;
+    $body_classes[] = 'page-nid-' . $vars['node']->nid;
+  }
+  $body_classes = array_unique(array_filter($body_classes));
+  $vars['body_classes'] = implode(' ', $body_classes);
+
 }

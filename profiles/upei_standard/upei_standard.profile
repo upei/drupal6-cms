@@ -10,7 +10,7 @@ function upei_standard_profile_modules() {
     /* core modules */
     'color', 'help', 'menu', 'taxonomy', 'dblog', 'php', 'path',
     /* important modules */
-    'token', 'pathauto', 'print',
+    'token', 'pathauto', 'print', 'transliterate',
     /* date */
     'date_api', 'date_timezone', 'date', 'date_popup',
     /* image modules */
@@ -180,9 +180,14 @@ function upei_standard_profile_tasks(&$task, $url) {
   drupal_clear_css_cache();
   // disable all other themes and enable sunshine theme
   db_query("UPDATE {system} SET status=0 WHERE type='theme'");
+  db_query("UPDATE {system} SET status=1 WHERE type='theme' and name='seven'");
   db_query("UPDATE {system} SET status=1 WHERE type='theme' and name='sunshine'");
   // set default theme
   variable_set('theme_default', 'sunshine');
+  // set admin theme and content editing theme
+  // variable_set('admin_theme', 'seven');
+  // variable_set('node_admin_theme', 1);
+
   // rebuild theme registry
   drupal_rebuild_theme_registry();
   
