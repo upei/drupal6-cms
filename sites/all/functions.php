@@ -43,5 +43,9 @@ function _get_banner() {
 }
 
 function custom_url_rewrite_outbound(&$path, &$options, $original_path) {
+  // rewrite newsletter url
+  if (preg_match('#^newsletter/confirm#', $path)) {
+    $options['base_url'] = preg_replace('#http://cms.upei.ca#', 'http://www.upei.ca', $options['base_url']);
+  }
   $options['absolute'] = TRUE;
 }

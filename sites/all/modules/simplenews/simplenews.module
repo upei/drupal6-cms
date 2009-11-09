@@ -2466,7 +2466,7 @@ function template_preprocess_simplenews_block(&$variables) {
  * Theme the newsletter email subject.
  */
 function theme_simplenews_newsletter_subject($name, $title, $language) {
-  return  '['. $name .'] '. $title;
+  return  '['. $name .'] '. $title . ' (' . date('Y-m-d') . ')';
 }
 
 /**

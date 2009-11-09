@@ -18,5 +18,6 @@
  * @see template_preprocess_simplenews_newsletter_body()
  */
 ?>
-<h2><?php print $title; ?></h2>
+<div><?php print $title; ?></div>
+
 <?php print $body; ?>
