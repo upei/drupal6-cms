@@ -2322,6 +2322,11 @@ function _menu_router_build($callbacks) {
     watchdog('php', 'Menu router rebuild failed - some paths may not work correctly.', array(), WATCHDOG_ERROR);
     return array();
   }
+
+  // Avoid race condition by using transaction here
+  db_query('SET AUTOCOMMIT=0');
+  db_query('BEGIN');
+
   // Delete the existing router since we have some data to replace it.
   db_query('DELETE FROM {menu_router}');
   // Apply inheritance rules.
@@ -2422,6 +2427,10 @@ function _menu_router_build($callbacks) {
       $item['title'], $item['title callback'], $title_arguments,
       $item['type'], $item['block callback'], $item['description'], $item['position'], $item['weight'], $item['include file']);
   }
+
+  // COMMIT the transaction
+  db_query('COMMIT');
+
   // Sort the masks so they are in order of descending fit, and store them.
   $masks = array_keys($masks);
   rsort($masks);

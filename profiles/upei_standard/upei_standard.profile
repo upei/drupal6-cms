@@ -10,7 +10,7 @@ function upei_standard_profile_modules() {
     /* core modules */
     'color', 'help', 'menu', 'taxonomy', 'dblog', 'php', 'path',
     /* important modules */
-    'token', 'pathauto', 'print', 'transliterate',
+    'better_formats', 'token', 'pathauto', 'print', 'transliterate',
     /* date */
     'date_api', 'date_timezone', 'date', 'date_popup',
     /* image modules */
@@ -161,7 +161,7 @@ function upei_standard_profile_tasks(&$task, $url) {
   variable_set('theme_settings', $theme_settings);
 
   // path auto settings
-  variable_set('pathauto_node_supportfeeds', NULL); // no support feed
+  variable_set('pathauto_node_supportfeeds', ''); // no support feed
   variable_set('pathauto_node_pattern', ''); // no default node urls
   variable_set('pathauto_node_page_pattern', 'page/[title-raw]'); // default page url
   variable_set('pathauto_node_article_pattern', 'article/[yyyy]/[mm]/[dd]/[title-raw]'); // default article url
