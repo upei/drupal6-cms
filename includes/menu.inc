@@ -2324,7 +2324,7 @@ function _menu_router_build($callbacks) {
   }
 
   // Avoid race condition by using transaction here
-  db_query('SET AUTOCOMMIT=0');
+  db_query('SET autocommit=0');
   db_query('BEGIN');
 
   // Delete the existing router since we have some data to replace it.
@@ -2430,6 +2430,7 @@ function _menu_router_build($callbacks) {
 
   // COMMIT the transaction
   db_query('COMMIT');
+  db_query('SET autocommit=1');
 
   // Sort the masks so they are in order of descending fit, and store them.
   $masks = array_keys($masks);
