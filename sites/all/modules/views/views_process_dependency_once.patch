@@ -1,0 +1,25 @@
+Index: includes/form.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/includes/form.inc,v
+retrieving revision 1.10
+diff -u -r1.10 form.inc
+--- includes/form.inc	25 Jun 2008 21:10:10 -0000	1.10
++++ includes/form.inc	29 May 2009 20:30:05 -0000
+@@ -264,7 +264,8 @@
+  * - @code '#dependency' => array('id-of-form-without-the-#' => array(list, of, values, that, make, this, gadget, visible)); @endcode
+  */
+ function views_process_dependency($element, $edit, &$form_state, &$form) {
+-  if (isset($element['#dependency'])) {
++  static $dependencies;
++  if (isset($element['#dependency']) && !isset($dependencies[$element['#id']])) {
+     if (!isset($element['#dependency_count'])) {
+       $element['#dependency_count'] = 1;
+     }
+@@ -276,6 +277,7 @@
+       $options['viewsAjax']['formRelationships'][$element['#id']] = array('num' => $element['#dependency_count'], 'values' => $element['#dependency']);
+       drupal_add_js($options, 'setting');
+     }
++    $dependencies[$element['#id']] = TRUE;
+   }
+ 
+   return $element;
