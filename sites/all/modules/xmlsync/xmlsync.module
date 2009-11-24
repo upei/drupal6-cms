@@ -93,6 +93,7 @@ function xmlsync_form(&$node) {
     '#type' => 'textfield',
     '#title' => t('XML URL'),
     '#default_value' => $node->url,
+    '#description' => t('eg., http://www.w3schools.com/XML/cd_catalog.xml'),
     '#weight' => -1,
   );
   $form['xpath'] = array(
@@ -105,6 +106,7 @@ function xmlsync_form(&$node) {
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the document\'s root element'),
+    '#description' => t('eg., /CATALOG'),
     '#default_value' => $node->root_xpath,
   );
 
@@ -112,6 +114,7 @@ function xmlsync_form(&$node) {
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the record element'),
+    '#description' => t('eg., /CATALOG/CD'),
     '#default_value' => $node->record_xpath,
   );
   
@@ -119,6 +122,7 @@ function xmlsync_form(&$node) {
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the document title'),
+    '#description' => t('eg., /CATALOG/@none'),
     '#default_value' => $node->document_title_xpath,
   );
 
@@ -126,6 +130,7 @@ function xmlsync_form(&$node) {
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the document description'),
+    '#description' => t('eg., /CATALOG/@none'),
     '#default_value' => $node->document_description_xpath,
   );
 
@@ -133,6 +138,7 @@ function xmlsync_form(&$node) {
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the record id'),
+    '#description' => t('eg., /CD/TITLE'),
     '#default_value' => $node->record_id_xpath,
   );
 
@@ -140,6 +146,7 @@ function xmlsync_form(&$node) {
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the record title'),
+    '#description' => t('eg., /CD/TITLE'),
     '#default_value' => $node->record_title_xpath,
   );
 
@@ -147,6 +154,7 @@ function xmlsync_form(&$node) {
     '#type' => 'textfield',
     '#required' => TRUE,
     '#title' => t('XPath for the record description'),
+    '#description' => t('eg., /CD/TITLE'),
     '#default_value' => $node->record_description_xpath,
   );
 

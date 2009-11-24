@@ -17,11 +17,11 @@ class views_plugin_display_ajax_page extends views_plugin_display_page {
     }
     print $output;
   }
-
+/*
   function preview() {
     return '<pre>' . check_plain($this->view->render()) . '</pre>';
   }
-
+ */
   /**
    * Instead of going through the standard views_view.tpl.php, delegate this
    * to the style handler.
