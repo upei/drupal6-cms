@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.19 2009/03/08 00:04:26 thierrygd Exp $
+$Id: README.txt,v 1.22 2009/11/05 11:07:56 thierrygd Exp $
 
 Copyright 2009 http://www.arvoriad.com
 
@@ -12,6 +12,7 @@ Features:
 * Validation of phone numbers : support of 
 	+ French, 
 	+ British, 
+	+ Switzerland, 
 	+ Italian, 
 	+ Dutch, 
 	+ Russian, 
@@ -20,10 +21,18 @@ Features:
 	+ Czech, 
 	+ Hungarian,
 	+ Costa Rican, 
-	+ US 
+	+ Brazilian, 
+	+ New Zealand, 
+	+ Hong-Kong, 
+	+ Macau,  
+	+ US, 
+	+ Swiss,
+	+ Jordanian (only cellular phone numbers), 
+	+ Egyptian,
 	and Canadian phone numbers 
+	and generic international phone numbers
 * Formating of phone numbers 
-* Option for internationalization phone numbers  
+* Option for internationalization of phone numbers  
 * IPhone support 
 
 Prerequisites

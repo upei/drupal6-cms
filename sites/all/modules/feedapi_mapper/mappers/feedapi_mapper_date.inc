@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_mapper_date.inc,v 1.1.2.3.2.12 2009/07/27 15:48:36 alexb Exp $
+// $Id: feedapi_mapper_date.inc,v 1.1.2.3.2.15 2009/09/18 13:30:39 aronnovak Exp $
 
 /**
  * On behalf implementation of hook_feedapi_mapper for date field from content.module (CCK),
@@ -139,7 +139,7 @@ function feedapi_mapper_date_stamp(&$node, $field, $feed_element, $sub_field) {
 
   // A date without a timezone, assume local timezone.
   $value = date_create("@$feed_element", timezone_open('UTC'));
-  date_timezone_set($value, $to_tz);
+  date_timezone_set($value, timezone_open($to_tz));
 
   $date = new date_constructor();
   $date->construct($field);
@@ -262,10 +262,10 @@ function feedapi_mapper_date_part(&$node, $field, $feed_element, $sub_field) {
   if (empty($node->$field_name)) {
     $date = new date_constructor();
     $date->construct($field);
+    $date->set_value($sub_field, $feed_element);
+    $date->build();
+    $node->$field_name = array($date->value);
   }
-  $date->set_value($sub_field, $feed_element);
-  $date->build();
-  $node->$field_name = array($date->value);
   return $node;
 }
 
@@ -350,11 +350,13 @@ class date_constructor {
         }
         $this->end_datetime = $this->end_date .' '. $this->end_time;
         break;
+			case 'start_stamp':
       case 'start_datetime':
         $this->start_datetime = $value;
         $this->start_date = NULL;
         $this->start_time = NULL;
         break;
+			case 'end_stamp':
       case 'end_datetime':
         $this->end_datetime = $value;
         $this->end_date = NULL;
@@ -406,12 +408,12 @@ class date_constructor {
       $this->value['date2'] = date_create($this->end_datetime, timezone_open($this->to_tz));      
     }
 
-    if (isset($this->value['date'])) {
+    if (!empty($this->value['date'])) {
       $this->value['offset'] = date_offset_get($this->value['date']);
       date_timezone_set($this->value['date'], timezone_open($this->db_tz));
       $this->value['value'] = date_format($this->value['date'], $this->format);
     }
-    if (isset($this->value['date2'])) {
+    if (!empty($this->value['date2'])) {
       $this->value['offset2'] = date_offset_get($this->value['date2']);
       date_timezone_set($this->value['date2'], timezone_open($this->db_tz));
       $this->value['value2'] = date_format($this->value['date2'], $this->format);
@@ -419,3 +421,4 @@ class date_constructor {
     $this->value['timezone'] = $this->to_tz;
   }
 }
+

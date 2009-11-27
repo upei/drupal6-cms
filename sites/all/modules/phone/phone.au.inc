@@ -1,10 +1,17 @@
 <?php
-// $Id: phone.au.inc,v 1.19 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.au.inc,v 1.22 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
  * CCK Field for Australian phone numbers.
  */
+ 
+ function phone_au_metadata() {
+   return array(
+     'label' => 'Australian Phone Numbers',
+     'error' => '"%value" is not a valid Australian phone number<br>Australian phone numbers should contain only numbers with an optional prefix of "+61"',
+   );
+ }
  
 /**  
  * Verification for Australian Phone Numbers.  

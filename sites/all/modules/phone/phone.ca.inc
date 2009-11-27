@@ -1,10 +1,17 @@
 <?php
-// $Id: phone.ca.inc,v 1.25 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.ca.inc,v 1.28 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
  * CCK Field for Canadian phone numbers.
  */
+ 
+function phone_ca_metadata() {
+  return array(
+    'label' => 'US & Canadian Phone Numbers',
+    'error' => '"%value" is not a valid North American phone number<br>North American Phone numbers should only contain numbers and + and - and ( and ) and spaces and be like 999-999-9999. Please enter a valid ten-digit phone number with optional extension.',
+  );
+}
  
 /**  
  * Verifies that $phonenumber is a valid ten-digit North American phone number

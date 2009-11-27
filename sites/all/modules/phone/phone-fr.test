@@ -1,5 +1,5 @@
 <?php
-// $Id: phone-fr.test,v 1.1 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone-fr.test,v 1.4 2009/11/05 11:07:56 thierrygd Exp $
 
 // Copyright 2009 Thierry GUEGAN http://www.arvoriad.com 
 
@@ -108,3 +108,4 @@ class PhoneFrenchTest extends DrupalTestCase {
     $this->assertEqual(format_fr_phone_number('+33 123456789', $add_country_code), '+33 123456789', "international --> international");
     $this->assertEqual(format_fr_phone_number(' +33   123 45 - (67) 89', $add_country_code), '+33 123456789', "international --> international");
   }
+}

@@ -1,10 +1,18 @@
 <?php
-// $Id: phone.ru.inc,v 1.17 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.ru.inc,v 1.20 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
  * CCK Field for Russian phone numbers.
  */
+ 
+function phone_ru_metadata() {
+  // These strings are translated using t() on output.
+  return array(
+    'label' => 'Russian Phone Numbers',
+    'error' => '"%value" is not a valid Russian phone number<br>Russian Phone numbers should .... ',
+  );
+}
  
 /**  
  * Verifies that $phonenumber is a valid ten-digit Russian phone number

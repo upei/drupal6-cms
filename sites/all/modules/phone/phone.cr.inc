@@ -1,11 +1,19 @@
 <?php
-// $Id: phone.cr.inc,v 1.12 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.cr.inc,v 1.15 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
  * CCK Field for Costa Rican phone numbers.
  */
  
+ function phone_cr_metadata() {
+   // These strings are translated using t() on output.
+   return array(
+     'label' => 'Costa Rican Phone Numbers',
+     'error' => '"%value" is not a valid Costa Rican phone number!<br>Costa Rican phone numbers should contain only numbers and spaces be like 99 99 99 99 with an optional prefix of "+506" or "00506".',
+   );
+ }
+
 /**  
  * Verifies that $phonenumber is a valid eight-digit Costa Rican phone number
  *

@@ -1,6 +1,6 @@
 <?php
 
-// $Id: imagefield_crop_widget.inc,v 1.1.2.9 2009/04/06 11:16:25 yhager Exp $
+// $Id: imagefield_crop_widget.inc,v 1.1.2.12 2009/11/11 08:12:54 yhager Exp $
 
 // load imagefield widget, so we can extend it, and not fully replace it
 module_load_include('inc','imagefield', 'imagefield_widget');
@@ -166,7 +166,7 @@ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
   }
   $element['data']['cropbox'] = array(
     '#type' => 'markup',
-    '#value' => theme('imagefield_crop_cropbox', $crop_display, $crop_display['alt'], $crop_display['title'], NULL, FALSE),
+    '#value' => theme('imagefield_crop_cropbox', $crop_display, $crop_display['alt'], $crop_display['title'], NULL, FALSE, $element['#id'] .'-cropbox'),
   );
   
   $element['data']['crop'] = array(
@@ -183,26 +183,29 @@ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
   }
   
   // show dynamic crop preview
-  $element['preview'] = array(
-      '#type' => 'markup',
-      '#value' => theme('imagefield_crop_dynamic_preview', $crop_display, $field['widget']['resolution']),
-    );
-  
-  if (!isset($added_js[$field['field_name']])) {
+  list($preview, $preview_js) = theme('imagefield_crop_dynamic_preview', $crop_display, $field['widget']['resolution']);
+
+  if (!isset($added_js[$element['#id']])) {
     // Add settings only once (for ahah).
     $settings = array(
-      'ratio' => $ratio,
-      'box_width' => (integer)$bwidth,
-      'box_height' => (integer)$bheight,
-    );
-    $settings = array( 'box' => array(
-        $field['field_name'] => $settings,
+      $element['#id'] => array(
+        'box' => array(
+          'ratio' => $ratio,
+          'box_width' => (integer)$bwidth,
+          'box_height' => (integer)$bheight,
+        ),
+        'preview' => $preview_js,
       ),
-      'preview' => array('fields' => $field['field_name']),
     );
     drupal_add_js(array('imagefield_crop' => $settings), 'setting');
-    $added_js[$field['field_name']] = TRUE;
+    $added_js[$element['#id']] = TRUE;
   }
+  $element['preview'] = array(
+      '#type' => 'markup',
+      // the jQuery.extend is required for ahah("add another item" button) to work
+      '#value' => $preview . '<script type="text/javascript">jQuery.extend(Drupal.settings.imagefield_crop, '. drupal_to_js($settings) .');</script>',
+
+    );
 
   return $element;
 }
@@ -234,24 +237,22 @@ function imagefield_crop_widget_validate($element) {
 }
 
 
-function theme_imagefield_crop_cropbox($file = NULL, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE) {
-  // REFACTOR: consider multiple images
-  $attributes = array_merge((array)$attributes + array('class' => 'cropbox'));
+function theme_imagefield_crop_cropbox($file = NULL, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE, $id) {
+  $attributes = array_merge((array)$attributes + array('class' => 'cropbox', 'id' => $id));
   $output = theme('imagefield_image', $file, $alt, $title, $attributes, $getsize);
   $element = array(
-    '#type' => 'element',
+    '#type'  => 'element',
     '#title' => t('Crop area'),
+    '#id'    => $id,
   );
   return theme('form_element', $element, $output);
 }
 
 
 function theme_imagefield_crop_dynamic_preview($file, $resolution) {
-  static $added_js = array();
-  
   $file = (array)$file;
   if (!is_file($file['filepath'])) {
-    return '<!-- file not found: '. $file['filepath'] .' -->';
+    return array('<!-- file not found: '. $file['filepath'] .' -->', '');
   }
   list($width, $height) = explode('x', $resolution);
   
@@ -266,17 +267,11 @@ function theme_imagefield_crop_dynamic_preview($file, $resolution) {
       'width' => (integer)$width,
       'height' => (integer)$height,
     );
-    // REFACTOR: Support multiple fields (i.e. add element delta to setting array)
-    $output = '';
-    if (!isset($added_js[$url])) {
-      $output .= "<script type='text/javascript'>Drupal.settings.imagefield_crop.preview['$url']=".drupal_to_js($settings)."</script>";
-      $added_js[$url] = TRUE;
-    }
-    $output .= '<div class="jcrop-preview-wrapper" style="width:'. $width .'px;height:'. $height .'px;overflow:hidden;"><img src="'. check_url($url) .'" alt="'.
+    $output = '<div class="jcrop-preview-wrapper" style="width:'. $width .'px;height:'. $height .'px;overflow:hidden;"><img src="'. check_url($url) .'" alt="'.
       check_plain($alt) .'" title="'. check_plain($title) .'" class="jcrop-preview" /></div>';
-    return $output;
+    return array($output, $settings);
   }
-  return '<!-- could not get imagesize, possibly corrupt or non image. '. $file['filepath'] .' -->';
+  return array('<!-- could not get imagesize, possibly corrupt or non image. '. $file['filepath'] .' -->', '');
 
   
 }
@@ -290,7 +285,7 @@ function _imagefield_crop_resize($src, $crop = NULL, $scale = NULL, $dst = '') {
     }
 
     if ($scale) {
-      module_invoke('imageapi', 'image_scale', $image, $scale['width'], $scale['height']);
+      module_invoke('imageapi', 'image_scale_and_crop', $image, $scale['width'], $scale['height']);
     }
 
     $result = module_invoke('imageapi', 'image_close', $image, $dst);

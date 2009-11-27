@@ -1,11 +1,19 @@
 <?php
-// $Id: phone.hu.inc,v 1.12 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.hu.inc,v 1.15 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
  * CCK Field for Hungarian phone numbers.
  */
  
+function phone_hu_metadata() {
+  // These strings are translated using t() on output.
+  return array(
+    'label' => 'Hungarian Phone Numbers',
+    'error' => '"%value" is not a valid Hungarian phone number!<br>Hungarian phone numbers should contain only numbers and spaces be like 70 999 9999 with an optional prefix of "+36" or "06".',
+  );
+}
+
 /**  
  * Verifies that $phonenumber is a valid nine-digit Hungarian phone number
  *
@@ -24,11 +32,10 @@ function valid_hu_phone_number($phonenumber) {
     \D*           # optional separator
     (\d{3})       # second group
     \D*           # optional separator
-    (\d{2})       # third group
-    \D*           # optional separator
-    (\d{2})       # fourth group
+    (\d{3,4})     # third group
     \D*           # ignore trailing non-digits
     $/x";
+    
   // return true if valid, false otherwise
   return (bool) preg_match($regex, $phonenumber); 
 } 
@@ -49,9 +56,7 @@ function format_hu_phone_number($phonenumber) {
     \D*           # optional separator
     (\d{3})       # second group
     \D*           # optional separator
-    (\d{2})       # third group
-    \D*           # optional separator
-    (\d{2})       # fourth group
+    (\d{3,4})     # third group
     \D*           # ignore trailing non-digits
     $/x"; 
     
