@@ -1,12 +1,13 @@
 <?php
-// $Id: filefield_paths.install,v 1.6.2.3 2009/05/22 03:28:14 deciphered Exp $
+// $Id: filefield_paths.install,v 1.6.2.4 2009/11/01 22:19:48 deciphered Exp $
 
 /**
  * @file
+ * Install, update and uninstall functions for the FileField Paths module.
  */
 
 /**
- * Implementation of hook_schema().
+ * Implements hook_schema().
  */
 function filefield_paths_schema() {
   $schema['filefield_paths'] = array(
@@ -25,7 +26,7 @@ function filefield_paths_schema() {
 }
 
 /**
- * Implementation of hook_schema_alter().
+ * Implements hook_schema_alter().
  *
  * @param $schema
  *   The system-wide schema
@@ -41,7 +42,7 @@ function filefield_paths_schema_alter(&$schema) {
 }
 
 /**
- * Implementation of hook_install().
+ * Implements hook_install().
  */
 function filefield_paths_install() {
   drupal_install_schema('filefield_paths');
@@ -56,7 +57,7 @@ function filefield_paths_install() {
 }
 
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function filefield_paths_uninstall() {
   drupal_uninstall_schema('filefield_paths');
@@ -66,7 +67,7 @@ function filefield_paths_uninstall() {
 }
 
 /**
- * Implementation of hook_update_N().
+ * Implements hook_update_N().
  */
 function filefield_paths_update_6100() {
   $ret = array();
