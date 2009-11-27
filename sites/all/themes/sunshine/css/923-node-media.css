@@ -13,7 +13,7 @@
   background: #fff url('/css/images/dquote.png') no-repeat left top;
 }
 /** h1 for page-media */
-.page-media h1 { margin-left: 265px; width: 22.2em; }
+.page-media #page h1 { margin-left: 265px; width: 22.2em; }
 .node-media fieldset { border: 1px solid #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px; padding: 1em; }
 .node-media legend { font-weight: bold; }
 .node-media .field .label { display: block; font-weight: bold; }
