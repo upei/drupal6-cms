@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.install,v 1.3 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.install,v 1.6 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
@@ -62,3 +62,32 @@ function phone_disable() {
   content_notify('disable', 'phone');
 }
 
+/**
+ * Fixing update : field setting 'not null' => TRUE can cause problems with MySQL in strict mode
+ */
+function phone_update_6200() {
+  $ret = array();
+
+  module_load_include('inc', 'content', 'includes/content.crud');
+  $fields = content_fields();
+
+  foreach ($fields as $field) {
+      
+    if (substr($field['type'], 3) == 'phone') {
+  
+      //drupal_set_message('field type = phone ==> ' . $field['type']); 
+            
+      $db_info = content_database_info($field);
+      if (isset($db_info['columns']['value'])) {
+        $table = $db_info['table'];
+        $value_column = $db_info['columns']['value']['column'];
+        //drupal_set_message('table = ' . $table, 'error');  
+        //drupal_set_message('value_column = ' . $value_column, 'error');  
+
+        $ret[] = update_sql("ALTER TABLE {" . $table ."} CHANGE " .$value_column . " " .$value_column . " VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL");
+      }
+    }
+  }
+  drupal_set_message("Phone fields have been updated.");
+  return $ret;
+}

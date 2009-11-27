@@ -7,9 +7,9 @@ dependencies[] = imageapi
 package = CCK
 
 
-; Information added by drupal.org packaging script on 2009-10-06
-version = "6.x-1.x-dev"
+; Information added by drupal.org packaging script on 2009-11-15
+version = "6.x-1.0-rc1"
 core = "6.x"
 project = "imagefield_crop"
-datestamp = "1254831407"
+datestamp = "1258269036"
 

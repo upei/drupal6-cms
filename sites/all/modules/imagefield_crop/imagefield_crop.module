@@ -1,6 +1,6 @@
 <?php
 
-// $Id: imagefield_crop.module,v 1.1.2.11.2.4 2009/03/12 11:32:12 yhager Exp $
+// $Id: imagefield_crop.module,v 1.1.2.11.2.5 2009/11/11 08:12:53 yhager Exp $
 
 // remove this for Drupal 7. see http://drupal.org/node/305645
 defined('REQUEST_TIME') or define ('REQUEST_TIME', $_SERVER['REQUEST_TIME']);
@@ -104,7 +104,7 @@ function imagefield_crop_theme() {
     ),
     // display crop box
     'imagefield_crop_cropbox' => array(
-      'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE),
+        'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE, 'id' => NULL),
     ),
     'imagefield_crop_edit_crop_image_row' => array(
       'arguments' => array('element' => NULL),

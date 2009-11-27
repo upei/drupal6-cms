@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.fr.inc,v 1.23 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.fr.inc,v 1.26 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
@@ -7,6 +7,14 @@
  */
 
 define('PHONE_FR_REGEX', "/(\+33|0)([1-6]\d{8}|85\d{7}|87[0-57-9]\d{6})$/");
+
+function phone_fr_metadata() {
+  // These strings are translated using t() on output.
+  return array(
+    'label' => 'French Phone Numbers',
+    'error' => '"%value" is not a valid French phone number<br>French phone numbers should only contain numbers and spaces and be like 99 99 99 99 99',
+  );
+}
 
 /**  
  * Verification for French Phone Numbers.  

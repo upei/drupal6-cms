@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_mapper.module,v 1.1.2.7.2.31 2009/07/14 17:56:07 alexb Exp $
+// $Id: feedapi_mapper.module,v 1.1.2.7.2.33 2009/11/18 19:26:02 alexb Exp $
 
 /**
  * Implementation of hook_help().
@@ -356,7 +356,7 @@ function feedapi_mapper_form($form_state, $node) {
     );
     $form['feed_item']['item'] = array(
       '#type' => 'markup',
-      '#value' => '<pre>'. print_r(_feedapi_mapper_truncate_array($merged_item), TRUE) .'</pre>',
+      '#value' => '<pre>'. check_plain(print_r(_feedapi_mapper_truncate_array($merged_item), TRUE)) .'</pre>',
     );
   }
 
@@ -491,7 +491,8 @@ function _feedapi_mapper_load_mappers() {
  * @todo: move this function to feedapi as feedapi_parse().
  */
 function _feedapi_parse($feed) {
-  return _feedapi_call_parsers($feed, $feed->parsers, $feed->half_done ? FALSE : TRUE);
+  $settings = feedapi_get_settings(NULL, $feed->vid);
+  return _feedapi_call_parsers($feed, $feed->parsers, $settings['parsers']);
 }
 
 /**
@@ -587,6 +588,10 @@ function _feedapi_mapper_get_feed_elements($merged_item) {
     $path = _feedapi_mapper_next_element_path($merged_item, $path, TRUE);
     if ($path == FALSE) {
       break;
+    }
+    // Filter path elements for output.
+    foreach ($path as $k => $v) {
+      $path[$k] = check_plain($v);
     }
     $elements[implode('->', $path)] = serialize($path);
   }

@@ -1,0 +1,202 @@
+diff --git a/imagefield_crop.js b/imagefield_crop.js
+index d95caa4..702835b 100644
+--- a/imagefield_crop.js
++++ b/imagefield_crop.js
+@@ -5,57 +5,61 @@ Drupal.behaviors.imagefield_crop = function (context) {
+   setTimeout(attachJcrop, 1000, context);
+ 
+   function attachJcrop(context) {
+-    if ($('#cropbox', context).length == 0) {
++    if ($('.cropbox', context).length == 0) {
+       // no cropbox, probably an image upload (http://drupal.org/node/366296)
+       return;
+     }
+-    var api = $.Jcrop($('#cropbox', context), {
+-      onChange: showPreview, 
+-      onSelect: setCoords,
+-      aspectRatio: Drupal.settings.imagefield_crop.ratio,
+-      boxWidth: Drupal.settings.imagefield_crop.box_width,
+-      boxHeight: Drupal.settings.imagefield_crop.box_height
+-      //    setSelect: getDimensions()
+-    });   
+-    var dim = getDimensions();
+-    api.animateTo(dim);
+-  };
+-  
+-  
+-  function setCoords(c) {
+-    setDimensions(c.x, c.y, c.w, c.h);
+-  };
+-  
+-  function showPreview(c) {
+-    
+-    var rx = Drupal.settings.imagefield_crop.preview.width / c.w;
+-    var ry = Drupal.settings.imagefield_crop.preview.height / c.h;
+-    
+-    $('.jcrop-preview', context).css({
+-      width: Math.round(rx * Drupal.settings.imagefield_crop.preview.orig_width) + 'px',
+-      height: Math.round(ry * Drupal.settings.imagefield_crop.preview.orig_height) + 'px',
+-      marginLeft: '-' + Math.round(rx * c.x) + 'px',
+-      marginTop: '-' + Math.round(ry * c.y) + 'px'
++    var api = $('.cropbox', context).each(function() {
++      var self = $(this);
++
++      // get the src attribute for multiple image support
++      var src = self.attr('src');
++      if (src.indexOf('?') > 0) {
++        src = src.substring(0, src.indexOf('?'));
++      }
++
++      // get the name attribute for imagefield name
++      var widget = self.parent().parent();
++      var field = widget.find('input[type=hidden]:first').attr('name');
++      if (field) {
++        field = field.substring(0, field.indexOf('['));
++      }
++      $(this).Jcrop({
++        onChange: function(c) {
++          var preview = widget.parent().find('.widget-preview');
++          // skip newly added blank fields
++          if (undefined == Drupal.settings.imagefield_crop.preview[src]) {
++            return;
++          }
++          var rx = Drupal.settings.imagefield_crop.preview[src].width / c.w;
++          var ry = Drupal.settings.imagefield_crop.preview[src].height / c.h;
++          $('.jcrop-preview', preview).css({
++            width: Math.round(rx * Drupal.settings.imagefield_crop.preview[src].orig_width) + 'px',
++            height: Math.round(ry * Drupal.settings.imagefield_crop.preview[src].orig_height) + 'px',
++            marginLeft: '-' + Math.round(rx * c.x) + 'px',
++            marginTop: '-' + Math.round(ry * c.y) + 'px'
++          });
++        },
++        onSelect: function(c) {
++            $(".edit-image-crop-x", widget).val(c.x);
++            $(".edit-image-crop-y", widget).val(c.y);
++            if (c.w) $(".edit-image-crop-width", widget).val(c.w);
++            if (c.h) $(".edit-image-crop-height", widget).val(c.h);
++            $(".edit-image-crop-changed", widget).val(1);
++        },
++        aspectRatio: Drupal.settings.imagefield_crop.box[field].ratio,
++        boxWidth: Drupal.settings.imagefield_crop.box[field].box_width,
++        boxHeight: Drupal.settings.imagefield_crop.box[field].box_height,
++        setSelect: [
++          parseInt($(".edit-image-crop-x", widget).val()),
++          parseInt($(".edit-image-crop-y", widget).val()),
++          parseInt($(".edit-image-crop-width", widget).val()),
++          parseInt($(".edit-image-crop-height", widget).val())
++        ]
++      });
+     });
+-    
+   };
+   
+-  // get select box dimensions from the form
+-  function getDimensions() {
+-    x =  parseInt($(".edit-image-crop-x", context).val()); 
+-    y =  parseInt($(".edit-image-crop-y", context).val());
+-    w =  parseInt($(".edit-image-crop-width", context).val());
+-    h =  parseInt($(".edit-image-crop-height", context).val());
+-    return [x, y, x+w, y+h];
+-  };
+-  
+-  function setDimensions(x, y, w, h) {
+-    $(".edit-image-crop-x", context).val(x);
+-    $(".edit-image-crop-y", context).val(y);
+-    if (w) $(".edit-image-crop-width", context).val(w);
+-    if (h) $(".edit-image-crop-height", context).val(h);
+-    $(".edit-image-crop-changed", context).val(1);
+-  };
+ };
+ 
+ 
+diff --git a/imagefield_crop_widget.inc b/imagefield_crop_widget.inc
+index 374ae6e..d598922 100644
+--- a/imagefield_crop_widget.inc
++++ b/imagefield_crop_widget.inc
+@@ -91,7 +91,7 @@ function theme_imagefield_crop_widget(&$element) {
+ }
+ 
+ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
+-  static $added_js;
++  static $added_js = array();
+ 
+   $module_path = drupal_get_path('module', 'imagefield_crop');
+   drupal_add_js($module_path . '/Jcrop/js/jquery.Jcrop.js');
+@@ -138,17 +138,6 @@ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
+     'changed' => 0,
+   );
+ 
+-  if (!$added_js) {
+-    // Add settings only once (for ahah).
+-    $settings = array(
+-      'ratio' => $ratio,
+-      'box_width' => (integer)$bwidth,
+-      'box_height' => (integer)$bheight,
+-    );
+-    drupal_add_js(array('imagefield_crop' => $settings), 'setting');
+-    $added_js = TRUE;
+-  }
+-
+   if (!empty($file) && 
+       is_file($file['filepath']) &&
+       (list($width, $height, $type, $image_attributes) = @getimagesize($file['filepath']))) {
+@@ -198,6 +187,22 @@ function imagefield_crop_widget_process($element, $edit, &$form_state, $form) {
+       '#type' => 'markup',
+       '#value' => theme('imagefield_crop_dynamic_preview', $crop_display, $field['widget']['resolution']),
+     );
++  
++  if (!isset($added_js[$field['field_name']])) {
++    // Add settings only once (for ahah).
++    $settings = array(
++      'ratio' => $ratio,
++      'box_width' => (integer)$bwidth,
++      'box_height' => (integer)$bheight,
++    );
++    $settings = array( 'box' => array(
++        $field['field_name'] => $settings,
++      ),
++      'preview' => array('fields' => $field['field_name']),
++    );
++    drupal_add_js(array('imagefield_crop' => $settings), 'setting');
++    $added_js[$field['field_name']] = TRUE;
++  }
+ 
+   return $element;
+ }
+@@ -231,7 +236,7 @@ function imagefield_crop_widget_validate($element) {
+ 
+ function theme_imagefield_crop_cropbox($file = NULL, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE) {
+   // REFACTOR: consider multiple images
+-  $attributes = array_merge((array)$attributes + array('id' => 'cropbox'));
++  $attributes = array_merge((array)$attributes + array('class' => 'cropbox'));
+   $output = theme('imagefield_image', $file, $alt, $title, $attributes, $getsize);
+   $element = array(
+     '#type' => 'element',
+@@ -242,6 +247,8 @@ function theme_imagefield_crop_cropbox($file = NULL, $alt = '', $title = '', $at
+ 
+ 
+ function theme_imagefield_crop_dynamic_preview($file, $resolution) {
++  static $added_js = array();
++  
+   $file = (array)$file;
+   if (!is_file($file['filepath'])) {
+     return '<!-- file not found: '. $file['filepath'] .' -->';
+@@ -261,7 +268,10 @@ function theme_imagefield_crop_dynamic_preview($file, $resolution) {
+     );
+     // REFACTOR: Support multiple fields (i.e. add element delta to setting array)
+     $output = '';
+-    $output .= '<script type="text/javascript">Drupal.settings.imagefield_crop.preview = '. drupal_to_js($settings) .'</script>';
++    if (!isset($added_js[$url])) {
++      $output .= "<script type='text/javascript'>Drupal.settings.imagefield_crop.preview['$url']=".drupal_to_js($settings)."</script>";
++      $added_js[$url] = TRUE;
++    }
+     $output .= '<div class="jcrop-preview-wrapper" style="width:'. $width .'px;height:'. $height .'px;overflow:hidden;"><img src="'. check_url($url) .'" alt="'.
+       check_plain($alt) .'" title="'. check_plain($title) .'" class="jcrop-preview" /></div>';
+     return $output;
+@@ -287,4 +297,4 @@ function _imagefield_crop_resize($src, $crop = NULL, $scale = NULL, $dst = '') {
+   }
+ 
+   return $result;
+-}
+\ No newline at end of file
++}

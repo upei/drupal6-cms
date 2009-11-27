@@ -1,5 +1,5 @@
 <?php
-// $Id: link.module,v 1.24.4.1 2009/07/04 19:07:42 jcfiala Exp $
+// $Id: link.module,v 1.24.4.8 2009/11/05 04:09:07 jcfiala Exp $
 
 /**
  * @file
@@ -11,6 +11,11 @@ define('LINK_INTERNAL', 'internal');
 define('LINK_FRONT', 'front');
 define('LINK_EMAIL', 'email');
 define('LINK_DOMAINS', 'aero|arpa|asia|biz|com|cat|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel|mobi|local');
+
+define('LINK_TARGET_DEFAULT', 'default');
+define('LINK_TARGET_NEW_WINDOW', '_blank');
+define('LINK_TARGET_TOP', '_top');
+define('LINK_TARGET_USER', 'user');
 
 /**
  * Implementation of hook_field_info().
@@ -97,10 +102,10 @@ function link_field_settings($op, $field) {
       );
 
       $target_options = array(
-        'default' => t('Default (no target attribute)'),
-        '_top' => t('Open link in window root'),
-        '_blank' => t('Open link in new window'),
-        'user' => t('Allow the user to choose'),
+        LINK_TARGET_DEFAULT => t('Default (no target attribute)'),
+        LINK_TARGET_TOP => t('Open link in window root'),
+        LINK_TARGET_NEW_WINDOW => t('Open link in new window'),
+        LINK_TARGET_USER => t('Allow the user to choose'),
       );
       $form['attributes'] = array(
         '#tree' => TRUE,
@@ -108,7 +113,7 @@ function link_field_settings($op, $field) {
       $form['attributes']['target'] = array(
         '#type' => 'radios',
         '#title' => t('Link Target'),
-        '#default_value' => empty($field['attributes']['target']) ? 'default' : $field['attributes']['target'],
+        '#default_value' => empty($field['attributes']['target']) ? LINK_TARGET_DEFAULT : $field['attributes']['target'],
         '#options' => $target_options,
       );
       $form['attributes']['rel'] = array(
@@ -180,10 +185,7 @@ function link_content_is_empty($item, $field) {
 function link_field($op, &$node, $field, &$items, $teaser, $page) {
   switch ($op) {
     case 'load':
-      foreach ($items as $delta => $item) {
-        _link_load($items[$delta], $delta);
-      }
-      break;
+      return _link_load($field, $items);
 
     case 'validate':
       $optional_field_found = FALSE;
@@ -239,18 +241,23 @@ function link_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   return $element;
 }
 
-function _link_load(&$item, $delta = 0) {
-  // Unserialize the attributes array.
-  $item['attributes'] = unserialize($item['attributes']);
+function _link_load($field, &$items) {
+  foreach ($items as $delta => $item) {
+    // Unserialize the attributes array.
+    $items[$delta]['attributes'] = unserialize($item['attributes']);
+  }
+  return array($field['field_name'] => $items);
 }
 
 function _link_process(&$item, $delta = 0, $field, $node) {
-  // Remove the target attribute if not selected.
-  if (!$item['attributes']['target'] || $item['attributes']['target'] == "default") {
-    unset($item['attributes']['target']);
-  }
   // Trim whitespace from URL.
   $item['url'] = trim($item['url']);
+
+  // if no attributes are set use the default attributes.
+  if (empty($item['attributes'])) {
+    $item['attributes'] = _link_default_attributes();
+  }
+
   // Serialize the attributes array.
   $item['attributes'] = serialize($item['attributes']);
 
@@ -348,31 +355,39 @@ function _link_sanitize(&$item, $delta, &$field, &$node) {
   }
   $item['display_title'] = empty($title) ? $item['display_url'] : $title;
 
-  // Add attributes defined at the widget level
-  $attributes = array();
-  if (!empty($item['attributes']) && is_array($item['attributes'])) {
-    foreach ($item['attributes'] as $attribute => $attbvalue) {
-      if (isset($item['attributes'][$attribute]) && $field['attributes'][$attribute] == 'user') {
-        $attributes[$attribute] = $attbvalue;
-       }
-     }
-   }
-  // Add attributes defined at the field level
-  if (is_array($field['attributes'])) {
-    foreach ($field['attributes'] as $attribute => $attbvalue) {
-      if (!empty($attbvalue) && $attbvalue != 'default' && $attbvalue != 'user') {
-        $attributes[$attribute] = $attbvalue;
-      }
-    }
+  if (!isset($item['attributes'])) {
+    $item['attributes'] = array();
   }
+
+  // Unserialize attributtes array if it has not been unserialized yet.
+  if (!is_array($item['attributes'])) {
+    $item['attributes'] = (array)unserialize($item['attributes']);
+  }
+
+  // Add default attributes.
+  $field['attributes'] += _link_default_attributes();
+
+  // Merge item attributes with attributes defined at the field level.
+  $item['attributes'] += $field['attributes'];
+
+  // If user is not allowed to choose target attribute, use default defined at
+  // field level.
+  if ($field['attributes']['target'] != LINK_TARGET_USER) {
+    $item['attributes']['target'] = $field['attributes']['target'];
+  }
+
+  // Remove the target attribute if the default (no target) is selected.
+  if (empty($item['attributes']) || $item['attributes']['target'] == LINK_TARGET_DEFAULT) {
+    unset($item['attributes']['target']);
+  }
+
   // Remove the rel=nofollow for internal links.
-  if ($type != LINK_EXTERNAL && isset($attributes['rel']) && strpos($attributes['rel'], 'nofollow') !== FALSE) {
-    $attributes['rel'] = str_replace('nofollow', '', $attributes['rel']);
-    if (empty($attributes['rel'])) {
-      unset($attributes['rel']);
-    }
+  if ($type != LINK_EXTERNAL && strpos($item['attributes']['rel'], 'nofollow') !== FALSE) {
+    $item['attributes']['rel'] = str_replace('nofollow', '', $item['attributes']);
   }
-  $item['attributes'] = $attributes;
+
+  // Remove empty attributes.
+  $item['attributes'] = array_filter($item['attributes']);
 
   // Add the widget label.
   $item['label'] = $field['widget']['label'];
@@ -452,6 +467,14 @@ function link_elements() {
   return $elements;
 }
 
+function _link_default_attributes() {
+  return array(
+    'target' => LINK_TARGET_DEFAULT,
+    'class' => '',
+    'rel' => '',
+  );
+}
+
 /**
  * Process the link type element before displaying the field.
  *
@@ -480,13 +503,20 @@ function link_process($element, $edit, $form_state, $form) {
        '#default_value' => isset($element['#value']['title']) ? $element['#value']['title'] : NULL,
      );
    }
-   if (!empty($field['attributes']['target']) && $field['attributes']['target'] == 'user') {
-     $attributes = is_array($element['#value']['attributes'])? $element['#value']['attributes'] : unserialize($element['#value']['attributes']);
+
+   // Initialize field attributes as an array if it is not an array yet.
+   if (!is_array($field['attributes'])) {
+     $field['attributes'] = array();
+   }
+   // Add default atrributes.
+   $field['attributes'] += _link_default_attributes();
+   $attributes = isset($element['#value']['attributes']) ? $element['#value']['attributes'] : $field['attributes'];
+   if (!empty($field['attributes']['target']) && $field['attributes']['target'] == LINK_TARGET_USER) {
      $element['attributes']['target'] = array(
        '#type' => 'checkbox',
        '#title' => t('Open URL in a New Window'),
-       '#return_value' => "_blank",
-       '#default_value' => isset($attributes['target']) ? $attributes['target'] : NULL,
+       '#return_value' => LINK_TARGET_NEW_WINDOW,
+       '#default_value' => $attributes['target'],
      );
    }
    return $element;
@@ -578,10 +608,13 @@ function theme_link_formatter_label($element) {
 function theme_link_formatter_separate($element) {
   $class = empty($element['#item']['attributes']['class']) ? '' : ' '. $element['#item']['attributes']['class'];
   unset($element['#item']['attributes']['class']);
+  $title = empty($element['#item']['title']) ? '' : check_plain($element['#item']['title']);
 
   $output = '';
   $output .= '<div class="link-item '. $class .'">';
-  $output .= '<div class="link-title">'. (empty($element['#item']['title']) ? '' : $element['#item']['display_title']) .'</div>';
+  if (!empty($title)) {
+    $output .= '<div class="link-title">'. $title .'</div>';
+  }
   $output .= '<div class="link-url">'. l($element['#item']['display_url'], $element['#item']['url'], $element['#item']) .'</div>';
   $output .= '</div>';
   return $output;

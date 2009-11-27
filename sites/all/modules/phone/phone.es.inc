@@ -1,10 +1,19 @@
 <?php
-// $Id: phone.es.inc,v 1.18 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.es.inc,v 1.21 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
  * CCK Field for Spanish phone numbers.
  */
+ 
+function phone_es_metadata() {
+   // These strings are translated using t() on output.
+   return array(
+     'label' => 'Spanish Phone Numbers',
+     'error' => '"%value" is not a valid Spanish phone number<br>Spanish phone numbers should only contains numbers and spaces and be like 999 999 999',
+   );
+ }
+
  
 /**  
  * Verifies that $phonenumber is a valid nine-digit Spanish phone number

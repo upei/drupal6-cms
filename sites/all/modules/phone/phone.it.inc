@@ -1,11 +1,19 @@
 <?php
-// $Id: phone.it.inc,v 1.18 2009/03/08 00:04:26 thierrygd Exp $
+// $Id: phone.it.inc,v 1.21 2009/11/05 11:07:56 thierrygd Exp $
 
 /**
  * @file
  * CCK Field for Italian phone numbers.
  */
  
+function phone_it_metadata() {
+  // These strings are translated using t() on output.
+  return array(
+    'label' => 'Italian Phone Numbers',
+    'error' => '"%value" is not a valid Italian phone number<br>Italian phone numbers should only ...',
+  );
+}
+
 /**  
  * Verifies that $phonenumber is a valid ten-digit North American phone number
  *
