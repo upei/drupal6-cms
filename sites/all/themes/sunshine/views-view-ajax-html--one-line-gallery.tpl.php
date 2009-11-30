@@ -33,10 +33,12 @@
             pageTracker._trackPageview(Drupal.settings.basePath + 'click/' + href);
           });
         });
-        //$('.front-page-gallery .items div[rel]').overlay();
-<?php $size = array_pop(arg()); ?>
+        // calculate the width automatically
+        var size =Math.floor(
+          $('.scrollable-container .front-page-gallery').width() / $('.scrollable-container .item').width()
+        );
         $('div.scrollable').scrollable({
-          size: <?= is_numeric($size) ? intval($size): '8' ?>,
+          size: size,
           loop: true
         });
       });
