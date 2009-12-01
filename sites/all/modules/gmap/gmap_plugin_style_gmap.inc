@@ -94,6 +94,7 @@ class gmap_plugin_style_gmap extends views_plugin_style {
     // Render each group separately and concatenate.  Plugins may override this
     // method if they wish some other way of handling grouping.
     $output = '';
+    $this->view->row_index = 0;
     foreach ($sets as $title => $records) {
       $markers = array();
       $offsets = array();
@@ -136,6 +137,7 @@ class gmap_plugin_style_gmap extends views_plugin_style {
           );
           $offsets[$markername]++;
         }
+        $this->view->row_index++;
       }
       if (!empty($markers)) { // Don't draw empty maps.
         $map = gmap_parse_macro($this->options['macro']);

@@ -53,6 +53,8 @@
   display: block;
 }
 .front-page-news-tabs .tabs-detail li {
-  list-style-position: inside;
-  margin-left: 0;
+  list-style-position: outside;
+  margin-left: 5px;
+  list-style-type:circle;
+  list-style-image: url(/cer/misc/menu-leaf.png);
 }
