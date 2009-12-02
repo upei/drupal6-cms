@@ -85,8 +85,8 @@ class xmlsync_views_handler_field_xml extends views_handler_field {
     }
   }
 
-  function get_render_tokens() {
-    $tokens = parent::get_render_tokens();
+  function get_render_tokens($item) {
+    $tokens = parent::get_render_tokens($item);
 
     foreach ($this->view->display_handler->get_handlers('field') as $field => $handler) {
       if (isset($handler->last_render)) {                                                                                   
