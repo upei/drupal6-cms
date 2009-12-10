@@ -6,6 +6,7 @@
   overflow: hidden;
   border: 1px solid #ccc;
   padding: 10px 10px 10px 10px; 
+  height:160px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
 }

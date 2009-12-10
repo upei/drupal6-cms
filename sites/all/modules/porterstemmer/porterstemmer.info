@@ -5,9 +5,9 @@ core = 6.x
 package = "Search"
 
 
-; Information added by drupal.org packaging script on 2009-10-08
-version = "6.x-2.3"
+; Information added by drupal.org packaging script on 2009-12-07
+version = "6.x-2.5"
 core = "6.x"
 project = "porterstemmer"
-datestamp = "1255019170"
+datestamp = "1260209488"
 

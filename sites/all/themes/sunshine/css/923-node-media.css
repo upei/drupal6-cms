@@ -1,6 +1,6 @@
 /* fields in left column */
 .node-media .left { float: left; width: 250px; }
-.node-media .right { float: right; width: 200px; }
+.node-media .right { float: right; width: 200px; font-style: italic; }
 .node-media .field-field-image img { -webkit-border-radius: 5px; -moz-border-radius: 5px; margin: 0 12px 5px 0 !important; }
 .node-media .field-field-image-data-title, .node-media .field-field-story-image-data-title { font-size: 0.8em; }
 .node-media .field-field-pull-quote {

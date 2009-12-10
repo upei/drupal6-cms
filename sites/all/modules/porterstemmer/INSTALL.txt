@@ -1,4 +1,4 @@
-// $Id: INSTALL.txt,v 1.2 2009/07/14 23:38:47 jhodgdon Exp $
+// $Id: INSTALL.txt,v 1.2.2.1 2009/10/21 23:39:54 jhodgdon Exp $
 
 For general information about this module, check the README.txt file.
 
@@ -22,3 +22,17 @@ index. On larger sites, it may take several cron runs to complete the
 search index. You can check progress on the Search Settings page, and
 you can run cron manually by visiting 'Reports > Status report', and
 clicking on 'Run cron manually'.
+
+5. This module will use the PECL "stem" library for PHP, if it is installed
+on your server. If you have full administrative/root access to your server, and
+are comfortable with Apache/PHP configuration and system administration, you
+can install this library by following the instructions at:
+  http://us3.php.net/manual/en/install.pecl.php
+Once the library is installed, you will need to add a line to your php.ini
+file to enable the module:
+  extension=stem.so
+If the PECL "stem" library is not available, the module uses a PHP
+implementation of the stemming algorithm. The output is identical.
+More information about the PECL "stem" library:
+  http://pecl.php.net/package/stem
+  

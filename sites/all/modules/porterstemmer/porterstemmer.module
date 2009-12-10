@@ -1,5 +1,5 @@
 <?php
-// $Id: porterstemmer.module,v 1.2.2.3 2009/10/08 16:22:10 jhodgdon Exp $
+// $Id: porterstemmer.module,v 1.2.2.7 2009/12/07 18:04:08 jhodgdon Exp $
 
 /**
  * @file
@@ -13,10 +13,10 @@
  *
  * Stems the words in $text, using the Porter Stemmer 2 algorithm.
  */
-function porterstemmer_search_preprocess(&$text) {
+function porterstemmer_search_preprocess($text) {
 
   // Convert text to lower case, and replace special apostrophes with regular
-  // apostrophes
+  // apostrophes.
   $text = drupal_strtolower(str_replace('’', "'", $text));
 
   // Split into words
@@ -26,16 +26,23 @@ function porterstemmer_search_preprocess(&$text) {
     return $text;
   }
 
-  // Process each word, skipping delimiters
+  $has_pecl_stem = _porterstemmer_pecl_loaded();
+
+  // Process each word, skipping delimiters.
   $isword = !preg_match('/' . PORTERSTEMMER_BOUNDARY . '/', $words[0] );
   foreach ($words as $k => $word) {
     if ($isword) {
-      $words[$k] = porterstemmer_stem($word);
+      if ( $has_pecl_stem ) {
+        $words[$k] = stem_english($word);
+      }
+      else {
+        $words[$k] = porterstemmer_stem($word);
+      }
     }
     $isword = !$isword;
   }
 
-  // Put it all back together
+  // Put it all back together (note that delimiters are in $words).
   return implode('', $words);
 }
 
@@ -51,6 +58,9 @@ function porterstemmer_help($section = 'admin/help#search') {
 
 /**
  * Implementation of hook_sbp_excerpt_match().
+ *
+ * Allows Porter Stemmer to display better search excerpts with the
+ * Search by page module.
  */
 function porterstemmer_sbp_excerpt_match( $key, $text, $offset, $boundary ) {
   // Stem the keyword down to its root form.
@@ -98,6 +108,26 @@ function porterstemmer_sbp_excerpt_match( $key, $text, $offset, $boundary ) {
 
   // If we get here, none of the potential matches worked out.
   return FALSE;
+}
+
+/**
+ * Checks to see if the PECL stem extension has been loaded.
+ *
+ * @return
+ *    TRUE if the stem_english() function from the PECL stem library can be
+ *    used, FALSE if not.
+ */
+function _porterstemmer_pecl_loaded() {
+  static $has_pecl_stem = FALSE;
+  static $already_checked = FALSE;
+
+  if ( $already_checked ) {
+    return $has_pecl_stem;
+  }
+
+  $has_pecl_stem = extension_loaded('stem') && function_exists('stem_english');
+  $already_checked = TRUE;
+  return $has_pecl_stem;
 }
 
 /**

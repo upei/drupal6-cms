@@ -1,19 +1,120 @@
 <?php
-// $Id: porterstemmer.test,v 1.1.2.1 2009/08/26 19:22:49 jhodgdon Exp $
+// $Id: porterstemmer.test,v 1.1.2.6 2009/12/07 18:05:01 jhodgdon Exp $
 
 /**
  * @file
  * Tests for the Porter Stemmer module.
  * By Jennifer Hodgdon of Poplar ProductivityWare, www.poplarware.com
- * Based on sample words from
+ * Unit tests are based on sample words from
  *   http://snowball.tartarus.org/algorithms/english/stemmer.html
  * which are stored in a separate file (testwords.txt).
  */
 
 /**
+ * Functional test for Porter Stemmer.
+ */
+class PorterStemmerFunctionalTest extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => t('Functional test'),
+      'description' => t('Test that stemmed searching works.'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('porterstemmer', 'search');
+
+    // Set up a super-user
+    $this->superuser = $this->drupalCreateUser( array( 'administer nodes',
+        'access content', 'administer content types',
+        'administer search', 'search content',
+        'access administration pages',
+        'administer site configuration' ));
+    $this->drupalLogin( $this->superuser );
+
+    // Create some content to search, with the words walk, walking, and walked.
+    $info = array(
+      'body' => 'I walk through the streets, looking around for trouble',
+      'type' => 'page',
+      'title' => 'first page',
+    );
+    $node = $this->drupalCreateNode($info);
+
+    $info = array(
+      'body' => 'I walked home from work today.',
+      'type' => 'page',
+      'title' => 'second page',
+    );
+    $node = $this->drupalCreateNode($info);
+
+    $info = array(
+      'body' => 'I am always walking everywhere.',
+      'type' => 'page',
+      'title' => 'third page',
+    );
+    $node = $this->drupalCreateNode($info);
+
+    // Run cron to ensure this content is indexed
+    // Note: Could use $this->cronRun(), but not available in 6.x SimpleTest,
+    // so using the body of cronRun() from Drupal 7 instead
+    $this->drupalGet($GLOBALS['base_url'] . '/cron.php',
+      array(
+        'external' => TRUE,
+        'query' => array('cron_key' => variable_get('cron_key', 'drupal'))
+      ));
+  }
+
+  /**
+   * Tests that all three pages can be found in searches.
+   */
+  function testSearch() {
+    $this->drupalLogin( $this->superuser );
+
+    // Search for 'walk' and verify all three pages were found.
+    $this->drupalPost('search',
+      array('keys' => 'walk' ),
+      'Search'
+    );
+    $this->assertText('first', 'First page was found with search for walk');
+    $this->assertText('second', 'Second page was found with search for walk');
+    $this->assertText('third', 'Third page was found with search for walk');
+
+    // Search for 'walking' and verify all three pages were found.
+    $this->drupalPost('search',
+      array('keys' => 'walking' ),
+      'Search'
+    );
+    $this->assertText('first', 'First page was found with search for walking');
+    $this->assertText('second', 'Second page was found with search for walking');
+    $this->assertText('third', 'Third page was found with search for walking');
+
+    // Search for 'walked' and verify all three pages were found.
+    $this->drupalPost('search',
+      array('keys' => 'walked' ),
+      'Search'
+    );
+    $this->assertText('first', 'First page was found with search for walked');
+    $this->assertText('second', 'Second page was found with search for walked');
+    $this->assertText('third', 'Third page was found with search for walked');
+
+    // Search for 'blahblahblah' and verify none of the pages were found.
+    $this->drupalPost('search',
+      array('keys' => 'blahblahblah' ),
+      'Search'
+    );
+    $this->assertNoText('first', 'First page was not found with bogus search');
+    $this->assertNoText('second', 'Second page was not found with bogus search');
+    $this->assertNoText('third', 'Third page was not found with bogus search');
+  }
+}
+
+/**
  * Unit tests for Porter Stemmer - Stemming output part 1.
  */
 class PorterStemmerOutput1UnitTest extends DrupalWebTestCase {
+
+  public $has_pecl_stem = FALSE;
 
   public static function getInfo() {
     return array(
@@ -23,6 +124,13 @@ class PorterStemmerOutput1UnitTest extends DrupalWebTestCase {
     );
   }
 
+  public function setUp() {
+    parent::setUp('porterstemmer');
+
+    // See if the PECL stemming library is installed
+
+    $this->has_pecl_stem = _porterstemmer_pecl_loaded();
+  }
 
   /**
    * Tests the first 2000 words in the file for stemming accuracy.
@@ -38,15 +146,23 @@ class PorterStemmerOutput1UnitTest extends DrupalWebTestCase {
    * known input/output pairs from
    *   http://snowball.tartarus.org/algorithms/english/stemmer.html
    *
-   * Note that words whose input or stemmed version is less than 3
-   * characters are always skipped.
+   * Or if $use_pecl is set to TRUE, the PECL stem_english() function is
+   * used instead.
    *
    * @param $skipto
    *    Line of file to start on (count starts at 0), not counting short ones.
    * @param $runto
    *    Number of lines to test, not counting short ones.
+   * @param $use_pecl
+   *    If TRUE, use the PECL library if it is installed. If it isn't installed,
+   *    no tests are performed.
    */
-  function _run_porterstemmer_stem_test( $skipto = 0, $runto = 2000 ) {
+  function _run_porterstemmer_stem_test( $skipto = 0, $runto = 2000, $use_pecl = FALSE ) {
+
+    if ( $use_pecl && !$this->has_pecl_stem ) {
+      $this->assertTrue( 1, "No PECL stem library found, aborting test" );
+      return;
+    }
 
     // Open word file
     $file = drupal_get_path('module', 'porterstemmer') . '/testwords.txt';
@@ -64,6 +180,12 @@ class PorterStemmerOutput1UnitTest extends DrupalWebTestCase {
 
     $ran = 0;
     $skipped = 0;
+
+    $start = time();
+    $mstart = 0;
+    if ( function_exists( 'microtime' )) {
+      $mstart = microtime(TRUE);
+    }
 
     while ( !feof( $handle ) && $ran < $runto ) {
       // Read a line of the file, and split into words
@@ -87,13 +209,25 @@ class PorterStemmerOutput1UnitTest extends DrupalWebTestCase {
       }
 
       // Stem the word
-      $stem = porterstemmer_stem( $in );
+      if ( $use_pecl && $this->has_pecl_stem ) {
+        $stem = stem_english( $in );
+      }
+      else {
+        $stem = porterstemmer_stem( $in );
+      }
 
       // Test correctness
       $this->assertEqual( $right, $stem, "Stemming $in results in $right (was $stem)",
         t( 'Stemming test' ));
       $ran++;
     }
+
+    $start = time() - $start;
+    if ( function_exists( 'microtime' )) {
+      $mstart = microtime(TRUE) - $mstart;
+    }
+    $this->assertTrue( 1, "Elapsed time: $start seconds ($mstart)" );
+
     fclose($handle);
   }
 }
@@ -405,6 +539,10 @@ class PorterStemmerInternalsUnitTest extends DrupalWebTestCase {
     );
   }
 
+  public function setUp() {
+    parent::setUp('porterstemmer');
+  }
+
   /**
    * Verify that short words are not stemmed, and longer ones are.
    */
@@ -596,5 +734,319 @@ class PorterStemmerInternalsUnitTest extends DrupalWebTestCase {
 
     $this->assertEqual( $worda, 'ie', "Step1a should be ie, was $worda", 'Stemmer steps' );
     $this->assertEqual( $wordb, 'ie', "Step1a should be ie, was $wordb", 'Stemmer steps' );
+  }
+}
+
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 1 PECL.
+ */
+class PorterStemmerPECLOutput1UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 1 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 0, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 2 PECL.
+ */
+class PorterStemmerPECLOutput2UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 2 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 2000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 3 PECL.
+ */
+class PorterStemmerPECLOutput3UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 3 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 4000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 4 PECL.
+ */
+class PorterStemmerPECLOutput4UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 4 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 6000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 5 PECL.
+ */
+class PorterStemmerPECLOutput5UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 5 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 8000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 6 PECL.
+ */
+class PorterStemmerPECLOutput6UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 6 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 10000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 7 PECL.
+ */
+class PorterStemmerPECLOutput7UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 7 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 12000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 8 PECL.
+ */
+class PorterStemmerPECLOutput8UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 8 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 14000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 9 PECL.
+ */
+class PorterStemmerPECLOutput9UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 9 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 16000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 10 PECL.
+ */
+class PorterStemmerPECLOutput10UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 10 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 18000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 11 PECL.
+ */
+class PorterStemmerPECLOutput11UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 11 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 20000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 12 PECL.
+ */
+class PorterStemmerPECLOutput12UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 12 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 22000, 2000, TRUE );
+  }
+}
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 13 PECL.
+ */
+class PorterStemmerPECLOutput13UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 13 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 24000, 2000, TRUE );
+  }
+}
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 14 PECL.
+ */
+class PorterStemmerPECLOutput14UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 14 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 26000, 2000, TRUE );
+  }
+}
+
+/**
+ * Unit tests for Porter Stemmer - Stemming output part 15 PECL.
+ */
+class PorterStemmerPECLOutput15UnitTest extends PorterStemmerOutput1UnitTest {
+
+  public static function getInfo() {
+    return array(
+      'name' => t('Stemming output 15 PECL'),
+      'description' => t('Test that the stemming function returns the correct stemmed words with PECL library'),
+      'group' => t('Porter Stemmer'),
+    );
+  }
+
+  /**
+   * Tests the next 2000 words in the file for stemming accuracy.
+   */
+  function testStemmingUnitTest() {
+    $this->_run_porterstemmer_stem_test( 28000, 2000, TRUE );
   }
 }

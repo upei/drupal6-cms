@@ -191,7 +191,7 @@ if($bucket == "wf"){
         <?php if (isset($primary_links)) : ?>
           <?php //print theme('links', $primary_links, array('class' => 'links primary-links')) ?>
 		  
-		  <ul class="links-menu links" id="navlist">
+		  <ul class="links-menu links" id="primary-navigation">
 
 <li class=" first"><a href="http://www.upei.ca">UPEI Home</a></li>
 <li class=""><a href="http://www.upei.ca/futurestudents">Future Students</a></li>

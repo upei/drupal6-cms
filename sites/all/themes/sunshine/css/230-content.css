@@ -1,5 +1,5 @@
 #real-content.wide {}
-#real-content.normal { float: left; width: 770px; }
+#real-content.normal { float: left; width: 750px; margin-left: 20px; }
 #real-content.narrow { float: left; width: 550px; }
 
 #real-content .node { margin-bottom: 10px; }
