@@ -1,4 +1,11 @@
 <?php
+// $Id: page_title-admin-settings-form.tpl.php,v 1.1.2.5 2009/10/31 22:18:54 njt1982 Exp $
+
+/**
+ * @file
+ * Tempalte file for the admin settings form. Displays configuration in a neat table
+ */
+
 $rows = array();
 
 foreach (element_children($form['pattern']) as $key) {

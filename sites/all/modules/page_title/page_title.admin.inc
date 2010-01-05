@@ -1,5 +1,5 @@
 <?php
-// $Id: page_title.admin.inc,v 1.1.2.7 2009/06/11 10:26:49 njt1982 Exp $
+// $Id: page_title.admin.inc,v 1.1.2.8 2009/10/31 22:18:54 njt1982 Exp $
 
 /**
  * @file
@@ -35,9 +35,9 @@ function page_title_admin_settings() {
 
   // Define the basic scope column values
   $form['patterns']['scope'] = array(
-    'page_title_default' => array('#type' => 'markup', '#value' => t('Global Only'),),
-    'page_title_front'   => array('#type' => 'markup', '#value' => t('Global Only'),),
-    'page_title_user'    => array('#type' => 'markup', '#value' => t('User'),),
+    'page_title_default' => array('#type' => 'markup', '#value' => t('Global Only'), ),
+    'page_title_front'   => array('#type' => 'markup', '#value' => t('Global Only'), ),
+    'page_title_user'    => array('#type' => 'markup', '#value' => t('User'), ),
   );
 
   // Define the 'default' token patterns
@@ -80,7 +80,7 @@ function page_title_admin_settings() {
       '#default_value' => variable_get($key .'_showfield', 0),
     ) + $showfield_form_element;
 
-    $form['patterns']['scope'][$key] = array('#type' => 'markup', '#value' => t('Node'),);
+    $form['patterns']['scope'][$key] = array('#type' => 'markup', '#value' => t('Node'), );
   }
 
 
@@ -101,7 +101,7 @@ function page_title_admin_settings() {
         '#default_value' => variable_get($key .'_showfield', 0),
       ) + $showfield_form_element;
 
-      $form['patterns']['scope'][$key] = array('#type' => 'markup', '#value' => t('Taxonomy'),);
+      $form['patterns']['scope'][$key] = array('#type' => 'markup', '#value' => t('Taxonomy'), );
     }
   }
 
@@ -113,7 +113,7 @@ function page_title_admin_settings() {
       '#default_value' => variable_get($key, ''),
     ) + $pattern_form_element;
 
-    $form['patterns']['scope'][$key] = array('#type' => 'markup', '#value' => t('User'),);
+    $form['patterns']['scope'][$key] = array('#type' => 'markup', '#value' => t('User'), );
   }
 
   // Define the page pattern text field. This is appended to any page requests containing 'page=[0-9]+' in the query string

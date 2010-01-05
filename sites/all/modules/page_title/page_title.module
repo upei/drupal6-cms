@@ -1,5 +1,5 @@
 <?php
-// $Id: page_title.module,v 1.18.2.15 2009/06/17 15:03:07 njt1982 Exp $
+// $Id: page_title.module,v 1.18.2.27 2009/11/23 20:51:38 njt1982 Exp $
 
 /**
  * @file
@@ -133,7 +133,7 @@ function page_title_form_alter(&$form, $form_state, $form_id) {
       $form['page_title'] = array(
         '#type' => 'textfield',
         '#title' => t('Page title'),
-        '#description' => t('Optionally specify a different title to appear in the &lt;title&gt; tag of the page.'),
+        '#description' => t('Provide a description of this node to appear in the &lt;title&gt; tag which search engines can use in search result listings (optional). It is generally accepted this field should be less than 70 characters.'),
         '#default_value' => $form['#node']->page_title,
         '#size' => 60,
         '#maxlength' => 255,
@@ -148,7 +148,7 @@ function page_title_form_alter(&$form, $form_state, $form_id) {
       $form['advanced']['page_title'] = array(
         '#type' => 'textfield',
         '#title' => t('Page title'),
-        '#description' => t('Optionally specify a different title to appear in the &lt;title&gt; tag of the page.'),
+        '#description' => t('Provide a description of this term to appear in the &lt;title&gt; tag which search engines can use in search result listings (optional). It is generally accepted this field should be less than 70 characters.'),
         '#default_value' => page_title_load_title($form['tid']['#value'], 'term'),
         '#size' => 60,
         '#maxlength' => 255,
@@ -156,13 +156,28 @@ function page_title_form_alter(&$form, $form_state, $form_id) {
       );
     }
   }
-  // Check we're editing a user profile and also check that the user settings's have 'show field' enabled
+  // Check we're editing a forum container or forum "forum" and also check that the terms vocabulary's 'show field' is enabled
+  elseif ($form_id == 'forum_form_forum' || $form_id == 'forum_form_container') {
+    $key = 'page_title_vocab_'. $form['vid']['#value'] .'_showfield';
+    if (variable_get($key, 0)) {
+      $form['page_title'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Page title'),
+        '#description' => t('Provide a description of this forum to appear in the &lt;title&gt; tag which search engines can use in search result listings (optional). It is generally accepted this field should be less than 70 characters.'),
+        '#default_value' => page_title_load_title($form['tid']['#value'], 'term'),
+        '#size' => 60,
+        '#maxlength' => 255,
+        '#weight' => -20,
+      );
+    }
+  }
+   // Check we're editing a user profile and also check that the user settings's have 'show field' enabled
   elseif ($form_id == 'user_profile_form') {
     if (variable_get('page_title_user_showfield', 0)) {
       $form['account']['page_title'] = array(
         '#type' => 'textfield',
         '#title' => t('Page title'),
-        '#description' => t('Optionally specify a different title to appear in the &lt;title&gt; tag of the page.'),
+        '#description' => t('Provide a description of this user to appear in the &lt;title&gt; tag which search engines can use in search result listings (optional). It is generally accepted this field should be less than 70 characters.'),
         '#default_value' => page_title_load_title($form['_account']['#value']->uid, 'user'),
         '#size' => 60,
         '#maxlength' => 255,
@@ -186,7 +201,7 @@ function page_title_form_alter(&$form, $form_state, $form_id) {
       '#options' => array(
         'show_field' => t('Show field'),
       ),
-      '#default_value' => array('show_field' => variable_get('page_title_type_'. $form['#node_type']->type .'_showfield', 0) ? 'show_field' : 0),
+      '#default_value' => variable_get('page_title_type_'. $form['#node_type']->type .'_showfield', 0) ? array('show_field') : array(),
     );
 
     $form['page_title']['pattern'] = array(
@@ -198,11 +213,22 @@ function page_title_form_alter(&$form, $form_state, $form_id) {
 
     $form['#submit'][] = 'page_title_node_type_form_submit';
   }
+  elseif ($form_id == 'forum_admin_settings') {
+    $form['page_title_forum_root_title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Page title'),
+      '#description' => t('Provide a description for this forum overview page to appear in the &lt;title&gt; tag which search engines can use in search result listings (optional). It is generally accepted this field should be less than 70 characters.'),
+      '#default_value' => variable_get('page_title_forum_root_title', ''),
+      '#size' => 60,
+      '#maxlength' => 255,
+      '#weight' => -1,
+    );
+  }
 }
 
 
 /**
- * Submite handler for the node_type_form element added in the hook_form_alter() above.
+ * Submit handler for the node_type_form element added in the hook_form_alter() above.
  */
 function page_title_node_type_form_submit($form, &$form_state) {
   $show_field = $form_state['values']['page_title']['show_field']['show_field'] ? 1 : 0;
@@ -300,26 +326,40 @@ function page_title_get_title() {
     $node = menu_get_object();
     // If the node has a custom page title and the node type is configured to have a custom page title (ie, it's not a leftover from a previous setting), then use it.
     if (!empty($node->page_title) && variable_get('page_title_type_'. $node->type .'_showfield', 0)) {
-      $title = check_plain(strip_tags($node->page_title));
+      $title = $node->page_title;
     }
   }
   // If we're looking at either a user profile page or a users blog page, get the user title
   elseif ((arg(0) == 'user' || arg(0) == 'blog') && is_numeric(arg(1))) {
     if (variable_get('page_title_user_showfield', 0) && ($user_title = page_title_load_title(arg(1), 'user'))) {
-      $title = check_plain(strip_tags($user_title));
+      $title = $user_title;
     }
   }
   // If we're looking at a taxonomy term page, get the term title
   elseif (arg(0) == 'taxonomy' && arg(1) == 'term' && is_numeric(arg(2)) && module_exists('taxonomy')) {
     $term = taxonomy_get_term(arg(2));
     if (variable_get('page_title_vocab_'. $term->vid .'_showfield', 0) && ($term_title = page_title_load_title($term->tid, 'term'))) {
-      $title = check_plain(strip_tags($term_title));
+      $title = $term_title;
+    }
+  }
+  // If we're looking at a forum page determin if is a container/forum or the forum root
+  elseif (arg(0) == 'forum' && module_exists('forum')) {
+    // If there is a number then its a container or forum
+    if (is_numeric(arg(1))) {
+      $term = taxonomy_get_term(arg(1));
+      if (variable_get('page_title_vocab_'. $term->vid .'_showfield', 0) && ($term_title = page_title_load_title($term->tid, 'term'))) {
+        $title = $term_title;
+      }
+    }
+    // If not then it's the forum root.
+    else {
+      $title = variable_get('page_title_forum_root_title', '');
     }
   }
 
   // If nothing above set a title, give the legacy function a chance to act
   if (empty($title)) {
-    $title = check_plain(strip_tags(page_title_set_title()));
+    $title = page_title_set_title();
   }
 
   // If we still have no title, fall back to the title provided by Drupal Core
@@ -330,8 +370,8 @@ function page_title_get_title() {
   // Give other modules the oppertunity to use hook_page_title_alter().
   drupal_alter('page_title', $title);
 
-  // Return the title
-  return $title;
+  // Return the title in a safe form (any tags removed (such as emphasised or strong tags) and eny entiied encoded)
+  return filter_xss($title, array());
 }
 
 
@@ -400,7 +440,11 @@ function page_title_page_get_title() {
       // Append the pattern for pages with a pager on them
       $page_title_pattern .= isset($_REQUEST['page']) ? variable_get('page_title_pager_pattern', '') : '';
 
-      // Applu the token patterns using the one-level replacer (frontpage is only "global" scope)
+      // Allow hook_page_title_pattern_alter() to modify the pattern. In this case we can use drupal_alter as we have no tokens to alter.
+      drupal_alter('page_title_pattern', $page_title_pattern);
+
+      // Apply the token patterns using the one-level replacer (frontpage is only "global" scope). Need to flush the token cache first.
+      token_get_values('global', NULL, TRUE);
       $title = token_replace($page_title_pattern);
     }
     // Otherwise this is a non-frontpage page title.
@@ -413,12 +457,25 @@ function page_title_page_get_title() {
       // Node (either node or comment reply)
       if ((arg(0) == 'node' && is_numeric(arg(1)))  ||  (arg(0) == 'comment' && arg(1) == 'reply' && is_numeric(arg(2)) && module_exists('comment')) ) {
         $types['node'] = menu_get_object();
+        // If the node has any taxonomy, grab the first time and pass it over to be passed as a token.
+        // TODO: Handle multiple terms? Only pass specific terms per content type?
+        if (!empty($types['node']->taxonomy)) {
+          $types['taxonomy'] = current($types['node']->taxonomy);
+        }
         $page_title_pattern = variable_get('page_title_type_'. $types['node']->type, '');
       }
       // Term
       elseif (arg(0) == 'taxonomy' && arg(1) == 'term' && is_numeric(arg(2)) && module_exists('taxonomy')) {
         $types['taxonomy'] = taxonomy_get_term(arg(2));
         $page_title_pattern = variable_get('page_title_vocab_'. $types['taxonomy']->vid, '');
+      }
+      // Forum
+      elseif (arg(0) == 'forum' && module_exists('forum')) {
+        if (is_numeric(arg(1))) {
+          $types['taxonomy'] = taxonomy_get_term(arg(1));
+        }
+        $forum_vid = variable_get('forum_nav_vocabulary', '');
+        $page_title_pattern = variable_get('page_title_vocab_'. $forum_vid, '');
       }
       // User
       elseif (arg(0) == 'user' && is_numeric(arg(1))) {
@@ -439,12 +496,21 @@ function page_title_page_get_title() {
       // Append the pattern for pages with a pager on them
       $page_title_pattern .= isset($_REQUEST['page']) ? variable_get('page_title_pager_pattern', '') : '';
 
-      // Apply token patterns using token_replace_multiple
+      // Allow hook_page_title_pattern_alter() to modify the pattern - we cant use drupal_alter as it only supports single arguments (or arrays). We need to pass 2 variables.
+      $data = array(&$page_title_pattern, &$types);
+      foreach (module_implements('page_title_pattern_alter') as $module) {
+        $function = $module .'_page_title_pattern_alter';
+        call_user_func_array($function, $data);
+      }
+
+      // Apply token patterns by resetting the token cache first and then using token_replace_multiple to insert token values
+      token_get_values('global', NULL, TRUE);
       $title = token_replace_multiple($page_title_pattern, $types);
     }
   }
 
-  return strip_tags($title);
+  // Use filter_xss to remove any tags and to entity encode content.
+  return filter_xss($title, array());
 }
 
 
