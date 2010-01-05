@@ -11,7 +11,7 @@
     <li class="leaf"><a href="http://www.upei.ca/news" title="">Campus News and Events</a></li>
     <li class="leaf"><a href="http://www.upei.ca/computerservices/panthernet" title="">Wireless Access</a></li>
     <li class="leaf"><a href="http://thesemantic.blogspot.com/2009/03/issue-10.html" title="">The Semantic</a></li>
-    <li class="leaf"><a href="http://69.39.86.90/~upeisuc/cadre/index.php" title="">The Panther Post</a></li>
+    <li class="leaf"><a href="http://www.pantherpost.ca" title="">The Panther Post</a></li>
     <li class="leaf last"><a href="http://upeisu.com" title="">UPEI Student Union</a></li>
   </ul>
   <?php print $links1; ?>&nbsp;
@@ -27,6 +27,12 @@
     <li class="leaf first"><a href="http://www.weatheroffice.gc.ca/city/pages/pe-5_metric_e.html" title="">Weather Charlottetown</a></li>
     <li class="leaf"><a href="http://www.weatheroffice.gc.ca/forecast/canada/index_e.html?id=PE" title="">Weather PEI</a></li>
     <li class="leaf last"><a href="http://www.theweathernetwork.com/weather/cape0005" title="">The Weather Network</a></li>
+  </ul>
+  <h2 class="title">Financial Services</h2>
+  <ul class="menu">   
+    <li class="leaf first"><a href="http://upei.ca/accounting" title="">Accounting Office</a></li>
+    <li class="leaf"><a href="http://www.upei.ca/vpfinance/comptroller/" title="">Comptroller's Office</a></li>
+    <li class="leaf last"><a href="http://www.upei.ca/vpfinance/comptroller/procurement/" title="">Procurement</a></li>
   </ul>
   
 <?php print $links2; ?>&nbsp;
