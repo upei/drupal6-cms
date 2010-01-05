@@ -1,4 +1,4 @@
-// $Id: teaser.js,v 1.1.2.1 2009/03/21 19:43:51 mfer Exp $
+// $Id: teaser.js,v 1.12.2.1 2009/05/20 11:50:54 goba Exp $
 
 /**
  * Auto-attach for teaser behavior.
@@ -6,6 +6,11 @@
  * Note: depends on resizable textareas.
  */
 Drupal.behaviors.teaser = function(context) {
+  // This breaks in Konqueror. Prevent it from running.
+  if (/KDE/.test(navigator.vendor)) {
+    return;
+  }
+
   $('textarea.teaser:not(.teaser-processed)', context).each(function() {
     var teaser = $(this).addClass('teaser-processed');
 
@@ -66,10 +71,10 @@ Drupal.behaviors.teaser = function(context) {
     $(include).parent().parent().before(button);
 
     // Extract the teaser from the body, if set. Otherwise, stay in joined mode.
-    var text = body.val().split('<!--break-->', 2);
-    if (text.length == 2) {
-      teaser[0].value = trim(text[0]);
-      body[0].value = trim(text[1]);
+    var text = body.val().split('<!--break-->');
+    if (text.length >= 2) {
+      teaser[0].value = trim(text.shift());
+      body[0].value = trim(text.join('<!--break-->'));
       $(teaser).attr('disabled', '');
       $('input', button).val(Drupal.t('Join summary')).toggle(join_teaser, split_teaser);
     }
@@ -83,8 +88,8 @@ Drupal.behaviors.teaser = function(context) {
       Drupal.behaviors.textarea(teaser.parentNode);
     }
     // Set initial visibility
-    if (teaser[0].disabled) {
-      teaser.parent().hide();
+    if ($(teaser).is('[@disabled]')) {
+      $(teaser).parent().hide();
     }
 
   });
