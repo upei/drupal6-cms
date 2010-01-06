@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.cs.inc,v 1.17 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.cs.inc,v 1.20 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file
@@ -25,7 +25,7 @@ function valid_cs_phone_number($phonenumber) {
   $phonenumber = trim($phonenumber);
 
   // define regular expression
-  $regex = "/^((?:\+|00)420)? ?(\d{3}) ?(\d{3}) ?(\d{3})$/";
+  $regex = '/^((?:\+|00)420)? ?(\d{3}) ?(\d{3}) ?(\d{3})$/';
     
   // return true if valid, false otherwise
   return (bool) preg_match($regex, $phonenumber);
@@ -37,16 +37,16 @@ function valid_cs_phone_number($phonenumber) {
  * @param $phonenumber must be a valid nine-digit number (with optional international prefix)
  * 
  */
-function format_cs_phone_number($phonenumber) {
+function format_cs_phone_number($phonenumber, $field) {
 
   // define regular expression   
-  $regex = "/^((?:\+|00)420)? ?(\d{3}) ?(\d{3}) ?(\d{3})$/";  
+  $regex = '/^((?:\+|00)420)? ?(\d{3}) ?(\d{3}) ?(\d{3})$/';  
 
   // get digits of phone number
   preg_match($regex, $phonenumber, $matches);
   
   if ($field['phone_country_code']) {
-    	$phonenumber = "+420" . " " . $matches[2] .' '. $matches[] .' '. $matches[4]; 
+    	$phonenumber = '+420' . ' ' . $matches[2] .' '. $matches[] .' '. $matches[4]; 
    }   
   else { 
   	$phonenumber = $matches[2] .' '. $matches[3] .' '. $matches[4];

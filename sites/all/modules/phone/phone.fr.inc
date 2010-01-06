@@ -1,12 +1,12 @@
 <?php
-// $Id: phone.fr.inc,v 1.26 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.fr.inc,v 1.29 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file
  * CCK Field for French phone numbers.
  */
 
-define('PHONE_FR_REGEX', "/(\+33|0)([1-6]\d{8}|85\d{7}|87[0-57-9]\d{6})$/");
+define('PHONE_FR_REGEX', '/(\+33|0)([1-6]\d{8}|85\d{7}|87[0-57-9]\d{6})$/');
 
 function phone_fr_metadata() {
   // These strings are translated using t() on output.

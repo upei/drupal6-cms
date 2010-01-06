@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.cr.inc,v 1.15 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.cr.inc,v 1.18 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file
@@ -50,7 +50,7 @@ function valid_cr_phone_number($phonenumber) {
         00506 8 8798857
         00506 8 8-79-88-57  */
 
-function format_cr_phone_number($phonenumber) {
+function format_cr_phone_number($phonenumber, $field = FALSE) {
 
   // define regular expression 
     $regex = "/(00)?[\s|-]?((\+)?[\s|-]?[0-9]{3})?[\s|-]?([0-9]{2})[\s|-]?([0-9]{2})[\s|-]?([0-9]{2})[\s|-]?([0-9]{2})[\s|-]?/";

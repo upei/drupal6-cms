@@ -1,36 +1,38 @@
 <?php
+// $Id: phone.eg.inc,v 1.4 2010/01/02 14:10:50 thierrygd Exp $
+
 /* 2009/10/24, Ahmad Gharbeia: initial release
 
   General phone number format is +20 (#[#]) #######[#]
   currently (10/2009) only Greater Cairo (including all of Giza) has 8 digits:
 Regional area codes:
-القاهرة الكبرى		2
-الإسكندرية			3
-القليوبية			13
-العاشر من رمضان	15
-الغربية				4
-البحيرة				45
-مطروح					46
-كفرالشيخ				47
-المنوفية				48
-الدقهلية				5
-الشرقية				55
-دمياط					57
-السويس				62
-الإسماعيلية			64
-الغردقة				65
-بورسعيد				66
-العريش				68
-جنوب سيناء			69
-بني سويف				82
-الفيوم				84
-المنيا				86
-أسيوط					88
-الوادي الجديد		92
-سوهاج					93
-الأقصر					95
-قنا					96
-أسوان					97
+??????? ??????		2
+??????????			3
+?????????			13
+?????? ?? ?????	15
+???????				4
+???????				45
+?????					46
+????????				47
+????????				48
+????????				5
+???????				55
+?????					57
+??????				62
+???????????			64
+???????				65
+???????				66
+??????				68
+???? ?????			69
+??? ????				82
+??????				84
+??????				86
+?????					88
+?????? ??????		92
+?????					93
+??????					95
+???					96
+?????					97
 mobile network operators' area codes:
 	Mobinil: 12, 16 
 	Vodafone: 10, 19
@@ -54,7 +56,7 @@ define('MOBILE_CODE_REGEX', "1(0|2|1|6|8|9)");		//area codes 10, 11, 12, 16, 18,
 define('TELEPHONE_REGEX', "
 	(\+20)\s																					# optional countrycode optionally followed by a space
 		(
-				\(2\)\s(2|3)\d{3}\s\d{3}								# 8-digit numbers begining with 2 or 3 (Greater Cairo: Cairo and Giza, both having area code = 2)
+				\(2\)\s(2|3)\d{3}\s\d{4}								# 8-digit numbers begining with 2 or 3 (Greater Cairo: Cairo and Giza, both having area code = 2)
 			|
 				\(" . AREA_CODE_REGEX . "\)\s\d{3}\s\d{4}		# all other areas' numbers have 7 digits. Checks for correct area codes
 			|
@@ -62,7 +64,6 @@ define('TELEPHONE_REGEX', "
 		)
 		(\s\#\s\d+)?																# optional extension number shown with a hash divider
 ");
-
  
 function phone_eg_metadata() {
   // These strings are translated using t() on output.
@@ -99,7 +100,7 @@ function valid_eg_phone_number($phonenumber) {
 }#end function valid_eg_phone_number;
 
 
-function format_eg_phone_number($phonenumber) {
+function format_eg_phone_number($phonenumber, $field) {
 	if (preg_match("/^" . TELEPHONE_REGEX . "$/x", $phonenumber)) {		//already in proper format
 		return $phonenumber;
 	}

@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.nl.inc,v 1.4 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.nl.inc,v 1.7 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file
@@ -41,13 +41,13 @@ function valid_nl_phone_number($phonenumber) {
   */
     
   // define regular expression
-  $regex = "/
+  $regex = '/
   ([0]{1}[6]{1}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){7})				# Mobile phonenumber
   |
   ([0]{1}[1-9]{1}[0-9]{2}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){5})		# Phonenumber with 4 digit area code
   |
   ([0]{1}[1-9]{1}[0-9]{1}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){6})		# Phonenumber with 3 digit area code
-  /x";
+  /x';
   
   // return true if valid, false otherwise
   return (bool) preg_match($regex, $phonenumber);   
@@ -61,29 +61,29 @@ function valid_nl_phone_number($phonenumber) {
  */
 function format_nl_phone_number($phonenumber, $field) {
 
-	$areacode = $localnumber = "";
+	$areacode = $localnumber = '';
 	// Mobile number
-	if (preg_match("/([0]{1}[6]{1}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){7})/", $phonenumber)) {
-		preg_match("/(?<areacode>[0]{1}[6]{1})[-\s]+(?<localnumber>[1-9]{1}[\s]*([0-9]{1}[\s]*){7})/", $phonenumber, $matches);
+	if (preg_match('/([0]{1}[6]{1}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){7})/', $phonenumber)) {
+		preg_match('/(?<areacode>[0]{1}[6]{1})[-\s]+(?<localnumber>[1-9]{1}[\s]*([0-9]{1}[\s]*){7})/', $phonenumber, $matches);
 	}
 	// Phonenumber with 4 digit area code
-	if (preg_match("/([0]{1}[1-9]{1}[0-9]{2}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){5})/", $phonenumber)) {
-		preg_match("/(?<areacode>[0]{1}[1-9]{1}[0-9]{2})[-\s]+(?<localnumber>[1-9]{1}[\s]*([0-9]{1}[\s]*){5})/", $phonenumber, $matches);
+	if (preg_match('/([0]{1}[1-9]{1}[0-9]{2}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){5})/', $phonenumber)) {
+		preg_match('/(?<areacode>[0]{1}[1-9]{1}[0-9]{2})[-\s]+(?<localnumber>[1-9]{1}[\s]*([0-9]{1}[\s]*){5})/', $phonenumber, $matches);
 	}
 	// Phonenumber with 3 digit area code
-	if (preg_match("/([0]{1}[1-9]{1}[0-9]{1}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){6})/", $phonenumber)) {
-		preg_match("/(?<areacode>[0]{1}[1-9]{1}[0-9]{1})[-\s]+(?<localnumber>[1-9]{1}[\s]*([0-9]{1}[\s]*){6})/", $phonenumber, $matches);
+	if (preg_match('/([0]{1}[1-9]{1}[0-9]{1}[-\s]+[1-9]{1}[\s]*([0-9]{1}[\s]*){6})/', $phonenumber)) {
+		preg_match('/(?<areacode>[0]{1}[1-9]{1}[0-9]{1})[-\s]+(?<localnumber>[1-9]{1}[\s]*([0-9]{1}[\s]*){6})/', $phonenumber, $matches);
 	}
 
 
 	$areacode = $matches[areacode];
-	$localnumber = preg_replace("/ /", "", $matches[localnumber]);
-	$phonenumber = $areacode. "-". $localnumber;
+	$localnumber = preg_replace('/ /', '', $matches[localnumber]);
+	$phonenumber = $areacode. '-'. $localnumber;
 	
 	// Add Country code if needed
 	if ($field['phone_country_code']) {
-    	$areacode = preg_replace("/^0/", "", $areacode);
-		$phonenumber = "+31-". $areacode. "-". $localnumber;
+    	$areacode = preg_replace('/^0/', '', $areacode);
+		$phonenumber = '+31-'. $areacode. '-'. $localnumber;
     }   
  	
  	return $phonenumber;

@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.es.inc,v 1.21 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.es.inc,v 1.24 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file
@@ -45,7 +45,7 @@ function valid_es_phone_number($phonenumber) {
  * @param $phonenumber must be a valid nine-digit number (with optional international prefix)
  * 
  */
-function format_es_phone_number($phonenumber) {
+function format_es_phone_number($phonenumber, $field = FALSE) {
 
   // define regular expression   
   $regex = "/

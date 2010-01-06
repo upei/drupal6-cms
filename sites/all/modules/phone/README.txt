@@ -1,6 +1,6 @@
-$Id: README.txt,v 1.22 2009/11/05 11:07:56 thierrygd Exp $
+$Id: README.txt,v 1.25 2010/01/02 14:10:50 thierrygd Exp $
 
-Copyright 2009 http://www.arvoriad.com
+Copyright 2010 http://www.arvoriad.com
 
 
 Description
@@ -15,19 +15,22 @@ Features:
 	+ Switzerland, 
 	+ Italian, 
 	+ Dutch, 
+	+ Israelian, 
 	+ Russian, 
 	+ Australian
 	+ Spanish,
 	+ Czech, 
 	+ Hungarian,
 	+ Costa Rican, 
+	+ Panamanian, 
 	+ Brazilian, 
 	+ New Zealand, 
 	+ Hong-Kong, 
 	+ Macau,  
+	+ Philippine, 
 	+ US, 
 	+ Swiss,
-	+ Jordanian (only cellular phone numbers), 
+	+ Jordanian, 
 	+ Egyptian,
 	and Canadian phone numbers 
 	and generic international phone numbers

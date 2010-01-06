@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.ru.inc,v 1.20 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.ru.inc,v 1.23 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file
@@ -49,7 +49,7 @@ function valid_ru_phone_number($phonenumber) {
  * @param $phonenumber must be a valid ten-digit number (with optional extension)
  * 
  */
-function format_ru_phone_number($phonenumber) {
+function format_ru_phone_number($phonenumber, $field = FALSE) {
 
   // define regular expression   
   $regex = "/

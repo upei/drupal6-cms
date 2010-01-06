@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.uk.inc,v 1.20 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.uk.inc,v 1.23 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file
@@ -64,7 +64,7 @@ function valid_uk_phone_number($phonenumber) {
  * @param $phonenumber must be a valid eleven-digit number (with optional extension)
  * 
  */
-function format_uk_phone_number($phonenumber) {
+function format_uk_phone_number($phonenumber, $field = FALSE) {
     
     $area = $number = $extension = '';
     

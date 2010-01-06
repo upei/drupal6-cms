@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.au.inc,v 1.22 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.au.inc,v 1.25 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file
@@ -194,7 +194,7 @@ function valid_au_phone_number($phonenumber) {
  * @param string $phonenumber
  * @return string Returns a string containing the phone number with some formatting.
  */
-function format_au_phone_number($phonenumber) {
+function format_au_phone_number($phonenumber, $field = FALSE) {
   $prefix = '';
   $extension = '';
   // strip old formatting chars

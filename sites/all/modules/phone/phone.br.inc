@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.br.inc,v 1.3 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.br.inc,v 1.6 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * @file

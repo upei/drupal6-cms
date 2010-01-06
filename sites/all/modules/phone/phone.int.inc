@@ -1,5 +1,5 @@
 <?php
-// $Id: phone.int.inc,v 1.3 2009/11/05 11:07:56 thierrygd Exp $
+// $Id: phone.int.inc,v 1.6 2010/01/02 14:10:50 thierrygd Exp $
 
 /**
  * Verifies that $phonenumber is a valid international phone number as per ITU or,
