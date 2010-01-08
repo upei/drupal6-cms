@@ -163,7 +163,7 @@ function xmlsync_form(&$node) {
     '#title' => t('Update frequency'),
     '#description' => t('Frequency in minutes for cron.php to update this feed.'),
     '#maxlength' => 5,
-    '#default_value' => $node->update_frequency,
+    '#default_value' => $node->update_frequency ? $node->update_frequency : 60,
   );
 
   $form['record_template_name'] = array(
