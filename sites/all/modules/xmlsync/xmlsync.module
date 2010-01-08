@@ -1,6 +1,6 @@
 <?php
 
-// $Id: xmlsync.module,v 1.2.2.2 2009/12/02 21:02:53 gzfelix Exp $
+// $Id: xmlsync.module,v 1.2.2.3 2010/01/08 14:59:06 gzfelix Exp $
 
 include_once './' . drupal_get_path('module', 'xmlsync') . '/xmlsync.inc';
 
@@ -256,6 +256,12 @@ function xmlsync_update($node) {
   }
   // rebuild theme registry
   drupal_rebuild_theme_registry();
+}
+
+function xmlsync_delete(&$node) {
+  _xmlsync_delete_aliases($node);
+  db_query(db_rewrite_sql('DELETE FROM {xmlsync_entities} WHERE nid=%d'), $node->nid);
+  db_query(db_rewrite_sql('DELETE FROM {xmlsync} WHERE nid=%d'), $node->nid);
 }
 
 

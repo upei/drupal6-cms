@@ -32,6 +32,12 @@ function xmlsync_cleanstring($s, $clean_slash = TRUE) {
 }
 
 function _xmlsync_create_alias($node, $record) {
+
+  // make sure the xmlsync node has a record_alias_template
+  if (empty($node->record_alias_template)) {
+    return;
+  }
+
   // get the doc data
   $body = preg_replace('/xmlns="[^"]+"/', '', $record->data);
   $doc = new DOMDocument();
